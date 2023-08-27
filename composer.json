@@ -1,0 +1,36 @@
+{
+  "name": "babilonia/backoffice",
+  "description": "Backoffice production for administrators",
+  "homepage": "https://backoffice.babilonia.io/",
+  "keywords": [
+    "css",
+    "js",
+    "less",
+    "responsive",
+    "back-end",
+    "template",
+    "theme",
+    "web",
+    "admin"
+  ],
+  "authors": [
+    {
+      "name": "babilonia"
+    }
+  ],
+  "license": "MIT",
+  "require": {
+    "vlucas/phpdotenv": "^5.5",
+    "eftec/bladeone": "^4.9",
+    "phroute/phroute": "^2.2"
+  },
+  "autoload": {
+      "psr-4": {
+          "App\\": "app/"
+      },
+      "files": [
+        "config/app.php",
+        "config/functions.php"
+      ]
+  }
+}
