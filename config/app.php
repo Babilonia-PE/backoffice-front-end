@@ -13,6 +13,12 @@ define("URL_CACHE", URL_ROOT. "cache/");
 define("NOMBRE_APLICACION", "");
 define("AUTOR", "");
 
+if(!is_dir(URL_CACHE)){ mkdir(URL_CACHE, 0777, true);   } 
+
+if(!is_dir(URL_LOGS. "errors")){ mkdir(URL_LOGS."errors", 0777, true); }
+
+if(!is_dir(URL_LOGS. "access")){ mkdir(URL_LOGS."access", 0777, true); }
+
 ini_set('display_errors', 1);
 ini_set("log_errors", 1);
 ini_set("error_log", URL_LOGS . "errors/" . date("Y-m-d") . ".log");
