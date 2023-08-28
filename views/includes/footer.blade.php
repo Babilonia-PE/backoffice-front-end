@@ -27,11 +27,20 @@
 <script src="{{ secure_asset("plugins/bootstrap/js/bootstrap.bundle.min.js") }}"></script>
 <!-- ChartJS -->
 <script src="{{ secure_asset("plugins/chart.js/Chart.min.js") }}"></script>
+
 <!-- Sparkline -->
+<script>
+  window.currentPage = "{{ $currentPage }}";
+</script>
+@if($currentPage == "home")
+
 <script src="{{ secure_asset("plugins/sparklines/sparkline.js") }}"></script>
+
 <!-- JQVMap -->
 <script src="{{ secure_asset("plugins/jqvmap/jquery.vmap.min.js") }}"></script>
 <script src="{{ secure_asset("plugins/jqvmap/maps/jquery.vmap.usa.js") }}"></script>
+
+@endif
 <!-- jQuery Knob Chart -->
 <script src="{{ secure_asset("plugins/jquery-knob/jquery.knob.min.js") }}"></script>
 <!-- daterangepicker -->
@@ -47,8 +56,10 @@
 <script src="{{ secure_asset("assets/js/adminlte.js") }}"></script>
 <!-- AdminLTE for demo purposes -->
 <script src="{{ secure_asset("assets/js/demo.js") }}"></script>
+@if($currentPage == "home")
 <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
 <script src="{{ secure_asset("assets/js/pages/dashboard.js") }}"></script>
+@endif
 
 @yield("scripts")
 
