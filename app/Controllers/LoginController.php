@@ -64,7 +64,7 @@ class LoginController{
                         "name" =>$_name,
                         "email" =>$_email,
                         "username" =>$_username,
-
+                        "role" => ""
                     ];
 
                     SesionService::escribir("correoUsuario", $session_usuario);
