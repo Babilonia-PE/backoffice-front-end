@@ -2,15 +2,22 @@
 require __DIR__ . '/../vendor/autoload.php';
 
 use App\Services\SesionService;
-use Phroute\Phroute\RouteCollector;
+use App\Services\Helpers;
 use Phroute\Phroute\Dispatcher;
+use App\Controllers\HomeController;
+use App\Middlewares\Authentication;
+use Phroute\Phroute\RouteCollector;
+
+use App\Controllers\LeadsController;
+use App\Controllers\LoginController;
+use App\Controllers\ViewsController;
+use App\Controllers\AvisosController;
+use App\Controllers\ListasController;
+use App\Controllers\AlertasController;
+use App\Controllers\ClientesController;
+use App\Controllers\PaquetesController;
 use Phroute\Phroute\Exception\HttpRouteNotFoundException;
 use Phroute\Phroute\Exception\HttpMethodNotAllowedException;
-
-use App\Middlewares\Authentication;
-use App\Controllers\HomeController;
-use App\Controllers\ListasController;
-use App\Controllers\LoginController;
 
 $router = new RouteCollector();
 
@@ -23,8 +30,16 @@ $router
     ->group(["before" => "logueado"], function ($enrutadorVistasPrivadas) {
         $enrutadorVistasPrivadas
             ->get("/", [HomeController::class, "index"])
-            ->get("/listas", [ListasController::class, "index"])
-            ->get("/logout", [LoginController::class, "logout"]);            
+            ->get("/logout", [LoginController::class, "logout"])
+            
+            ->get("/alertas", [AlertasController::class, "index"])
+            ->get("/avisos", [AvisosController::class, "index"])
+            ->get("/clientes", [ClientesController::class, "index"])
+            ->get("/leads", [LeadsController::class, "index"])
+            ->get("/paquetes", [PaquetesController::class, "index"])
+            ->get("/vistas", [ViewsController::class, "index"]);      
+            
+            
     });
 
 // vistas publicas
