@@ -2,7 +2,8 @@
 session_start();
 
 $root = $_SERVER["DOCUMENT_ROOT"];
-$last_line = end(explode("/", $root));
+$parts = explode("/", $root);
+$last_line = end($parts);
 $last_line = ($last_line == "")? "" : "/";
 define("URL_ROOT", $_SERVER["DOCUMENT_ROOT"] . $last_line );
 
