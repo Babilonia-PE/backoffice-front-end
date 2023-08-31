@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>AdminLTE 3 | Log in</title>
+  <title>Backoffice | Login</title>
 
   <!-- Google Font: Source Sans Pro -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
@@ -31,7 +31,7 @@
 
       <form action="/login" method="post">
         <div class="input-group mb-3">
-          <input type="text" name="username" class="form-control" placeholder="User">
+          <input type="text" name="username" class="form-control" placeholder="User" required>
           <div class="input-group-append">
             <div class="input-group-text">
               <span class="fas fa-envelope"></span>
@@ -39,11 +39,11 @@
           </div>
         </div>
         <div class="input-group mb-3">
-          <input type="password" name="password" class="form-control" placeholder="Password">
+          <input type="password" name="password" class="form-control" placeholder="Password" id="password" required>
           <div class="input-group-append">
-            <div class="input-group-text">
-              <span class="fas fa-lock"></span>
-            </div>
+            <button class="input-group-text" type="button" id="hidenshowpassword">
+              <span class="fa fa-eye"></span>
+            </button>
           </div>
         </div>
         <div class="row">
@@ -83,5 +83,19 @@
 <script src="{{ secure_asset("plugins/bootstrap/js/bootstrap.bundle.min.js") }}"></script>
 <!-- AdminLTE App -->
 <script src="{{ secure_asset("assets/js/adminlte.min.js") }}"></script>
+<script>
+  $("#hidenshowpassword").click(function(e){
+    let input = document.getElementById("password");
+    if(input.type == 'password'){
+      input.type = "text";
+      $(this).children("span").removeClass("fa-eye");
+      $(this).children("span").addClass("fa-eye-slash");
+    }else{
+      input.type = "password";
+      $(this).children("span").addClass("fa-eye");
+      $(this).children("span").removeClass("fa-eye-slash");
+    }
+  });
+</script>
 </body>
 </html>
