@@ -12,6 +12,7 @@
 /node_modules
 
 error.log
+access.log
 composer.lock
 package-lock.json
 
@@ -20,3 +21,4 @@ package-lock.json
 *.html
 .env
 
+keyfile
