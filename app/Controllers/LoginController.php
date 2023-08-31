@@ -19,75 +19,86 @@ class LoginController{
     public function login(){
         
        //script de logueo de usuario
-       
+
         $username = trim($_POST['username'] ?? '');
         $password = trim($_POST['password'] ?? '');
 
-        if( $username != "" AND $password != "")
-        {
-            $ldap_server = env("LDAP_SERVER");
-            $ldap_port = env("LDAP_PORT");
-            $ldap_domain = env("LDAP_DOMAIN");
-            $ldap_basedn = "OU=Babilonia,OU=User,OU=Peru,DC=verticalcapital,DC=io";
-            $ldap_username = htmlspecialchars($username, ENT_QUOTES, 'UTF-8');
-            $ldap_password = htmlspecialchars($password, ENT_QUOTES, 'UTF-8');
-    
-            $ldap = ldap_connect($ldap_server . ":" . $ldap_port);
-            
-            if($ldap){
+        #VERIFICAMOS EXISTENCIA DE LIBRERIA LDAP EN PHP
+        if (!function_exists('ldap_connect')) {
+            echo view("login", ["message"=> "La extensión LDAP no está habilitada en PHP.", "type"=>"danger"]);;
+            die();
+        }
+       
+        #VERIFICAMOS EXISTENCIA DE CRENDENCIALES
+        if( $username == "" AND $password == ""){
+            echo view("login", ["message"=> "Porfavor complete su usuario y contraseña"]);
+            die();
+        }
 
-                ldap_set_option($ldap, LDAP_OPT_PROTOCOL_VERSION, 3);
-                ldap_set_option($ldap, LDAP_OPT_REFERRALS, 0);
-            
-                $bind = @ldap_bind($ldap, $ldap_username . "@" . $ldap_domain, $ldap_password);
-            
-                if ($bind) {
-                    $filter = "(sAMAccountName=$ldap_username)";
-                    $result = ldap_search($ldap, $ldap_basedn, $filter);
-                    $info = ldap_get_entries($ldap, $result);
-    
-                    for ($i=0; $i<$info["count"]; $i++) {
-                        if($info['count'] > 1) {
-                            break;
-                        }
-    
-                        $_dni = $info[$i]['employeeid'][0] ?? 0;
-                        $_name = strtoupper($info[$i]['cn'][0]) ?? '';
-                        $_email = strtoupper($info[$i]['mail'][0]) ?? '';
-                        $_username = $info[$i]['samaccountname'][0] ?? '';
-    
-                        $_SESSION['DNI'] = $_dni;
-                        $_SESSION['NAME'] = $_name;
-                        $_SESSION['EMAIL'] = $_email;
-                        $_SESSION['USERNAME'] = $_username;
-    
-                        $session_usuario = [
-                            "dni" =>$_dni,
-                            "name" =>$_name,
-                            "email" =>$_email,
-                            "username" =>$_username,
-                            "role" => ""
-                        ];
-    
-                        SesionService::escribir("correoUsuario", $session_usuario);
-                        
-                        redirect();
-                    }
-    
-                    @ldap_close($ldap);
-                    
-                }
+        $ldap_server = env("LDAP_SERVER");
+        $ldap_port = env("LDAP_PORT");
+        $ldap_domain = env("LDAP_DOMAIN");
+        $ldap_basedn = "OU=Babilonia,OU=User,OU=Peru,DC=verticalcapital,DC=io";
+        $ldap_username = htmlspecialchars($username, ENT_QUOTES, 'UTF-8');
+        $ldap_password = htmlspecialchars($password, ENT_QUOTES, 'UTF-8');
 
-                echo view("login", ["message"=> "El usuario o la contraseña no coinciden"]);
+        $ldap = ldap_connect($ldap_server . ":" . $ldap_port);
+        
+        #VERIFICAMOS CONEXION AL SERVICIO
+        if(!$ldap){
+            echo view("login", ["message"=> "No se pudo establecer conexion con el servidor"]);
+            die();
+        }
+        
+        ldap_set_option($ldap, LDAP_OPT_PROTOCOL_VERSION, 3);
+        ldap_set_option($ldap, LDAP_OPT_REFERRALS, 0);
+    
+        $bind = @ldap_bind($ldap, $ldap_username . "@" . $ldap_domain, $ldap_password);
+
+        #VERIFICAMOS CREDENCIALES DE USUARIOS
+        if(!$bind){
+            echo view("login", ["message"=> "El usuario o la contraseña no coinciden"]);
+            die();
+        }
+    
+        $filter = "(sAMAccountName=$ldap_username)";
+        $result = ldap_search($ldap, $ldap_basedn, $filter);
+        $info = ldap_get_entries($ldap, $result);
+
+        for ($i=0; $i<$info["count"]; $i++) {
+            if($info['count'] > 1) {
+                break;
             }
 
-            echo view("login", ["message"=> "No se pudo establecer conexion con el servidor"]);
+            $_dni = $info[$i]['employeeid'][0] ?? 0;
+            $_name = strtoupper($info[$i]['cn'][0]) ?? '';
+            $_email = strtoupper($info[$i]['mail'][0]) ?? '';
+            $_username = $info[$i]['samaccountname'][0] ?? '';
 
+            $_SESSION['DNI'] = $_dni;
+            $_SESSION['NAME'] = $_name;
+            $_SESSION['EMAIL'] = $_email;
+            $_SESSION['USERNAME'] = $_username;
+
+            $session_usuario = [
+                "dni" =>$_dni,
+                "name" =>$_name,
+                "email" =>$_email,
+                "username" =>$_username,
+                "role" => ""
+            ];
+
+            SesionService::escribir("correoUsuario", $session_usuario);
+            
+            redirect();
         }
-        else
-        {
-            echo view("login", ["message"=> "Porfavor complete su usuario y contraseña"]);
-        }
+
+        @ldap_close($ldap);
+
+        
+
+        
+
         /*
         //!VALIDACION DE EMAIL SIN CONTRASEÑA
         else if (isset($_POST['email']) AND $_POST['email'] != "") 

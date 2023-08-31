@@ -20,7 +20,7 @@
     <a href="../../index2.html"><b>BACK</b>OFFICE</a>
   </div>
   @if(isset($message))
-    <div class="alert alert-warning" role="alert">
+    <div class="alert alert-@if(isset($type)){{$type}}@else{{"warning"}}@endif " role="alert">
       {{ $message }}
     </div>
   @endif
