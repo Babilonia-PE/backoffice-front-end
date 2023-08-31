@@ -33,50 +33,56 @@ class LoginController{
             $ldap_password = htmlspecialchars($password, ENT_QUOTES, 'UTF-8');
     
             $ldap = ldap_connect($ldap_server . ":" . $ldap_port);
-        
-            ldap_set_option($ldap, LDAP_OPT_PROTOCOL_VERSION, 3);
-            ldap_set_option($ldap, LDAP_OPT_REFERRALS, 0);
-        
-            $bind = @ldap_bind($ldap, $ldap_username . "@" . $ldap_domain, $ldap_password);
-        
-            if ($bind) {
-                $filter = "(sAMAccountName=$ldap_username)";
-                $result = ldap_search($ldap, $ldap_basedn, $filter);
-                $info = ldap_get_entries($ldap, $result);
+            
+            if($ldap){
 
-                for ($i=0; $i<$info["count"]; $i++) {
-                    if($info['count'] > 1) {
-                        break;
+                ldap_set_option($ldap, LDAP_OPT_PROTOCOL_VERSION, 3);
+                ldap_set_option($ldap, LDAP_OPT_REFERRALS, 0);
+            
+                $bind = @ldap_bind($ldap, $ldap_username . "@" . $ldap_domain, $ldap_password);
+            
+                if ($bind) {
+                    $filter = "(sAMAccountName=$ldap_username)";
+                    $result = ldap_search($ldap, $ldap_basedn, $filter);
+                    $info = ldap_get_entries($ldap, $result);
+    
+                    for ($i=0; $i<$info["count"]; $i++) {
+                        if($info['count'] > 1) {
+                            break;
+                        }
+    
+                        $_dni = $info[$i]['employeeid'][0] ?? 0;
+                        $_name = strtoupper($info[$i]['cn'][0]) ?? '';
+                        $_email = strtoupper($info[$i]['mail'][0]) ?? '';
+                        $_username = $info[$i]['samaccountname'][0] ?? '';
+    
+                        $_SESSION['DNI'] = $_dni;
+                        $_SESSION['NAME'] = $_name;
+                        $_SESSION['EMAIL'] = $_email;
+                        $_SESSION['USERNAME'] = $_username;
+    
+                        $session_usuario = [
+                            "dni" =>$_dni,
+                            "name" =>$_name,
+                            "email" =>$_email,
+                            "username" =>$_username,
+                            "role" => ""
+                        ];
+    
+                        SesionService::escribir("correoUsuario", $session_usuario);
+                        
+                        redirect();
                     }
-
-                    $_dni = $info[$i]['employeeid'][0] ?? 0;
-                    $_name = strtoupper($info[$i]['cn'][0]) ?? '';
-                    $_email = strtoupper($info[$i]['mail'][0]) ?? '';
-                    $_username = $info[$i]['samaccountname'][0] ?? '';
-
-                    $_SESSION['DNI'] = $_dni;
-                    $_SESSION['NAME'] = $_name;
-                    $_SESSION['EMAIL'] = $_email;
-                    $_SESSION['USERNAME'] = $_username;
-
-                    $session_usuario = [
-                        "dni" =>$_dni,
-                        "name" =>$_name,
-                        "email" =>$_email,
-                        "username" =>$_username,
-                        "role" => ""
-                    ];
-
-                    SesionService::escribir("correoUsuario", $session_usuario);
+    
+                    @ldap_close($ldap);
                     
-                    redirect();
                 }
 
-                @ldap_close($ldap);
-                
-            } 
+                echo view("login", ["message"=> "El usuario o la contraseña no coinciden"]);
+            }
 
-            echo view("login", ["message"=> "El usuario o la contraseña no coinciden"]);
+            echo view("login", ["message"=> "No se pudo establecer conexion con el servidor"]);
+
         }
         else
         {
