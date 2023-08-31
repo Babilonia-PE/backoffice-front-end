@@ -143,7 +143,7 @@ Dashboard
                       <span class="direct-chat-timestamp float-right">23 Jan 2:00 pm</span>
                     </div>
                     <!-- /.direct-chat-infos -->
-                    <img class="direct-chat-img" src="assets/img/user1-128x128.jpg" alt="message user image">
+                    <img class="direct-chat-img" src="{{ secure_asset("assets/img/user1-128x128.jpg") }}" alt="message user image">
                     <!-- /.direct-chat-img -->
                     <div class="direct-chat-text">
                       Is this template really for free? That's unbelievable!
@@ -159,7 +159,7 @@ Dashboard
                       <span class="direct-chat-timestamp float-left">23 Jan 2:05 pm</span>
                     </div>
                     <!-- /.direct-chat-infos -->
-                    <img class="direct-chat-img" src="assets/img/user3-128x128.jpg" alt="message user image">
+                    <img class="direct-chat-img" src="{{ secure_asset("assets/img/user3-128x128.jpg") }}" alt="message user image">
                     <!-- /.direct-chat-img -->
                     <div class="direct-chat-text">
                       You better believe it!
@@ -175,7 +175,7 @@ Dashboard
                       <span class="direct-chat-timestamp float-right">23 Jan 5:37 pm</span>
                     </div>
                     <!-- /.direct-chat-infos -->
-                    <img class="direct-chat-img" src="assets/img/user1-128x128.jpg" alt="message user image">
+                    <img class="direct-chat-img" src="{{ secure_asset("assets/img/user1-128x128.jpg") }}" alt="message user image">
                     <!-- /.direct-chat-img -->
                     <div class="direct-chat-text">
                       Working with AdminLTE on a great new app! Wanna join?
@@ -191,7 +191,7 @@ Dashboard
                       <span class="direct-chat-timestamp float-left">23 Jan 6:10 pm</span>
                     </div>
                     <!-- /.direct-chat-infos -->
-                    <img class="direct-chat-img" src="assets/img/user3-128x128.jpg" alt="message user image">
+                    <img class="direct-chat-img" src="{{ secure_asset("assets/img/user3-128x128.jpg") }}" alt="message user image">
                     <!-- /.direct-chat-img -->
                     <div class="direct-chat-text">
                       I would love to.
@@ -208,7 +208,7 @@ Dashboard
                   <ul class="contacts-list">
                     <li>
                       <a href="#">
-                        <img class="contacts-list-img" src="assets/img/user1-128x128.jpg" alt="User Avatar">
+                        <img class="contacts-list-img" src="{{ secure_asset("assets/img/user1-128x128.jpg") }}" alt="User Avatar">
 
                         <div class="contacts-list-info">
                           <span class="contacts-list-name">
@@ -223,7 +223,7 @@ Dashboard
                     <!-- End Contact Item -->
                     <li>
                       <a href="#">
-                        <img class="contacts-list-img" src="assets/img/user7-128x128.jpg" alt="User Avatar">
+                        <img class="contacts-list-img" src="{{ secure_asset("assets/img/user7-128x128.jpg") }}" alt="User Avatar">
 
                         <div class="contacts-list-info">
                           <span class="contacts-list-name">
@@ -238,7 +238,7 @@ Dashboard
                     <!-- End Contact Item -->
                     <li>
                       <a href="#">
-                        <img class="contacts-list-img" src="assets/img/user3-128x128.jpg" alt="User Avatar">
+                        <img class="contacts-list-img" src="{{ secure_asset("assets/img/user3-128x128.jpg") }}" alt="User Avatar">
 
                         <div class="contacts-list-info">
                           <span class="contacts-list-name">
@@ -253,7 +253,7 @@ Dashboard
                     <!-- End Contact Item -->
                     <li>
                       <a href="#">
-                        <img class="contacts-list-img" src="assets/img/user5-128x128.jpg" alt="User Avatar">
+                        <img class="contacts-list-img" src="{{ secure_asset("assets/img/user5-128x128.jpg") }}" alt="User Avatar">
 
                         <div class="contacts-list-info">
                           <span class="contacts-list-name">
@@ -268,7 +268,7 @@ Dashboard
                     <!-- End Contact Item -->
                     <li>
                       <a href="#">
-                        <img class="contacts-list-img" src="assets/img/user6-128x128.jpg" alt="User Avatar">
+                        <img class="contacts-list-img" src="{{ secure_asset("assets/img/user6-128x128.jpg") }}" alt="User Avatar">
 
                         <div class="contacts-list-info">
                           <span class="contacts-list-name">
@@ -283,7 +283,7 @@ Dashboard
                     <!-- End Contact Item -->
                     <li>
                       <a href="#">
-                        <img class="contacts-list-img" src="assets/img/user8-128x128.jpg" alt="User Avatar">
+                        <img class="contacts-list-img" src="{{ secure_asset("assets/img/user8-128x128.jpg") }}" alt="User Avatar">
 
                         <div class="contacts-list-info">
                           <span class="contacts-list-name">
