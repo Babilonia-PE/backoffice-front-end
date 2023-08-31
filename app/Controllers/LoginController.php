@@ -20,8 +20,8 @@ class LoginController{
         
        //script de logueo de usuario
        
-        $username = $_POST['username'] ?? '';
-        $password = $_POST['password'] ?? '';
+        $username = trim($_POST['username'] ?? '');
+        $password = trim($_POST['password'] ?? '');
 
         if( $username != "" AND $password != "")
         {
