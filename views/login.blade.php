@@ -19,6 +19,11 @@
   <div class="login-logo">
     <a href="../../index2.html"><b>BACK</b>OFFICE</a>
   </div>
+  @if(isset($message))
+    <div class="alert alert-warning" role="alert">
+      {{ $message }}
+    </div>
+  @endif
   <!-- /.login-logo -->
   <div class="card">
     <div class="card-body login-card-body">

@@ -76,8 +76,14 @@ class LoginController{
                 
             } 
 
-            redirect("login");
+            echo view("login", ["message"=> "El usuario o la contraseña no coinciden"]);
         }
+        else
+        {
+            echo view("login", ["message"=> "Porfavor complete su usuario y contraseña"]);
+        }
+        /*
+        //!VALIDACION DE EMAIL SIN CONTRASEÑA
         else if (isset($_POST['email']) AND $_POST['email'] != "") 
         {
             //! script desconocido
@@ -138,6 +144,8 @@ class LoginController{
 
             echo 2;
         }
+        */
+       
         
        //script de logueo de usuario
     }
