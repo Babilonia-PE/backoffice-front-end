@@ -1,7 +1,10 @@
 <?php
 session_start();
 
-define("URL_ROOT", $_SERVER["DOCUMENT_ROOT"] . "/");
+$root = $_SERVER["DOCUMENT_ROOT"];
+$last_line = end(explode("/", $root));
+$last_line = ($last_line == "")? "" : "/";
+define("URL_ROOT", $_SERVER["DOCUMENT_ROOT"] . $last_line );
 
 $dotenv = Dotenv\Dotenv::createImmutable(URL_ROOT);
 $dotenv->load(); 
