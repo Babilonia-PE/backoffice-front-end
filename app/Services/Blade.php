@@ -36,7 +36,7 @@ class Blade extends Helpers{
         $blade->directive('camelcase', $camelcase);
         $blade->share("currentPage", $currentPage);
     
-        return $blade->run($template, [...$parametros]);
+        return $blade->run($template, $parametros);
     }
 }
 
