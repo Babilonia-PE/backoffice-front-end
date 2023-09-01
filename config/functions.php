@@ -67,6 +67,24 @@ function auth($param = ""){
     return $userSession[$param] ?? '';
 }
 
+function deteleFiltesAndDirectory($carpeta) {
+    
+    if (is_dir($carpeta) && file_exists($carpeta)) {
+        // Obtener el contenido de la carpeta
+        $archivos = glob($carpeta . '/*');
+        
+        // Eliminar todos los archivos dentro de la carpeta
+        foreach ($archivos as $archivo) {
+            if (is_file($archivo)) {
+                unlink($archivo);
+            }
+        }
+        
+        // Eliminar la carpeta vacía
+        rmdir($carpeta);        
+    }
+}
+
 function menu(){
         
     $menu = [];
