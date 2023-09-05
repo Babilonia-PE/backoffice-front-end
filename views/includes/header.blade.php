@@ -17,7 +17,8 @@
   <!-- iCheck -->
   <link rel="stylesheet" href="@asset("plugins/icheck-bootstrap/icheck-bootstrap.min.css")">
   <!-- JQVMap -->
-  <link rel="stylesheet" href="@asset("plugins/jqvmap/jqvmap.min.css")">
+  {{-- <link rel="stylesheet" href="@asset("plugins/jqvmap/jqvmap.min.css")"> --}}
+  <link rel="stylesheet" href="@asset("plugins/jqvmap/jquery-jvectormap-2.0.5.css")">
   <!-- Theme style -->
   <link rel="stylesheet" href="@asset("css/adminlte.min.css")">
   <!-- overlayScrollbars -->
@@ -26,6 +27,8 @@
   <link rel="stylesheet" href="@asset("plugins/daterangepicker/daterangepicker.css")">
   <!-- summernote -->
   <link rel="stylesheet" href="@asset("plugins/summernote/summernote-bs4.min.css")">
+  <!-- Bootstrap dropdown -->
+  <link rel="stylesheet" href="@asset("plugins/bootstrap-select/css/bootstrap-select.min.css")">
   <!-- Main styles -->
   <link rel="stylesheet" href="@asset("css/main.css")">
 

@@ -16,7 +16,8 @@
 <!-- ./wrapper -->
 
 <!-- jQuery -->
-<script src="@asset("plugins/jquery/jquery.min.js")"></script>
+{{-- <script src="@asset("plugins/jquery/jquery.min.js")"></script> --}}
+<script src="@asset("plugins/jquery/jquery.3.4.1.min.js")"></script>
 <!-- jQuery UI 1.11.4 -->
 <script src="@asset("plugins/jquery-ui/jquery-ui.min.js")"></script>
 <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
@@ -37,10 +38,14 @@
 <script src="@asset("plugins/sparklines/sparkline.js")"></script>
 
 <!-- JQVMap -->
-<script src="@asset("plugins/jqvmap/jquery.vmap.min.js")"></script>
-<script src="@asset("plugins/jqvmap/maps/jquery.vmap.usa.js")"></script>
+{{-- <script src="@asset("plugins/jqvmap/jquery.vmap.min.js")"></script> --}}
+{{-- <script src="@asset("plugins/jqvmap/maps/jquery.vmap.usa.js")"></script> --}}
+<script src="@asset("plugins/jqvmap/jquery-jvectormap-2.0.5.min.js")"></script>
+<script src="@asset("plugins/jqvmap/jquery-vectormap.peru.js")"></script>
 
 @endif
+<!-- Bootstrap select -->
+<script src="@asset("plugins/bootstrap-select/js/bootstrap-select.min.js")"></script>
 <!-- jQuery Knob Chart -->
 <script src="@asset("plugins/jquery-knob/jquery.knob.min.js")"></script>
 <!-- daterangepicker -->
