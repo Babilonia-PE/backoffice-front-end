@@ -169,6 +169,7 @@ class LoginController{
 
     public function logout(){
         SesionService::destruir();
+        session_destroy();
         redirect("login");
     }
 }
