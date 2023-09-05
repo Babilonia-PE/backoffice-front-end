@@ -16,3 +16,9 @@
   @-webkit-keyframes cube-loader-color{0%, 5%{background-color:#ffbe14;}28%, 38%{background-color:#ff4069;}62%, 72%{background-color:#1ba7b6;}95%, to{background-color:#ffbe14;}}
   @keyframes cube-loader-color{0%, 5%{background-color:#ffbe14;}28%, 38%{background-color:#ff4069;}62%, 72%{background-color:#1ba7b6;}95%, to{background-color:#ffbe14;}}
 /*LOADER CSS*/
+
+/*DASHBOARD*/
+  /* MAP */
+  #world-map{height: 420px !important;}
+  /* MAP */
+/*DASHBOARD*/
