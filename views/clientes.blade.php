@@ -413,10 +413,6 @@ Clientes
 			"columns": columns,
 			"pagingType": "numbers",
 			"language": lenguaje,
-			deferRender: true,
-			scrollCollapse: true,
-			scroller: true,
-			scrollY: 200,
 			"drawCallback": function( settings ) {
 				$(this).redimensionarTable();
 			},
