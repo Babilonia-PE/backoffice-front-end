@@ -24,28 +24,44 @@ $router = new RouteCollector();
 
 $router->filter("logueado", [Authentication::class, "auth"]);
 $router->filter("no-logueado", [Authentication::class, "noauth"]);
+$router->filter("verified", [Authentication::class, "verified"]);
+$router->filter("VerifiedSaved", [Authentication::class, "VerifiedSaved"]);
+$router->filter("VerifiedNoSaved", [Authentication::class, "VerifiedNoSaved"]);
 
 // vistas privadas
 $router
     ->group(["before" => "logueado"], function ($enrutadorVistasPrivadas) {
-        $enrutadorVistasPrivadas
-            ->get("/", [HomeController::class, "index"])
-            ->get("/logout", [LoginController::class, "logout"])
-            
-            ->get("/alertas", [AlertasController::class, "index"])
-            ->get("/avisos", [AvisosController::class, "index"])
-            ->get("/clientes", [ClientesController::class, "index"])
-            ->get("/leads", [LeadsController::class, "index"])
-            ->get("/paquetes", [PaquetesController::class, "index"])
-            ->get("/vistas", [ViewsController::class, "index"])
 
-            ->get("/update-account-2fa", [AccountController::class, "viewUpdate2fa"])
-            ->post("/update-account-2fa", [AccountController::class, "postUpdate2fa"])
 
-            ->get("/verify-account", [LoginController::class, "verifyAccount"])
-            ->post("/verify-account", [AccountController::class, "verifyAccountPost"]);
+        $enrutadorVistasPrivadas->group(['before' => 'verified'], function($router){
+
+            $router
+                ->get("/", [HomeController::class, "index"])
+                
+                ->get("/alertas", [AlertasController::class, "index"])
+                ->get("/avisos", [AvisosController::class, "index"])
+                ->get("/clientes", [ClientesController::class, "index"])
+                ->get("/leads", [LeadsController::class, "index"])
+                ->get("/paquetes", [PaquetesController::class, "index"])
+                ->get("/vistas", [ViewsController::class, "index"]);
+
+        });
+
+        $enrutadorVistasPrivadas->group(['before' => 'VerifiedSaved'], function($router){
             
-            
+            $router
+                ->get("/update-account-2fa", [AccountController::class, "viewUpdate2fa"])
+                ->post("/update-account-2fa", [AccountController::class, "postUpdate2fa"]);
+        });
+        
+
+        $enrutadorVistasPrivadas->group(['before' => 'VerifiedNoSaved'], function($router){
+            $router
+                ->get("/verify-account", [LoginController::class, "verifyAccount"])
+                ->post("/verify-account", [AccountController::class, "verifyAccountPost"]);
+        });
+
+        $enrutadorVistasPrivadas->get("/logout", [LoginController::class, "logout"]);                        
     });
 
 // vistas publicas
