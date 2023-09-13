@@ -19,31 +19,9 @@ class Authentication{
         Helpers::tracer();
 
     }
-    public function auth(){        
-        /*SI LA VISTA ES REGISTRO DE 2FA SOLO SE MANTENDRA EN ESTA VISTA*/
-        /*
-        if(!$this->updateAccountFind && $_SERVER['REQUEST_URI'] != "/logout" && $this->keyAuth2Store == ""){
-            redirect("update-account-2fa");
-            return false;
-        }
-
-        if($this->method=="GET" && $this->updateAccountFind==true && $this->approved==true && !empty($this->session_usuario) && $this->keyAuth2Store!="" ){
-            redirect();
-            return false;
-        }
-        
-        
-
-        if (!$this->verifyAccountrFind && 
-            !$this->updateAccountFind &&
-            (!$this->approved || empty($this->session_usuario))) {
+    public function auth(){                
+        if(empty($this->session_usuario) && $this->keyAuth2Store==""){
             SesionService::destruir();
-            return redirect("login"); 
-        }else if(!$this->verifyAccountrFind && empty($this->session_usuario)){
-            return redirect("login");
-        }
-        */
-        if(empty($this->session_usuario)){
             return redirect("login");
         }
     }
@@ -55,13 +33,12 @@ class Authentication{
     }
 
     public function verified(){
-        if(!$this->approved && !empty($this->session_usuario)){
+        if((!$this->approved && !empty($this->session_usuario)) || $this->keyAuth2Store==""){
             return redirect("update-account-2fa");
         }
     }
 
-    public function VerifiedSaved(){
-        
+    public function VerifiedSaved(){        
         if($this->keyAuth2Store!=""){
             return redirect("verify-account");
         }
@@ -73,6 +50,8 @@ class Authentication{
         }
         else if($this->keyAuth2Store==""){
             return redirect("update-account-2fa");
+        }else if($this->keyAuth2Store!="" && $this->approved==true){
+            return redirect();
         }
     }
 }
