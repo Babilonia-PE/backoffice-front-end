@@ -18,7 +18,7 @@ define("URL_ASSETS", URL_ROOT . "public/assets/");
 define("URL_API", URL_ROOT . "api/");
 define("URL_VIEWS", URL_ROOT. "views/");
 define("URL_CACHE", URL_ROOT. "cache/");
-define("TESTING", $_SERVER["TESTING"]??false);
+define("TESTING", $_SERVER["APP_TESTING"]??false);
 define("NOMBRE_APLICACION", "");
 define("AUTOR", "");
 
