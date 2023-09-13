@@ -11,7 +11,7 @@ if (!file_exists(URL_LOGS)) {
 function redirect($ruta = "")
 {
     header("Location: " . URL_WEB . $ruta);
-    exit;
+    exit();
 }
 
 function dd($string)
@@ -19,7 +19,7 @@ function dd($string)
     echo "<pre>";
         var_dump($string);
     echo "</pre>";
-    exit;
+    exit();
 }
 
 function env($string = "")
