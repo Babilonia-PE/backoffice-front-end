@@ -19,36 +19,42 @@ class Authentication{
         Helpers::tracer();
 
     }
+    /*si se intenta acceder con usuario sin sesion*/
     public function auth(){                
-        if(empty($this->session_usuario) && $this->keyAuth2Store==""){
+        if(empty($this->session_usuario)){
             SesionService::destruir();
             return redirect("login");
         }
     }
-
+    /*si esta verificado e intentas acceder a una ruta publica*/
     public function noauth(){
         if (!empty($this->session_usuario) && $this->approved==true && $this->verifyAccountrFind==false) {
             return redirect();
         }
     }
-
+    /*si se intenta acceder a ruta protegida sin tener una keysecret guardada*/
     public function verified(){
-        if((!$this->approved && !empty($this->session_usuario)) || $this->keyAuth2Store==""){
+        if((!$this->approved && !empty($this->session_usuario)) || 
+           ($this->approved && $this->keyAuth2Store=="") ){
             return redirect("update-account-2fa");
         }
     }
-
+    /*si se tiene una keysecret guardada*/
     public function VerifiedSaved(){        
         if($this->keyAuth2Store!=""){
             return redirect("verify-account");
         }
     }
-
+    /*
+    1: si no existe sesion previa -> login
+    2: si keysecret esta vacio con sesion approved (temporalmente) -> guardar secret key
+    3: si keysecret no esta vacio y sesion approved es true -> home dashboard
+    */
     public function VerifiedNoSaved(){
         if(empty($this->session_usuario)){
             return redirect("login");
         }
-        else if($this->keyAuth2Store==""){
+        else if($this->keyAuth2Store=="" && $this->approved==true){
             return redirect("update-account-2fa");
         }else if($this->keyAuth2Store!="" && $this->approved==true){
             return redirect();
