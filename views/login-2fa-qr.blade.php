@@ -42,7 +42,9 @@
          
         <input id="code" name="code" type="text" class="form-control text-center" aria-label="Username" aria-describedby="basic-addon1" placeholder="___ ___" autocomplete="new-password">
          
-        <button class="btn btn-primary flex-fill w-100 mt-3" type="submit">Siguiente</button>
+        <button class="btn btn-primary flex-fill w-100 mt-3 mb-3" type="submit">Siguiente</button>
+
+        <a href="/logout" class="text-center text-black m-auto mt-2">Regresar</a>
       </form>
 
       <!-- /.social-auth-links -->
