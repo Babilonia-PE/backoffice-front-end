@@ -61,10 +61,10 @@ class AccountController{
             $secret_key = $google2fa->generateSecretKey();
         }
 
-        $url_web = env("URL_WEB")??'';
+        $app_name = env("APP_NAME")??'Babilonia';
 
         $text = $google2fa->getQRCodeUrl(
-            $url_web,
+            $app_name,
             $username,
             $secret_key
         );
@@ -90,7 +90,7 @@ class AccountController{
                 $userSession["approved"] = true;
                 
                 SesionService::escribir("correoUsuario", $userSession, true);
-
+                //dd(SesionService::leer("correoUsuario"));
                 redirect();
             } else {
                
