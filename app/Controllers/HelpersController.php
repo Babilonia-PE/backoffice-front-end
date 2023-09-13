@@ -1,7 +1,7 @@
 <?php
 namespace App\Controllers;
 class HelpersController{
-    public function tracer($file="tracer", $string = ""){
+    static function tracer($file="tracer", $string = ""){
         $tracer = env('APP_TRACER')??false;
         if($tracer){
             date_default_timezone_set('America/Lima');
@@ -32,7 +32,7 @@ class HelpersController{
             }
         }
     }
-    public function getConstainsRequestURI($url){
+    static function getConstainsRequestURI($url){
         return str_contains($_SERVER['REQUEST_URI'], $url) ?? false;      
     }
 }
