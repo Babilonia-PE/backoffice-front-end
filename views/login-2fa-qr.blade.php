@@ -40,7 +40,7 @@
         <img src="{{ $image }}" alt="">
         <p class="text-center text-dark">Ingresa el codigo de verificaci&oacute;n generador por tu aplicación</p>
          
-        <input id="code" name="code" type="text" class="form-control text-center" aria-label="Username" aria-describedby="basic-addon1" placeholder="___ ___" autocomplete="new-password">
+        <input id="code" name="code" type="text" class="form-control text-center" placeholder="___ ___" autocomplete="off">
          
         <button class="btn btn-primary flex-fill w-100 mt-3 mb-3" type="submit">Siguiente</button>
 
@@ -64,7 +64,7 @@
 <script src="@asset("js/inputmask.min.js")"></script>
 <script src="@asset("js/app.js")"></script>
 <script>
-setMask('#code', { mask: "### ###", placeholder: "___ ___", rightAlign:false });
+setMask('#code', { mask: "999 999", showMaskOnHover: false, placeholder: "___ ___", rightAlign:false });
 </script>
 </body>
 </html>
