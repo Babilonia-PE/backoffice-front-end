@@ -9,6 +9,8 @@ class LoginController{
     
     public function index(){
 
+        //SesionService::destruir();
+        
         $data = [
             'title' => 'Página de inicio',
             'content' => '¡Hola desde el controlador!',
@@ -74,8 +76,8 @@ class LoginController{
             }
 
             $_dni = $info[$i]['employeeid'][0] ?? 0;
-            $_name = strtoupper($info[$i]['cn'][0]) ?? '';
-            $_email = strtoupper($info[$i]['mail'][0]) ?? '';
+            $_name = $info[$i]['cn'][0] ?? '';
+            $_email = $info[$i]['mail'][0] ?? '';
             $_username = $info[$i]['samaccountname'][0] ?? '';
             
             $secret_key = AccountManager::verifySecondAuthSaved($_username);
@@ -118,7 +120,6 @@ class LoginController{
 
     public function logout(){
         SesionService::destruir();
-        session_destroy();
         redirect("login");
     }
 }
