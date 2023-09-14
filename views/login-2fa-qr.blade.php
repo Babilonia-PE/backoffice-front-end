@@ -40,7 +40,7 @@
         <img src="{{ $image }}" alt="">
         <p class="text-center text-dark">Ingresa el codigo de verificaci&oacute;n generador por tu aplicación</p>
          
-        <input id="code" name="code" type="text" class="form-control text-center" placeholder="___ ___" autocomplete="off" maxlength="6">
+        <input id="code" name="code" type="text" class="form-control text-center" placeholder="___ ___" autocomplete="off">
          
         <button class="btn btn-primary flex-fill w-100 mt-3 mb-3" type="submit">Siguiente</button>
 
