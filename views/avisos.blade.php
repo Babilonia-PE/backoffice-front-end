@@ -4,11 +4,12 @@
 <link rel="stylesheet" href="public/plugins/LibDataTables/DataTables-1.13.6/css/dataTables.bootstrap4.min.css">
 <link rel="stylesheet" href="public/plugins/LibDataTables/Responsive-2.5.0/css/responsive.bootstrap4.min.css">
 <link rel="stylesheet" href="public/plugins/LibDataTables/Buttons-2.4.2/css/buttons.bootstrap4.min.css">
-<link rel="stylesheet" href="public/plugins/LibDataTables/SearchPanes-2.2.0/css/searchPanes.bootstrap4.min.css">
-<link rel="stylesheet" href="public/plugins/LibDataTables/Select-1.7.0/css/select.bootstrap4.min.css">
+<!-- Select2 -->
+<link rel="stylesheet" href="public/plugins/select2/css/select2.min.css">
+<link rel="stylesheet" href="public/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css">
 <style>
 	
-    
+    /*
     @media(max-width: 575px) {
 		div.dtsp-panesContainer div.dtsp-searchPanes div.dtsp-searchPane {
 			max-width: 100%;
@@ -16,7 +17,7 @@
     }
 	.dtsp-searchPane:first-child {
 		display: none;
-	}
+	}*/
 	div.dataTables_wrapper div.dataTables_processing {
 		position: fixed;
 		top: 30%!important;
@@ -85,6 +86,94 @@ Avisos
 
 @section('content')
 <div class="row">
+	<div class="col-12">
+        <div id="filter_box" class="card collapsed-card">
+			<div class="card-header">
+                <h5 class="card-title">Filtros de búsqueda</h5>
+                <div class="card-tools">
+                  	<button type="button" class="btn btn-tool" data-card-widget="collapse">
+                    	<i id="icon_filter_box" class="fas fa-plus"></i>
+                  	</button>
+                </div>
+            </div>
+            <div class="card-body">
+				<div class="row align-items-end">
+              		<div class="col-md-4">
+                		<div class="form-group">
+                  			<label>Estado</label>
+                  			<select class="form-control select2" id="state" style="width: 100%;">
+								<option selected disabled value="">Elige una opción</option>
+								<option value="visible">Visibles</option>
+								<option value="hidden">Ocultos</option>
+								<option value="deleted">Eliminados</option>
+							</select>
+                		</div>
+                	</div>
+              		<div class="col-md-4">
+                		<div class="form-group">
+                  			<label>Tipo de operación</label>
+                  			<select class="form-control select2" id="listing_type" style="width: 100%;">
+								<option selected disabled value="">Elige una opción</option>
+								<option value="sale">Venta</option>
+								<option value="rent">Renta</option>
+							</select>
+                		</div>
+                	</div>
+              		<div class="col-md-4">
+                		<div class="form-group">
+                  			<label>Tipo de inmueble</label>
+                  			<select class="form-control select2" id="property_type" style="width: 100%;">
+								<option selected disabled value="">Elige una opción</option>
+								<option value="apartment">Departamento</option>
+								<option value="house">Casa</option>
+								<option value="commercial">Local Comercial</option>
+								<option value="office">Oficina</option>
+								<option value="land">Terreno</option>
+							</select>
+                		</div>
+                	</div>
+					<div class="col-md-4">
+						<div class="form-group">
+							<label for="exampleInputEmail1">Precio</label>
+							<div class="form-row">
+								<div class="col-6">
+									<input type="text" class="form-control" id="price_from" placeholder="desde">
+								</div>
+								<div class="col-6">
+									<input type="text" class="form-control" id="price_to" placeholder="hasta">
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-4">
+						<div class="form-group">
+							<label for="exampleInputEmail1">Fecha de publicación</label>
+							<div class="form-row">
+								<div class="col-6">
+									<input type="date" class="form-control" id="date_from" placeholder="Desde">
+								</div>
+								<div class="col-6">
+									<input type="date" class="form-control" id="date_to" placeholder="Hasta">
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-4">
+						<div class="form-group">
+							<div class="form-row">
+								<div class="col">
+									<button id="applyfiltters" type="button" class="btn btn-primary btn-block"><i class="fas fa-filter"></i> Aplicar filtros</button>
+								</div>
+								<div class="col-auto">
+									<button id="removefiltters" type="button" class="btn btn-secondary"><i class="fas fa-trash"></i></button>
+								</div>
+							</div>
+						</div>
+					</div>
+                </div>
+			</div>
+        </div>
+	</div>
     <div class="col-12">
         <div class="card">
             <div class="card-body table-responsive">
@@ -97,7 +186,7 @@ Avisos
     </div>
 </div>
 <!-- Modal -->
-<div class="modal fade" id="rowDetails" tabindex="-1" role="dialog" aria-labelledby="rowDetailsLabel" aria-hidden="true">
+<div class="modal fade p-0" id="rowDetails" tabindex="-1" role="dialog" aria-labelledby="rowDetailsLabel" aria-hidden="true">
 	<div class="modal-dialog modal-lg" role="document">
 		<div class="modal-content">
 			<div class="modal-header">
@@ -115,16 +204,15 @@ Avisos
 @endsection
 
 @section('scripts')
-<script src="public/plugins/LibDataTables/datatables.js"></script>
+<script src="public/plugins/LibDataTables/datatables.min.js"></script>
 <script src="public/plugins/LibDataTables/DataTables-1.13.6/js/dataTables.bootstrap4.min.js"></script>
 <script src="public/plugins/LibDataTables/Responsive-2.5.0/js/responsive.bootstrap4.min.js"></script>
 <script src="public/plugins/LibDataTables/Buttons-2.4.2/js/buttons.bootstrap4.min.js"></script>
 <script src="public/plugins/LibDataTables/JSZip-3.10.1/jszip.min.js"></script>
 <script src="public/plugins/LibDataTables/Buttons-2.4.2/js/buttons.html5.min.js"></script>
 <script src="public/plugins/LibDataTables/Buttons-2.4.2/js/buttons.colVis.min.js"></script>
-<script src="public/plugins/LibDataTables/SearchPanes-2.2.0/js/dataTables.searchPanes.min.js"></script>
-<script src="public/plugins/LibDataTables/SearchPanes-2.2.0/js/searchPanes.bootstrap4.min.js"></script>
-<script src="public/plugins/LibDataTables/Select-1.7.0/js/dataTables.select.min.js"></script>
+<!-- Select2 -->
+<script src="public/plugins/select2/js/select2.full.min.js"></script>
 <script>
     let tableSaved = null;
 	let dtDraw = 1;
@@ -429,15 +517,15 @@ Avisos
 	];
 	window.state = [
 		{
-			"name": "Eliminados",
+			"name": "Eliminado",
 			"code": "deleted"
 		},
 		{
-			"name": "Visibles",
+			"name": "Visible",
 			"code": "visible"
 		},
 		{
-			"name": "Ocultas",
+			"name": "Oculto",
 			"code": "hidden"
 		}
 	]
@@ -529,6 +617,21 @@ Avisos
 			"code": "airs"
 		}
 	]
+	//POBLAR FILTROS
+	jQuery.fn.populatefilters=function(){
+		if (localStorage.getItem('filter_avisos') !== null) {
+			const filter_avisos = JSON.parse(localStorage.getItem('filter_avisos'));
+			$("#state").val(filter_avisos.state??'');
+			$("#listing_type").val(filter_avisos.listing_type??'');
+			$("#property_type").val(filter_avisos.property_type??'');
+			$("#price_from").val(filter_avisos.price?.from??'');
+			$("#price_to").val(filter_avisos.price?.to??'');
+			$("#date_from").val(filter_avisos.date?.from??'');
+			$("#date_to").val(filter_avisos.date?.to??'');
+			$("#filter_box").removeClass("collapsed-card");
+			$("#icon_filter_box").addClass("fa-minus").removeClass("fa-plus");
+		}
+    };
     //REDIMENSIONAR DATATABLE
 	jQuery.fn.redimensionarTable=function(){
 		if(tableSaved != null){
@@ -621,7 +724,7 @@ Avisos
     jQuery.fn.createDataTable=function(searchBuilder = null, columnDefs = null, returnTable = {}, lengthMenu = 25, dom = true, columns = null, data = null){
 		var attr = ( !jQuery.isEmptyObject(returnTable) && returnTable.hasOwnProperty('attr') ) ? returnTable.attr:'class';
 		var value = ( !jQuery.isEmptyObject(returnTable) && returnTable.hasOwnProperty('value') ) ? returnTable.value:'display';
-		var dom = ( dom ) ? 'PBlfrtip':'lfrtip'; //f: buscador
+		var dom = ( dom ) ? 'Blrtip':'lfrtip'; //f: buscador
 		var element =  ( attr == 'class' ) ? $('table.'+ value):$('table['+ attr +'="'+ value +'"]');
 		var table = element
 		//.on( 'search.dt', function () { $(this).redimensionarTable(); } )
@@ -652,7 +755,28 @@ Avisos
 						data.order_by = headers[element.column].code;
 						data.order_dir = element.dir;
 					});
-					
+					if( $("#state").val() !== '' && $("#state").val() !== null ){
+						data.state = $("#state").val();
+					}
+					if( $("#listing_type").val() !== '' && $("#listing_type").val() !== null){
+						data.listing_type = $("#listing_type").val();
+					}
+					if( $("#property_type").val() !== '' && $("#property_type").val() !== null){
+						data.property_type = $("#property_type").val();
+					}
+					if( $("#price_from").val() !== '' || $("#price_to").val() !== ''){
+						data.price = {
+							from: $("#price_from").val(),
+							to: $("#price_to").val()
+						};
+					}
+					if( $("#date_from").val() !== '' || $("#date_to").val() !== ''){
+						data.date = {
+							from: $("#date_from").val(),
+							to: $("#date_to").val()
+						};
+					}
+					/*
 					if(tableSaved?.searchPanes){
 						let criterios = [];
 						var filterCriteria = "";
@@ -684,12 +808,11 @@ Avisos
 								} else {
 									filterCriteria += ", " + criteriaField;
 								}
-							}*/
+							}
 						});
 						//filterCriteria = "{'criteriaSearch': " + filterCriteria + "}"
 						//console.log(filterCriteria);
 					}
-					/*
 					if(tableSaved?.searchBuilder){
 						const searchBuilder = tableSaved.searchBuilder.getDetails();
 						let criterios = [];
@@ -736,59 +859,69 @@ Avisos
 						"data": []
 					};
 					records.forEach((element, index) => {
+						const id_listing_type = listing_type.findIndex(x => x.code === element.listing_type??null);
+						const id_property_type = property_type.findIndex(x => x.code === element.property_type??null);
+						const id_status = state.findIndex(x => x.code === element.status??null);
+						let facilities = [], advanced_details = [];
+						(element.facilities??[]).forEach(element => {
+							facilities.push(element.title_lang.es??'');
+						});
+						(element.advanced_details??[]).forEach(element => {
+							advanced_details.push(element.title_lang.es??'');
+						});
 						object.data.push([
 							element.id,
-							element.status??'',
-							element.listing_type??'',
-							element.property_type??'',
-							element.price??'',
+							(state[id_status]??[]).name??'',
+							(listing_type[id_listing_type]??[]).name??'',
+							(property_type[id_property_type]??[]).name??'',
+							'$' + Number(element.price??'').toLocaleString("en"),
 							( ( element.location ) ? element.location.address??'':'' ),
 							( ( element.location ) ? element.location.district??'':'' ),
 							( ( element.location ) ? element.location.province??'':'' ),
 							( ( element.location ) ? element.location.department??'':'' ),
 							( ( element.location ) ? element.location.country??'':'' ),
-							new Date(Date.parse(element.created_at)).toLocaleDateString("default", {
+							( ( element.created_at ) ? new Date(Date.parse(element.created_at)).toLocaleDateString("default", { 
 								year: "numeric",
 								month: "2-digit",
 								day: "2-digit",
-							}),
-							new Date(Date.parse(element.created_at)).toLocaleDateString("default", { 
+							}):'' ),
+							( ( element.created_at ) ? new Date(Date.parse(element.created_at)).toLocaleDateString("default", { 
 								year: "numeric",
 								month: "2-digit",
 								day: "2-digit",
-							}),
+							}):'' ),
 							( ( element.user ) ? element.user.full_name??'':'' ),
 							element.ad_plan??'',
+							( ( element.days_remain ) ? element.days_remain + ' días':'' ),
 							element.publisher_role??'',
-							element.days_remain??'',
 							element.bedrooms_count??'',
 							element.bathrooms_count??'',
-							element.area??'',
-							element.built_area??'',
+							( ( element.area ) ? Number(element.area).toLocaleString("en") + ' m²':'' ),
+							( ( element.built_area ) ? Number(element.built_area).toLocaleString("en") + ' m²':'' ),
 							element.parking_slots_count??'',
-							element.parking_for_visits ? 'SI': 'NO',
+							element.parking_for_visits ? 'Si': 'No',
 							element.year_of_construction??'',
 							element.total_floors_count??'',
 							element.floor_number??'',
-							element.pet_friendly ? 'SI' : 'NO',
-							element.facilities??[].toString(),
-							element.advanced_details??[].toString(),
+							element.pet_friendly ? 'Si' : 'No',
+							facilities.join(', '),
+							advanced_details.join(', '),
 							element.description??'',
 							element.images.length??'',
-							element.videos.length === 0 ? 'SI' : 'NO',
+							element.videos.length === 0 ? 'Si' : 'No',
 							element.views_count??'',
 							element.favourites_count??'',
 							element.contacts_count??'',
-							new Date(Date.parse(element.updated_at)).toLocaleDateString("default", { 
+							( ( element.updated_at ) ? new Date(Date.parse(element.updated_at)).toLocaleDateString("default", { 
 								year: "numeric",
 								month: "2-digit",
 								day: "2-digit",
-							}),
-							new Date(Date.parse(element.ad_expires_at)).toLocaleDateString("default", { 
+							}):'' ),
+							( ( element.ad_expires_at ) ? new Date(Date.parse(element.ad_expires_at)).toLocaleDateString("default", { 
 								year: "numeric",
 								month: "2-digit",
 								day: "2-digit",
-							}),
+							}):'' ),
 							`
 							<div class="dropdown">
 								<button class="btn btn-secondary btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="false">
@@ -806,7 +939,6 @@ Avisos
 					return object.data;
 				}
 			},
-
 			"columns": columns,
 			"pagingType": "numbers",
 			"language": lenguaje,
@@ -819,22 +951,17 @@ Avisos
 			},
 			//fixedHeader: true,
 			search: {
-				return: true
+				//return: true
 			},
 			processing: true,
 			serverSide: true,
-			stateSave: true,
+			//stateSave: true,
 			//searchBuilder: searchBuilder,
 			columnDefs: columnDefs,
-			searchPanes: {
+			/*searchPanes: {
 				viewCount: false,
 				initCollapsed: true,
                 cascadePanes: false,
-                /*dtOpts: {
-                    select: {
-                        style: 'multi'
-                    }
-                },*/
 				layout: 'columns-2',
 				columns: [0, 1, 2, 3, 4],
 				dtOpts: {
@@ -843,7 +970,7 @@ Avisos
 					pagingType: 'simple',
 					searching: true
 				}
-			},
+			},*/
 		})
 		.on('xhr.dt', function ( e, settings, json, xhr ) {
 			json.recordsTotal = json.data.pagination.total_records;
@@ -864,126 +991,7 @@ Avisos
 			class: "none"
 		},
 		{ type: "date", targets: [10, 11, 34, 35] },
-		
-		{
-			searchPanes: {
-				show: true,
-				options: [
-					{
-						label: 'Visible',
-						value: function(rowData, rowIdx) {
-							return ( rowData??null ) ? rowData[1] === 'visible':'visible';
-							//return 'visible';
-						}
-					},
-					{
-						label: 'Oculto',
-						value: function(rowData, rowIdx) {
-							return ( rowData??null ) ? (rowData[1] === 'hidden'):'hidden';
-							//return 'hidden';
-						}
-					},
-						{
-						label: 'Eliminado',
-						value: function(rowData, rowIdx) {
-							return ( rowData??null ) ? rowData[1] === 'deleted':'deleted';
-							//return 'deleted';
-						}
-					}
-				]
-			},
-			targets: [1]
-		},
-		{
-			searchPanes: {
-				show: true,
-				options: [
-					{
-						label: 'Venta',
-						value: function(rowData, rowIdx) {
-							return ( rowData??null ) ? rowData[2] === 'sale':'sale';
-							//return 'sale';
-						}
-					},
-					{
-						label: 'Alquiler',
-						value: function(rowData, rowIdx) {
-							return ( rowData??null ) ? rowData[2] === 'rent':'rent';
-							//return 'rent';
-						}
-					},
-						{
-						label: 'Ambos',
-						value: function(rowData, rowIdx) {
-							return ( rowData??null ) ? rowData[2] === 'all':'all';
-							//return 'all';
-						}
-					}
-				]
-			},
-			targets: [2]
-		},
-		{
-			searchPanes: {
-				show: true,
-				options: [
-					{
-						label: 'Departamento',
-						value: function(rowData, rowIdx) {
-							return ( rowData??null ) ? rowData[3] === 'apartment':'apartment';
-							//return 'apartment';
-						}
-					},
-					{
-						label: 'Casa',
-						value: function(rowData, rowIdx) {
-							return ( rowData??null ) ? rowData[3] === 'house':'house';
-							//return 'house';
-						}
-					},
-						{
-						label: 'Oficina',
-						value: function(rowData, rowIdx) {
-							return ( rowData??null ) ? rowData[3] === 'office':'office';
-							//return 'office';
-						}
-					}
-				]
-			},
-			targets: [3]
-		},
-		{
-			searchPanes: {
-				show: true,
-				options: [
-						{
-                            label: '100 y 1000',
-                            value: function(rowData, rowIdx) {
-								return ( rowData??null ) ? rowData[4] <= 100 && rowData[4] >=1000:[100, 1000];
-                            }
-                        },
-                        {
-                            label: '1000 y 5000',
-                            value: function(rowData, rowIdx) {
-								return ( rowData??null ) ? rowData[4] <= 1000 && rowData[4] >=5000:[1000, 5000];
-                            }
-                        },
-						{
-                            label: '5000 y 10000',
-                            value: function(rowData, rowIdx) {
-								return ( rowData??null ) ? rowData[4] <= 5000 && rowData[4] >=10000:[5000, 10000];
-                            }
-                        },
-						{
-                            label: '10000 y 20000',
-                            value: function(rowData, rowIdx) {
-								return ( rowData??null ) ? rowData[4] <= 10000 && rowData[4] >=20000:[10000, 20000];
-                            }
-                        }
-				]
-			},
-			targets: [4]
-		}
+		{ orderable: false, targets: ['_all'] }
 
 	];
 	const searchBuilder = {
@@ -1052,6 +1060,7 @@ Avisos
 			}
 		},
 	};
+	$(this).populatefilters();
 	$(this).createDataTable(searchBuilder, columnDefs, false, 25, true, headers);
 	tableSaved.on('click', '.details', function (e) {
 		e.preventDefault();
@@ -1073,6 +1082,49 @@ Avisos
 		
 		$("#rowDetails").modal('show');
 	});
+
+	$("#applyfiltters").on('click', function (e) {
+		let filters = {};
+		if( $("#state").val() !== '' && $("#state").val() !== null ){
+			filters.state = $("#state").val();
+		}
+		if( $("#listing_type").val() !== '' && $("#listing_type").val() !== null){
+			filters.listing_type = $("#listing_type").val();
+		}
+		if( $("#property_type").val() !== '' && $("#property_type").val() !== null){
+			filters.property_type = $("#property_type").val();
+		}
+		if( $("#price_from").val() !== '' || $("#price_to").val() !== ''){
+			filters.price = {
+				from: $("#price_from").val(),
+				to: $("#price_to").val()
+			};
+		}
+		if( $("#date_from").val() !== '' || $("#date_to").val() !== ''){
+			filters.date = {
+				from: $("#date_from").val(),
+				to: $("#date_to").val()
+			};
+		}
+		if(!$.isEmptyObject(filters)){
+			localStorage.setItem('filter_avisos', JSON.stringify(filters));
+		}
+		tableSaved.ajax.reload();
+	});
+	$("#removefiltters").on('click', function (e) {
+		localStorage.removeItem('filter_avisos');
+		$("#state").val('').select2({theme: 'bootstrap4'});
+		$("#listing_type").val('').select2({theme: 'bootstrap4'});
+		$("#property_type").val('').select2({theme: 'bootstrap4'});
+		$("#price_from").val('');
+		$("#price_to").val('');
+		$("#date_from").val('');
+		$("#date_to").val('');
+		tableSaved.ajax.reload();
+	});
+	$('.select2').select2({
+      	theme: 'bootstrap4'
+    })
 	setTimeout(() => {
 		$(".dtsb-add").on('click', function (e) {
 			/*
