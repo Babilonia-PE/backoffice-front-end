@@ -1,12 +1,23 @@
 @extends('Layout.master')
 
 @section('styles')
-<link rel="stylesheet" href="public/plugins/LibDataTables/datatables.min.css">
+<link rel="stylesheet" href="public/plugins/LibDataTables/DataTables-1.13.6/css/dataTables.bootstrap4.min.css">
 <link rel="stylesheet" href="public/plugins/LibDataTables/Responsive-2.5.0/css/responsive.bootstrap4.min.css">
 <link rel="stylesheet" href="public/plugins/LibDataTables/Buttons-2.4.2/css/buttons.bootstrap4.min.css">
-<link rel="stylesheet" href="public/plugins/LibDataTables/SearchBuilder-1.5.0/css/searchBuilder.bootstrap4.min.css">
+<link rel="stylesheet" href="public/plugins/LibDataTables/SearchPanes-2.2.0/css/searchPanes.bootstrap4.min.css">
+<link rel="stylesheet" href="public/plugins/LibDataTables/Select-1.7.0/css/select.bootstrap4.min.css">
 <style>
-	.dataTables_wrapper .dataTables_processing {
+	
+    
+    @media(max-width: 575px) {
+		div.dtsp-panesContainer div.dtsp-searchPanes div.dtsp-searchPane {
+			max-width: 100%;
+		}
+    }
+	.dtsp-searchPane:first-child {
+		display: none;
+	}
+	div.dataTables_wrapper div.dataTables_processing {
 		position: fixed;
 		top: 30%!important;
 		left: 50%;
@@ -105,13 +116,15 @@ Avisos
 
 @section('scripts')
 <script src="public/plugins/LibDataTables/datatables.js"></script>
+<script src="public/plugins/LibDataTables/DataTables-1.13.6/js/dataTables.bootstrap4.min.js"></script>
 <script src="public/plugins/LibDataTables/Responsive-2.5.0/js/responsive.bootstrap4.min.js"></script>
 <script src="public/plugins/LibDataTables/Buttons-2.4.2/js/buttons.bootstrap4.min.js"></script>
 <script src="public/plugins/LibDataTables/JSZip-3.10.1/jszip.min.js"></script>
 <script src="public/plugins/LibDataTables/Buttons-2.4.2/js/buttons.html5.min.js"></script>
 <script src="public/plugins/LibDataTables/Buttons-2.4.2/js/buttons.colVis.min.js"></script>
-<script src="public/plugins/LibDataTables/SearchBuilder-1.5.0/js/searchBuilder.bootstrap4.min.js"></script>
-<script src="public/plugins/LibDataTables/DateTime-1.5.1/js/dataTables.dateTime.min.js"></script>
+<script src="public/plugins/LibDataTables/SearchPanes-2.2.0/js/dataTables.searchPanes.min.js"></script>
+<script src="public/plugins/LibDataTables/SearchPanes-2.2.0/js/searchPanes.bootstrap4.min.js"></script>
+<script src="public/plugins/LibDataTables/Select-1.7.0/js/dataTables.select.min.js"></script>
 <script>
     let tableSaved = null;
 	let dtDraw = 1;
@@ -608,7 +621,7 @@ Avisos
     jQuery.fn.createDataTable=function(searchBuilder = null, columnDefs = null, returnTable = {}, lengthMenu = 25, dom = true, columns = null, data = null){
 		var attr = ( !jQuery.isEmptyObject(returnTable) && returnTable.hasOwnProperty('attr') ) ? returnTable.attr:'class';
 		var value = ( !jQuery.isEmptyObject(returnTable) && returnTable.hasOwnProperty('value') ) ? returnTable.value:'display';
-		var dom = ( dom ) ? 'QBlrtip':'lfrtip'; //f: buscador
+		var dom = ( dom ) ? 'PBlfrtip':'lfrtip'; //f: buscador
 		var element =  ( attr == 'class' ) ? $('table.'+ value):$('table['+ attr +'="'+ value +'"]');
 		var table = element
 		//.on( 'search.dt', function () { $(this).redimensionarTable(); } )
@@ -639,6 +652,44 @@ Avisos
 						data.order_by = headers[element.column].code;
 						data.order_dir = element.dir;
 					});
+					
+					if(tableSaved?.searchPanes){
+						let criterios = [];
+						var filterCriteria = "";
+						var searchPanes = tableSaved.context[0]._searchPanes.s.panes;
+						searchPanes.forEach( searchPane => {
+							if ( searchPane.s.serverSelect.length > 0 ) {
+								searchPane.s.serverSelect.forEach( elem => {
+									const value = elem.filter();
+									if( $.isArray(value) ){
+										data[headers[searchPane.s.index].code + '[from]'] = value[0];
+										data[headers[searchPane.s.index].code + '[to]'] = value[1];
+									}else{
+										data[headers[searchPane.s.index].code] = value;
+									}
+								} );
+								
+							}
+							/*
+							var criteriaField = "['" + searchPane.s.name + "': [";
+							var toAdd = false;
+							if ( searchPane.s.serverSelect.length > 0 ) {
+								searchPane.s.serverSelect.forEach( elem => {criteriaField += elem.filter();} );
+								toAdd = true;
+							}
+							criteriaField += "] ]"
+							if (toAdd) {
+								if ( filterCriteria == "" ) {
+									filterCriteria = criteriaField;
+								} else {
+									filterCriteria += ", " + criteriaField;
+								}
+							}*/
+						});
+						//filterCriteria = "{'criteriaSearch': " + filterCriteria + "}"
+						//console.log(filterCriteria);
+					}
+					/*
 					if(tableSaved?.searchBuilder){
 						const searchBuilder = tableSaved.searchBuilder.getDetails();
 						let criterios = [];
@@ -662,8 +713,12 @@ Avisos
 							filters.push(headers[index].code);
 						});
 						//data.criterios = criterios;
-					}
+					}*/
 					console.log(data);
+					delete data.searchPanes;
+					delete data.searchPanesLast;
+					delete data.searchPanes_null;
+					delete data.searchPanes_options;
 					delete data.searchBuilder;
 					delete data.start;
 					delete data.draw;
@@ -762,11 +817,33 @@ Avisos
 				$( 'p[name=\'loading\']' ).remove();
 				$(this).removeClass( 'd-none' );
 			},
-			fixedHeader: true,
+			//fixedHeader: true,
+			search: {
+				return: true
+			},
 			processing: true,
 			serverSide: true,
-			searchBuilder: searchBuilder,
-			columnDefs: columnDefs
+			stateSave: true,
+			//searchBuilder: searchBuilder,
+			columnDefs: columnDefs,
+			searchPanes: {
+				viewCount: false,
+				initCollapsed: true,
+                cascadePanes: false,
+                /*dtOpts: {
+                    select: {
+                        style: 'multi'
+                    }
+                },*/
+				layout: 'columns-2',
+				columns: [0, 1, 2, 3, 4],
+				dtOpts: {
+					dom: 'tp',
+					paging: true,
+					pagingType: 'simple',
+					searching: true
+				}
+			},
 		})
 		.on('xhr.dt', function ( e, settings, json, xhr ) {
 			json.recordsTotal = json.data.pagination.total_records;
@@ -780,13 +857,136 @@ Avisos
 			tableSaved = table;
 		}
 	}
-	const columnDefs = [{
-		targets: [0, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35],
-		visible: false,
-		class: "none"
-	},{ type: "date", targets: [10, 11, 34, 35] }];
+	const columnDefs = [
+		{
+			targets: [0, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35],
+			visible: false,
+			class: "none"
+		},
+		{ type: "date", targets: [10, 11, 34, 35] },
+		
+		{
+			searchPanes: {
+				show: true,
+				options: [
+					{
+						label: 'Visible',
+						value: function(rowData, rowIdx) {
+							return ( rowData??null ) ? rowData[1] === 'visible':'visible';
+							//return 'visible';
+						}
+					},
+					{
+						label: 'Oculto',
+						value: function(rowData, rowIdx) {
+							return ( rowData??null ) ? (rowData[1] === 'hidden'):'hidden';
+							//return 'hidden';
+						}
+					},
+						{
+						label: 'Eliminado',
+						value: function(rowData, rowIdx) {
+							return ( rowData??null ) ? rowData[1] === 'deleted':'deleted';
+							//return 'deleted';
+						}
+					}
+				]
+			},
+			targets: [1]
+		},
+		{
+			searchPanes: {
+				show: true,
+				options: [
+					{
+						label: 'Venta',
+						value: function(rowData, rowIdx) {
+							return ( rowData??null ) ? rowData[2] === 'sale':'sale';
+							//return 'sale';
+						}
+					},
+					{
+						label: 'Alquiler',
+						value: function(rowData, rowIdx) {
+							return ( rowData??null ) ? rowData[2] === 'rent':'rent';
+							//return 'rent';
+						}
+					},
+						{
+						label: 'Ambos',
+						value: function(rowData, rowIdx) {
+							return ( rowData??null ) ? rowData[2] === 'all':'all';
+							//return 'all';
+						}
+					}
+				]
+			},
+			targets: [2]
+		},
+		{
+			searchPanes: {
+				show: true,
+				options: [
+					{
+						label: 'Departamento',
+						value: function(rowData, rowIdx) {
+							return ( rowData??null ) ? rowData[3] === 'apartment':'apartment';
+							//return 'apartment';
+						}
+					},
+					{
+						label: 'Casa',
+						value: function(rowData, rowIdx) {
+							return ( rowData??null ) ? rowData[3] === 'house':'house';
+							//return 'house';
+						}
+					},
+						{
+						label: 'Oficina',
+						value: function(rowData, rowIdx) {
+							return ( rowData??null ) ? rowData[3] === 'office':'office';
+							//return 'office';
+						}
+					}
+				]
+			},
+			targets: [3]
+		},
+		{
+			searchPanes: {
+				show: true,
+				options: [
+						{
+                            label: '100 y 1000',
+                            value: function(rowData, rowIdx) {
+								return ( rowData??null ) ? rowData[4] <= 100 && rowData[4] >=1000:[100, 1000];
+                            }
+                        },
+                        {
+                            label: '1000 y 5000',
+                            value: function(rowData, rowIdx) {
+								return ( rowData??null ) ? rowData[4] <= 1000 && rowData[4] >=5000:[1000, 5000];
+                            }
+                        },
+						{
+                            label: '5000 y 10000',
+                            value: function(rowData, rowIdx) {
+								return ( rowData??null ) ? rowData[4] <= 5000 && rowData[4] >=10000:[5000, 10000];
+                            }
+                        },
+						{
+                            label: '10000 y 20000',
+                            value: function(rowData, rowIdx) {
+								return ( rowData??null ) ? rowData[4] <= 10000 && rowData[4] >=20000:[10000, 20000];
+                            }
+                        }
+				]
+			},
+			targets: [4]
+		}
+
+	];
 	const searchBuilder = {
-		enterSearch: true,
 		depthLimit: 1,
 		columns: [1, 2, 3, 4],
 		conditions: {
