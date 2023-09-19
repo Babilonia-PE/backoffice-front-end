@@ -94,13 +94,13 @@ class AccountController{
                 redirect();
             } else {
                
-                echo view("verify-account",[                    
+                echo view("login-2fa",[                    
                     "message" => "El codigo no es valido"
                 ]);            
             }    
         } catch (\Throwable $th) {
        
-            echo view("verify-account",[
+            echo view("login-2fa",[
                 "message" => $th->getMessage()
             ]);  
         }
