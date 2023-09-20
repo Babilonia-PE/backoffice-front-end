@@ -102,7 +102,7 @@ function menu(){
     $menu[2]["id"] = "clientes";
     $menu[2]["url"] = "clientes";
     $menu[2]["name"] = "Clientes";
-    $menu[2]["icon"] = "nav-icon fas fa-chart-pie";
+    $menu[2]["icon"] = "nav-icon fas fa-users";
 
     $menu[3]["id"] = "leads";
     $menu[3]["url"] = "leads";

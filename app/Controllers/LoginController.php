@@ -45,7 +45,7 @@ class LoginController{
         $ldap = ldap_connect($ldap_server . ":" . $ldap_port);
         
         #VERIFICAMOS CONEXION AL SERVICIO
-        if(!$ldap){
+        if($ldap === false){
             echo view("login", ["message"=> "No se pudo establecer conexion con el servidor"]);
             die();
         }
@@ -56,7 +56,7 @@ class LoginController{
         $bind = @ldap_bind($ldap, $ldap_username . "@" . $ldap_domain, $ldap_password);
 
         #VERIFICAMOS CREDENCIALES DE USUARIOS
-        if(!$bind){
+        if($bind === false){
             echo view("login", ["message"=> "El usuario o la contraseña no coinciden"]);
             die();
         }
@@ -169,6 +169,7 @@ class LoginController{
 
     public function logout(){
         SesionService::destruir();
+        session_destroy();
         redirect("login");
     }
 }

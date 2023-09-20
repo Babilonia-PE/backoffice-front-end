@@ -84,19 +84,20 @@ Dashboard
             <!-- Custom tabs (Charts with tabs)-->
             <div class="card">
               <div class="card-header">
-                <h3 class="card-title">
-                  <i class="fas fa-chart-pie mr-1"></i>
-                  Sales
-                </h3>
-                <div class="card-tools">
-                  <ul class="nav nav-pills ml-auto">
-                    <li class="nav-item">
-                      <a class="nav-link active" href="#revenue-chart" data-toggle="tab">Area</a>
-                    </li>
-                    <li class="nav-item">
-                      <a class="nav-link" href="#sales-chart" data-toggle="tab">Donut</a>
-                    </li>
-                  </ul>
+
+                <div class="card-title">
+
+                  <select class="selectpicker" data-width="auto">
+                    <option data-icon="fas fa-users">Clientes</option>
+                    <option data-icon="fas fa-object-ungroup">Avisos</option>
+                  </select>
+
+                </div>
+
+                <div class="btn-group card-tools" role="group" aria-label="Basic example">
+                  <button type="button" class="btn btn-secondary">30 d&iacute;as</button>
+                  <button type="button" class="btn btn-secondary">60 d&iacute;as</button>
+                  <button type="button" class="btn btn-secondary">90 d&iacute;as</button>
                 </div>
               </div><!-- /.card-header -->
               <div class="card-body">
@@ -115,7 +116,7 @@ Dashboard
             <!-- /.card -->
 
             <!-- DIRECT CHAT -->
-            <div class="card direct-chat direct-chat-primary">
+            <div class="card direct-chat direct-chat-primary d-none">
               <div class="card-header">
                 <h3 class="card-title">Direct Chat</h3>
 
@@ -317,7 +318,7 @@ Dashboard
             <!--/.direct-chat -->
 
             <!-- TO DO List -->
-            <div class="card">
+            <div class="card d-none">
               <div class="card-header">
                 <h3 class="card-title">
                   <i class="ion ion-clipboard mr-1"></i>
@@ -497,7 +498,7 @@ Dashboard
             <!-- /.card -->
 
             <!-- solid sales graph -->
-            <div class="card bg-gradient-info">
+            <div class="card bg-gradient-info d-none">
               <div class="card-header border-0">
                 <h3 class="card-title">
                   <i class="fas fa-th mr-1"></i>
@@ -548,7 +549,7 @@ Dashboard
             <!-- /.card -->
 
             <!-- Calendar -->
-            <div class="card bg-gradient-success">
+            <div class="card bg-gradient-success d-none">
               <div class="card-header border-0">
 
                 <h3 class="card-title">
