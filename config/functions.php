@@ -119,6 +119,11 @@ function menu(){
     $menu[5]["url"] = "paquetes";
     $menu[5]["name"] = "Paquetes";
     $menu[5]["icon"] = "nav-icon fas fa-chart-pie";
+    
+    $menu[6]["id"] = "reportes";
+    $menu[6]["url"] = "reportes";
+    $menu[6]["name"] = "Reportes";
+    $menu[6]["icon"] = "nav-icon fas fa-chart-pie";
 
     $id = identifyCurrentPage($menu);
 
