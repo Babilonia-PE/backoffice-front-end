@@ -1,8 +1,8 @@
 <?php
 require __DIR__ . '/../vendor/autoload.php';
 
-use App\Services\SesionService;
 use App\Services\Helpers;
+use App\Services\SesionService;
 use Phroute\Phroute\Dispatcher;
 use App\Controllers\HomeController;
 use App\Middlewares\Authentication;
@@ -16,6 +16,7 @@ use App\Controllers\ListasController;
 use App\Controllers\AlertasController;
 use App\Controllers\ClientesController;
 use App\Controllers\PaquetesController;
+use App\Controllers\ReportesController;
 use Phroute\Phroute\Exception\HttpRouteNotFoundException;
 use Phroute\Phroute\Exception\HttpMethodNotAllowedException;
 
@@ -37,7 +38,8 @@ $router
             ->get("/clientes", [ClientesController::class, "index"])
             ->get("/leads", [LeadsController::class, "index"])
             ->get("/paquetes", [PaquetesController::class, "index"])
-            ->get("/vistas", [ViewsController::class, "index"]);      
+            ->get("/vistas", [ViewsController::class, "index"])
+            ->get("/reportes", [ReportesController::class, "index"]);      
             
             
     });
