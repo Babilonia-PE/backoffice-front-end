@@ -516,7 +516,7 @@ Clientes
 			//"data": data,
 
 			ajax: {
-				"url": 'https://services-testing.babilonia.io/app/users/users',
+				"url": 'https://services-testing.babilonia.io/app/user/users',
 				"type": 'GET',
 				"data": function ( data ) {
 					filters = [];
@@ -711,7 +711,7 @@ Clientes
 	$("#applyfiltters").on('click', function (e) {
 		let filters = {};
 		if( $("#ruc").val() !== '' && $("#ruc").val() !== null ){
-			filters.state = $("#ruc").val();
+			filters.ruc = $("#ruc").val();
 		}
 		if( $("#razon_social").val() !== '' && $("#razon_social").val() !== null){
 			filters.razon_social = $("#razon_social").val();
