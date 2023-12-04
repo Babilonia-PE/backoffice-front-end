@@ -516,7 +516,7 @@ Clientes
 			//"data": data,
 
 			ajax: {
-				"url": 'https://services-testing.babilonia.io/app/users/users',
+				"url": 'https://services-testing.babilonia.io/app/user/users',
 				"type": 'GET',
 				"data": function ( data ) {
 					filters = [];
