@@ -98,6 +98,12 @@ Clientes
 				<div class="row align-items-end">
               		<div class="col-md-4">
                 		<div class="form-group">
+                  			<label>User ID</label>
+                  			<input type="text" class="form-control" id="client_id" placeholder="User ID">
+                		</div>
+                	</div>
+              		<div class="col-md-4">
+                		<div class="form-group">
                   			<label>RUC</label>
                   			<input type="text" class="form-control" id="ruc" placeholder="RUC">
                 		</div>
@@ -110,6 +116,22 @@ Clientes
                 	</div>
               		<div class="col-md-4">
                 		<div class="form-group">
+                  			<label>Estado</label>
+                  			<select class="form-control" id="state" name="" id="">
+								<option value="">- Seleccione una opción -</option>
+								<option value="1">Activo</option>
+								<option value="0">No activo</option>
+							</select>
+                		</div>
+                	</div>
+              		<div class="col-md-4">
+                		<div class="form-group">
+                  			<label>Nombre comercial</label>
+                  			<input type="text" class="form-control" id="commercial_name" placeholder="Nombre comercial">
+                		</div>
+                	</div>
+              		<div class="col-md-4">
+                		<div class="form-group">
                   			<label>Nombre completo</label>
                   			<input type="text" class="form-control" id="name" placeholder="Nombre completo">
                 		</div>
@@ -118,6 +140,12 @@ Clientes
                 		<div class="form-group">
                   			<label>Correo</label>
                   			<input type="email" class="form-control" id="email" placeholder="Correo">
+                		</div>
+                	</div>
+              		<div class="col-md-4">
+                		<div class="form-group">
+                  			<label>Teléfono</label>
+                  			<input type="phone_number" class="form-control" id="phone_number" placeholder="Teléfono">
                 		</div>
                 	</div>
 					<div class="col-md-4">
@@ -200,6 +228,7 @@ Clientes
 			{ "title": "Correo electronico" },
 			{ "title": "Teléfono" },
 			{ "title": "Razon social" },
+			{ "title": "Estado" },
 			{ "title": "Nombre comercial" },
 			{ "title": "RUC" },
 			{ "title": "Dirección" },
@@ -472,6 +501,41 @@ Clientes
 			text: "Ocultar columnas"
 		}
 	];
+	//OBTENER DATOS DE FILTROS
+	const getFiltersData = () => {
+		const data = {};
+
+		if( $("#client_id").val() !== '' && $("#client_id").val() !== null ){
+			data.id = $("#client_id").val();
+		}
+		if( $("#phone_number").val() !== '' && $("#phone_number").val() !== null ){
+			data.phone_number = $("#phone_number").val();
+		}
+		if( $("#commercial_name").val() !== '' && $("#commercial_name").val() !== null ){
+			data.commercial_name = $("#commercial_name").val();
+		}
+		if( $("#ruc").val() !== '' && $("#ruc").val() !== null ){
+			data.company_id = $("#ruc").val();
+		}
+		if( $("#razon_social").val() !== '' && $("#razon_social").val() !== null){
+			data.company_name = $("#razon_social").val();
+		}
+		if( $("#name").val() !== '' && $("#name").val() !== null){
+			data.full_name = $("#name").val();
+		}
+		if( $("#email").val() !== '' && $("#email").val() !== null){
+			data.email = $("#email").val();
+		}
+		if( $("#state").val() !== '' && $("#state").val() !== null){
+			data.state = $("#state").val();
+		}
+		if( $("#date_from").val() !== '' || $("#date_to").val() !== ''){
+			data.date_from = $("#date_from").val();
+			data.date_to = $("#date_to").val();
+		}
+
+		return data;
+	}
 	//POBLAR FILTROS
 	jQuery.fn.populatefilters=function(){
 		if (localStorage.getItem('filter_clientes') !== null) {
@@ -520,31 +584,12 @@ Clientes
 				"type": 'GET',
 				"data": function ( data ) {
 					filters = [];
-					data.page = ( tableSaved ) ? ( tableSaved.page.info().page + 1 ) : 1;
-					//data.per_page = ( tableSaved ) ? ( tableSaved.page.info().length ) : 25;
+					data.page = ( tableSaved ) ? ( tableSaved.page.info().page + 1 ) : 1;					
+					data.per_page = ( tableSaved ) ? ( tableSaved.page.info().length ) : 25;
 					data.order.forEach(element => {
 						data.order_by = headers[element.column].code;
 						data.order_dir = element.dir;
 					});
-					if( $("#ruc").val() !== '' && $("#ruc").val() !== null ){
-						data.ruc = $("#ruc").val();
-					}
-					if( $("#razon_social").val() !== '' && $("#razon_social").val() !== null){
-						data.razon_social = $("#razon_social").val();
-					}
-					if( $("#name").val() !== '' && $("#name").val() !== null){
-						data.name = $("#name").val();
-					}
-					if( $("#email").val() !== '' && $("#email").val() !== null){
-						data.email = $("#email").val();
-					}
-					if( $("#date_from").val() !== '' || $("#date_to").val() !== ''){
-						data.date = {
-							from: $("#date_from").val(),
-							to: $("#date_to").val()
-						};
-					}
-
 					/*
 					if(tableSaved?.searchBuilder){
 						const searchBuilder = tableSaved.searchBuilder.getDetails();
@@ -580,6 +625,12 @@ Clientes
 					delete data.columns;
 					delete data.order;
 					delete data.search;
+
+					let filtersData = getFiltersData();
+					for(let idx in filtersData){
+						let value = filtersData[idx] ?? '';
+						if(value!="") data[idx] = value;
+					}					
 				},
 				"dataSrc": function ( json ) {
 					const data = json.data??{};
@@ -597,6 +648,7 @@ Clientes
 							element.email,
 							element.phone_number,
 							( ( element.company ) ? element.company.name??'':'' ),
+							element.state,
 							( ( element.company ) ? element.company.commercial_name??'':'' ),
 							( ( element.company ) ? element.company.id??'':'' ),
 							( ( element.company ) ? element.company.comercial_address??'':'' ),
@@ -677,7 +729,7 @@ Clientes
 
 	const columnDefs = [
 		{
-			targets: [0, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15],
+			targets: [0, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16],
 			visible: false,
 			class: "none"
 		},
@@ -709,38 +761,26 @@ Clientes
 	});
 
 	$("#applyfiltters").on('click', function (e) {
-		let filters = {};
-		if( $("#ruc").val() !== '' && $("#ruc").val() !== null ){
-			filters.ruc = $("#ruc").val();
-		}
-		if( $("#razon_social").val() !== '' && $("#razon_social").val() !== null){
-			filters.razon_social = $("#razon_social").val();
-		}
-		if( $("#name").val() !== '' && $("#name").val() !== null){
-			filters.name = $("#name").val();
-		}
-		if( $("#email").val() !== '' && $("#email").val() !== null){
-			filters.email = $("#email").val();
-		}
-		if( $("#date_from").val() !== '' || $("#date_to").val() !== ''){
-			filters.date = {
-				from: $("#date_from").val(),
-				to: $("#date_to").val()
-			};
-		}
+		let filters = getFiltersData();		
 		if(!$.isEmptyObject(filters)){
 			localStorage.setItem('filter_clientes', JSON.stringify(filters));
 		}
 		tableSaved.ajax.reload();
 	});
+	$("#filter_box :input[type='text']").on('keyup', function (e) {
+
+		if(e.keyCode == 13){
+			let filters = getFiltersData();		
+			if(!$.isEmptyObject(filters)){
+				localStorage.setItem('filter_clientes', JSON.stringify(filters));
+			}
+			tableSaved.ajax.reload();
+		}
+	});
 	$("#removefiltters").on('click', function (e) {
+		e.preventDefault();
 		localStorage.removeItem('filter_clientes');
-		$("#ruc").val('');
-		$("#razon_social").val('');
-		$("#name").val('');
-		$("#email").val('');
-		$("#date_from").val('');
-		$("#date_to").val('');
+		$("#filter_box :input").val('');
 		tableSaved.ajax.reload();
 	});
 
