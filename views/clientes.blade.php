@@ -153,10 +153,10 @@ Clientes
 							<label for="exampleInputEmail1">Fecha de creación</label>
 							<div class="form-row">
 								<div class="col-6">
-									<input type="date" class="form-control" id="date_from" placeholder="Desde">
+									<input type="text" class="form-control" id="date_from" placeholder="dd/mm/yyyy">
 								</div>
 								<div class="col-6">
-									<input type="date" class="form-control" id="date_to" placeholder="Hasta">
+									<input type="text" class="form-control" id="date_to" placeholder="dd/mm/yyyy">
 								</div>
 							</div>
 						</div>
@@ -217,6 +217,10 @@ Clientes
 <script src="public/plugins/LibDataTables/JSZip-3.10.1/jszip.min.js"></script>
 <script src="public/plugins/LibDataTables/Buttons-2.4.2/js/buttons.html5.min.js"></script>
 <script src="public/plugins/LibDataTables/Buttons-2.4.2/js/buttons.colVis.min.js"></script>
+<script>
+	setMask('#date_from', { mask: "99/99/9999", showMaskOnHover: false, placeholder: "dd/mm/yyyy", rightAlign:false });
+	setMask('#date_to', { mask: "99/99/9999", showMaskOnHover: false, placeholder: "dd/mm/yyyy", rightAlign:false });
+</script>
 <script>
     let tableSaved = null;
 	let dtDraw = 1;
