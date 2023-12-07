@@ -219,7 +219,7 @@ Avisos
 	let filters = [];
 	const headers = [
 			{ "title": "ID del listing", "code": "id" },
-			{ "title": "Estado", "code": "state" },
+			
 			{ "title": "Tipo de operación", "code": "listing_type" },
 			{ "title": "Tipo de inmueble", "code": "property_type" },
 			{ "title": "Precio", "code": "price" },
@@ -228,6 +228,7 @@ Avisos
 			{ "title": "Provincia", "code": "id" },
 			{ "title": "Ciudad", "code": "id" },
 			{ "title": "Pais", "code": "id" },
+			{ "title": "Estado", "code": "state" },
 			{ "title": "Fecha de creación", "code": "id" },
 			{ "title": "Fecha de publicación", "code": "id" },
 			{ "title": "Nombre del usuario", "code": "id" },
@@ -871,7 +872,7 @@ Avisos
 						});
 						object.data.push([
 							element.id,
-							(state[id_status]??[]).name??'',
+							
 							(listing_type[id_listing_type]??[]).name??'',
 							(property_type[id_property_type]??[]).name??'',
 							'$' + Number(element.price??'').toLocaleString("en"),
@@ -880,6 +881,7 @@ Avisos
 							( ( element.location ) ? element.location.province??'':'' ),
 							( ( element.location ) ? element.location.department??'':'' ),
 							( ( element.location ) ? element.location.country??'':'' ),
+							(state[id_status]??[]).name??'',
 							( ( element.created_at ) ? new Date(Date.parse(element.created_at)).toLocaleDateString("default", { 
 								year: "numeric",
 								month: "2-digit",
@@ -890,7 +892,7 @@ Avisos
 								month: "2-digit",
 								day: "2-digit",
 							}):'' ),
-							( ( element.user ) ? element.user.full_name??'':'' ),
+							( ( element.contacts ) ? element.contacts[0]?.name??'':'' ),
 							element.ad_plan??'',
 							( ( element.days_remain ) ? element.days_remain + ' días':'' ),
 							element.publisher_role??'',
@@ -986,7 +988,7 @@ Avisos
 	}
 	const columnDefs = [
 		{
-			targets: [0, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35],
+			targets: [7, 8, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35],
 			visible: false,
 			class: "none"
 		},
