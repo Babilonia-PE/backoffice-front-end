@@ -67,7 +67,29 @@
 	.box-details > div:first-child {
 		font-weight: 600;
 	}
-	
+	.badge:is(.published,.not_published,.unpublished,.expired,.deleted){
+		box-shadow: 2px 2px 17px 1px rgba(0, 0, 0, 0.2)
+	}
+	.badge.published{
+		background-color: #198754;
+		color: #ffffff;
+	}
+	.badge.not_published{
+		background-color: #ffffff;
+		color: #000000;
+	}
+	.badge.unpublished{
+		background-color: #ff8300;
+		color: #000000;
+	}
+	.badge.expired{
+		background-color: #dc3545;
+		color: #ffffff;
+	}
+	.badge.deleted{
+		background-color: #000000;
+		color: #ffffff;
+	}
     @media(max-width: 400px) {
 		.box-details{
 			flex-direction: column;
@@ -103,9 +125,10 @@ Avisos
                   			<label>Estado</label>
                   			<select class="form-control select2" id="state" style="width: 100%;">
 								<option selected disabled value="">Elige una opción</option>
-								<option value="visible">Visibles</option>
-								<option value="hidden">Ocultos</option>
-								<option value="deleted">Eliminados</option>
+								<option value="published">Publicado</option>
+								<option value="not_published">No publicado</option>
+								<option value="unpublished">Despublicado</option>
+								<option value="expired">Expirado</option>
 							</select>
                 		</div>
                 	</div>
@@ -115,7 +138,7 @@ Avisos
                   			<select class="form-control select2" id="listing_type" style="width: 100%;">
 								<option selected disabled value="">Elige una opción</option>
 								<option value="sale">Venta</option>
-								<option value="rent">Renta</option>
+								<option value="rent">Alquiler</option>
 							</select>
                 		</div>
                 	</div>
@@ -518,18 +541,22 @@ Avisos
 	];
 	window.state = [
 		{
-			"name": "Eliminado",
-			"code": "deleted"
+			"name": "Publicado",
+			"code": "published"
 		},
 		{
-			"name": "Visible",
-			"code": "visible"
+			"name": "No publicado",
+			"code": "not_published"
 		},
 		{
-			"name": "Oculto",
-			"code": "hidden"
+			"name": "Despublicado",
+			"code": "unpublished"
+		},
+		{
+			"name": "Expirado",
+			"code": "expired"
 		}
-	]
+	]	
 	window.listing_type = [
 		{
 			"name": "Venta",
@@ -862,7 +889,7 @@ Avisos
 					records.forEach((element, index) => {
 						const id_listing_type = listing_type.findIndex(x => x.code === element.listing_type??null);
 						const id_property_type = property_type.findIndex(x => x.code === element.property_type??null);
-						const id_status = state.findIndex(x => x.code === element.status??null);
+						const id_status = state.findIndex(x => x.code === element.state??null);
 						let facilities = [], advanced_details = [];
 						(element.facilities??[]).forEach(element => {
 							facilities.push(element.title_lang.es??'');
@@ -881,7 +908,7 @@ Avisos
 							( ( element.location ) ? element.location.province??'':'' ),
 							( ( element.location ) ? element.location.department??'':'' ),
 							( ( element.location ) ? element.location.country??'':'' ),
-							(state[id_status]??[]).name??'',
+							`<span class="badge text-bg-secondary ${(state[id_status]??[]).code??''}">${(state[id_status]??[]).name??''}</span>`,
 							( ( element.created_at ) ? new Date(Date.parse(element.created_at)).toLocaleDateString("default", { 
 								year: "numeric",
 								month: "2-digit",
@@ -931,8 +958,8 @@ Avisos
 								</button>
 								<div class="dropdown-menu">
 									<a class="dropdown-item details" data-index="${index}" role="button"><i class="fas fa-eye"></i>&nbsp;&nbsp;Ver</a>
-									<a class="dropdown-item" href="#"><i class="fas fa-edit"></i>&nbsp;&nbsp;Editar</a>
-									<a class="dropdown-item" href="#"><i class="fas fa-trash-alt"></i>&nbsp;&nbsp;Eliminar</a>
+									<!--- <a class="dropdown-item" href="#"><i class="fas fa-edit"></i>&nbsp;&nbsp;Editar</a> --->
+									<!--- <a class="dropdown-item" href="#"><i class="fas fa-trash-alt"></i>&nbsp;&nbsp;Eliminar</a> --->
 								</div>
 							</div>
 							`
