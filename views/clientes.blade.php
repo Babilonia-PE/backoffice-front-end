@@ -65,6 +65,22 @@
 		font-weight: 600;
 	}
 	
+	.badge.badge-1{
+		background-color: #198754;
+		color: #ffffff;
+	}
+	.badge.badge-3{
+		background-color: #ffffff;
+		color: #000000;
+	}
+	.badge.badge-2{
+		background-color: #dc3545;
+		color: #ffffff;
+	}
+	.badge.badge-5{
+		background-color: #000000;
+		color: #ffffff;
+	}
     @media(max-width: 400px) {
 		.box-details{
 			flex-direction: column;
@@ -225,6 +241,11 @@ Clientes
     let tableSaved = null;
 	let dtDraw = 1;
 	let filters = [];
+	let state = [];
+		state[1] = 'Activo';
+		state[2] = 'Bloqueado';
+		state[3] = 'Baneado';
+		state[5] = 'Eliminado';
 	
 	const headers = [
 			{ "title" : "ID del usuario" },
@@ -242,7 +263,7 @@ Clientes
 			{ "title": "Avisos" },
 			{ "title": "Proyectos" },
 			{ "title": "Estadísticas" },
-			{ "title": "resumen" },
+			{ "title": "URL" },
 			{ "title": "Fecha y hora de creación del perfil" },
 			{ "title": "Acciones" }
 		]
@@ -646,13 +667,14 @@ Clientes
 						"data": []
 					};
 					records.forEach((element, index) => {
+						let urlClient = `https://babilonia.io`+((element.url && element.url!=null)?element.url:'');
 						object.data.push([
 							element.id,
 							element.full_name,
 							element.email,
 							element.phone_number,
 							( ( element.company ) ? element.company.name??'':'' ),
-							element.state,
+							(`<span class="badge text-bg-secondary badge-${element.state}">${state[element.state]??''}</span>`),
 							( ( element.company ) ? element.company.commercial_name??'':'' ),
 							( ( element.company ) ? element.company.id??'':'' ),
 							( ( element.company ) ? element.company.comercial_address??'':'' ),
@@ -662,12 +684,9 @@ Clientes
 							( element.permissions??{} ).my_listings? 'SI':'NO',
 							( element.permissions??{} ).my_projects? 'SI':'NO',
 							( element.permissions??{} ).stadistics? 'SI':'NO',
-							( element.permissions??{} ).summary? 'SI':'NO',
-							new Date(Date.parse(element.created_at)).toLocaleDateString("default", { // you can use undefined as first argument
-								year: "numeric",
-								month: "2-digit",
-								day: "2-digit",
-							}),
+							//( element.permissions??{} ).summary? 'SI':'NO',
+							`<a href="${urlClient}" target="_blank">${urlClient}</a>`,
+							moment(element.created_at).format('DD/MM/YYYY h:mm a'),
 							`
 							<div class="dropdown">
 								<button class="btn btn-secondary btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="false">
@@ -675,8 +694,8 @@ Clientes
 								</button>
 								<div class="dropdown-menu">
 									<a class="dropdown-item details" data-index="${index}" role="button"><i class="fas fa-eye"></i>&nbsp;&nbsp;Ver</a>
-									<a class="dropdown-item" href="#"><i class="fas fa-edit"></i>&nbsp;&nbsp;Editar</a>
-									<a class="dropdown-item" href="#"><i class="fas fa-trash-alt"></i>&nbsp;&nbsp;Eliminar</a>
+									<!--- <a class="dropdown-item" href="#"><i class="fas fa-edit"></i>&nbsp;&nbsp;Editar</a> --->
+									<!--- <a class="dropdown-item" href="#"><i class="fas fa-trash-alt"></i>&nbsp;&nbsp;Eliminar</a> --->
 								</div>
 							</div>
 							`
