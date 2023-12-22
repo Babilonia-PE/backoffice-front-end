@@ -252,9 +252,9 @@ Clientes
 			{ "title": "Nombre Completo" },
 			{ "title": "Correo electronico" },
 			{ "title": "Teléfono" },
-			{ "title": "Razon social" },
-			{ "title": "Estado" },
 			{ "title": "Nombre comercial" },
+			{ "title": "Estado" },
+			{ "title": "Razon social" },
 			{ "title": "RUC" },
 			{ "title": "Dirección" },
 			{ "title": "Descripción" },
@@ -265,6 +265,7 @@ Clientes
 			{ "title": "Estadísticas" },
 			{ "title": "URL" },
 			{ "title": "Fecha y hora de creación del perfil" },
+			{ "title": "Metodo de authenticación" },
 			{ "title": "Acciones" }
 		]
     const lenguaje = {
@@ -673,9 +674,9 @@ Clientes
 							element.full_name,
 							element.email,
 							element.phone_number,
-							( ( element.company ) ? element.company.name??'':'' ),
-							(`<span class="badge text-bg-secondary badge-${element.state}">${state[element.state]??''}</span>`),
 							( ( element.company ) ? element.company.commercial_name??'':'' ),
+							(`<span class="badge text-bg-secondary badge-${element.state}">${state[element.state]??''}</span>`),
+							( ( element.company ) ? element.company.name??'':'' ),
 							( ( element.company ) ? element.company.id??'':'' ),
 							( ( element.company ) ? element.company.comercial_address??'':'' ),
 							( ( element.company ) ? element.company.commercial_description??'':'' ),
@@ -684,9 +685,9 @@ Clientes
 							( element.permissions??{} ).my_listings? 'SI':'NO',
 							( element.permissions??{} ).my_projects? 'SI':'NO',
 							( element.permissions??{} ).stadistics? 'SI':'NO',
-							//( element.permissions??{} ).summary? 'SI':'NO',
 							`<a href="${urlClient}" target="_blank">${urlClient}</a>`,
 							moment(element.created_at).format('DD/MM/YYYY h:mm a'),
+							( element.signin_method??"" ),
 							`
 							<div class="dropdown">
 								<button class="btn btn-secondary btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="false">
@@ -752,7 +753,7 @@ Clientes
 
 	const columnDefs = [
 		{
-			targets: [0, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16],
+			targets: [0, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17],
 			visible: false,
 			class: "none"
 		},
