@@ -2,18 +2,23 @@
 namespace App\Controllers;
 
 use App\Services\SesionService;
+use PragmaRX\Google2FA\Google2FA;
+use App\Controllers\AccountManager;
 
 class LoginController{
     
     public function index(){
 
+        //SesionService::destruir();
+        
         $data = [
             'title' => 'Página de inicio',
             'content' => '¡Hola desde el controlador!',
         ];
 
         // Renderizar la vista
-        echo view("login");        
+        echo view("login");
+        die();        
     }
 
     public function login(){
@@ -71,105 +76,50 @@ class LoginController{
             }
 
             $_dni = $info[$i]['employeeid'][0] ?? 0;
-            $_name = strtoupper($info[$i]['cn'][0]) ?? '';
-            $_email = strtoupper($info[$i]['mail'][0]) ?? '';
+            $_name = $info[$i]['cn'][0] ?? '';
+            $_email = $info[$i]['mail'][0] ?? '';
             $_username = $info[$i]['samaccountname'][0] ?? '';
-
-            $_SESSION['DNI'] = $_dni;
-            $_SESSION['NAME'] = $_name;
-            $_SESSION['EMAIL'] = $_email;
-            $_SESSION['USERNAME'] = $_username;
-
+            
+            $secret_key = AccountManager::verifySecondAuthSaved($_username);
+            
             $session_usuario = [
                 "dni" =>$_dni,
                 "name" =>$_name,
                 "email" =>$_email,
                 "username" =>$_username,
-                "role" => ""
+                "role" => "",
+                "approved" => false,
             ];
 
-            SesionService::escribir("correoUsuario", $session_usuario);
-            
-            redirect();
+            if($secret_key == ''){
+                
+                $session_usuario["approved"] = true;
+
+                SesionService::escribir("correoUsuario", $session_usuario);
+               
+                redirect("update-account-2fa");
+
+            }else{
+
+                SesionService::escribir("correoUsuario", $session_usuario);
+
+                redirect("verify-account");
+            }
         }
 
         @ldap_close($ldap);
 
-        
 
-        
-
-        /*
-        //!VALIDACION DE EMAIL SIN CONTRASEÑA
-        else if (isset($_POST['email']) AND $_POST['email'] != "") 
-        {
-            //! script desconocido
-            $key_environment = "dev";
-            $key_data = "internal";
-            #require '/var/www/resources/php/globalCredential.php';
-
-            $global_variable = "variable";
-            #require '/var/www/resources/php/globalVariable.php';
-
-            #require '/var/www/resources/php/f_encryptDecrypt.php';
-
-            $encrypted_email = htmlspecialchars(encrypt_decrypt('encrypt', $_POST['email']), ENT_QUOTES,'UTF-8');
-
-            $message = new stdClass();
-            $message->request = "reset";
-            $message->email = $encrypted_email;
-
-            $message = json_encode($message);
-            
-            $curl = curl_init();
-            curl_setopt_array($curl, array(
-                CURLOPT_URL => $url_services . "/me/backoffice",
-                CURLOPT_RETURNTRANSFER => true,
-                CURLOPT_POSTFIELDS => $message,
-                CURLOPT_CUSTOMREQUEST => "POST",
-                CURLOPT_HTTPHEADER => array(
-                    "Content-Type: application/json",
-                    "Authorization: " . $token_backoffice,
-                    "Accept-Language: " . $lang
-                ),
-            ));
-            $answer_ok = curl_exec($curl);
-            $answer_error = curl_error($curl);
-            curl_close($curl);
-
-            if ($answer_error) {
-                header("HTTP/1.1 400 Bad Request");
-        
-                $error = array (
-                    "data" => array (
-                        "errors" => array (array (
-                            "key" => "unknow",
-                            "message" => $answer_error,
-                            "payload" => array (
-                                "code" => "unknow",
-                            ),
-                            "type" => "custom",
-                        ))
-                    )
-                );
-                
-                echo json_encode($error, true);
-            }
-            else {
-                $answer_ok = json_decode($answer_ok);
-            }
-
-            echo 2;
-        }
-        */
-       
-        
        //script de logueo de usuario
+    }
+
+    public function verifyAccount(){
+
+        echo view("login-2fa");
     }
 
     public function logout(){
         SesionService::destruir();
-        session_destroy();
         redirect("login");
     }
 }
