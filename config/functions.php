@@ -85,50 +85,70 @@ function deteleFiltesAndDirectory($carpeta) {
     }
 }
 
-function menu(){
+function menu($currentPage){
         
     $menu = [];
+    $template = "";
 
-    $menu[0]["id"] = "alertas";
-    $menu[0]["url"] = "alertas";
-    $menu[0]["name"] = "Alertas";
-    $menu[0]["icon"] = "nav-icon fas fa-chart-pie";
+    $menu[0]["id"] = "";
+    $menu[0]["url"] = "configuracion";
+    $menu[0]["name"] = "Configuración";
+    $menu[0]["icon"] = "nav-icon fa fa-cog";
 
-    $menu[1]["id"] = "avisos";
-    $menu[1]["url"] = "avisos";
-    $menu[1]["name"] = "Avisos";
-    $menu[1]["icon"] = "nav-icon fas fa-chart-pie";
-
-    $menu[2]["id"] = "clientes";
-    $menu[2]["url"] = "clientes";
-    $menu[2]["name"] = "Clientes";
-    $menu[2]["icon"] = "nav-icon fas fa-users";
-
-    $menu[3]["id"] = "leads";
-    $menu[3]["url"] = "leads";
-    $menu[3]["name"] = "Leads";
-    $menu[3]["icon"] = "nav-icon fas fa-chart-pie";
-
+    $menu[0]["menu"] = [];
     
-    $menu[4]["id"] = "views";
-    $menu[4]["url"] = "vistas";
-    $menu[4]["name"] = "Views";
-    $menu[4]["icon"] = "nav-icon fas fa-chart-pie";
+    $menu[0]["menu"][0]["id"] = "ConfigurationMenuController";
+    $menu[0]["menu"][0]["url"] = "menu";
+    $menu[0]["menu"][0]["name"] = "Menú";
+    $menu[0]["menu"][0]["icon"] = "far fa-circle nav-icon";
+
+    $menudb = file_get_contents(URL_ROOT."db/menustore.json");
+    $menuStore = json_decode($menudb, true)??[];
+
+    $menu = array_merge($menu, $menuStore);
     
-    $menu[5]["id"] = "paquetes";
-    $menu[5]["url"] = "paquetes";
-    $menu[5]["name"] = "Paquetes";
-    $menu[5]["icon"] = "nav-icon fas fa-chart-pie";
-
-    $id = identifyCurrentPage($menu);
-
     foreach($menu as $key=>$item)
     {
-        $_id = $item["id"]??'';
-        
-        $menu[$key]["active"] = ($_id == $id) ? true : false;
+        $template.=menu_item($item, $currentPage);
     }
 
-    return $menu;
+    return $template;
+}
+function menu_item($array = [], $currentPage){
+
+    $_id = $array["id"] ?? '';
+    $_url = $array["url"] ?? '#';
+    $_name = $array["name"] ?? '';
+    $_icon = $array["icon"] ?? 'nav-icon fas fa-chart-pie';
+    $_menu = $array["menu"] ?? [];
+    $_active = ($_id ==  $currentPage) ? 'active':'';
+
+    $template = "<li class='nav-item'>
+                    <a href='$_url' class='nav-link $_active'>
+                        <i class='$_icon'></i>
+                        <p>$_name";
+                        $template .= (count($_menu)>0) ? '<i class="fas fa-angle-left right"></i>' : '';
+                        $template.="</p>
+                    </a>";
+                    if(count($_menu)>0)
+                    {
+                        $template.="<ul class='nav nav-treeview'>";
+                        foreach($_menu as $item)
+                        {
+                            $template.=menu_item($item, $currentPage);
+                        }
+                        $template.="</ul>";
+                    }
+    $template.="</li>";
+
+    return $template;
+}
+function get_current_view(){
+    $key = array_search(__FUNCTION__, array_column(debug_backtrace(), 'function'));
+    $controller = debug_backtrace()[2]["file"] ?? '';
+    $array = explode('/', $controller);
+    $file_name = $array[count($array) - 1] ?? '';
+    $file_name_without_ext = preg_replace('/\.\w+$/', '', $file_name);    
+    return $file_name_without_ext;
 }
 ?>

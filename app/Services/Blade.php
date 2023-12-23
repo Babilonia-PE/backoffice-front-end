@@ -25,10 +25,7 @@ class Blade extends Helpers{
     
         if($name != '') $blade->setAuth($name, $role);
         
-        $menu = menu();
-        $currentPage = identifyCurrentPage($menu);
-    
-        
+        $currentPage = get_current_view();
         $camelcase = static function($arg=""){ 
             return Helpers::camelcase($arg);
         };

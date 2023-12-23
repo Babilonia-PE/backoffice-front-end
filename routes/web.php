@@ -17,6 +17,7 @@ use App\Controllers\AccountController;
 use App\Controllers\AlertasController;
 use App\Controllers\ClientesController;
 use App\Controllers\PaquetesController;
+use App\Controllers\ConfigurationMenuController;
 use Phroute\Phroute\Exception\HttpRouteNotFoundException;
 use Phroute\Phroute\Exception\HttpMethodNotAllowedException;
 
@@ -38,6 +39,7 @@ $router
             $router
                 ->get("/", [HomeController::class, "index"])
                 
+                ->get("/menu", [ConfigurationMenuController::class, "index"])
                 ->get("/alertas", [AlertasController::class, "index"])
                 ->get("/avisos", [AvisosController::class, "index"])
                 ->get("/clientes", [ClientesController::class, "index"])
