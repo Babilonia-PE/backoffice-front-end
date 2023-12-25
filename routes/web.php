@@ -40,6 +40,8 @@ $router
                 ->get("/", [HomeController::class, "index"])
                 
                 ->get("/menu", [ConfigurationMenuController::class, "index"])
+                ->post("/menu", [ConfigurationMenuController::class, "post"])
+
                 ->get("/alertas", [AlertasController::class, "index"])
                 ->get("/avisos", [AvisosController::class, "index"])
                 ->get("/clientes", [ClientesController::class, "index"])

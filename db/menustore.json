@@ -1,0 +1,1 @@
+[{"icon":"nav-icon fa fa-cog","controller":"ConfigurationController","url":"configuracion","label":"Configuraci\u00f3n","id":0,"children":[{"icon":"far fa-circle nav-icon","controller":"ConfigurationMenuController","url":"menu","label":"Men\u00fa","id":0}]}]

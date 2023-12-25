@@ -28,3 +28,20 @@ window.setMask = (selector, mask) => {
     mask.showMaskOnHover = false;
     item.inputmask(mask);
 }
+const fetchData = async (url = "", data = {}, method = 'POST') => {    
+    const response = await fetch(url, {
+      method,
+      mode: "cors",
+      cache: "no-cache",
+      credentials: "same-origin",
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      redirect: "follow",
+      referrerPolicy: "no-referrer",
+      body: JSON.stringify(data),
+    });
+    const json = await response.json();
+    return json;
+}
