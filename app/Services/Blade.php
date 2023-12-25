@@ -11,7 +11,7 @@ class Blade extends Helpers{
         if($template == "") return "";
 
         $blade = new BladeOne(URL_VIEWS, URL_CACHE,BladeOne::MODE_DEBUG);
-        if(env("TESTING")) $blade->setIsCompiled(false); 
+        if(env("APP_TESTING")) $blade->setIsCompiled(false); 
         $blade->pipeEnable=true;
         $blade->setBaseUrl(URL_WEB);
     
@@ -25,10 +25,7 @@ class Blade extends Helpers{
     
         if($name != '') $blade->setAuth($name, $role);
         
-        $menu = menu();
-        $currentPage = identifyCurrentPage($menu);
-    
-        
+        $currentPage = get_current_view();
         $camelcase = static function($arg=""){ 
             return Helpers::camelcase($arg);
         };

@@ -33,7 +33,7 @@
 <script>
   window.currentPage = "{{ $currentPage }}";
 </script>
-@if($currentPage == "home")
+@if($currentPage == "HomeController")
 
 <script src="@asset("plugins/sparklines/sparkline.js")"></script>
 
@@ -61,11 +61,12 @@
 <script src="@asset("js/adminlte.js")"></script>
 <!-- AdminLTE for demo purposes -->
 <script src="@asset("js/demo.js")"></script>
-@if($currentPage == "home")
+@if($currentPage == "HomeController")
 <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
 <script src="@asset("js/pages/dashboard.js")"></script>
 @endif
-
+<script src="@asset("js/inputmask.min.js")"></script>
+<script src="@asset("js/app.js")"></script>
 @yield("scripts")
 
 </body>

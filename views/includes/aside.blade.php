@@ -26,17 +26,10 @@
           <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
                 
-          @foreach(menu() as $menu)
-          <li class="nav-item">
-            <a href="{{ $menu["url"]??'#' }}" class="nav-link {{ $menu["active"] ? 'active' : '' }}">
-              <i class="{{ $menu["icon"]??"nav-icon fas fa-chart-pie" }}"></i>
-              <p>
-                {{ $menu["name"]??'' }}
-              </p>
-            </a>
-          </li>
-          @endforeach
-          
+          @php
+          echo menu($currentPage)
+          @endphp
+
         </ul>
       </nav>
       <!-- /.sidebar-menu -->
