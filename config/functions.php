@@ -144,14 +144,16 @@ function menu_drag_sort(){
 
     $menu = array_merge($menu, $menuStore);
     
-    foreach($menu as $key=>$item)
-    {
         $template.= "<div class='dd' id='nestable'>";
             $template.= "<ol class='dd-list'>";
-                $template.=menu_item_drag_sort($key, $item);
+
+                foreach($menu as $key=>$item)
+                {
+                    $template.=menu_item_drag_sort($key, $item);
+                }
+
             $template.= "</ol>";
         $template.= "</div>";
-    }
 
     return $template;
 }
