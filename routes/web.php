@@ -39,6 +39,8 @@ $router
 
             $router
                 ->get("/", [HomeController::class, "index"])
+
+                ->get("/account-edit", [AccountController::class, "viewEditAccount"])
                 
                 ->get("/menu", [ConfigurationMenuController::class, "index"])
                 ->post("/menu", [ConfigurationMenuController::class, "post"])

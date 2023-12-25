@@ -105,5 +105,9 @@ class AccountController{
             ]);  
         }
     }
+
+    public function viewEditAccount(){
+        echo view("account");
+    }
 }
 ?>
