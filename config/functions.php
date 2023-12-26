@@ -164,7 +164,7 @@ function menu_item_drag_sort($key = 0, $array = []){
     $_name = $array["label"] ?? '';
     $_icon = $array["icon"] ?? 'nav-icon fas fa-chart-pie';
     $_menu = $array["children"] ?? [];
-    $_disabled = ($_controller == "ConfigurationMenuController" || $_controller == "ConfigurationController") ? true : false;
+    $_disabled = ($_controller == "configuracion" || $_controller == "configuracion-menu") ? true : false;
 
     $template = "<li class='dd-item dd3-item' data-id='$key' data-label='$_name' data-url='$_url' data-controller='$_controller' data-icon='$_icon' style='". ($_disabled ? "pointer-events: none;":"")."'>
                     <div class='dd-handle dd3-handle'>Drag</div>
@@ -176,7 +176,7 @@ function menu_item_drag_sort($key = 0, $array = []){
                     <div class='item-settings d-none'>
                         <p><label for=''>Navigation Label<br><input type='text' name='navigation_label' value='$_name'></label></p>
                         <p><label for=''>Navigation Url<br><input type='text' name='navigation_url' value='$_url'></label></p>
-                        <p><label for=''>Navigation Controller<br><input type='text' name='navigation_controller' value='$_controller'></label></p>
+                        <p><label for=''>Navigation ID<br><input type='text' name='navigation_controller' value='$_controller'></label></p>
                         <p><label for=''>Navigation Icono<br><input type='text' name='navigation_icon' value='$_icon'></label></p>
                         <p><a class='item-delete' href='javascript:;'>Remove</a> |
                         <a class='item-close' href='javascript:;'>Close</a></p>

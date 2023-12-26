@@ -35,7 +35,7 @@ Configuración
 				<form id="add-item" class="d-flex flex-row flex-wrap gap-1 w-100">
 					<input class="form-control flex-fill w-auto" type="text" name="name" placeholder="Name">
 					<input class="form-control flex-fill w-auto" type="text" name="url" placeholder="Url">
-					<input class="form-control flex-fill w-auto" type="text" name="controller" placeholder="Controller">
+					<input class="form-control flex-fill w-auto" type="text" name="controller" placeholder="Identificador">
 					<input class="form-control flex-fill w-auto" type="text" name="icon" placeholder="Icono" value="far fa-circle nav-icon">
 					<button class="btn btn-primary w-auto" type="submit">Añadir menu</button>
 				</form>
@@ -104,7 +104,7 @@ Configuración
 				'<div class="item-settings d-none">' +
 				'<p><label for="">Navigation Label<br><input type="text" name="navigation_label" value="' + label + '"></label></p>' +
 				'<p><label for="">Navigation Url<br><input type="text" name="navigation_url" value="' + url + '"></label></p>' +
-				'<p><label for="">Navigation Controller<br><input type="text" name="navigation_controller" value="' + controller + '"></label></p>' +
+				'<p><label for="">Navigation ID<br><input type="text" name="navigation_controller" value="' + controller + '"></label></p>' +
 				'<p><label for="">Navigation Icono<br><input type="text" name="navigation_icon" value="' + icon + '"></label></p>' +
 				'<p><a class="item-delete" href="javascript:;">Remove</a> |' +
 				'<a class="item-close" href="javascript:;">Close</a></p>' +
