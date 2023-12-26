@@ -18,6 +18,7 @@ use App\Controllers\AlertasController;
 use App\Controllers\ClientesController;
 use App\Controllers\PaquetesController;
 use App\Controllers\ReportesController;
+use App\Controllers\Configuration2faController;
 use App\Controllers\ConfigurationMenuController;
 use Phroute\Phroute\Exception\HttpRouteNotFoundException;
 use Phroute\Phroute\Exception\HttpMethodNotAllowedException;
@@ -44,6 +45,8 @@ $router
                 
                 ->get("/menu", [ConfigurationMenuController::class, "index"])
                 ->post("/menu", [ConfigurationMenuController::class, "post"])
+
+                ->get("/2fa", [Configuration2faController::class, "index"])
 
                 ->get("/alertas", [AlertasController::class, "index"])
                 ->get("/avisos", [AvisosController::class, "index"])

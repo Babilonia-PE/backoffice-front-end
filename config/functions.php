@@ -164,7 +164,7 @@ function menu_item_drag_sort($key = 0, $array = []){
     $_name = $array["label"] ?? '';
     $_icon = $array["icon"] ?? 'nav-icon fas fa-chart-pie';
     $_menu = $array["children"] ?? [];
-    $_disabled = ($_controller == "configuracion" || $_controller == "configuracion-menu") ? true : false;
+    $_disabled = false; #($_controller == "configuracion" || $_controller == "configuracion-menu") ? true : false;
 
     $template = "<li class='dd-item dd3-item' data-id='$key' data-label='$_name' data-url='$_url' data-controller='$_controller' data-icon='$_icon' style='". ($_disabled ? "pointer-events: none;":"")."'>
                     <div class='dd-handle dd3-handle'>Drag</div>
