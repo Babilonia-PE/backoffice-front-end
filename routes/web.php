@@ -30,6 +30,7 @@ $router->filter("no-logueado", [Authentication::class, "noauth"]);
 $router->filter("verified", [Authentication::class, "verified"]);
 $router->filter("VerifiedSaved", [Authentication::class, "VerifiedSaved"]);
 $router->filter("VerifiedNoSaved", [Authentication::class, "VerifiedNoSaved"]);
+$router->filter("verifyPrivileges", [Authentication::class, "verifyPrivileges"]);
 
 // vistas privadas
 $router
@@ -43,12 +44,12 @@ $router
 
                 ->get("/account-edit", [AccountController::class, "viewEditAccount"])
                 
-                ->get("/menu", [ConfigurationMenuController::class, "index"])
-                ->post("/menu", [ConfigurationMenuController::class, "post"])
+                ->get("/menu", [ConfigurationMenuController::class, "index"], ['before' => 'verifyPrivileges'])
+                ->post("/menu", [ConfigurationMenuController::class, "post"], ['before' => 'verifyPrivileges'])
 
-                ->get("/2fa", [Configuration2faController::class, "index"])
-                ->post("/2fa", [Configuration2faController::class, "post"])
-                ->delete("/2fa", [Configuration2faController::class, "delete"])
+                ->get("/2fa", [Configuration2faController::class, "index"], ['before' => 'verifyPrivileges'])
+                ->post("/2fa", [Configuration2faController::class, "post"], ['before' => 'verifyPrivileges'])
+                ->delete("/2fa", [Configuration2faController::class, "delete"], ['before' => 'verifyPrivileges'])
 
                 ->get("/alertas", [AlertasController::class, "index"])
                 ->get("/avisos", [AvisosController::class, "index"])

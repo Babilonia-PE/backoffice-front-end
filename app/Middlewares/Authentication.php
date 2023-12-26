@@ -60,5 +60,18 @@ class Authentication{
             return redirect();
         }
     }
+
+    public function verifyPrivileges(){
+        $users = env("APP_USERS_IDENTIFY");
+        $users = isset($users) && $users!=null ? explode(",", $users) : [];
+        
+        $userSession = SesionService::leer("correoUsuario");
+        $username = $userSession["username"] ?? '';
+        $validateUser = in_array($username, $users);
+
+        if(!$validateUser){
+            return redirect();
+        }
+    }
 }
 ?>
