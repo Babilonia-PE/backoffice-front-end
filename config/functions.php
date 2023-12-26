@@ -102,6 +102,15 @@ function menu($currentPage){
     $menu[0]["children"][0]["label"] = "Menú";
     $menu[0]["children"][0]["icon"] = "far fa-circle nav-icon";
     */
+
+    
+    $users = env("APP_USERS_IDENTIFY");
+    $users = isset($users) && $users!=null ? explode(",", $users) : [];
+    
+    $userSession = SesionService::leer("correoUsuario");
+    $username = $userSession["username"] ?? '';
+    $validateUser = in_array($username, $users);
+
     if(file_exists(URL_ROOT."db/menustore.json")){
         $menudb = file_get_contents(URL_ROOT."db/menustore.json");
     }else{
@@ -113,7 +122,14 @@ function menu($currentPage){
     
     foreach($menu as $key=>$item)
     {
-        $template.=menu_item($item, $currentPage);
+        $_controller = $item["controller"] ?? '';
+
+        if($_controller == "configuracion" && $validateUser){
+            $template.=menu_item($item, $currentPage);
+        }else if($_controller != "configuracion"){
+            $template.=menu_item($item, $currentPage);
+        }
+
     }
 
     return $template;
@@ -143,7 +159,7 @@ function menu_drag_sort(){
     $menuStore = json_decode($menudb, true)??[];
 
     $menu = array_merge($menu, $menuStore);
-    
+
         $template.= "<div class='dd' id='nestable'>";
             $template.= "<ol class='dd-list'>";
 
