@@ -2,14 +2,8 @@
 namespace App\Controllers;
 class Configuration2faController{
     public function __construct(){
-        $this->currentPage = "configuration-2fa";
-
-        if(file_exists(URL_ROOT."db/userstore.json")){
-            $store = file_get_contents(URL_ROOT."db/userstore.json");
-        }else{
-            $store = "[]";
-        }        
-        $this->data = json_decode($store, true)??[];
+        $this->currentPage = "configuration-2fa";                
+        $this->data = $this->getStore();
     }
     public function index(){        
         echo view("configuracion-2fa", [
@@ -68,6 +62,32 @@ class Configuration2faController{
         }else{
             file_put_contents($db, json_encode($data));
         }
+    }
+    public function getStore(){
+        if(file_exists(URL_ROOT."db/userstore.json")){
+            $store = file_get_contents(URL_ROOT."db/userstore.json");
+        }else{
+            $store = "[]";
+        }
+
+        return json_decode($store, true)??[];
+    }
+
+    public function findUser($username){
+        
+        $store = $this->getStore();
+        $response = null;
+        if(count($store) > 0){
+            foreach($store as $k => $item){
+                $_username = $item["username"] ?? '';
+                if($_username == $username){
+                    $response = $store[$k];
+                    continue;
+                }
+            }
+        }
+
+        return $response;
     }
 }
 ?>

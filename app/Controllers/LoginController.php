@@ -4,6 +4,7 @@ namespace App\Controllers;
 use App\Services\SesionService;
 use PragmaRX\Google2FA\Google2FA;
 use App\Controllers\AccountManager;
+use App\Controllers\Configuration2faController;
 
 class LoginController{
     
@@ -81,7 +82,12 @@ class LoginController{
             $_username = $info[$i]['samaccountname'][0] ?? '';
             
             $secret_key = AccountManager::verifySecondAuthSaved($_username);
-            
+
+            $new2faController = new Configuration2faController();
+
+            $usersStore = $new2faController->findUser($_username);
+            $usersfind = ($usersStore == null) ? false : true;
+            $usersAuthDisable = $usersfind && $usersStore["auth-disabled"] == true ? true : false;
             $session_usuario = [
                 "dni" =>$_dni,
                 "name" =>$_name,
@@ -91,19 +97,27 @@ class LoginController{
                 "approved" => false,
             ];
 
-            if($secret_key == ''){
-                
+            if($usersAuthDisable == true){
                 $session_usuario["approved"] = true;
 
                 SesionService::escribir("correoUsuario", $session_usuario);
-               
-                redirect("update-account-2fa");
 
+                redirect();
             }else{
+                if($secret_key == ''){
+                    
+                    $session_usuario["approved"] = true;
 
-                SesionService::escribir("correoUsuario", $session_usuario);
+                    SesionService::escribir("correoUsuario", $session_usuario);
+                
+                    redirect("update-account-2fa");
 
-                redirect("verify-account");
+                }else{
+
+                    SesionService::escribir("correoUsuario", $session_usuario);
+
+                    redirect("verify-account");
+                }
             }
         }
 
