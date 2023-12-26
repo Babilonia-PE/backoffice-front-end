@@ -47,6 +47,8 @@ $router
                 ->post("/menu", [ConfigurationMenuController::class, "post"])
 
                 ->get("/2fa", [Configuration2faController::class, "index"])
+                ->post("/2fa", [Configuration2faController::class, "post"])
+                ->delete("/2fa", [Configuration2faController::class, "delete"])
 
                 ->get("/alertas", [AlertasController::class, "index"])
                 ->get("/avisos", [AvisosController::class, "index"])

@@ -32,7 +32,44 @@ Administración de 2fa de usuarios
 			</div>
 			<div class="card-body">
 
-
+				<div class="card-body table-responsive">					
+					<table class="display table table-striped nowrap compact responsive" cellspacing="0" width="100%">
+						<thead>
+							<tr>
+								<th>Usuario</th>
+								<th width="150">Keypass</th>
+								<th width="100">Disable Auth</th>
+								<th width="100">acciones</th>
+							</tr>
+						</thead>
+						@foreach ($data as $item)
+							<tr>
+								<td>{{ $item["username"] ?? '' }}</td>
+								<td>{{ $item["secret"] ?? '' }}</td>
+								<td>
+									<form action="/2fa" method="POST">
+										<input type="hidden" name="username" value="{{ $item["username"] ?? '' }}">
+										<button class="badge btn btn-primary">@if(isset($item["auth-disabled"]) && $item["auth-disabled"] == true) Habilitar @else Deshabilitar @endif</button>
+									</form>
+								</td>
+								<td>
+									<div class="dropdown">
+										<button class="btn btn-secondary btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="false">
+											Acciones
+										</button>
+										<div class="dropdown-menu">
+											<form action="/2fa" method="POST">
+												<input name="_method" type="hidden" value="delete" />
+												<input type="hidden" name="username" value="{{ $item["username"] ?? '' }}">
+												<button class="dropdown-item" type="submit"><i class="fas fa-trash-alt"></i>&nbsp;&nbsp;Eliminar</button>
+											</form>
+										</div>
+									</div>
+								</td>
+							</tr>
+						@endforeach
+					</table>
+				</div>
 
 			</div>
 
@@ -53,4 +90,9 @@ Administración de 2fa de usuarios
 <script src="public/plugins/LibDataTables/Buttons-2.4.2/js/buttons.colVis.min.js"></script>
 <!-- Select2 -->
 <script src="public/plugins/select2/js/select2.full.min.js"></script>
+<script>
+	$(document).ready( function () {
+		$('.table').DataTable();
+	} );
+</script>
 @endsection
