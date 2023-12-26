@@ -4,7 +4,9 @@ namespace App\Controllers;
 class LeadsController{
 
     function index(){
-        echo view("leads");
+        echo view("leads", [
+            "currentPage" => "leads"
+         ]);
     }
 }
 ?>

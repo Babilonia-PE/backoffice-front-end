@@ -4,7 +4,9 @@ namespace App\Controllers;
 class ClientesController{
 
     function index(){
-        echo view("clientes");
+        echo view("clientes", [
+            "currentPage" => "clientes"
+         ]);
     }
 }
 ?>

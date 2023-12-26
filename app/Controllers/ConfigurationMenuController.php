@@ -3,6 +3,9 @@ namespace App\Controllers;
 
 class ConfigurationMenuController{
 
+    public function __construct(){
+        $this->currentPage = "configuracion-menu";
+    }
     public function index(){     
         
         if(file_exists(URL_ROOT."db/menustore.json")){
@@ -12,7 +15,9 @@ class ConfigurationMenuController{
         }        
         $menu = json_decode($menudb, true)??[];
         
-        echo view("configuracion-menu", $menu);
+        echo view("configuracion-menu", [
+            "currentPage" => $this->currentPage
+        ]);
     }
 
     public function post(){
@@ -31,7 +36,9 @@ class ConfigurationMenuController{
             file_put_contents($db, json_encode($post_menu));
         }
 
-        echo view("configuracion-menu", $post_menu);
+        echo view("configuracion-menu", [
+            "currentPage" => $this->currentPage
+        ]);
     }
 }
 ?>

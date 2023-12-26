@@ -24,14 +24,13 @@ class Blade extends Helpers{
         $role = $userSession["role"]??"";
     
         if($name != '') $blade->setAuth($name, $role);
-        
-        $currentPage = get_current_view();
+                
         $camelcase = static function($arg=""){ 
             return Helpers::camelcase($arg);
         };
     
         $blade->directive('camelcase', $camelcase);
-        $blade->share("currentPage", $currentPage);
+        $blade->share("currentPage", $parametros["currentPage"] ?? "");
     
         return $blade->run($template, $parametros);
     }

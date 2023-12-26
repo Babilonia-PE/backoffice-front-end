@@ -4,7 +4,9 @@ namespace App\Controllers;
 class ViewsController{
 
     function index(){
-        echo view("views");
+        echo view("views", [
+            "currentPage" => "views"
+         ]);
     }
 }
 ?>
