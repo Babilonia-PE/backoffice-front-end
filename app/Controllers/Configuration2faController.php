@@ -13,18 +13,34 @@ class Configuration2faController{
     }
     public function post(){
         
+        $type = trim($_POST["type"]??'');
         $username = trim($_POST["username"]??'');
         $data = $this->data ?? [];
 
-        foreach($data as $key => $item){
-            $_username = $item["username"] ?? '';
-            $_auth_disabled = $item["auth-disabled"] ?? false;
-            if($username == $_username){
-                $data[$key]["auth-disabled"] = $_auth_disabled ? false : true;
-            }
+        switch ($type) {
+            case 'delete':
+                foreach($data as $key => $item){
+                    $_username = $item["username"] ?? '';
+                    if($_username == $username){
+                        unset($data[$key]);
+                    }
+                }        
+                $this->saveStore($data);
+            break;
+            
+            default:
+                $data = $this->data ?? [];
+        
+                foreach($data as $key => $item){
+                    $_username = $item["username"] ?? '';
+                    $_auth_disabled = $item["auth-disabled"] ?? false;
+                    if($username == $_username){
+                        $data[$key]["auth-disabled"] = $_auth_disabled ? false : true;
+                    }
+                }        
+                $this->saveStore($data);
+            break;
         }
-
-        $this->saveStore($data);
 
         echo view("configuracion-2fa", [
             "currentPage" => $this->currentPage,
@@ -32,23 +48,7 @@ class Configuration2faController{
         ]);
     }
 
-    public function delete(){
-        $username = trim($_POST["username"]??'');
-        $data = $this->data ?? [];
-
-        foreach($data as $key => $item){
-            $_username = $item["username"] ?? '';
-            if($_username == $username){
-                unset($data[$key]);
-            }
-        }
-
-        $this->saveStore($data);
-
-        echo view("configuracion-2fa", [
-            "currentPage" => $this->currentPage,
-            "data" => $data
-        ]);
+    public function delete(){        
     }
 
     public function saveStore($data){
@@ -73,14 +73,13 @@ class Configuration2faController{
         return json_decode($store, true)??[];
     }
 
-    public function findUser($username){
-        
+    public function findUser($dni){
         $store = $this->getStore();
         $response = null;
         if(count($store) > 0){
             foreach($store as $k => $item){
-                $_username = $item["username"] ?? '';
-                if($_username == $username){
+                $_dni = $item["dni"] ?? '';
+                if($_dni == $dni){
                     $response = $store[$k];
                     continue;
                 }

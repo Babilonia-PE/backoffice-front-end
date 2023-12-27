@@ -59,7 +59,7 @@ Administración de 2fa de usuarios
 										</button>
 										<div class="dropdown-menu">
 											<form action="/2fa" method="POST">
-												<input name="_method" type="hidden" value="delete" />
+												<input type="hidden" name="type" value="delete" />
 												<input type="hidden" name="username" value="{{ $item["username"] ?? '' }}">
 												<button class="dropdown-item" type="submit"><i class="fas fa-trash-alt"></i>&nbsp;&nbsp;Eliminar</button>
 											</form>
