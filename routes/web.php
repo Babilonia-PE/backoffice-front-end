@@ -49,7 +49,6 @@ $router
 
                 ->get("/2fa", [Configuration2faController::class, "index"], ['before' => 'verifyPrivileges'])
                 ->post("/2fa", [Configuration2faController::class, "post"], ['before' => 'verifyPrivileges'])
-                ->delete("/2fa", [Configuration2faController::class, "delete"], ['before' => 'verifyPrivileges'])
 
                 ->get("/alertas", [AlertasController::class, "index"])
                 ->get("/avisos", [AvisosController::class, "index"])
