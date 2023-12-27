@@ -41,6 +41,7 @@ class AccountManager {
         self::init();
         $userSession = SesionService::leer("correoUsuario");
         $usernameSession = $userSession["username"]??'';
+        $dniSession = $userSession["dni"]??'';
 
         $db = URL_ROOT. "db/userstore.json";
         
@@ -61,6 +62,7 @@ class AccountManager {
         if(count($usuario) == 0){
             $usuario = [
                 "username" => $usernameSession,
+                "dni" => $dniSession,
                 "secret" => $get_secret
             ];
 
