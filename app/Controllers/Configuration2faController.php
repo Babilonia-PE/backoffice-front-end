@@ -72,21 +72,5 @@ class Configuration2faController{
 
         return json_decode($store, true)??[];
     }
-
-    public function findUser($dni){
-        $store = $this->getStore();
-        $response = null;
-        if(count($store) > 0){
-            foreach($store as $k => $item){
-                $_dni = $item["dni"] ?? '';
-                if($_dni == $dni){
-                    $response = $store[$k];
-                    continue;
-                }
-            }
-        }
-
-        return $response;
-    }
 }
 ?>

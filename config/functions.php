@@ -3,6 +3,7 @@ use App\Services\Blade;
 use App\Services\Helpers;
 use eftec\bladeone\BladeOne;
 use App\Services\SesionService;
+use App\Middlewares\Authentication;
 
 if (!file_exists(URL_LOGS)) {
     mkdir(URL_LOGS);
@@ -89,27 +90,8 @@ function menu($currentPage){
         
     $menu = [];
     $template = "";
-    /*
-    $menu[0]["controller"] = "";
-    $menu[0]["url"] = "configuracion";
-    $menu[0]["label"] = "Configuración";
-    $menu[0]["icon"] = "nav-icon fa fa-cog";
 
-    $menu[0]["children"] = [];
-    
-    $menu[0]["children"][0]["controller"] = "ConfigurationMenuController";
-    $menu[0]["children"][0]["url"] = "menu";
-    $menu[0]["children"][0]["label"] = "Menú";
-    $menu[0]["children"][0]["icon"] = "far fa-circle nav-icon";
-    */
-
-    
-    $users = env("APP_USERS_IDENTIFY");
-    $users = isset($users) && $users!=null ? explode(",", $users) : [];
-    
-    $userSession = SesionService::leer("correoUsuario");
-    $username = $userSession["username"] ?? '';
-    $validateUser = in_array($username, $users);
+    $validateUser = Authentication::findUserByDNI();
 
     if(file_exists(URL_ROOT."db/menustore.json")){
         $menudb = file_get_contents(URL_ROOT."db/menustore.json");
@@ -138,19 +120,7 @@ function menu_drag_sort(){
         
     $menu = [];
     $template = "";
-    /*
-    $menu[0]["controller"] = "";
-    $menu[0]["url"] = "configuracion";
-    $menu[0]["label"] = "Configuración";
-    $menu[0]["icon"] = "nav-icon fa fa-cog";
 
-    $menu[0]["children"] = [];
-    
-    $menu[0]["children"][0]["controller"] = "ConfigurationMenuController";
-    $menu[0]["children"][0]["url"] = "menu";
-    $menu[0]["children"][0]["label"] = "Menú";
-    $menu[0]["children"][0]["icon"] = "far fa-circle nav-icon";
-    */
     if(file_exists(URL_ROOT."db/menustore.json")){
         $menudb = file_get_contents(URL_ROOT."db/menustore.json");
     }else{

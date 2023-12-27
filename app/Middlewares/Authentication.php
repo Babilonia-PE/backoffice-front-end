@@ -4,6 +4,7 @@ namespace App\Middlewares;
 use App\Services\Helpers;
 use App\Services\SesionService;
 use App\Controllers\AccountManager;
+use App\Controllers\Configuration2faController;
 
 
 class Authentication{
@@ -62,16 +63,36 @@ class Authentication{
     }
 
     public function verifyPrivileges(){
+        $validateUser = $this->findUserByDNI();
+        if(!$validateUser) return redirect();
+    }
+
+    public static function findUserByDNI(){
         $users = env("APP_USERS_IDENTIFY");
         $users = isset($users) && $users!=null ? explode(",", $users) : [];
         
         $userSession = SesionService::leer("correoUsuario");
-        $username = $userSession["username"] ?? '';
-        $validateUser = in_array($username, $users);
+        $dni = $userSession["dni"] ?? '';
+        $validateUser = in_array($dni, $users);
+        return $validateUser;
+    }
 
-        if(!$validateUser){
-            return redirect();
+    public static function getUserByDNI($dni){
+
+        $new2fa = new Configuration2faController();
+        $store = $new2fa->getStore();
+        $response = null;
+        if(count($store) > 0){
+            foreach($store as $k => $item){
+                $_dni = $item["dni"] ?? '';
+                if($_dni == $dni){
+                    $response = $store[$k];
+                    continue;
+                }
+            }
         }
+
+        return $response;
     }
 }
 ?>

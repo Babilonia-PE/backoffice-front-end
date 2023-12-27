@@ -4,6 +4,7 @@ namespace App\Controllers;
 use App\Services\SesionService;
 use PragmaRX\Google2FA\Google2FA;
 use App\Controllers\AccountManager;
+use App\Middlewares\Authentication;
 use App\Controllers\Configuration2faController;
 
 class LoginController{
@@ -83,9 +84,7 @@ class LoginController{
             
             $secret_key = AccountManager::verifySecondAuthSaved($_username);
 
-            $new2faController = new Configuration2faController();
-
-            $usersStore = $new2faController->findUser($_username);
+            $usersStore = Authentication::getUserByDNI($_dni);
             $usersfind = ($usersStore == null) ? false : true;
             $usersAuthDisable = $usersfind && $usersStore["auth-disabled"] == true ? true : false;
             $session_usuario = [
