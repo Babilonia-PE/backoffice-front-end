@@ -22,7 +22,7 @@ define("TESTING", $_SERVER["TESTING"]??false);
 define("NOMBRE_APLICACION", "");
 define("AUTOR", "");
 
-if(!is_dir(URL_CACHE)){ mkdir(URL_CACHE, 0777, true);   } 
+if(!is_dir(URL_CACHE)){ mkdir(URL_CACHE, 0777, true);   }
 
 if(!is_dir(URL_LOGS. "errors")){ mkdir(URL_LOGS."errors", 0777, true); }
 
