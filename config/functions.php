@@ -195,7 +195,7 @@ function menu_item($array = [], $currentPage = ""){
                     <a href='$_url' class='nav-link $_active'>
                         <i class='$_icon'></i>
                         <p>$_name";
-                        $template .= (count($_menu)>0) ? '<i class="fas fa-angle-left right"></i>' : '';
+                        $template .= (count($_menu)>0) ? '<i class="fas fa-angle-right right"></i>' : '';
                         $template.="</p>
                     </a>";
                     if(count($_menu)>0)
