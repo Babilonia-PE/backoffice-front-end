@@ -685,7 +685,7 @@ Clientes
 							( element.permissions??{} ).my_listings? 'SI':'NO',
 							( element.permissions??{} ).my_projects? 'SI':'NO',
 							( element.permissions??{} ).stadistics? 'SI':'NO',
-							`<a href="${urlClient}" target="_blank">${urlClient}</a>`,
+							( element.url && element.url!=null) ? `<a href="${urlClient}" target="_blank">${urlClient}</a>` : '',
 							moment(element.created_at).format('DD/MM/YYYY h:mm a'),
 							( element.sign_method??"" ),
 							`
