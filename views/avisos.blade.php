@@ -240,6 +240,10 @@ Avisos
     let tableSaved = null;
 	let dtDraw = 1;
 	let filters = [];
+	const roles = {
+		"realtor" : "Agente",
+		"owner" : "Propietario"
+	};
 	const headers = [
 			{ "title": "ID del listing", "code": "id" },
 			
@@ -922,7 +926,7 @@ Avisos
 							( ( element.contacts ) ? element.contacts[0]?.name??'':'' ),
 							element.ad_plan??'',
 							( ( element.days_remain ) ? element.days_remain + ' días':'' ),
-							element.publisher_role??'',
+							element.publisher_role?(roles[element.publisher_role]??''):'',
 							element.bedrooms_count??'',
 							element.bathrooms_count??'',
 							( ( element.area ) ? Number(element.area).toLocaleString("en") + ' m²':'' ),
