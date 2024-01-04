@@ -237,6 +237,7 @@ Avisos
 <!-- Select2 -->
 <script src="public/plugins/select2/js/select2.full.min.js"></script>
 <script>
+	let globalRecords = [];
     let tableSaved = null;
 	let dtDraw = 1;
 	let filters = [];
@@ -869,7 +870,7 @@ Avisos
 						});
 						//data.criterios = criterios;
 					}*/
-					console.log(data);
+
 					delete data.searchPanes;
 					delete data.searchPanesLast;
 					delete data.searchPanes_null;
@@ -884,6 +885,7 @@ Avisos
 				"dataSrc": function ( json ) {
 					const data = json.data??{};
 					const records = data.records??[];
+					globalRecords=records;
 					let object = {
 						"draw": 1,
 						"recordsTotal": data.listings_count,
@@ -1148,7 +1150,9 @@ Avisos
 		index, array) => {
 			// if (index + 1 === array.length){ return; }
 			if (index === 0){
-				$("#rowDetails .modal-title").html("Detalles para " + element);
+				let rowInfo = globalRecords.filter((item)=> item.id == element);
+				let url_external = "https://babilonia.io" + rowInfo[0].url_external ?? '';
+				$("#rowDetails .modal-title").html(`Detalles para <a target="_blank" href="${url_external}">${element}</a>`);
 			}
 			$("#rowDetails .modal-body").append(`
 				<div class="box-details">
