@@ -687,7 +687,7 @@ Clientes
 							( element.permissions??{} ).stadistics? 'SI':'NO',
 							`<a href="${urlClient}" target="_blank">${urlClient}</a>`,
 							moment(element.created_at).format('DD/MM/YYYY h:mm a'),
-							( element.signin_method??"" ),
+							( element.sign_method??"" ),
 							`
 							<div class="dropdown">
 								<button class="btn btn-secondary btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="false">
