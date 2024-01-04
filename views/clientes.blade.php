@@ -672,7 +672,7 @@ Clientes
 						object.data.push([
 							element.id,
 							element.full_name,
-							element.email,
+							(element.email) ? `<a class="text-danger-emphasis text-dark" type="button" data-copy="inner" data-value="${element.email}">${element.email}</a>`:'',
 							element.phone_number,
 							( ( element.company ) ? element.company.commercial_name??'':'' ),
 							(`<span class="badge text-bg-secondary badge-${element.state}">${state[element.state]??''}</span>`),
@@ -714,6 +714,7 @@ Clientes
 			"initComplete": function(settings, json) {
 				$( 'p[name=\'loading\']' ).remove();
 				$(this).removeClass( 'd-none' );
+				copyToClipboard();
 			},
 			//fixedHeader: true,
 			search: {
@@ -782,6 +783,7 @@ Clientes
 		});
 		
 		$("#rowDetails").modal('show');
+		copyToClipboard();
 	});
 
 	$("#applyfiltters").on('click', function (e) {
@@ -808,6 +810,9 @@ Clientes
 		tableSaved.ajax.reload();
 	});
 
+	$(document).ready(function(){
+		copyToClipboard();
+	});
 	/*
     async function myAjax(param) {
         let result

@@ -45,3 +45,33 @@ const fetchData = async (url = "", data = {}, method = 'POST') => {
     const json = await response.json();
     return json;
 }
+const copyToClipboard = ()=>{
+
+    $("[data-copy]").unbind("click");
+    
+    $("[data-copy]").on('click', async function(e){
+        try {
+            await navigator.clipboard.writeText(this.getAttribute("data-value"));
+            
+            
+            const tooltip = new bootstrap.Tooltip(e.target, {
+                boundary: document.body,
+                title:'Texto copiado!',
+                trigger:'click'
+            });
+            
+            tooltip.show();
+            
+            setTimeout(() => {                
+                tooltip.hide();
+
+                setTimeout(() => {
+                    tooltip.dispose();
+                }, 500);
+
+            }, 1000);
+
+          } catch (err) {
+          }
+    })    
+  }
