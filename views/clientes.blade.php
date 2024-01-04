@@ -102,10 +102,10 @@ Clientes
 <div class="row">
 	<div class="col-12">
         <div id="filter_box" class="card collapsed-card">
-			<div class="card-header">
+			<div class="card-header" role="button" data-card-widget="collapse">
                 <h5 class="card-title">Filtros de búsqueda</h5>
                 <div class="card-tools">
-                  	<button type="button" class="btn btn-tool" data-card-widget="collapse">
+                  	<button type="button" class="btn btn-tool">
                     	<i id="icon_filter_box" class="fas fa-plus"></i>
                   	</button>
                 </div>

@@ -31,3 +31,7 @@
   -webkit-transform: rotate(90deg) !important;
   transform: rotate(90deg) !important;
 }
+
+#filter_box.card:not(.collapsed-card) .card-header #icon_filter_box:before{
+  content: "\f068" !important;
+}
