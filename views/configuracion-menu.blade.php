@@ -37,6 +37,10 @@ Configuración
 					<input class="form-control flex-fill w-auto" type="text" name="url" placeholder="Url">
 					<input class="form-control flex-fill w-auto" type="text" name="controller" placeholder="Identificador">
 					<input class="form-control flex-fill w-auto" type="text" name="icon" placeholder="Icono" value="far fa-circle nav-icon">
+					<select class="form-control flex-fill w-auto" name="state">
+						<option value="1">Visible</option>
+						<option value="0">Invisible</option>
+					</select>
 					<button class="btn btn-primary w-auto" type="submit">Añadir menu</button>
 				</form>
 			
@@ -94,9 +98,10 @@ Configuración
 			let url = $("#add-item > [name='url']").val();
 			let controller = $("#add-item > [name='controller']").val();
 			let icon = $("#add-item > [name='icon']").val();
+			let state = $("#add-item > [name='state']").val();
 			if ((url == "") || (label == "") || (controller == "")) return;
 			let item =
-				'<li class="dd-item dd3-item" data-id="' + id + '" data-label="' + label + '" data-url="' + url + '" data-controller="' + controller + '" data-icon="'+ icon +'">' +
+				'<li class="dd-item dd3-item" data-id="' + id + '" data-label="' + label + '" data-url="' + url + '" data-controller="' + controller + '" data-icon="'+ icon +'" data-state="'+ state +'">' +
 				'<div class="dd-handle dd3-handle" > Drag</div>' +
 				'<div class="dd3-content"><span>' + label + '</span>' +
 				'<div class="item-edit">Edit</div>' +
@@ -106,6 +111,12 @@ Configuración
 				'<p><label for="">Navigation Url<br><input type="text" name="navigation_url" value="' + url + '"></label></p>' +
 				'<p><label for="">Navigation ID<br><input type="text" name="navigation_controller" value="' + controller + '"></label></p>' +
 				'<p><label for="">Navigation Icono<br><input type="text" name="navigation_icon" value="' + icon + '"></label></p>' +
+				`<p><label for="">Navigation Estado<br>
+					<select name="navigation_state">
+						<option value="on" ${state=="on"?'selected':''}>Visible</option>
+						<option value="off" ${state=="off"?'selected':''}>Invisble</option>
+					</select>	
+				</p>` +
 				'<p><a class="item-delete" href="javascript:;">Remove</a> |' +
 				'<a class="item-close" href="javascript:;">Close</a></p>' +
 				'</div>' +
@@ -116,6 +127,7 @@ Configuración
 			$("#add-item > [name='name']").val('');
 			$("#add-item > [name='url']").val('');
 			$("#add-item > [name='controller']").val('');
+			$("#add-item > [name='state']").val('');
 			updateOutput();
 		});
 
@@ -150,6 +162,10 @@ Configuración
 		$("body").delegate("input[name='navigation_icon']", "change paste keyup", function (e) {
 			$(this).closest(".dd-item").data("icon", $(this).val());
 		});
+
+		$("[name='navigation_state']").on('change', function (e) {
+			$(this).closest(".dd-item").data("state", $(this).val());
+		})
 
 	});
 </script>
