@@ -249,7 +249,7 @@ Avisos
 			{ "title": "Direccion", "code": "id" },
 			{ "title": "Distrito", "code": "id" },
 			{ "title": "Provincia", "code": "id" },
-			{ "title": "Ciudad", "code": "id" },
+			{ "title": "Departamento", "code": "id" },
 			{ "title": "Pais", "code": "id" },
 			{ "title": "Estado", "code": "state" },
 			{ "title": "Fecha de creación", "code": "id" },
@@ -937,7 +937,7 @@ Avisos
 							advanced_details.join(', '),
 							element.description??'',
 							element.images.length??'',
-							element.videos.length === 0 ? 'Si' : 'No',
+							element.videos.length === 0 ? 'No' : (element.videos[0].content ? `<a href="${element.videos[0].content}" target="_blank">${element.videos[0].content}</a>` : 'No existe la url'),
 							element.views_count??'',
 							element.favourites_count??'',
 							element.contacts_count??'',
@@ -1094,16 +1094,61 @@ Avisos
 	tableSaved.on('click', '.details', function (e) {
 		e.preventDefault();
 		const target = $(this).attr('data-index');
-		const data = tableSaved.rows( target ).data()[0];
+		let data = tableSaved.rows( target ).data()[0];
 		$("#rowDetails .modal-body").html("");
-		data.forEach((element, index, array) => {
-			if (index + 1 === array.length){ return; }
+
+		//cambiar orden de columnas en modal detalle
+		const index = [
+		0, 	//ID del listing
+		9, 	//Estado
+		10, //Fecha de creación
+		11, //Fecha de publicación
+		34, //Fecha de actualización
+		35, //Fecha de expiración
+		1,  //Tipo de operación
+		2,  //Tipo de inmueble
+		3, 	//Precio
+		4, 	//Direccion
+		5, 	//Distrito
+		6, 	//Provincia
+		7, 	//Departamento
+		8, 	//Pais
+		12, //Nombre del usuario
+		13, //Categoria
+		14, //Duración
+		15, //Rol
+		31, //Numero de vistas
+		32, //Número de favoritos
+		33, //Numero de contactos
+		16, //Cuartos
+		17, //Baños
+		18, //Area total
+		19, //Área techada
+		20, //Estacionamientos
+		21, //Estacionamiento para visitas
+		22, //Año de construcción
+		23, //Número de pisos
+		24, //Piso del inmueble
+		25, //Pet friendly
+		26, //Comodidades
+		27, //Adicionales
+		28, //Descripción
+		29, //Numero de fotos
+		30	//Video
+	];
+
+		data = index.map(i => data[i]);
+		let newheader = index.map(i => headers[i]);
+		
+		data.forEach((element, 
+		index, array) => {
+			// if (index + 1 === array.length){ return; }
 			if (index === 0){
 				$("#rowDetails .modal-title").html("Detalles para " + element);
 			}
 			$("#rowDetails .modal-body").append(`
 				<div class="box-details">
-					<div>${headers[index].title}</div>
+					<div>${newheader[index]?.title??''}</div>
 					<div>${element}</div>
 				</div>
 			`);
