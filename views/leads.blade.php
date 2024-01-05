@@ -781,7 +781,7 @@ Leads
 						
 						object.data.push([
 							element.id,
-							'',
+							element.listing_id,
 							element.key,
 							element.user_id,
 							element.full_name,
