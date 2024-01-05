@@ -30,10 +30,7 @@ window.setMask = (selector, mask) => {
     mask.showMaskOnHover = false;
     item.inputmask(mask);
 }
-/*
-const fetchData = async (url = "", data = null, method = 'POST') => {   
-    return axios({ method, url, data});
-}*/
+
 const fetchData = async (url = "", data = null, method = 'POST') => {   
     const serviceHttp = await axios.create({
                             baseURL: baseUrlSerivice,
@@ -82,4 +79,4 @@ const copyToClipboard = ()=>{
           } catch (err) {
           }
     })    
-  }
+}
