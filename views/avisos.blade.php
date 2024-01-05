@@ -1096,7 +1096,7 @@ Avisos
 			// if (index + 1 === array.length){ return; }
 			if (index === 0){
 				let rowInfo = globalRecords.filter((item)=> item.id == element);
-				let url_external = "https://babilonia.io" + rowInfo[0].url_external ?? '';
+				let url_external = URL_WEB_FRONT + rowInfo[0].url_external ?? '';
 				$("#rowDetails .modal-title").html(`Detalles para <a target="_blank" href="${url_external}">${element}</a>`);
 			}
 			$("#rowDetails .modal-body").append(`

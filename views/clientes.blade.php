@@ -676,7 +676,7 @@ Clientes
 						"data": []
 					};
 					records.forEach((element, index) => {
-						let urlClient = `https://babilonia.io`+((element.url && element.url!=null)?element.url:'');
+						let urlClient = URL_WEB_FRONT + ((element.url && element.url!=null)?element.url:'');
 						object.data.push([
 							element.id,
 							element.full_name,
