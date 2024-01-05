@@ -157,7 +157,7 @@ Avisos
                 	</div>
 					<div class="col-md-4">
 						<div class="form-group">
-							<label for="exampleInputEmail1">Precio</label>
+							<label for="exampleInputEmail1">Precio (Desde - Hasta)</label>
 							<div class="form-row">
 								<div class="col-6">
 									<input type="text" class="form-control" id="price_from" placeholder="desde">
@@ -170,7 +170,7 @@ Avisos
 					</div>
 					<div class="col-md-4">
 						<div class="form-group">
-							<label for="exampleInputEmail1">Fecha de publicación</label>
+							<label for="exampleInputEmail1">Fecha de publicación (Desde - Hasta)</label>
 							<div class="form-row">
 								<div class="col-6">
 									<input type="text" class="form-control" id="date_from" placeholder="dd/mm/yyyy">

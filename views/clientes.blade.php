@@ -166,7 +166,7 @@ Clientes
                 	</div>
 					<div class="col-md-4">
 						<div class="form-group">
-							<label for="exampleInputEmail1">Fecha de creación</label>
+							<label for="exampleInputEmail1">Fecha de creación (Desde - Hasta)</label>
 							<div class="form-row">
 								<div class="col-6">
 									<input type="text" class="form-control" id="date_from" placeholder="dd/mm/yyyy">
@@ -253,6 +253,7 @@ Clientes
 			{ "title": "Correo electronico" },
 			{ "title": "Teléfono" },
 			{ "title": "Nombre comercial" },
+			{ "title": "Fecha y hora de creación" },
 			{ "title": "Estado" },
 			{ "title": "Razon social" },
 			{ "title": "RUC" },
@@ -263,8 +264,7 @@ Clientes
 			{ "title": "Avisos" },
 			{ "title": "Proyectos" },
 			{ "title": "Estadísticas" },
-			{ "title": "URL" },
-			{ "title": "Fecha y hora de creación del perfil" },
+			{ "title": "URL" },			
 			{ "title": "Metodo de authenticación" },
 			{ "title": "Acciones" }
 		]
@@ -683,6 +683,7 @@ Clientes
 							(element.email) ? `<a class="text-danger-emphasis text-dark" type="button" data-copy="inner" data-value="${element.email}">${element.email}</a>`:'',
 							element.phone_number,
 							( ( element.company ) ? element.company.commercial_name??'':'' ),
+							moment(element.created_at).format('DD/MM/YYYY h:mm a'),
 							(`<span class="badge text-bg-secondary badge-${element.state}">${state[element.state]??''}</span>`),
 							( ( element.company ) ? element.company.name??'':'' ),
 							( ( element.company ) ? element.company.id??'':'' ),
@@ -693,8 +694,7 @@ Clientes
 							( element.permissions??{} ).my_listings? 'SI':'NO',
 							( element.permissions??{} ).my_projects? 'SI':'NO',
 							( element.permissions??{} ).stadistics? 'SI':'NO',
-							( element.url && element.url!=null) ? `<a href="${urlClient}" target="_blank">${urlClient}</a>` : '',
-							moment(element.created_at).format('DD/MM/YYYY h:mm a'),
+							( element.url && element.url!=null) ? `<a href="${urlClient}" target="_blank">${urlClient}</a>` : '',							
 							( element.sign_method??"" ),
 							`
 							<div class="dropdown">
@@ -762,7 +762,7 @@ Clientes
 
 	const columnDefs = [
 		{
-			targets: [0, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17],
+			targets: [0, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17],
 			visible: false,
 			class: "none"
 		},
