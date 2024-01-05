@@ -123,7 +123,7 @@ Leads
               		<div class="col-md-4">
                 		<div class="form-group">
                   			<label>Listing ID</label>
-                            <input type="text" name="id" id="id" class="form-control w-100" placeholder="ID de lead">                  			
+                            <input type="text" name="id" id="id" class="form-control w-100" placeholder="Listing ID">                  			
                 		</div>
                 	</div>
               		<div class="col-md-4">
