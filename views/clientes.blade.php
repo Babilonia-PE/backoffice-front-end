@@ -528,7 +528,8 @@ Clientes
 		}
 	];
 	//OBTENER DATOS DE FILTROS
-	const getFiltersData = () => {
+	const getFiltersData = (params = {}) => {
+		const { format_from="DD/MM/YYYY", format_to="YYYY-MM-DD" } = params;
 		const data = {};
 
 		if( $("#client_id").val() !== '' && $("#client_id").val() !== null ){
@@ -555,9 +556,13 @@ Clientes
 		if( $("#state").val() !== '' && $("#state").val() !== null){
 			data.state = $("#state").val();
 		}
-		if( $("#date_from").val() !== '' || $("#date_to").val() !== ''){
-			data.date_from = $("#date_from").val();
-			data.date_to = $("#date_to").val();
+		if( $("#date_from").val() !== ''){
+			let fecha_from = $("#date_from").val();
+			data.created_start = moment(fecha_from, format_from).format(format_to);
+		}		
+		if( $("#date_to").val() !== ''){
+			let fecha_to = $("#date_to").val();
+			data.created_end = moment(fecha_to, format_from).format(format_to);
 		}
 
 		return data;
@@ -570,8 +575,8 @@ Clientes
 			$("#razon_social").val(filter_clientes.razon_social??'');
 			$("#name").val(filter_clientes.name??'');
 			$("#email").val(filter_clientes.email??'');
-			$("#date_from").val(filter_clientes.date?.from??'');
-			$("#date_to").val(filter_clientes.date?.to??'');
+			$("#date_from").val(filter_clientes.created_start?(moment(filter_clientes.created_start, 'YYYY-MM-DD').format('DD/MM/YYYY')):'');
+			$("#date_to").val(filter_clientes.created_end?(moment(filter_clientes.created_end, 'YYYY-MM-DD').format('DD/MM/YYYY')):'');
 			$("#filter_box").removeClass("collapsed-card");
 			$("#icon_filter_box").addClass("fa-minus").removeClass("fa-plus");
 		}
@@ -652,7 +657,10 @@ Clientes
 					delete data.order;
 					delete data.search;
 
-					let filtersData = getFiltersData();
+					let filtersData = getFiltersData({
+						format_from : 'DD/MM/YYYY',
+						format_to : 'YYYY-MM-DD'
+					});
 					for(let idx in filtersData){
 						let value = filtersData[idx] ?? '';
 						if(value!="") data[idx] = value;
@@ -787,7 +795,11 @@ Clientes
 	});
 
 	$("#applyfiltters").on('click', function (e) {
-		let filters = getFiltersData();		
+		let filters = getFiltersData({
+			format_from : 'DD/MM/YYYY',
+			format_to : 'YYYY-MM-DD'
+		});
+
 		if(!$.isEmptyObject(filters)){
 			localStorage.setItem('filter_clientes', JSON.stringify(filters));
 		}
@@ -796,7 +808,11 @@ Clientes
 	$("#filter_box :input[type='text']").on('keyup', function (e) {
 
 		if(e.keyCode == 13){
-			let filters = getFiltersData();		
+			let filters = getFiltersData({
+				format_from : 'DD/MM/YYYY',
+				format_to : 'YYYY-MM-DD'
+			});
+
 			if(!$.isEmptyObject(filters)){
 				localStorage.setItem('filter_clientes', JSON.stringify(filters));
 			}
