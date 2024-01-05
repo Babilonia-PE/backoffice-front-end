@@ -589,15 +589,12 @@ Leads
 	]
 	//POBLAR FILTROS
 	jQuery.fn.populatefilters=function(){
-		if (localStorage.getItem('filter_avisos') !== null) {
-			const filter_avisos = JSON.parse(localStorage.getItem('filter_avisos'));
-			$("#state").val(filter_avisos.state??'');
-			$("#listing_type").val(filter_avisos.listing_type??'');
-			$("#property_type").val(filter_avisos.property_type??'');
-			$("#price_from").val(filter_avisos.price?.from??'');
-			$("#price_to").val(filter_avisos.price?.to??'');
-			$("#date_from").val(filter_avisos.date?.from??'');
-			$("#date_to").val(filter_avisos.date?.to??'');
+		if (localStorage.getItem('filter_leads') !== null) {
+			const filter_leads = JSON.parse(localStorage.getItem('filter_leads'));
+			$("#id").val(filter_leads.listing_id??'');
+			$("#user_id").val(filter_leads.user_id??'');
+			$("#created_start").val(filter_leads.created_start??'');
+			$("#created_end").val(filter_leads.created_end??'');
 			$("#filter_box").removeClass("collapsed-card");
 			$("#icon_filter_box").addClass("fa-minus").removeClass("fa-plus");
 		}
@@ -725,26 +722,17 @@ Leads
 						data.order_by = headers[element.column].code;
 						data.order_dir = element.dir;
 					});
-					if( $("#state").val() !== '' && $("#state").val() !== null ){
-						data.state = $("#state").val();
+					if( $("#id").val() !== '' && $("#id").val() !== null ){
+						data.listing_id = $("#id").val();
 					}
-					if( $("#listing_type").val() !== '' && $("#listing_type").val() !== null){
-						data.listing_type = $("#listing_type").val();
+					if( $("#user_id").val() !== '' && $("#user_id").val() !== null){
+						data.user_id = $("#user_id").val();
 					}
-					if( $("#property_type").val() !== '' && $("#property_type").val() !== null){
-						data.property_type = $("#property_type").val();
+					if( $("#created_start").val() !== '' || $("#created_start").val() !== ''){
+						data.created_start =  $("#created_start").val();
 					}
-					if( $("#price_from").val() !== '' || $("#price_to").val() !== ''){
-						data.price = {
-							from: $("#price_from").val(),
-							to: $("#price_to").val()
-						};
-					}
-					if( $("#date_from").val() !== '' || $("#date_to").val() !== ''){
-						data.date = {
-							from: $("#date_from").val(),
-							to: $("#date_to").val()
-						};
+					if( $("#created_end").val() !== '' || $("#created_end").val() !== ''){
+						data.created_end =  $("#created_end").val();					
 					}
 					
 					delete data.searchPanes;
@@ -948,47 +936,38 @@ Leads
 	$("#applyfiltters").on('click', function (e) {
 		let filters = {};
 		if( $("#id").val() !== '' && $("#id").val() !== null ){
-			filters.listing_id = $("#listing_id").val();
+			filters.listing_id = $("#id").val();
 		}
-		if( $("#listing_type").val() !== '' && $("#listing_type").val() !== null){
-			filters.listing_type = $("#listing_type").val();
+		if( $("#user_id").val() !== '' && $("#user_id").val() !== null){
+			filters.user_id = $("#user_id").val();
 		}
-		if( $("#property_type").val() !== '' && $("#property_type").val() !== null){
-			filters.property_type = $("#property_type").val();
+		if( $("#created_start").val() !== '' || $("#created_start").val() !== ''){
+			filters.created_start = $("#created_start").val();
 		}
-		if( $("#price_from").val() !== '' || $("#price_to").val() !== ''){
-			filters.price = {
-				from: $("#price_from").val(),
-				to: $("#price_to").val()
-			};
-		}
-		if( $("#date_from").val() !== '' || $("#date_to").val() !== ''){
-			filters.date = {
-				from: $("#date_from").val(),
-				to: $("#date_to").val()
-			};
+		if( $("#created_end").val() !== '' || $("#created_end").val() !== ''){
+			filters.created_start = $("#created_end").val();
 		}
 		if(!$.isEmptyObject(filters)){
-			localStorage.setItem('filter_avisos', JSON.stringify(filters));
+			localStorage.setItem('filter_leads', JSON.stringify(filters));
 		}
+        console.log(filters);
 		tableSaved.ajax.reload();
 	});
 	$("#removefiltters").on('click', function (e) {
-		localStorage.removeItem('filter_avisos');
-		$("#state").val('').select2({theme: 'bootstrap4'});
-		$("#listing_type").val('').select2({theme: 'bootstrap4'});
-		$("#property_type").val('').select2({theme: 'bootstrap4'});
-		$("#price_from").val('');
-		$("#price_to").val('');
-		$("#date_from").val('');
-		$("#date_to").val('');
+		localStorage.removeItem('filter_leads');
+		$("#id").val('');
+		$("#user_id").val('');
+		$("#user_id").html('');
+        $("#user_id").selectpicker('refresh');
+		$("#created_start").val('');
+		$("#created_end").val('');
 		tableSaved.ajax.reload();
 	});
 	$('.select2').select2({
       	theme: 'bootstrap4'
     })
 
-    let searchUser = $('.selectpicker').selectpicker({
+    $('#user_id').selectpicker({
         liveSearch: true
     });
 
@@ -1011,7 +990,7 @@ Leads
                 selectUser.append(option);
             });
         }
-        $('.selectpicker').selectpicker('refresh');        
+        $('#user_id').selectpicker('refresh');
     });
 
 	setTimeout(() => {
