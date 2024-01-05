@@ -1,3 +1,5 @@
+const baseUrlSerivice = 'https://services-testing.babilonia.io/';
+
 window.setMask = (selector, mask) => {
     let item = $(selector);
     if( item.attr("maxlength") ){
@@ -28,22 +30,28 @@ window.setMask = (selector, mask) => {
     mask.showMaskOnHover = false;
     item.inputmask(mask);
 }
-const fetchData = async (url = "", data = {}, method = 'POST') => {    
-    const response = await fetch(url, {
-      method,
-      mode: "cors",
-      cache: "no-cache",
-      credentials: "same-origin",
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
-      },
-      redirect: "follow",
-      referrerPolicy: "no-referrer",
-      body: JSON.stringify(data),
-    });
-    const json = await response.json();
-    return json;
+/*
+const fetchData = async (url = "", data = null, method = 'POST') => {   
+    return axios({ method, url, data});
+}*/
+const fetchData = async (url = "", data = null, method = 'POST') => {   
+    const serviceHttp = await axios.create({
+                            baseURL: baseUrlSerivice,
+                            headers: {
+                                'Accept-Language': 'es',
+                                'accept': 'application/json'
+                            }
+                        });
+
+    if(method == "POST"){
+        return serviceHttp.post(url, { params: data }).catch(function (error) {
+            return error
+        })
+    }
+
+    return serviceHttp.get(url, { params: data }).catch(function (error) {
+        return error
+    })
 }
 const copyToClipboard = ()=>{
 

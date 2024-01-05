@@ -122,61 +122,25 @@ Leads
 				<div class="row align-items-end">
               		<div class="col-md-4">
                 		<div class="form-group">
-                  			<label>Estado</label>
-                  			<select class="form-control select2" id="state" style="width: 100%;">
-								<option selected disabled value="">Elige una opción</option>
-								<option value="published">Publicado</option>
-								<option value="not_published">No publicado</option>
-								<option value="unpublished">Despublicado</option>
-								<option value="expired">Expirado</option>
-							</select>
+                  			<label>ID de lead</label>
+                            <input type="text" name="id" id="id" class="form-control w-100" placeholder="ID de lead">                  			
                 		</div>
                 	</div>
               		<div class="col-md-4">
                 		<div class="form-group">
-                  			<label>Tipo de operación</label>
-                  			<select class="form-control select2" id="listing_type" style="width: 100%;">
-								<option selected disabled value="">Elige una opción</option>
-								<option value="sale">Venta</option>
-								<option value="rent">Alquiler</option>
-							</select>
+                  			<label>Nombre completo</label>
+                            <select name="user_id" id="user_id" class="form-control selectpicker" data-live-search="true" title="Nombre usuario"></select>
                 		</div>
-                	</div>
-              		<div class="col-md-4">
-                		<div class="form-group">
-                  			<label>Tipo de inmueble</label>
-                  			<select class="form-control select2" id="property_type" style="width: 100%;">
-								<option selected disabled value="">Elige una opción</option>
-								<option value="apartment">Departamento</option>
-								<option value="house">Casa</option>
-								<option value="commercial">Local Comercial</option>
-								<option value="office">Oficina</option>
-								<option value="land">Terreno</option>
-							</select>
-                		</div>
-                	</div>
+                	</div>              							
 					<div class="col-md-4">
 						<div class="form-group">
-							<label for="exampleInputEmail1">Precio</label>
+							<label for="exampleInputEmail1">Fecha de creación</label>
 							<div class="form-row">
 								<div class="col-6">
-									<input type="text" class="form-control" id="price_from" placeholder="desde">
+									<input type="text" class="form-control" id="created_start" placeholder="dd/mm/yyyy">
 								</div>
 								<div class="col-6">
-									<input type="text" class="form-control" id="price_to" placeholder="hasta">
-								</div>
-							</div>
-						</div>
-					</div>
-					<div class="col-md-4">
-						<div class="form-group">
-							<label for="exampleInputEmail1">Fecha de publicación</label>
-							<div class="form-row">
-								<div class="col-6">
-									<input type="text" class="form-control" id="date_from" placeholder="dd/mm/yyyy">
-								</div>
-								<div class="col-6">
-									<input type="text" class="form-control" id="date_to" placeholder="dd/mm/yyyy">
+									<input type="text" class="form-control" id="created_end" placeholder="dd/mm/yyyy">
 								</div>
 							</div>
 						</div>
@@ -227,6 +191,7 @@ Leads
 @endsection
 
 @section('scripts')
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.18/js/bootstrap-select.min.js" integrity="sha512-yDlE7vpGDP7o2eftkCiPZ+yuUyEcaBwoJoIhdXv71KZWugFqEphIS3PU60lEkFaz8RxaVsMpSvQxMBaKVwA5xg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script src="public/plugins/LibDataTables/datatables.min.js"></script>
 <script src="public/plugins/LibDataTables/DataTables-1.13.6/js/dataTables.bootstrap4.min.js"></script>
 <script src="public/plugins/LibDataTables/Responsive-2.5.0/js/responsive.bootstrap4.min.js"></script>
@@ -237,8 +202,8 @@ Leads
 <!-- Select2 -->
 <script src="public/plugins/select2/js/select2.full.min.js"></script>
 <script>
-	setMask('#date_from', { mask: "99/99/9999", showMaskOnHover: false, placeholder: "dd/mm/yyyy", rightAlign:false });
-	setMask('#date_to', { mask: "99/99/9999", showMaskOnHover: false, placeholder: "dd/mm/yyyy", rightAlign:false });
+	setMask('#created_start', { mask: "99/99/9999", showMaskOnHover: false, placeholder: "dd/mm/yyyy", rightAlign:false });
+	setMask('#created_end', { mask: "99/99/9999", showMaskOnHover: false, placeholder: "dd/mm/yyyy", rightAlign:false });
 </script>
 <script>
 	let globalRecords = [];
@@ -982,8 +947,8 @@ Leads
 
 	$("#applyfiltters").on('click', function (e) {
 		let filters = {};
-		if( $("#state").val() !== '' && $("#state").val() !== null ){
-			filters.state = $("#state").val();
+		if( $("#id").val() !== '' && $("#id").val() !== null ){
+			filters.listing_id = $("#listing_id").val();
 		}
 		if( $("#listing_type").val() !== '' && $("#listing_type").val() !== null){
 			filters.listing_type = $("#listing_type").val();
@@ -1022,6 +987,33 @@ Leads
 	$('.select2').select2({
       	theme: 'bootstrap4'
     })
+
+    let searchUser = $('.selectpicker').selectpicker({
+        liveSearch: true
+    });
+
+    $(document).on('keyup', '.bootstrap-select .bs-searchbox input', async function (e) {
+        let keyword = e.target.value;
+        let params = {
+            page:1,
+            per_page:50,
+            keyword: keyword 
+        };
+        const selectUser = document.getElementById("user_id");
+        const data = await fetchData('/app/search_users', params, 'GET');
+        const records = data.data.data?.records ?? [];
+        selectUser.innerHTML="";
+        if(records.length > 0){
+            records.forEach((item) => {
+                let option = document.createElement("option");
+                option.value = item.id;
+                option.innerHTML = item.full_name;
+                selectUser.append(option);
+            });
+        }
+        $('.selectpicker').selectpicker('refresh');        
+    });
+
 	setTimeout(() => {
 		$(".dtsb-add").on('click', function (e) {
 			/*
