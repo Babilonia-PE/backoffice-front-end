@@ -122,7 +122,7 @@ Leads
 				<div class="row align-items-end">
               		<div class="col-md-4">
                 		<div class="form-group">
-                  			<label>ID de lead</label>
+                  			<label>Listing ID</label>
                             <input type="text" name="id" id="id" class="form-control w-100" placeholder="ID de lead">                  			
                 		</div>
                 	</div>
@@ -213,6 +213,7 @@ Leads
 	
 	const headers = [
 			{ "title": "ID del lead", "code": "id" },
+			{ "title": "ID del aviso", "code": "id" },
 			{ "title": "Key", "code": "id" },
 			{ "title": "Id del usuario", "code": "id" },
 			{ "title": "Nombre completo", "code": "id" },
@@ -780,6 +781,7 @@ Leads
 						
 						object.data.push([
 							element.id,
+							'',
 							element.key,
 							element.user_id,
 							element.full_name,
@@ -850,7 +852,7 @@ Leads
 	}
 	const columnDefs = [
 		{
-			targets: [6, 7],
+			targets: [3,8],
 			visible: false,
 			class: "none"
 		},
@@ -934,7 +936,7 @@ Leads
 
 		data.forEach((element, 
 		index, array) => {
-			// if (index + 1 === array.length){ return; }
+			if (index + 1 === array.length){ return; }
 			if (index === 0){
 				$("#rowDetails .modal-title").html(`Detalles para ${element}`);
 			}
