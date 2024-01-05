@@ -155,6 +155,12 @@ Avisos
 							</select>
                 		</div>
                 	</div>
+              		<div class="col-md-4">
+                		<div class="form-group">
+                  			<label>Cliente</label>
+                  			<input type="text" name="user_id" id="user_id" class="form-control" />
+                		</div>
+                	</div>
 					<div class="col-md-4">
 						<div class="form-group">
 							<label for="exampleInputEmail1">Precio (Desde - Hasta)</label>
@@ -170,13 +176,52 @@ Avisos
 					</div>
 					<div class="col-md-4">
 						<div class="form-group">
+							<label for="exampleInputEmail1">Fecha de creación (Desde - Hasta)</label>
+							<div class="form-row">
+								<div class="col-6">
+									<input type="text" class="form-control" id="created_start" placeholder="dd/mm/yyyy">
+								</div>
+								<div class="col-6">
+									<input type="text" class="form-control" id="created_end" placeholder="dd/mm/yyyy">
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-4">
+						<div class="form-group">
+							<label for="exampleInputEmail1">Fecha de actualización (Desde - Hasta)</label>
+							<div class="form-row">
+								<div class="col-6">
+									<input type="text" class="form-control" id="updated_start" placeholder="dd/mm/yyyy">
+								</div>
+								<div class="col-6">
+									<input type="text" class="form-control" id="updated_end" placeholder="dd/mm/yyyy">
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-4">
+						<div class="form-group">
 							<label for="exampleInputEmail1">Fecha de publicación (Desde - Hasta)</label>
 							<div class="form-row">
 								<div class="col-6">
-									<input type="text" class="form-control" id="date_from" placeholder="dd/mm/yyyy">
+									<input type="text" class="form-control" id="purchased_start" placeholder="dd/mm/yyyy">
 								</div>
 								<div class="col-6">
-									<input type="text" class="form-control" id="date_to" placeholder="dd/mm/yyyy">
+									<input type="text" class="form-control" id="purchased_end" placeholder="dd/mm/yyyy">
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-4">
+						<div class="form-group">
+							<label for="exampleInputEmail1">Fecha de expiración (Desde - Hasta)</label>
+							<div class="form-row">
+								<div class="col-6">
+									<input type="text" class="form-control" id="expires_start" placeholder="dd/mm/yyyy">
+								</div>
+								<div class="col-6">
+									<input type="text" class="form-control" id="expires_end" placeholder="dd/mm/yyyy">
 								</div>
 							</div>
 						</div>
@@ -237,8 +282,17 @@ Avisos
 <!-- Select2 -->
 <script src="public/plugins/select2/js/select2.full.min.js"></script>
 <script>
-	setMask('#date_from', { mask: "99/99/9999", showMaskOnHover: false, placeholder: "dd/mm/yyyy", rightAlign:false });
-	setMask('#date_to', { mask: "99/99/9999", showMaskOnHover: false, placeholder: "dd/mm/yyyy", rightAlign:false });
+	setMask('#created_start', { mask: "99/99/9999", showMaskOnHover: false, placeholder: "dd/mm/yyyy", rightAlign:false });
+	setMask('#created_end', { mask: "99/99/9999", showMaskOnHover: false, placeholder: "dd/mm/yyyy", rightAlign:false });
+
+	setMask('#updated_start', { mask: "99/99/9999", showMaskOnHover: false, placeholder: "dd/mm/yyyy", rightAlign:false });
+	setMask('#updated_end', { mask: "99/99/9999", showMaskOnHover: false, placeholder: "dd/mm/yyyy", rightAlign:false });
+
+	setMask('#purchased_start', { mask: "99/99/9999", showMaskOnHover: false, placeholder: "dd/mm/yyyy", rightAlign:false });
+	setMask('#purchased_end', { mask: "99/99/9999", showMaskOnHover: false, placeholder: "dd/mm/yyyy", rightAlign:false });
+
+	setMask('#expires_start', { mask: "99/99/9999", showMaskOnHover: false, placeholder: "dd/mm/yyyy", rightAlign:false });
+	setMask('#expires_end', { mask: "99/99/9999", showMaskOnHover: false, placeholder: "dd/mm/yyyy", rightAlign:false });
 </script>
 <script>
 	let globalRecords = [];
@@ -663,8 +717,19 @@ Avisos
 			$("#property_type").val(filter_avisos.property_type??'');
 			$("#price_from").val(filter_avisos.price?.from??'');
 			$("#price_to").val(filter_avisos.price?.to??'');
-			$("#date_from").val(filter_avisos.created_start?(moment(filter_avisos.created_start, 'YYYY-MM-DD').format("DD/MM/YYYY")):'');
-			$("#date_to").val(filter_avisos.created_end?(moment(filter_avisos.created_end, 'YYYY-MM-DD').format("DD/MM/YYYY")):'');
+
+			$("#created_start").val(filter_avisos.created_start?(moment(filter_avisos.created_start, 'YYYY-MM-DD').format("DD/MM/YYYY")):'');
+			$("#created_end").val(filter_avisos.created_end?(moment(filter_avisos.created_end, 'YYYY-MM-DD').format("DD/MM/YYYY")):'');
+			
+			$("#updated_start").val(filter_avisos.updated_start?(moment(filter_avisos.updated_start, 'YYYY-MM-DD').format("DD/MM/YYYY")):'');
+			$("#updated_end").val(filter_avisos.updated_end?(moment(filter_avisos.updated_end, 'YYYY-MM-DD').format("DD/MM/YYYY")):'');
+
+			$("#purchased_start").val(filter_avisos.purchased_start?(moment(filter_avisos.purchased_start, 'YYYY-MM-DD').format("DD/MM/YYYY")):'');
+			$("#purchased_end").val(filter_avisos.purchased_end?(moment(filter_avisos.purchased_end, 'YYYY-MM-DD').format("DD/MM/YYYY")):'');
+
+			$("#expires_start").val(filter_avisos.expires_start?(moment(filter_avisos.expires_start, 'YYYY-MM-DD').format("DD/MM/YYYY")):'');
+			$("#expires_end").val(filter_avisos.expires_end?(moment(filter_avisos.expires_end, 'YYYY-MM-DD').format("DD/MM/YYYY")):'');
+
 			$("#filter_box").removeClass("collapsed-card");
 			$("#icon_filter_box").addClass("fa-minus").removeClass("fa-plus");
 		}
@@ -807,13 +872,45 @@ Avisos
 							to: $("#price_to").val()
 						};
 					}
-					if( $("#date_from").val() !== ''){
-						let created_start = $("#date_from").val();
+
+					if( $("#created_start").val() !== ''){
+						let created_start = $("#created_start").val();
 						data.created_start = moment(created_start, "DD/MM/YYYY").format('YYYY-MM-DD');
 					}
-					if( $("#date_to").val() !== ''){
-						let created_end = $("#date_from").val();
+					
+					if( $("#created_end").val() !== ''){
+						let created_end = $("#created_end").val();
 						data.created_end = moment(created_end, "DD/MM/YYYY").format('YYYY-MM-DD');
+					}
+
+					if( $("#updated_start").val() !== ''){
+						let updated_start = $("#updated_start").val();
+						data.updated_start = moment(updated_start, "DD/MM/YYYY").format('YYYY-MM-DD');
+					}
+
+					if( $("#updated_end").val() !== ''){
+						let updated_end = $("#updated_end").val();
+						data.updated_end = moment(updated_end, "DD/MM/YYYY").format('YYYY-MM-DD');
+					}
+
+					if( $("#purchased_start").val() !== ''){
+						let purchased_start = $("#purchased_start").val();
+						data.purchased_start = moment(purchased_start, "DD/MM/YYYY").format('YYYY-MM-DD');
+					}
+
+					if( $("#purchased_end").val() !== ''){
+						let purchased_end = $("#purchased_end").val();
+						data.purchased_end = moment(purchased_end, "DD/MM/YYYY").format('YYYY-MM-DD');
+					}
+
+					if( $("#expires_start").val() !== ''){
+						let expires_start = $("#expires_start").val();
+						data.expires_start = moment(expires_start, "DD/MM/YYYY").format('YYYY-MM-DD');
+					}
+
+					if( $("#expires_end").val() !== ''){
+						let expires_end = $("#expires_end").val();
+						data.expires_end = moment(expires_end, "DD/MM/YYYY").format('YYYY-MM-DD');
 					}
 
 					delete data.searchPanes;
@@ -1127,15 +1224,47 @@ Avisos
 				to: $("#price_to").val()
 			};
 		}
-		if( $("#date_from").val() !== ''){
-			let created_start = $("#date_from").val();
+		
+		if( $("#created_start").val() !== ''){
+			let created_start = $("#created_start").val();
 			filters.created_start = moment(created_start, "DD/MM/YYYY").format('YYYY-MM-DD');
 		}
-		if($("#date_to").val() !== ''){
-			let created_end = $("#date_to").val();
+		
+		if( $("#created_end").val() !== ''){
+			let created_end = $("#created_end").val();
 			filters.created_end = moment(created_end, "DD/MM/YYYY").format('YYYY-MM-DD');
 		}
-		console.log(filters);
+
+		if( $("#updated_start").val() !== ''){
+			let updated_start = $("#updated_start").val();
+			filters.updated_start = moment(updated_start, "DD/MM/YYYY").format('YYYY-MM-DD');
+		}
+
+		if( $("#updated_end").val() !== ''){
+			let updated_end = $("#updated_end").val();
+			filters.updated_end = moment(updated_end, "DD/MM/YYYY").format('YYYY-MM-DD');
+		}
+
+		if( $("#purchased_start").val() !== ''){
+			let purchased_start = $("#purchased_start").val();
+			filters.purchased_start = moment(purchased_start, "DD/MM/YYYY").format('YYYY-MM-DD');
+		}
+
+		if( $("#purchased_end").val() !== ''){
+			let purchased_end = $("#purchased_end").val();
+			filters.purchased_end = moment(purchased_end, "DD/MM/YYYY").format('YYYY-MM-DD');
+		}
+
+		if( $("#expires_start").val() !== ''){
+			let expires_start = $("#expires_start").val();
+			filters.expires_start = moment(expires_start, "DD/MM/YYYY").format('YYYY-MM-DD');
+		}
+
+		if( $("#expires_end").val() !== ''){
+			let expires_end = $("#expires_end").val();
+			filters.expires_end = moment(expires_end, "DD/MM/YYYY").format('YYYY-MM-DD');
+		}
+		
 		if(!$.isEmptyObject(filters)){
 			localStorage.setItem('filter_avisos', JSON.stringify(filters));
 		}
@@ -1148,8 +1277,15 @@ Avisos
 		$("#property_type").val('').select2({theme: 'bootstrap4'});
 		$("#price_from").val('');
 		$("#price_to").val('');
-		$("#date_from").val('');
-		$("#date_to").val('');
+
+		$("#created_start").val('');
+		$("#created_end").val('');
+		$("#updated_start").val('');
+		$("#updated_end").val('');
+		$("#purchased_start").val('');
+		$("#purchased_end").val('');
+		$("#expires_start").val('');
+		$("#expires_end").val('');
 		tableSaved.ajax.reload();
 	});
 	$('.select2').select2({
