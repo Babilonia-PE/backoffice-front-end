@@ -129,7 +129,7 @@ Leads
               		<div class="col-md-4">
                 		<div class="form-group">
                   			<label>Nombre completo</label>
-                            <select name="user_id" id="user_id" class="form-control selectpicker" data-live-search="true" title="Nombre usuario"></select>
+                            <select name="user_id" id="user_id" class="form-control selectpicker" data-live-search="true" title="Buscar por Nombre o nombre comercial"></select>
                 		</div>
                 	</div>              							
 					<div class="col-md-4">
