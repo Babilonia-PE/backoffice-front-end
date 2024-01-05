@@ -102,7 +102,7 @@
 
 @section('page')
 
-Avisos
+Leads
 
 @endsection
 
@@ -245,48 +245,16 @@ Avisos
     let tableSaved = null;
 	let dtDraw = 1;
 	let filters = [];
-	const roles = {
-		"realtor" : "Agente",
-		"owner" : "Propietario"
-	};
+	
 	const headers = [
-			{ "title": "ID del listing", "code": "id" },
-			
-			{ "title": "Tipo de operación", "code": "listing_type" },
-			{ "title": "Tipo de inmueble", "code": "property_type" },
-			{ "title": "Precio", "code": "price" },
-			{ "title": "Direccion", "code": "id" },
-			{ "title": "Distrito", "code": "id" },
-			{ "title": "Provincia", "code": "id" },
-			{ "title": "Departamento", "code": "id" },
-			{ "title": "Pais", "code": "id" },
-			{ "title": "Estado", "code": "state" },
-			{ "title": "Fecha de creación", "code": "id" },
-			{ "title": "Fecha de publicación", "code": "id" },
-			{ "title": "Nombre del usuario", "code": "id" },
-            { "title": "Categoria", "code": "id" },
-            { "title": "Duración", "code": "id" },
-            { "title": "Rol", "code": "id" },
-            { "title": "Cuartos", "code": "id" },
-            { "title": "Baños", "code": "id" },
-            { "title": "Area total", "code": "id" },
-            { "title": "Área techada", "code": "id" },
-            { "title": "Estacionamientos", "code": "id" },
-            { "title": "Estacionamiento para visitas", "code": "id" },
-            { "title": "Año de construcción", "code": "id" },
-            { "title": "Número de pisos", "code": "id" },
-            { "title": "Piso del inmueble", "code": "id" },
-            { "title": "Pet friendly", "code": "id" },
-            { "title": "Comodidades", "code": "id" },
-            { "title": "Adicionales", "code": "id" },
-            { "title": "Descripción", "code": "id" },
-            { "title": "Numero de fotos", "code": "id" },
-            { "title": "Video", "code": "id" },
-            { "title": "Numero de vistas", "code": "id" },
-            { "title": "Número de favoritos", "code": "id" },
-            { "title": "Numero de contactos", "code": "id" },
+			{ "title": "ID del lead", "code": "id" },
+			{ "title": "Key", "code": "id" },
+			{ "title": "Id del usuario", "code": "id" },
+			{ "title": "Nombre completo", "code": "id" },
+			{ "title": "Email", "code": "email" },
+			{ "title": "Celular", "code": "id" },
+            { "title": "Fecha de creación", "code": "id" },
             { "title": "Fecha de actualización", "code": "id" },
-            { "title": "Fecha de expiración", "code": "id" },
 			{ "title": "Acciones", "code": "id" }
 		]
     const lenguaje = {
@@ -782,7 +750,7 @@ Avisos
 			//"data": data,
 
 			ajax: {
-				"url": 'https://services-testing.babilonia.io/app/listing/listings',
+				"url": 'https://services-testing.babilonia.io/app/lead/leads',
 				"type": 'GET',
 				"data": function ( data ) {
 					filters = [];
@@ -813,68 +781,7 @@ Avisos
 							to: $("#date_to").val()
 						};
 					}
-					/*
-					if(tableSaved?.searchPanes){
-						let criterios = [];
-						var filterCriteria = "";
-						var searchPanes = tableSaved.context[0]._searchPanes.s.panes;
-						searchPanes.forEach( searchPane => {
-							if ( searchPane.s.serverSelect.length > 0 ) {
-								searchPane.s.serverSelect.forEach( elem => {
-									const value = elem.filter();
-									if( $.isArray(value) ){
-										data[headers[searchPane.s.index].code + '[from]'] = value[0];
-										data[headers[searchPane.s.index].code + '[to]'] = value[1];
-									}else{
-										data[headers[searchPane.s.index].code] = value;
-									}
-								} );
-								
-							}
-							/*
-							var criteriaField = "['" + searchPane.s.name + "': [";
-							var toAdd = false;
-							if ( searchPane.s.serverSelect.length > 0 ) {
-								searchPane.s.serverSelect.forEach( elem => {criteriaField += elem.filter();} );
-								toAdd = true;
-							}
-							criteriaField += "] ]"
-							if (toAdd) {
-								if ( filterCriteria == "" ) {
-									filterCriteria = criteriaField;
-								} else {
-									filterCriteria += ", " + criteriaField;
-								}
-							}
-						});
-						//filterCriteria = "{'criteriaSearch': " + filterCriteria + "}"
-						//console.log(filterCriteria);
-					}
-					if(tableSaved?.searchBuilder){
-						const searchBuilder = tableSaved.searchBuilder.getDetails();
-						let criterios = [];
-						(searchBuilder.criteria??[]).forEach(element => {
-							if( typeof element.condition == 'undefined'){
-								return;
-							}
-							let index = headers.findIndex(x => x.title === element.data??null);
-							if( filters.includes(headers[index].code)){
-								return;
-							}
-							switch (element.condition) {
-								case '=':
-									data[headers[index].code] = element.value[0];
-									break;
-								case 'between':
-									data[headers[index].code + '[from]'] = element.value[0];
-									data[headers[index].code + '[to]'] = element.value[1];
-									break;
-							}
-							filters.push(headers[index].code);
-						});
-						//data.criterios = criterios;
-					}*/
-
+					
 					delete data.searchPanes;
 					delete data.searchPanesLast;
 					delete data.searchPanes_null;
@@ -897,72 +804,21 @@ Avisos
 						"data": []
 					};
 					records.forEach((element, index) => {
-						const id_listing_type = listing_type.findIndex(x => x.code === element.listing_type??null);
-						const id_property_type = property_type.findIndex(x => x.code === element.property_type??null);
-						const id_status = state.findIndex(x => x.code === element.state??null);
-						let facilities = [], advanced_details = [];
-						(element.facilities??[]).forEach(element => {
-							facilities.push(element.title_lang.es??'');
-						});
-						(element.advanced_details??[]).forEach(element => {
-							advanced_details.push(element.title_lang.es??'');
-						});
+
+                        let prefix = element.prefix ?? '';
+                        let phone = element.phone_number ?? '';
+                        let phone_full = prefix + phone;
+						
 						object.data.push([
 							element.id,
-							
-							(listing_type[id_listing_type]??[]).name??'',
-							(property_type[id_property_type]??[]).name??'',
-							'$' + Number(element.price??'').toLocaleString("en"),
-							( ( element.location ) ? element.location.address??'':'' ),
-							( ( element.location ) ? element.location.district??'':'' ),
-							( ( element.location ) ? element.location.province??'':'' ),
-							( ( element.location ) ? element.location.department??'':'' ),
-							( ( element.location ) ? element.location.country??'':'' ),
-							`<span class="badge text-bg-secondary ${(state[id_status]??[]).code??''}">${(state[id_status]??[]).name??''}</span>`,
-							( ( element.created_at ) ? new Date(Date.parse(element.created_at)).toLocaleDateString("default", { 
-								year: "numeric",
-								month: "2-digit",
-								day: "2-digit",
-							}):'' ),
-							( ( element.created_at ) ? new Date(Date.parse(element.created_at)).toLocaleDateString("default", { 
-								year: "numeric",
-								month: "2-digit",
-								day: "2-digit",
-							}):'' ),
-							( ( element.contacts ) ? element.contacts[0]?.name??'':'' ),
-							element.ad_plan??'',
-							( ( element.days_remain ) ? element.days_remain + ' días':'' ),
-							element.publisher_role?(roles[element.publisher_role]??''):'',
-							element.bedrooms_count??'',
-							element.bathrooms_count??'',
-							( ( element.area ) ? Number(element.area).toLocaleString("en") + ' m²':'' ),
-							( ( element.built_area ) ? Number(element.built_area).toLocaleString("en") + ' m²':'' ),
-							element.parking_slots_count??'',
-							element.parking_for_visits ? 'Si': 'No',
-							element.year_of_construction??'',
-							element.total_floors_count??'',
-							element.floor_number??'',
-							element.pet_friendly ? 'Si' : 'No',
-							facilities.join(', '),
-							advanced_details.join(', '),
-							element.description??'',
-							element.images.length??'',
-							element.videos.length === 0 ? 'No' : (element.videos[0].content ? `<a href="${element.videos[0].content}" target="_blank">${element.videos[0].content}</a>` : 'No existe la url'),
-							element.views_count??'',
-							element.favourites_count??'',
-							element.contacts_count??'',
-							( ( element.updated_at ) ? new Date(Date.parse(element.updated_at)).toLocaleDateString("default", { 
-								year: "numeric",
-								month: "2-digit",
-								day: "2-digit",
-							}):'' ),
-							( ( element.ad_expires_at ) ? new Date(Date.parse(element.ad_expires_at)).toLocaleDateString("default", { 
-								year: "numeric",
-								month: "2-digit",
-								day: "2-digit",
-							}):'' ),
-							`
-							<div class="dropdown">
+							element.key,
+							element.user_id,
+							element.full_name,
+							element.email,
+                            phone_full,
+							moment(element.created_at).format('DD/MM/YYYY'),
+							moment(element.updated_at).format('DD/MM/YYYY'),
+                            `<div class="dropdown">
 								<button class="btn btn-secondary btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="false">
 									Acciones
 								</button>
@@ -1025,11 +881,11 @@ Avisos
 	}
 	const columnDefs = [
 		{
-			targets: [7, 8, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35],
+			targets: [6, 7],
 			visible: false,
 			class: "none"
 		},
-		{ type: "date", targets: [10, 11, 34, 35] },
+		{ type: "date", targets: [6,7] },
 		{ orderable: false, targets: ['_all'] }
 
 	];
@@ -1107,60 +963,15 @@ Avisos
 		let data = tableSaved.rows( target ).data()[0];
 		$("#rowDetails .modal-body").html("");
 
-		//cambiar orden de columnas en modal detalle
-		const index = [
-		0, 	//ID del listing
-		9, 	//Estado
-		10, //Fecha de creación
-		11, //Fecha de publicación
-		34, //Fecha de actualización
-		35, //Fecha de expiración
-		1,  //Tipo de operación
-		2,  //Tipo de inmueble
-		3, 	//Precio
-		4, 	//Direccion
-		5, 	//Distrito
-		6, 	//Provincia
-		7, 	//Departamento
-		8, 	//Pais
-		12, //Nombre del usuario
-		13, //Categoria
-		14, //Duración
-		15, //Rol
-		31, //Numero de vistas
-		32, //Número de favoritos
-		33, //Numero de contactos
-		16, //Cuartos
-		17, //Baños
-		18, //Area total
-		19, //Área techada
-		20, //Estacionamientos
-		21, //Estacionamiento para visitas
-		22, //Año de construcción
-		23, //Número de pisos
-		24, //Piso del inmueble
-		25, //Pet friendly
-		26, //Comodidades
-		27, //Adicionales
-		28, //Descripción
-		29, //Numero de fotos
-		30	//Video
-	];
-
-		data = index.map(i => data[i]);
-		let newheader = index.map(i => headers[i]);
-		
 		data.forEach((element, 
 		index, array) => {
 			// if (index + 1 === array.length){ return; }
 			if (index === 0){
-				let rowInfo = globalRecords.filter((item)=> item.id == element);
-				let url_external = "https://babilonia.io" + rowInfo[0].url_external ?? '';
-				$("#rowDetails .modal-title").html(`Detalles para <a target="_blank" href="${url_external}">${element}</a>`);
+				$("#rowDetails .modal-title").html(`Detalles para ${element}`);
 			}
 			$("#rowDetails .modal-body").append(`
 				<div class="box-details">
-					<div>${newheader[index]?.title??''}</div>
+					<div>${headers[index]?.title??''}</div>
 					<div>${element}</div>
 				</div>
 			`);
@@ -1226,249 +1037,5 @@ Avisos
 		})
 	}, 2000);
 	
-
-	
-
-
-	/*
-    async function myAjax(param) {
-        let result
-        try {
-            result = await $.ajax({
-                url: 'https://services-testing.babilonia.io/public/listing/listings',
-                type: 'GET',
-                //data: jQuery.param( { "obtener-registros-marcacion": 1, "semestreid": param } ) ,
-                dataType: 'JSON',
-            })
-            return result
-        } catch (error) {
-            console.error(error)
-        }
-    }
-	function aleatorio(inferior, superior) {
-		var numPosibilidades = superior - inferior;
-		var aleatorio = Math.random() * (numPosibilidades + 1);
-		aleatorio = Math.floor(aleatorio);
-		return inferior + aleatorio;
-	}
-	tableSaved = 
-		new DataTable('.display', {
-		ajax: {
-			"url": 'https://services-testing.babilonia.io/app/listing/listings',
-			"type": 'GET',
-			"data": function ( d ) {
-				d.page = ( tableSaved ) ? ( tableSaved.page.info().page + 1 ) : 1;
-				d.per_page = ( tableSaved ) ? ( tableSaved.page.info().length ) : 25;
-			},
-			"dataSrc": function ( json ) {
-				const data = json.data??{};
-				const records = data.records??[];
-				let object = {
-					"draw": 1,
-					"recordsTotal": data.listings_count,
-					"recordsFiltered": data.listings_count,
-					"data": []
-				};
-				records.forEach((element, index) => {
-					object.data.push([
-						element.id,
-						element.status??'',
-						element.listing_type??'',
-						element.property_type??'',
-						element.price??'',
-						( ( element.location ) ? element.location.address??'':'' ),
-						( ( element.location ) ? element.location.district??'':'' ),
-						( ( element.location ) ? element.location.province??'':'' ),
-						( ( element.location ) ? element.location.department??'':'' ),
-						( ( element.location ) ? element.location.country??'':'' ),
-						new Date(Date.parse(element.created_at)).toLocaleDateString("default", {
-							year: "numeric",
-							month: "2-digit",
-							day: "2-digit",
-						}),
-						new Date(Date.parse(element.created_at)).toLocaleDateString("default", { 
-							year: "numeric",
-							month: "2-digit",
-							day: "2-digit",
-						}),
-						( ( element.user ) ? element.user.full_name??'':'' ),
-						element.ad_plan??'',
-						element.publisher_role??'',
-						element.days_remain??'',
-						element.bedrooms_count??'',
-						element.bathrooms_count??'',
-						element.area??'',
-						element.built_area??'',
-						element.parking_slots_count??'',
-						element.parking_for_visits ? 'SI': 'NO',
-						element.year_of_construction??'',
-						element.total_floors_count??'',
-						element.floor_number??'',
-						element.pet_friendly ? 'SI' : 'NO',
-						element.facilities??[].toString(),
-						element.advanced_details??[].toString(),
-						element.description??'',
-						element.images.length??'',
-						element.videos.length === 0 ? 'SI' : 'NO',
-						element.views_count??'',
-						element.favourites_count??'',
-						element.contacts_count??'',
-						new Date(Date.parse(element.updated_at)).toLocaleDateString("default", { 
-							year: "numeric",
-							month: "2-digit",
-							day: "2-digit",
-						}),
-						new Date(Date.parse(element.ad_expires_at)).toLocaleDateString("default", { 
-							year: "numeric",
-							month: "2-digit",
-							day: "2-digit",
-						}),
-						`
-						<div class="dropdown">
-							<button class="btn btn-secondary btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="false">
-								Acciones
-							</button>
-							<div class="dropdown-menu">
-								<a class="dropdown-item details" data-index="${index}" role="button"><i class="fas fa-eye"></i>&nbsp;&nbsp;Ver</a>
-								<a class="dropdown-item" href="#"><i class="fas fa-edit"></i>&nbsp;&nbsp;Editar</a>
-								<a class="dropdown-item" href="#"><i class="fas fa-trash-alt"></i>&nbsp;&nbsp;Eliminar</a>
-							</div>
-						</div>
-						`
-					]);
-				});
-				return object.data;
-			}
-		},
-		"lengthMenu": [ 25, 50, 75, 100, 200, 500 ],
-		"pageLength": 25,
-		"pagingType": "numbers",
-		"language": lenguaje,
-		"drawCallback": function( settings ) {
-			$(this).redimensionarTable();
-		},
-		"initComplete": function(settings, json) {
-			$( 'p[name=\'loading\']' ).remove();
-			$(this).removeClass( 'd-none' );
-		},
-    	"searching": { "regex": true },
-		dom: 'QBlfrtip',
-		buttons: Buttons,
-		search: {
-			return: true
-		},
-		columns: headers,
-		processing: true,
-		serverSide: true
-	})
-	.on('xhr.dt', function ( e, settings, json, xhr ) {
-		json.recordsTotal = json.data.pagination.total_records;
-		json.recordsFiltered = json.data.pagination.total_records;
-		json.draw = dtDraw;
-		dtDraw += 1;
-	} );
-    myAjax().then((data) => {
-        const listings = data?.data?.records??[]
-        console.log(listings);
-        const columnDefs = [{
-			targets: [0, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35],
-			visible: false,
-			class: "none"
-		},
-		{ type: "date", targets: [10, 11] }];
-        const searchBuilder = {};
-        let object = [];
-        listings.forEach((element, index) => {
-            object.push([
-                element.id,
-                element.status??'',
-                element.listing_type??'',
-                element.property_type??'',
-                element.price??'',
-                ( ( element.location ) ? element.location.address??'':'' ),
-                ( ( element.location ) ? element.location.district??'':'' ),
-                ( ( element.location ) ? element.location.province??'':'' ),
-                ( ( element.location ) ? element.location.department??'':'' ),
-                ( ( element.location ) ? element.location.country??'':'' ),
-                new Date(Date.parse(element.created_at)).toLocaleDateString("default", {
-					year: "numeric",
-					month: "2-digit",
-					day: "2-digit",
-				}),
-                new Date(Date.parse(element.created_at)).toLocaleDateString("default", { 
-					year: "numeric",
-					month: "2-digit",
-					day: "2-digit",
-				}),
-                ( ( element.user ) ? element.user.full_name??'':'' ),
-
-                element.ad_plan??'',
-                element.publisher_role??'',
-                element.days_remain??'',
-                element.bedrooms_count,
-                element.bathrooms_count,
-                element.area,
-                element.built_area,
-                element.parking_slots_count,
-                element.parking_for_visits ? 'SI': 'NO',
-                element.year_of_construction,
-                element.total_floors_count,
-                element.floor_number,
-                element.pet_friendly ? 'SI' : 'NO',
-                element.facilities??[].toString(),
-                element.advanced_details??[].toString(),
-                element.description,
-                element.images.length,
-                element.videos.length === 0 ? 'SI' : 'NO',
-                element.views_count,
-                element.favourites_count,
-                element.contacts_count,
-                new Date(Date.parse(element.updated_at)).toLocaleDateString("default", { 
-					year: "numeric",
-					month: "2-digit",
-					day: "2-digit",
-				}),
-                new Date(Date.parse(element.ad_expires_at)).toLocaleDateString("default", { 
-					year: "numeric",
-					month: "2-digit",
-					day: "2-digit",
-				}),
-
-				`
-				<div class="dropdown">
-					<button class="btn btn-secondary btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="false">
-						Acciones
-					</button>
-					<div class="dropdown-menu">
-						<a class="dropdown-item details" data-index="${index}" role="button"><i class="fas fa-eye"></i>&nbsp;&nbsp;Ver</a>
-						<a class="dropdown-item" href="#"><i class="fas fa-edit"></i>&nbsp;&nbsp;Editar</a>
-						<a class="dropdown-item" href="#"><i class="fas fa-trash-alt"></i>&nbsp;&nbsp;Eliminar</a>
-					</div>
-				</div>
-				`
-            ]);
-        });
-        $(this).createDataTable(searchBuilder, columnDefs, false, 10, true, headers, object);
-		tableSaved.on('click', '.details', function (e) {
-			e.preventDefault();
-			const target = $(this).attr('data-index');
-			const data = tableSaved.rows( target ).data()[0];
-			$("#rowDetails .modal-body").html("");
-			data.forEach((element, index, array) => {
-				if (index + 1 === array.length){ return; }
-				if (index === 0){
-					$("#rowDetails .modal-title").html("Detalles para " + element);
-				}
-				$("#rowDetails .modal-body").append(`
-					<div class="box-details">
-						<div>${headers[index].title}</div>
-						<div>${element}</div>
-					</div>
-				`);
-			});
-			
-			$("#rowDetails").modal('show');
-		});
-    });*/
 </script>
 @endsection
