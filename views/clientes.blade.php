@@ -680,14 +680,14 @@ Clientes
 						object.data.push([
 							element.id,
 							element.full_name,
-							(element.email) ? `<a class="text-danger-emphasis text-dark" type="button" data-copy="inner" data-value="${element.email}">${element.email}</a>`:'',
+							(element.email) ? `${element.email} <button class="btn btn-sm btn-primary text-danger-emphasis text-dark" type="button" data-copy="inner" data-value="${element.email}"><i class="far fa-copy text-white"></i></button>`:'',
 							element.phone_number,
 							( ( element.company ) ? element.company.commercial_name??'':'' ),
 							moment(element.created_at).format('DD/MM/YYYY h:mm a'),
 							(`<span class="badge text-bg-secondary badge-${element.state}">${state[element.state]??''}</span>`),
 							( ( element.company ) ? element.company.name??'':'' ),
 							( ( element.company ) ? element.company.id??'':'' ),
-							( ( element.company ) ? element.company.comercial_address??'':'' ),
+							( ( element.company ) ? element.company.commercial_address??'':'' ),
 							( ( element.company ) ? element.company.commercial_description??'':'' ),
 							( element.permissions??{} ).collections? 'SI':'NO',
 							( element.permissions??{} ).interested? 'SI':'NO',
@@ -722,6 +722,7 @@ Clientes
 			"initComplete": function(settings, json) {
 				$( 'p[name=\'loading\']' ).remove();
 				$(this).removeClass( 'd-none' );
+				$(".table [data-copy]").css("display", "none");
 				copyToClipboard();
 			},
 			//fixedHeader: true,
