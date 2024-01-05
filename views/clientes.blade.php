@@ -102,10 +102,10 @@ Clientes
 <div class="row">
 	<div class="col-12">
         <div id="filter_box" class="card collapsed-card">
-			<div class="card-header">
+			<div class="card-header" role="button" data-card-widget="collapse">
                 <h5 class="card-title">Filtros de búsqueda</h5>
                 <div class="card-tools">
-                  	<button type="button" class="btn btn-tool" data-card-widget="collapse">
+                  	<button type="button" class="btn btn-tool">
                     	<i id="icon_filter_box" class="fas fa-plus"></i>
                   	</button>
                 </div>
@@ -166,7 +166,7 @@ Clientes
                 	</div>
 					<div class="col-md-4">
 						<div class="form-group">
-							<label for="exampleInputEmail1">Fecha de creación</label>
+							<label for="exampleInputEmail1">Fecha de creación (Desde - Hasta)</label>
 							<div class="form-row">
 								<div class="col-6">
 									<input type="text" class="form-control" id="date_from" placeholder="dd/mm/yyyy">
@@ -253,6 +253,7 @@ Clientes
 			{ "title": "Correo electronico" },
 			{ "title": "Teléfono" },
 			{ "title": "Nombre comercial" },
+			{ "title": "Fecha y hora de creación" },
 			{ "title": "Estado" },
 			{ "title": "Razon social" },
 			{ "title": "RUC" },
@@ -263,8 +264,7 @@ Clientes
 			{ "title": "Avisos" },
 			{ "title": "Proyectos" },
 			{ "title": "Estadísticas" },
-			{ "title": "URL" },
-			{ "title": "Fecha y hora de creación del perfil" },
+			{ "title": "URL" },			
 			{ "title": "Metodo de authenticación" },
 			{ "title": "Acciones" }
 		]
@@ -528,7 +528,8 @@ Clientes
 		}
 	];
 	//OBTENER DATOS DE FILTROS
-	const getFiltersData = () => {
+	const getFiltersData = (params = {}) => {
+		const { format_from="DD/MM/YYYY", format_to="YYYY-MM-DD" } = params;
 		const data = {};
 
 		if( $("#client_id").val() !== '' && $("#client_id").val() !== null ){
@@ -555,9 +556,13 @@ Clientes
 		if( $("#state").val() !== '' && $("#state").val() !== null){
 			data.state = $("#state").val();
 		}
-		if( $("#date_from").val() !== '' || $("#date_to").val() !== ''){
-			data.date_from = $("#date_from").val();
-			data.date_to = $("#date_to").val();
+		if( $("#date_from").val() !== ''){
+			let fecha_from = $("#date_from").val();
+			data.created_start = moment(fecha_from, format_from).format(format_to);
+		}		
+		if( $("#date_to").val() !== ''){
+			let fecha_to = $("#date_to").val();
+			data.created_end = moment(fecha_to, format_from).format(format_to);
 		}
 
 		return data;
@@ -570,8 +575,8 @@ Clientes
 			$("#razon_social").val(filter_clientes.razon_social??'');
 			$("#name").val(filter_clientes.name??'');
 			$("#email").val(filter_clientes.email??'');
-			$("#date_from").val(filter_clientes.date?.from??'');
-			$("#date_to").val(filter_clientes.date?.to??'');
+			$("#date_from").val(filter_clientes.created_start?(moment(filter_clientes.created_start, 'YYYY-MM-DD').format('DD/MM/YYYY')):'');
+			$("#date_to").val(filter_clientes.created_end?(moment(filter_clientes.created_end, 'YYYY-MM-DD').format('DD/MM/YYYY')):'');
 			$("#filter_box").removeClass("collapsed-card");
 			$("#icon_filter_box").addClass("fa-minus").removeClass("fa-plus");
 		}
@@ -652,7 +657,10 @@ Clientes
 					delete data.order;
 					delete data.search;
 
-					let filtersData = getFiltersData();
+					let filtersData = getFiltersData({
+						format_from : 'DD/MM/YYYY',
+						format_to : 'YYYY-MM-DD'
+					});
 					for(let idx in filtersData){
 						let value = filtersData[idx] ?? '';
 						if(value!="") data[idx] = value;
@@ -672,9 +680,10 @@ Clientes
 						object.data.push([
 							element.id,
 							element.full_name,
-							element.email,
+							(element.email) ? `<a class="text-danger-emphasis text-dark" type="button" data-copy="inner" data-value="${element.email}">${element.email}</a>`:'',
 							element.phone_number,
 							( ( element.company ) ? element.company.commercial_name??'':'' ),
+							moment(element.created_at).format('DD/MM/YYYY h:mm a'),
 							(`<span class="badge text-bg-secondary badge-${element.state}">${state[element.state]??''}</span>`),
 							( ( element.company ) ? element.company.name??'':'' ),
 							( ( element.company ) ? element.company.id??'':'' ),
@@ -685,9 +694,8 @@ Clientes
 							( element.permissions??{} ).my_listings? 'SI':'NO',
 							( element.permissions??{} ).my_projects? 'SI':'NO',
 							( element.permissions??{} ).stadistics? 'SI':'NO',
-							`<a href="${urlClient}" target="_blank">${urlClient}</a>`,
-							moment(element.created_at).format('DD/MM/YYYY h:mm a'),
-							( element.signin_method??"" ),
+							( element.url && element.url!=null) ? `<a href="${urlClient}" target="_blank">${urlClient}</a>` : '',							
+							( element.sign_method??"" ),
 							`
 							<div class="dropdown">
 								<button class="btn btn-secondary btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="false">
@@ -714,6 +722,7 @@ Clientes
 			"initComplete": function(settings, json) {
 				$( 'p[name=\'loading\']' ).remove();
 				$(this).removeClass( 'd-none' );
+				copyToClipboard();
 			},
 			//fixedHeader: true,
 			search: {
@@ -753,7 +762,7 @@ Clientes
 
 	const columnDefs = [
 		{
-			targets: [0, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17],
+			targets: [0, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17],
 			visible: false,
 			class: "none"
 		},
@@ -782,10 +791,15 @@ Clientes
 		});
 		
 		$("#rowDetails").modal('show');
+		copyToClipboard();
 	});
 
 	$("#applyfiltters").on('click', function (e) {
-		let filters = getFiltersData();		
+		let filters = getFiltersData({
+			format_from : 'DD/MM/YYYY',
+			format_to : 'YYYY-MM-DD'
+		});
+
 		if(!$.isEmptyObject(filters)){
 			localStorage.setItem('filter_clientes', JSON.stringify(filters));
 		}
@@ -794,7 +808,11 @@ Clientes
 	$("#filter_box :input[type='text']").on('keyup', function (e) {
 
 		if(e.keyCode == 13){
-			let filters = getFiltersData();		
+			let filters = getFiltersData({
+				format_from : 'DD/MM/YYYY',
+				format_to : 'YYYY-MM-DD'
+			});
+
 			if(!$.isEmptyObject(filters)){
 				localStorage.setItem('filter_clientes', JSON.stringify(filters));
 			}
@@ -808,6 +826,9 @@ Clientes
 		tableSaved.ajax.reload();
 	});
 
+	$(document).ready(function(){
+		copyToClipboard();
+	});
 	/*
     async function myAjax(param) {
         let result

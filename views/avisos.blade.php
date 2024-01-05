@@ -110,10 +110,10 @@ Avisos
 <div class="row">
 	<div class="col-12">
         <div id="filter_box" class="card collapsed-card">
-			<div class="card-header">
+			<div class="card-header" role="button" data-card-widget="collapse">
                 <h5 class="card-title">Filtros de búsqueda</h5>
                 <div class="card-tools">
-                  	<button type="button" class="btn btn-tool" data-card-widget="collapse">
+                  	<button type="button" class="btn btn-tool">
                     	<i id="icon_filter_box" class="fas fa-plus"></i>
                   	</button>
                 </div>
@@ -157,7 +157,7 @@ Avisos
                 	</div>
 					<div class="col-md-4">
 						<div class="form-group">
-							<label for="exampleInputEmail1">Precio</label>
+							<label for="exampleInputEmail1">Precio (Desde - Hasta)</label>
 							<div class="form-row">
 								<div class="col-6">
 									<input type="text" class="form-control" id="price_from" placeholder="desde">
@@ -170,13 +170,13 @@ Avisos
 					</div>
 					<div class="col-md-4">
 						<div class="form-group">
-							<label for="exampleInputEmail1">Fecha de publicación</label>
+							<label for="exampleInputEmail1">Fecha de publicación (Desde - Hasta)</label>
 							<div class="form-row">
 								<div class="col-6">
-									<input type="date" class="form-control" id="date_from" placeholder="Desde">
+									<input type="text" class="form-control" id="date_from" placeholder="dd/mm/yyyy">
 								</div>
 								<div class="col-6">
-									<input type="date" class="form-control" id="date_to" placeholder="Hasta">
+									<input type="text" class="form-control" id="date_to" placeholder="dd/mm/yyyy">
 								</div>
 							</div>
 						</div>
@@ -237,9 +237,18 @@ Avisos
 <!-- Select2 -->
 <script src="public/plugins/select2/js/select2.full.min.js"></script>
 <script>
+	setMask('#date_from', { mask: "99/99/9999", showMaskOnHover: false, placeholder: "dd/mm/yyyy", rightAlign:false });
+	setMask('#date_to', { mask: "99/99/9999", showMaskOnHover: false, placeholder: "dd/mm/yyyy", rightAlign:false });
+</script>
+<script>
+	let globalRecords = [];
     let tableSaved = null;
 	let dtDraw = 1;
 	let filters = [];
+	const roles = {
+		"realtor" : "Agente",
+		"owner" : "Propietario"
+	};
 	const headers = [
 			{ "title": "ID del listing", "code": "id" },
 			
@@ -249,7 +258,7 @@ Avisos
 			{ "title": "Direccion", "code": "id" },
 			{ "title": "Distrito", "code": "id" },
 			{ "title": "Provincia", "code": "id" },
-			{ "title": "Ciudad", "code": "id" },
+			{ "title": "Departamento", "code": "id" },
 			{ "title": "Pais", "code": "id" },
 			{ "title": "Estado", "code": "state" },
 			{ "title": "Fecha de creación", "code": "id" },
@@ -654,8 +663,8 @@ Avisos
 			$("#property_type").val(filter_avisos.property_type??'');
 			$("#price_from").val(filter_avisos.price?.from??'');
 			$("#price_to").val(filter_avisos.price?.to??'');
-			$("#date_from").val(filter_avisos.date?.from??'');
-			$("#date_to").val(filter_avisos.date?.to??'');
+			$("#date_from").val(filter_avisos.created_start?(moment(filter_avisos.created_start, 'YYYY-MM-DD').format("DD/MM/YYYY")):'');
+			$("#date_to").val(filter_avisos.created_end?(moment(filter_avisos.created_end, 'YYYY-MM-DD').format("DD/MM/YYYY")):'');
 			$("#filter_box").removeClass("collapsed-card");
 			$("#icon_filter_box").addClass("fa-minus").removeClass("fa-plus");
 		}
@@ -798,74 +807,15 @@ Avisos
 							to: $("#price_to").val()
 						};
 					}
-					if( $("#date_from").val() !== '' || $("#date_to").val() !== ''){
-						data.date = {
-							from: $("#date_from").val(),
-							to: $("#date_to").val()
-						};
+					if( $("#date_from").val() !== ''){
+						let created_start = $("#date_from").val();
+						data.created_start = moment(created_start, "DD/MM/YYYY").format('YYYY-MM-DD');
 					}
-					/*
-					if(tableSaved?.searchPanes){
-						let criterios = [];
-						var filterCriteria = "";
-						var searchPanes = tableSaved.context[0]._searchPanes.s.panes;
-						searchPanes.forEach( searchPane => {
-							if ( searchPane.s.serverSelect.length > 0 ) {
-								searchPane.s.serverSelect.forEach( elem => {
-									const value = elem.filter();
-									if( $.isArray(value) ){
-										data[headers[searchPane.s.index].code + '[from]'] = value[0];
-										data[headers[searchPane.s.index].code + '[to]'] = value[1];
-									}else{
-										data[headers[searchPane.s.index].code] = value;
-									}
-								} );
-								
-							}
-							/*
-							var criteriaField = "['" + searchPane.s.name + "': [";
-							var toAdd = false;
-							if ( searchPane.s.serverSelect.length > 0 ) {
-								searchPane.s.serverSelect.forEach( elem => {criteriaField += elem.filter();} );
-								toAdd = true;
-							}
-							criteriaField += "] ]"
-							if (toAdd) {
-								if ( filterCriteria == "" ) {
-									filterCriteria = criteriaField;
-								} else {
-									filterCriteria += ", " + criteriaField;
-								}
-							}
-						});
-						//filterCriteria = "{'criteriaSearch': " + filterCriteria + "}"
-						//console.log(filterCriteria);
+					if( $("#date_to").val() !== ''){
+						let created_end = $("#date_from").val();
+						data.created_end = moment(created_end, "DD/MM/YYYY").format('YYYY-MM-DD');
 					}
-					if(tableSaved?.searchBuilder){
-						const searchBuilder = tableSaved.searchBuilder.getDetails();
-						let criterios = [];
-						(searchBuilder.criteria??[]).forEach(element => {
-							if( typeof element.condition == 'undefined'){
-								return;
-							}
-							let index = headers.findIndex(x => x.title === element.data??null);
-							if( filters.includes(headers[index].code)){
-								return;
-							}
-							switch (element.condition) {
-								case '=':
-									data[headers[index].code] = element.value[0];
-									break;
-								case 'between':
-									data[headers[index].code + '[from]'] = element.value[0];
-									data[headers[index].code + '[to]'] = element.value[1];
-									break;
-							}
-							filters.push(headers[index].code);
-						});
-						//data.criterios = criterios;
-					}*/
-					console.log(data);
+
 					delete data.searchPanes;
 					delete data.searchPanesLast;
 					delete data.searchPanes_null;
@@ -880,6 +830,7 @@ Avisos
 				"dataSrc": function ( json ) {
 					const data = json.data??{};
 					const records = data.records??[];
+					globalRecords=records;
 					let object = {
 						"draw": 1,
 						"recordsTotal": data.listings_count,
@@ -922,7 +873,7 @@ Avisos
 							( ( element.contacts ) ? element.contacts[0]?.name??'':'' ),
 							element.ad_plan??'',
 							( ( element.days_remain ) ? element.days_remain + ' días':'' ),
-							element.publisher_role??'',
+							element.publisher_role?(roles[element.publisher_role]??''):'',
 							element.bedrooms_count??'',
 							element.bathrooms_count??'',
 							( ( element.area ) ? Number(element.area).toLocaleString("en") + ' m²':'' ),
@@ -937,7 +888,7 @@ Avisos
 							advanced_details.join(', '),
 							element.description??'',
 							element.images.length??'',
-							element.videos.length === 0 ? 'Si' : 'No',
+							element.videos.length === 0 ? 'No' : (element.videos[0].content ? `<a href="${element.videos[0].content}" target="_blank">${element.videos[0].content}</a>` : 'No existe la url'),
 							element.views_count??'',
 							element.favourites_count??'',
 							element.contacts_count??'',
@@ -1094,16 +1045,63 @@ Avisos
 	tableSaved.on('click', '.details', function (e) {
 		e.preventDefault();
 		const target = $(this).attr('data-index');
-		const data = tableSaved.rows( target ).data()[0];
+		let data = tableSaved.rows( target ).data()[0];
 		$("#rowDetails .modal-body").html("");
-		data.forEach((element, index, array) => {
-			if (index + 1 === array.length){ return; }
+
+		//cambiar orden de columnas en modal detalle
+		const index = [
+		0, 	//ID del listing
+		9, 	//Estado
+		10, //Fecha de creación
+		11, //Fecha de publicación
+		34, //Fecha de actualización
+		35, //Fecha de expiración
+		1,  //Tipo de operación
+		2,  //Tipo de inmueble
+		3, 	//Precio
+		4, 	//Direccion
+		5, 	//Distrito
+		6, 	//Provincia
+		7, 	//Departamento
+		8, 	//Pais
+		12, //Nombre del usuario
+		13, //Categoria
+		14, //Duración
+		15, //Rol
+		31, //Numero de vistas
+		32, //Número de favoritos
+		33, //Numero de contactos
+		16, //Cuartos
+		17, //Baños
+		18, //Area total
+		19, //Área techada
+		20, //Estacionamientos
+		21, //Estacionamiento para visitas
+		22, //Año de construcción
+		23, //Número de pisos
+		24, //Piso del inmueble
+		25, //Pet friendly
+		26, //Comodidades
+		27, //Adicionales
+		28, //Descripción
+		29, //Numero de fotos
+		30	//Video
+	];
+
+		data = index.map(i => data[i]);
+		let newheader = index.map(i => headers[i]);
+		
+		data.forEach((element, 
+		index, array) => {
+			// if (index + 1 === array.length){ return; }
 			if (index === 0){
-				$("#rowDetails .modal-title").html("Detalles para " + element);
+				let rowInfo = globalRecords.filter((item)=> item.id == element);
+				let url_external = "https://babilonia.io" + rowInfo[0].url_external ?? '';
+				$("#rowDetails .modal-title").html(`Detalles para <a target="_blank" href="${url_external}">${element}</a>`);
 			}
 			$("#rowDetails .modal-body").append(`
 				<div class="box-details">
-					<div>${headers[index].title}</div>
+					<div>${newheader[index]?.title??''}</div>
 					<div>${element}</div>
 				</div>
 			`);
@@ -1129,12 +1127,15 @@ Avisos
 				to: $("#price_to").val()
 			};
 		}
-		if( $("#date_from").val() !== '' || $("#date_to").val() !== ''){
-			filters.date = {
-				from: $("#date_from").val(),
-				to: $("#date_to").val()
-			};
+		if( $("#date_from").val() !== ''){
+			let created_start = $("#date_from").val();
+			filters.created_start = moment(created_start, "DD/MM/YYYY").format('YYYY-MM-DD');
 		}
+		if($("#date_to").val() !== ''){
+			let created_end = $("#date_to").val();
+			filters.created_end = moment(created_end, "DD/MM/YYYY").format('YYYY-MM-DD');
+		}
+		console.log(filters);
 		if(!$.isEmptyObject(filters)){
 			localStorage.setItem('filter_avisos', JSON.stringify(filters));
 		}

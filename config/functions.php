@@ -149,10 +149,11 @@ function menu_item_drag_sort($key = 0, $array = []){
     $_url = $array["url"] ?? '#';
     $_name = $array["label"] ?? '';
     $_icon = $array["icon"] ?? 'nav-icon fas fa-chart-pie';
+    $_state = $array["state"] ?? "off";
     $_menu = $array["children"] ?? [];
     $_disabled = false; #($_controller == "configuracion" || $_controller == "configuracion-menu") ? true : false;
 
-    $template = "<li class='dd-item dd3-item' data-id='$key' data-label='$_name' data-url='$_url' data-controller='$_controller' data-icon='$_icon' style='". ($_disabled ? "pointer-events: none;":"")."'>
+    $template = "<li class='dd-item dd3-item' data-id='$key' data-label='$_name' data-url='$_url' data-controller='$_controller' data-icon='$_icon' data-state='$_state' style='". ($_disabled ? "pointer-events: none;":"")."'>
                     <div class='dd-handle dd3-handle'>Drag</div>
                     <div class='dd3-content'>
                         <span>$_name</span>
@@ -164,6 +165,12 @@ function menu_item_drag_sort($key = 0, $array = []){
                         <p><label for=''>Navigation Url<br><input type='text' name='navigation_url' value='$_url'></label></p>
                         <p><label for=''>Navigation ID<br><input type='text' name='navigation_controller' value='$_controller'></label></p>
                         <p><label for=''>Navigation Icono<br><input type='text' name='navigation_icon' value='$_icon'></label></p>
+                        <p><label for=''>Navigation Estado<br>
+                            <select name='navigation_state'>
+                                <option value='on' ".($_state=="on"?'selected':'').">Visible</option>
+                                <option value='off' ".($_state=="off"?'selected':'').">Invisble</option>
+                            </select>	
+                        </p>
                         <p><a class='item-delete' href='javascript:;'>Remove</a> |
                         <a class='item-close' href='javascript:;'>Close</a></p>
                     </div>
@@ -189,13 +196,16 @@ function menu_item($array = [], $currentPage = ""){
     $_name = $array["label"] ?? '';
     $_icon = $array["icon"] ?? 'nav-icon fas fa-chart-pie';
     $_menu = $array["children"] ?? [];
+    $_state = $array["state"] ?? "off";
     $_active = ($_id ==  $currentPage) ? 'active':'';
 
-    $template = "<li class='nav-item'>
+    $template = "";
+    if($_state == "on"){
+    $template .= "<li class='nav-item'>
                     <a href='$_url' class='nav-link $_active'>
                         <i class='$_icon'></i>
                         <p>$_name";
-                        $template .= (count($_menu)>0) ? '<i class="fas fa-angle-left right"></i>' : '';
+                        $template .= (count($_menu)>0) ? '<i class="fas fa-angle-right right"></i>' : '';
                         $template.="</p>
                     </a>";
                     if(count($_menu)>0)
@@ -208,7 +218,7 @@ function menu_item($array = [], $currentPage = ""){
                         $template.="</ul>";
                     }
     $template.="</li>";
-
+    }
     return $template;
 }
 function get_current_view(){

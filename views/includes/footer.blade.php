@@ -66,6 +66,7 @@
 <script src="@asset("js/pages/dashboard.js")"></script>
 @endif
 <script src="@asset("js/inputmask.min.js")"></script>
+<script src="@asset("js/axios.min.js")"></script>
 <script src="@asset("js/app.js")"></script>
 @yield("scripts")
 
