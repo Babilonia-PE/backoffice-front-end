@@ -23,11 +23,11 @@ function dd($string)
     exit();
 }
 
-function env($string = "")
+function env($string = "", $default = "")
 {
     if($string == "") return "";
 
-    return $_SERVER["$string"]??'';
+    return $_SERVER["$string"]??$default;
 }
 
 function view($template = "", $parametros = []){
