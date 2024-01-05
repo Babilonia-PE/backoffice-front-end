@@ -136,7 +136,9 @@ Clientes
                   			<select class="form-control" id="state" name="" id="">
 								<option value="">- Seleccione una opción -</option>
 								<option value="1">Activo</option>
-								<option value="0">No activo</option>
+								<option value="2">Bloqueado</option>
+								<option value="3">Baneado</option>
+								<option value="5">Eliminado</option>
 							</select>
                 		</div>
                 	</div>
