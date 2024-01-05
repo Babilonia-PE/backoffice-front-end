@@ -591,10 +591,21 @@ Leads
 	jQuery.fn.populatefilters=function(){
 		if (localStorage.getItem('filter_leads') !== null) {
 			const filter_leads = JSON.parse(localStorage.getItem('filter_leads'));
+			const filter_leads_users = JSON.parse(localStorage.getItem('filter_leads_users')) ?? [];
+            if(filter_leads_users.length > 0){
+                const selectUser = document.getElementById("user_id");
+                filter_leads_users.forEach((item) => {
+                    let option = document.createElement("option");
+                    option.value = item.id;
+                    option.innerHTML = item.full_name;
+                    selectUser.append(option);
+                });
+            }
+
 			$("#id").val(filter_leads.listing_id??'');
 			$("#user_id").val(filter_leads.user_id??'');
-			$("#created_start").val(filter_leads.created_start??'');
-			$("#created_end").val(filter_leads.created_end??'');
+			$("#created_start").val(filter_leads.created_start?moment(filter_leads.created_start, 'YYYY-MM-DD').format("DD/MM/YYYY"): '');
+			$("#created_end").val(filter_leads.created_end?moment(filter_leads.created_end, 'YYYY-MM-DD').format("DD/MM/YYYY"):'');
 			$("#filter_box").removeClass("collapsed-card");
 			$("#icon_filter_box").addClass("fa-minus").removeClass("fa-plus");
 		}
@@ -729,10 +740,15 @@ Leads
 						data.user_id = $("#user_id").val();
 					}
 					if( $("#created_start").val() !== '' || $("#created_start").val() !== ''){
-						data.created_start =  $("#created_start").val();
+                        let created_start = $("#created_start").val();
+                            created_start = moment(created_start, "DD/MM/YYYY").format('YYYY-MM-DD');
+                            console.log(created_start);
+						data.created_start = created_start;
 					}
 					if( $("#created_end").val() !== '' || $("#created_end").val() !== ''){
-						data.created_end =  $("#created_end").val();					
+                        let created_end = $("#created_end").val();
+                            created_end = moment(created_end, "DD/MM/YYYY").format('YYYY-MM-DD');
+						data.created_end = created_end;
 					}
 					
 					delete data.searchPanes;
@@ -942,19 +958,23 @@ Leads
 			filters.user_id = $("#user_id").val();
 		}
 		if( $("#created_start").val() !== '' || $("#created_start").val() !== ''){
-			filters.created_start = $("#created_start").val();
+			let created_start = $("#created_start").val();
+                created_start = moment(created_start, "DD/MM/YYYY").format('YYYY-MM-DD');
+            filters.created_start = created_start;
 		}
 		if( $("#created_end").val() !== '' || $("#created_end").val() !== ''){
-			filters.created_start = $("#created_end").val();
+            let created_end = $("#created_end").val();
+                created_end = moment(created_end, "DD/MM/YYYY").format('YYYY-MM-DD');
+            filters.created_end = created_end;
 		}
 		if(!$.isEmptyObject(filters)){
 			localStorage.setItem('filter_leads', JSON.stringify(filters));
 		}
-        console.log(filters);
 		tableSaved.ajax.reload();
 	});
 	$("#removefiltters").on('click', function (e) {
 		localStorage.removeItem('filter_leads');
+		localStorage.removeItem('filter_leads_users');
 		$("#id").val('');
 		$("#user_id").val('');
 		$("#user_id").html('');
@@ -973,16 +993,18 @@ Leads
 
     $(document).on('keyup', '.bootstrap-select .bs-searchbox input', async function (e) {
         let keyword = e.target.value;
+        if(keyword == "") return false;
         let params = {
             page:1,
-            per_page:50,
+            per_page:1500,
             keyword: keyword 
         };
         const selectUser = document.getElementById("user_id");
         const data = await fetchData('/app/search_users', params, 'GET');
-        const records = data.data.data?.records ?? [];
+        const records = data.data?.data?.records ?? [];
         selectUser.innerHTML="";
         if(records.length > 0){
+            localStorage.setItem('filter_leads_users', JSON.stringify(records));
             records.forEach((item) => {
                 let option = document.createElement("option");
                 option.value = item.id;
