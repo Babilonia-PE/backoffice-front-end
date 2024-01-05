@@ -663,8 +663,8 @@ Avisos
 			$("#property_type").val(filter_avisos.property_type??'');
 			$("#price_from").val(filter_avisos.price?.from??'');
 			$("#price_to").val(filter_avisos.price?.to??'');
-			$("#date_from").val(filter_avisos.date?.from??'');
-			$("#date_to").val(filter_avisos.date?.to??'');
+			$("#date_from").val(filter_avisos.created_start?(moment(filter_avisos.created_start, 'YYYY-MM-DD').format("DD/MM/YYYY")):'');
+			$("#date_to").val(filter_avisos.created_end?(moment(filter_avisos.created_end, 'YYYY-MM-DD').format("DD/MM/YYYY")):'');
 			$("#filter_box").removeClass("collapsed-card");
 			$("#icon_filter_box").addClass("fa-minus").removeClass("fa-plus");
 		}
@@ -807,73 +807,14 @@ Avisos
 							to: $("#price_to").val()
 						};
 					}
-					if( $("#date_from").val() !== '' || $("#date_to").val() !== ''){
-						data.date = {
-							from: $("#date_from").val(),
-							to: $("#date_to").val()
-						};
+					if( $("#date_from").val() !== ''){
+						let created_start = $("#date_from").val();
+						data.created_start = moment(created_start, "DD/MM/YYYY").format('YYYY-MM-DD');
 					}
-					/*
-					if(tableSaved?.searchPanes){
-						let criterios = [];
-						var filterCriteria = "";
-						var searchPanes = tableSaved.context[0]._searchPanes.s.panes;
-						searchPanes.forEach( searchPane => {
-							if ( searchPane.s.serverSelect.length > 0 ) {
-								searchPane.s.serverSelect.forEach( elem => {
-									const value = elem.filter();
-									if( $.isArray(value) ){
-										data[headers[searchPane.s.index].code + '[from]'] = value[0];
-										data[headers[searchPane.s.index].code + '[to]'] = value[1];
-									}else{
-										data[headers[searchPane.s.index].code] = value;
-									}
-								} );
-								
-							}
-							/*
-							var criteriaField = "['" + searchPane.s.name + "': [";
-							var toAdd = false;
-							if ( searchPane.s.serverSelect.length > 0 ) {
-								searchPane.s.serverSelect.forEach( elem => {criteriaField += elem.filter();} );
-								toAdd = true;
-							}
-							criteriaField += "] ]"
-							if (toAdd) {
-								if ( filterCriteria == "" ) {
-									filterCriteria = criteriaField;
-								} else {
-									filterCriteria += ", " + criteriaField;
-								}
-							}
-						});
-						//filterCriteria = "{'criteriaSearch': " + filterCriteria + "}"
-						//console.log(filterCriteria);
+					if( $("#date_to").val() !== ''){
+						let created_end = $("#date_from").val();
+						data.created_end = moment(created_end, "DD/MM/YYYY").format('YYYY-MM-DD');
 					}
-					if(tableSaved?.searchBuilder){
-						const searchBuilder = tableSaved.searchBuilder.getDetails();
-						let criterios = [];
-						(searchBuilder.criteria??[]).forEach(element => {
-							if( typeof element.condition == 'undefined'){
-								return;
-							}
-							let index = headers.findIndex(x => x.title === element.data??null);
-							if( filters.includes(headers[index].code)){
-								return;
-							}
-							switch (element.condition) {
-								case '=':
-									data[headers[index].code] = element.value[0];
-									break;
-								case 'between':
-									data[headers[index].code + '[from]'] = element.value[0];
-									data[headers[index].code + '[to]'] = element.value[1];
-									break;
-							}
-							filters.push(headers[index].code);
-						});
-						//data.criterios = criterios;
-					}*/
 
 					delete data.searchPanes;
 					delete data.searchPanesLast;
@@ -1186,12 +1127,15 @@ Avisos
 				to: $("#price_to").val()
 			};
 		}
-		if( $("#date_from").val() !== '' || $("#date_to").val() !== ''){
-			filters.date = {
-				from: $("#date_from").val(),
-				to: $("#date_to").val()
-			};
+		if( $("#date_from").val() !== ''){
+			let created_start = $("#date_from").val();
+			filters.created_start = moment(created_start, "DD/MM/YYYY").format('YYYY-MM-DD');
 		}
+		if($("#date_to").val() !== ''){
+			let created_end = $("#date_to").val();
+			filters.created_end = moment(created_end, "DD/MM/YYYY").format('YYYY-MM-DD');
+		}
+		console.log(filters);
 		if(!$.isEmptyObject(filters)){
 			localStorage.setItem('filter_avisos', JSON.stringify(filters));
 		}
