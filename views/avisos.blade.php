@@ -158,7 +158,7 @@ Avisos
               		<div class="col-md-4">
                 		<div class="form-group">
                   			<label>Cliente</label>
-							
+
 							@component("components.search-user",array("storage"=>"filter_listing_users"))
 							@endcomponent
                 		</div>
@@ -721,7 +721,7 @@ Avisos
                 filter_listing_users.forEach((item) => {
                     let option = document.createElement("option");
                     option.value = item.id;
-                    option.innerHTML = item.full_name;
+                    option.innerHTML = `${item.full_name??''} - ${item.email??''}`;
                     selectUser.append(option);
                 });
             }

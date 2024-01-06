@@ -599,7 +599,7 @@ Leads
                 filter_leads_users.forEach((item) => {
                     let option = document.createElement("option");
                     option.value = item.id;
-                    option.innerHTML = item.full_name;
+                    option.innerHTML = `${item.full_name??''} - ${item.email??''}`;
                     selectUser.append(option);
                 });
             }
