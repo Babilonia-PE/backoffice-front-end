@@ -129,7 +129,7 @@ Leads
               		<div class="col-md-4">
                 		<div class="form-group">
                   			<label>Nombre completo</label>
-                            <select name="user_id" id="user_id" class="form-control selectpicker" data-live-search="true" title="Buscar por Nombre o nombre comercial"></select>
+							@include("includes.search-user")
                 		</div>
                 	</div>              							
 					<div class="col-md-4">
@@ -988,34 +988,6 @@ Leads
 	$('.select2').select2({
       	theme: 'bootstrap4'
     })
-
-    $('#user_id').selectpicker({
-        liveSearch: true
-    });
-
-    $(document).on('keyup', '.bootstrap-select .bs-searchbox input', async function (e) {
-        let keyword = e.target.value;
-        if(keyword == "") return false;
-        let params = {
-            page:1,
-            per_page:1500,
-            keyword: keyword 
-        };
-        const selectUser = document.getElementById("user_id");
-        const data = await fetchData('/app/search_users', params, 'GET');
-        const records = data.data?.data?.records ?? [];
-        selectUser.innerHTML="";
-        if(records.length > 0){
-            localStorage.setItem('filter_leads_users', JSON.stringify(records));
-            records.forEach((item) => {
-                let option = document.createElement("option");
-                option.value = item.id;
-                option.innerHTML = item.full_name;
-                selectUser.append(option);
-            });
-        }
-        $('#user_id').selectpicker('refresh');
-    });
 
 	setTimeout(() => {
 		$(".dtsb-add").on('click', function (e) {

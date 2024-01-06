@@ -80,3 +80,31 @@ const copyToClipboard = ()=>{
           }
     })    
 }
+const userSearch = () => {
+    $('#user_id').selectpicker({
+        liveSearch: true
+    });
+    $(document).on('keyup', '.user-search.bootstrap-select .bs-searchbox input', async function (e) {
+        let keyword = e.target.value;
+        if(keyword == "") return false;
+        let params = {
+            page:1,
+            per_page:1500,
+            keyword: keyword 
+        };
+        const selectUser = document.getElementById("user_id");
+        const data = await fetchData('/app/search_users', params, 'GET');
+        const records = data.data?.data?.records ?? [];
+        selectUser.innerHTML="";
+        if(records.length > 0){
+            localStorage.setItem('filter_leads_users', JSON.stringify(records));
+            records.forEach((item) => {
+                let option = document.createElement("option");
+                option.value = item.id;
+                option.innerHTML = `${item.full_name} - ${item.email}`;
+                selectUser.append(option);
+            });
+        }
+        $('#user_id').selectpicker('refresh');
+    });
+}

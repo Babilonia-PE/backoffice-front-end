@@ -158,7 +158,7 @@ Avisos
               		<div class="col-md-4">
                 		<div class="form-group">
                   			<label>Cliente</label>
-                  			<input type="text" name="user_id" id="user_id" class="form-control" />
+                  			@include("includes.search-user")
                 		</div>
                 	</div>
 					<div class="col-md-4">
@@ -272,6 +272,7 @@ Avisos
 @endsection
 
 @section('scripts')
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.18/js/bootstrap-select.min.js" integrity="sha512-yDlE7vpGDP7o2eftkCiPZ+yuUyEcaBwoJoIhdXv71KZWugFqEphIS3PU60lEkFaz8RxaVsMpSvQxMBaKVwA5xg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script src="public/plugins/LibDataTables/datatables.min.js"></script>
 <script src="public/plugins/LibDataTables/DataTables-1.13.6/js/dataTables.bootstrap4.min.js"></script>
 <script src="public/plugins/LibDataTables/Responsive-2.5.0/js/responsive.bootstrap4.min.js"></script>
@@ -1290,7 +1291,8 @@ Avisos
 	});
 	$('.select2').select2({
       	theme: 'bootstrap4'
-    })
+    });
+
 	setTimeout(() => {
 		$(".dtsb-add").on('click', function (e) {
 			/*
