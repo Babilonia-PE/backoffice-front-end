@@ -13,6 +13,14 @@
 .gap-1{gap: 0.5rem}
 .gap-2{gap: 1rem}
 .gap-3{gap: 1.5rem}
+.text-bg-success{
+    color: #fff!important;
+    background-color: #198754!important;
+}
+.text-bg-danger{
+	color: #fff!important;
+	background-color: #dc3545!important;    
+}
 </style>
 @endsection
 
