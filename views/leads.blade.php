@@ -129,7 +129,8 @@ Leads
               		<div class="col-md-4">
                 		<div class="form-group">
                   			<label>Nombre completo</label>
-							@include("includes.search-user")
+							@component("components.search-user")
+							@endcomponent
                 		</div>
                 	</div>              							
 					<div class="col-md-4">

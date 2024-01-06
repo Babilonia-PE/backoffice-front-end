@@ -158,7 +158,9 @@ Avisos
               		<div class="col-md-4">
                 		<div class="form-group">
                   			<label>Cliente</label>
-                  			@include("includes.search-user")
+							
+							@component("components.search-user",array("storage"=>"filter_listing_users"))
+							@endcomponent
                 		</div>
                 	</div>
 					<div class="col-md-4">
@@ -713,6 +715,18 @@ Avisos
 	jQuery.fn.populatefilters=function(){
 		if (localStorage.getItem('filter_avisos') !== null) {
 			const filter_avisos = JSON.parse(localStorage.getItem('filter_avisos'));
+			const filter_listing_users = JSON.parse(localStorage.getItem('filter_listing_users')) ?? [];
+            if(filter_listing_users.length > 0){
+                const selectUser = document.getElementById("user_id");
+                filter_listing_users.forEach((item) => {
+                    let option = document.createElement("option");
+                    option.value = item.id;
+                    option.innerHTML = item.full_name;
+                    selectUser.append(option);
+                });
+            }
+			$("#user_id").val(filter_avisos.user_id??'');
+
 			$("#state").val(filter_avisos.state??'');
 			$("#listing_type").val(filter_avisos.listing_type??'');
 			$("#property_type").val(filter_avisos.property_type??'');
@@ -858,6 +872,9 @@ Avisos
 						data.order_by = headers[element.column].code;
 						data.order_dir = element.dir;
 					});
+					if( $("#user_id").val() !== '' && $("#user_id").val() !== null){
+						data.user_id = $("#user_id").val();
+					}
 					if( $("#state").val() !== '' && $("#state").val() !== null ){
 						data.state = $("#state").val();
 					}
@@ -1210,6 +1227,9 @@ Avisos
 
 	$("#applyfiltters").on('click', function (e) {
 		let filters = {};
+		if( $("#user_id").val() !== '' && $("#user_id").val() !== null ){
+			filters.user_id = $("#user_id").val();
+		}
 		if( $("#state").val() !== '' && $("#state").val() !== null ){
 			filters.state = $("#state").val();
 		}
@@ -1273,6 +1293,11 @@ Avisos
 	});
 	$("#removefiltters").on('click', function (e) {
 		localStorage.removeItem('filter_avisos');
+
+		$("#user_id").val('');
+		$("#user_id").html('');
+        $("#user_id").selectpicker('refresh');
+
 		$("#state").val('').select2({theme: 'bootstrap4'});
 		$("#listing_type").val('').select2({theme: 'bootstrap4'});
 		$("#property_type").val('').select2({theme: 'bootstrap4'});

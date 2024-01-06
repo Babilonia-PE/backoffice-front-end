@@ -80,8 +80,10 @@ const copyToClipboard = ()=>{
           }
     })    
 }
-const userSearch = () => {
-    $('#user_id').selectpicker({
+const userSearch = (options = {}) => {
+
+    const { id='user_id', storage = 'filter_leads_users' } = options ?? {};
+    $(`#${id}`).selectpicker({
         liveSearch: true
     });
     $(document).on('keyup', '.user-search.bootstrap-select .bs-searchbox input', async function (e) {
@@ -92,12 +94,12 @@ const userSearch = () => {
             per_page:1500,
             keyword: keyword 
         };
-        const selectUser = document.getElementById("user_id");
+        const selectUser = document.getElementById(id);
         const data = await fetchData('/app/search_users', params, 'GET');
         const records = data.data?.data?.records ?? [];
         selectUser.innerHTML="";
         if(records.length > 0){
-            localStorage.setItem('filter_leads_users', JSON.stringify(records));
+            localStorage.setItem(storage, JSON.stringify(records));
             records.forEach((item) => {
                 let option = document.createElement("option");
                 option.value = item.id;
@@ -105,6 +107,6 @@ const userSearch = () => {
                 selectUser.append(option);
             });
         }
-        $('#user_id').selectpicker('refresh');
+        $(`#${id}`).selectpicker('refresh');
     });
 }
