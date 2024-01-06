@@ -18,6 +18,7 @@ use App\Controllers\AlertasController;
 use App\Controllers\ClientesController;
 use App\Controllers\PaquetesController;
 use App\Controllers\ReportesController;
+use App\Controllers\LeadsProjectsController;
 use App\Controllers\Configuration2faController;
 use App\Controllers\ConfigurationMenuController;
 use Phroute\Phroute\Exception\HttpRouteNotFoundException;
@@ -53,7 +54,8 @@ $router
                 ->get("/alertas", [AlertasController::class, "index"])
                 ->get("/avisos", [AvisosController::class, "index"])
                 ->get("/clientes", [ClientesController::class, "index"])
-                ->get("/leads", [LeadsController::class, "index"])
+                ->get("/leads-avisos", [LeadsController::class, "index"])
+                ->get("/leads-proyectos", [LeadsProjectsController::class, "index"])
                 ->get("/paquetes", [PaquetesController::class, "index"])
                 ->get("/vistas", [ViewsController::class, "index"])
                 ->get("/reportes", [ReportesController::class, "index"]);

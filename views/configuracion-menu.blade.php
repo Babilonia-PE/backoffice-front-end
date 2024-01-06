@@ -38,8 +38,8 @@ Configuración
 					<input class="form-control flex-fill w-auto" type="text" name="controller" placeholder="Identificador">
 					<input class="form-control flex-fill w-auto" type="text" name="icon" placeholder="Icono" value="far fa-circle nav-icon">
 					<select class="form-control flex-fill w-auto" name="state">
-						<option value="1">Visible</option>
-						<option value="0">Invisible</option>
+						<option value="on">Visible</option>
+						<option value="off">Invisible</option>
 					</select>
 					<button class="btn btn-primary w-auto" type="submit">Añadir menu</button>
 				</form>
