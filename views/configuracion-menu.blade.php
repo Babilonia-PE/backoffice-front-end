@@ -111,9 +111,17 @@ Configuración
 			let item =
 				'<li class="dd-item dd3-item" data-id="' + id + '" data-label="' + label + '" data-url="' + url + '" data-controller="' + controller + '" data-icon="'+ icon +'" data-state="'+ state +'">' +
 				'<div class="dd-handle dd3-handle" > Drag</div>' +
-				'<div class="dd3-content"><span>' + label + '</span>' +
-				'<div class="item-edit">Edit</div>' +
-				'</div>' +
+				`<div class="dd3-content">
+					<div class="d-inline w-auto">
+						<span>${label}</span>
+						<div class="dd-state d-inline">
+							<span class="badge ${state=='on'?'text-bg-success':'text-bg-danger'}">
+								${state=='on'?'Activo':'Desactivo'}
+							</span>
+						</div>
+					</div> 
+					<div class="item-edit">Edit</div> 
+				</div>` +
 				'<div class="item-settings d-none">' +
 				'<p><label for="">Navigation Label<br><input type="text" name="navigation_label" value="' + label + '"></label></p>' +
 				'<p><label for="">Navigation Url<br><input type="text" name="navigation_url" value="' + url + '"></label></p>' +
@@ -156,7 +164,7 @@ Configuración
 
 		$("body").delegate("input[name='navigation_label']", "change paste keyup", function (e) {
 			$(this).closest(".dd-item").data("label", $(this).val());
-			$(this).closest(".dd-item").find(".dd3-content span").text($(this).val());
+			$(this).closest(".dd-item").find(".dd3-content > div > span").text($(this).val());
 		});
 
 		$("body").delegate("input[name='navigation_url']", "change paste keyup", function (e) {
@@ -172,7 +180,21 @@ Configuración
 		});
 
 		$("[name='navigation_state']").on('change', function (e) {
-			$(this).closest(".dd-item").data("state", $(this).val());
+			let state = $(this).val();
+			let state_block = $(this).closest(".dd-item").find(".dd3-content .dd-state span");
+			let text_val = '';
+			if(state=='on'){
+				state_block.removeClass("text-bg-danger");
+				state_block.addClass("text-bg-success");
+				text_val = 'Activo';
+			}else{
+				state_block.removeClass("text-bg-success");
+				state_block.addClass("text-bg-danger");
+				text_val = 'Desactivado';
+			}
+
+			state_block.text(text_val);
+			$(this).closest(".dd-item").data("state", state);
 		})
 
 	});

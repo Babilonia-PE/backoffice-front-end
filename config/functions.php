@@ -156,7 +156,10 @@ function menu_item_drag_sort($key = 0, $array = []){
     $template = "<li class='dd-item dd3-item' data-id='$key' data-label='$_name' data-url='$_url' data-controller='$_controller' data-icon='$_icon' data-state='$_state' style='". ($_disabled ? "pointer-events: none;":"")."'>
                     <div class='dd-handle dd3-handle'>Drag</div>
                     <div class='dd3-content'>
-                        <span>$_name <div class='dd-state d-inline'>$_state_badge</div></span>
+                        <div class='d-inline w-auto'>
+                            <span>$_name</span>
+                            <div class='dd-state d-inline'>$_state_badge</div>
+                        </div>
                         <div class='item-edit'>Edit</div>
                     </div>
 
