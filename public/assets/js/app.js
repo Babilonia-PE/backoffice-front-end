@@ -1,4 +1,8 @@
 const baseUrlSerivice = 'https://services-testing.babilonia.io/';
+window.filtersParamsTypes = {
+    USER: 'user',
+    DATE: 'date'
+};
 
 window.setMask = (selector, mask) => {
     let item = $(selector);
