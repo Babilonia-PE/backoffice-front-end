@@ -70,6 +70,7 @@
 <script src="@asset("js/axios.min.js")"></script>
 <script src="@asset("js/app.js")"></script>
 @yield("scripts")
+@stack('child-scripts')
 
 </body>
 </html>

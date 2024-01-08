@@ -9,8 +9,10 @@
     $json = json_encode($array, true);
 @endphp
 <select name="{{ $id }}" id="{{ $id }}" class="form-control selectpicker user-search {{ $id }}" data-live-search="true" title="Buscar por Nombre o nombre comercial"></select>
-<script>
-    window.addEventListener("load", (event) => {
-        userSearch({!! $json !!});
-    });
-</script>
+@push('child-scripts')
+    <script>
+        window.addEventListener("load", (event) => {
+            userSearch({!! $json !!});
+        });
+    </script>
+@endpush

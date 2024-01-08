@@ -633,6 +633,7 @@ const datatable = (options = {})=>{
 			"initComplete": function(settings, json) {
                 initParams();
 				$( 'p[name=\'loading\']' ).remove();
+				$("body").addClass("table-success");
 				$(this).removeClass( 'd-none' );
 			},
 			//fixedHeader: true,
