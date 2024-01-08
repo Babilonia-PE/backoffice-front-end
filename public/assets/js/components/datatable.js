@@ -413,27 +413,26 @@ const datatable = (options = {})=>{
                         }
                     }
 
-                    let userSaved = filter_leads[name]??'';
-                    if(document.getElementById(name))document.getElementById(name).val(userSaved)
+                    let userSaved = filter_storage[name]??'';
+                    if(document.getElementById(name))document.getElementById(name).value = userSaved;
                     
                 break;
 
                 case filtersParamsTypes.DATE:
 
-                    let fieldDateValue = filter_leads[name]??'';
+                    let fieldDateValue = filter_storage[name]??'';
                         fieldDateValue = fieldDateValue != '' ? moment(fieldDateValue, 'YYYY-MM-DD').format("DD/MM/YYYY") : '';
 
                     if(document.getElementById(name))
-                        document.getElementById(name).value(fieldDateValue);                
+                        document.getElementById(name).value=fieldDateValue;                
                     
                 break;
             
                 default:
 
-                    let fieldValue = filter_leads[name]??'';                        
-
+                    let fieldValue = filter_storage[name]??'';                        
                     if(document.getElementById(name))
-                        document.getElementById(name).value(fieldValue); 
+                    document.getElementById(name).value = fieldValue; 
 
                 break;
             }
