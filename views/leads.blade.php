@@ -610,9 +610,21 @@ Leads
                     selectUser.append(option);
                 });
             }
+			
+			const filter_leads_owners = JSON.parse(localStorage.getItem('filter_leads_owners')) ?? [];
+            if(filter_leads_owners.length > 0){
+                const ownerId = document.getElementById("owner_id");
+                filter_leads_owners.forEach((item) => {
+                    let option = document.createElement("option");
+                    option.value = item.id;
+                    option.innerHTML = `${item.full_name??''} - ${item.email??''}`;
+                    ownerId.append(option);
+                });
+            }
 
 			$("#id").val(filter_leads.listing_id??'');
 			$("#user_id").val(filter_leads.user_id??'');
+			$("#owner_id").val(filter_leads.owner_id??'');
 			$("#created_start").val(filter_leads.created_start?moment(filter_leads.created_start, 'YYYY-MM-DD').format("DD/MM/YYYY"): '');
 			$("#created_end").val(filter_leads.created_end?moment(filter_leads.created_end, 'YYYY-MM-DD').format("DD/MM/YYYY"):'');
 			$("#filter_box").removeClass("collapsed-card");
@@ -747,6 +759,9 @@ Leads
 					}
 					if( $("#user_id").val() !== '' && $("#user_id").val() !== null){
 						data.user_id = $("#user_id").val();
+					}
+					if( $("#owner_id").val() !== '' && $("#owner_id").val() !== null){
+						data.owner_id = $("#owner_id").val();
 					}
 					if( $("#created_start").val() !== '' || $("#created_start").val() !== ''){
                         let created_start = $("#created_start").val();
@@ -967,6 +982,9 @@ Leads
 		if( $("#user_id").val() !== '' && $("#user_id").val() !== null){
 			filters.user_id = $("#user_id").val();
 		}
+		if( $("#owner_id").val() !== '' && $("#owner_id").val() !== null){
+			filters.owner_id = $("#owner_id").val();
+		}
 		if( $("#created_start").val() !== '' || $("#created_start").val() !== ''){
 			let created_start = $("#created_start").val();
                 created_start = moment(created_start, "DD/MM/YYYY").format('YYYY-MM-DD');
@@ -989,6 +1007,9 @@ Leads
 		$("#user_id").val('');
 		$("#user_id").html('');
         $("#user_id").selectpicker('refresh');
+		$("#owner_id").val('');
+		$("#owner_id").html('');
+        $("#owner_id").selectpicker('refresh');
 		$("#created_start").val('');
 		$("#created_end").val('');
 		tableSaved.ajax.reload();
