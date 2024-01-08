@@ -82,19 +82,26 @@ const copyToClipboard = ()=>{
 }
 const userSearch = (options = {}) => {
 
-    const { id='user_id', storage = 'filter_leads_users' } = options ?? {};
+    const { id='user_id', storage = 'filter_leads_users' } = options;
     $(`#${id}`).selectpicker({
         liveSearch: true
     });
-    $(document).on('keyup', '.user-search.bootstrap-select .bs-searchbox input', async function (e) {
+    $(`.${id}.user-search.bootstrap-select .bs-searchbox input`).unbind("keyup");
+    $(`.${id}.user-search.bootstrap-select .bs-searchbox input`).on('keyup', async function (e) {
         let keyword = e.target.value;
-        if(keyword == "") return false;
+        const selectUser = document.getElementById(id);
+
+        if(keyword == "" || keyword.length < 4){
+            selectUser.innerHTML="";
+            $(`#${id}`).selectpicker('refresh');
+            return false;
+        }
         let params = {
             page:1,
             per_page:1500,
             keyword: keyword 
         };
-        const selectUser = document.getElementById(id);
+                
         const data = await fetchData('/app/search_users', params, 'GET');
         const records = data.data?.data?.records ?? [];
         selectUser.innerHTML="";

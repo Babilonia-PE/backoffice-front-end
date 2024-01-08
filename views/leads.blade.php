@@ -128,6 +128,13 @@ Leads
                 	</div>
               		<div class="col-md-4">
                 		<div class="form-group">
+                  			<label>Propietario del aviso</label>
+							  @component("components.search-user", ['id'=>'owner_id', 'storage'=>'filter_leads_owners'])
+							  @endcomponent
+                		</div>
+                	</div>              							
+              		<div class="col-md-4">
+                		<div class="form-group">
                   			<label>Nombre completo</label>
 							@component("components.search-user")
 							@endcomponent
