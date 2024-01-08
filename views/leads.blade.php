@@ -235,13 +235,13 @@ Leads
 			name: 'owner_id',
 			type: filtersParamsTypes.USER,
 			search: true,
-			storage: 'filter_leads_users'
+			storage: 'filter_leads_owners'
 		},
 		{
 			name: 'user_id',
 			type: filtersParamsTypes.USER,
 			search: true,
-			storage: 'filter_leads_owners'
+			storage: 'filter_leads_users'
 		},
 		{
 			name: 'created_start',

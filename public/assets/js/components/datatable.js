@@ -413,7 +413,7 @@ const datatable = (options = {})=>{
                         }
                     }
 
-                    let userSaved = filter_storage[name]??'';
+                    let userSaved = filter_storage[name]??'';                    
                     if(document.getElementById(name))document.getElementById(name).value = userSaved;
                     
                 break;
