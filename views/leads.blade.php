@@ -139,7 +139,19 @@ Leads
 							@component("components.search-user", ['placeholder' => 'Buscar por nombre'])
 							@endcomponent
                 		</div>
-                	</div>              							
+                	</div>   
+					<div class="col-md-4">
+                		<div class="form-group">
+                  			<label>Key</label>
+                  			<select class="form-control select2" id="key" style="width: 100%;">
+								<option selected disabled value="">Elige una opción</option>
+								<option value="phone_view">Telefono</option>
+								<option value="email_view">Email</option>
+								<option value="whatsapp_view">Whatsapp</option>
+								<option value="visit_request">Visita</option>
+							</select>
+                		</div>
+                	</div>           							
 					<div class="col-md-4">
 						<div class="form-group">
 							<label for="exampleInputEmail1">Fecha de creación (Desde - Hasta)</label>
@@ -227,6 +239,12 @@ Leads
 		{ "title": "Fecha de actualización", "code": "id" },
 		{ "title": "Acciones", "code": "id" }
 	];
+	const keys = {
+		phone_view : 'telefono',
+		email_view : 'email',
+		whatsapp_view : 'whatsapp',
+		visit_request : 'visita'
+	}
 	const filtersFields = [
 		{
 			name: 'listing_id'
@@ -242,6 +260,9 @@ Leads
 			type: filtersParamsTypes.USER,
 			search: true,
 			storage: 'filter_leads_users'
+		},
+		{
+			name: 'key',		
 		},
 		{
 			name: 'created_start',
@@ -261,7 +282,7 @@ Leads
 		return [
 			element.id,
 			element.listing_id,
-			element.key,
+			element.key ? keys[element.key] : '',
 			element.user_id,
 			element.full_name,
 			element.email,
