@@ -18,7 +18,7 @@
 
 @section('page')
 
-Administración de 2fa de usuarios
+Administración de usuarios
 
 @endsection
 
@@ -28,7 +28,7 @@ Administración de 2fa de usuarios
 
 		<div class="card card-secondary">
 			<div class="card-header">
-				<h3 class="card-title">Administración de 2fa de usuarios</h3>
+				<h3 class="card-title">Administración de usuarios</h3>
 			</div>
 			<div class="card-body">
 
@@ -36,16 +36,24 @@ Administración de 2fa de usuarios
 					<table class="display table table-striped nowrap compact responsive" cellspacing="0" width="100%">
 						<thead>
 							<tr>
-								<th>Usuario</th>
-								<th width="150">Keypass</th>
+								<th>Nombre</th>
+								<th width="150">Usuario</th>
+								<th width="100">Correo</th>
+								<th width="100">Celular</th>
+								<th width="100">DNI</th>
+								<th width="100">Permissions</th>
 								<th width="100">Disable Auth</th>
 								<th width="100">acciones</th>
 							</tr>
 						</thead>
 						@foreach ($data as $item)
 							<tr>
+								<td>{{ $item["fullname"] ?? '' }}</td>
 								<td>{{ $item["username"] ?? '' }}</td>
-								<td>{{ $item["secret"] ?? '' }}</td>
+								<td>{{ $item["email"] ?? '' }}</td>
+								<td>{{ $item["celular"] ?? '' }}</td>
+								<td>{{ $item["dni"] ?? '' }}</td>
+								<td>{{ $item["permissionsValue"] ?? '' }}</td>
 								<td>
 									<form action="/2fa" method="POST">
 										<input type="hidden" name="username" value="{{ $item["username"] ?? '' }}">
