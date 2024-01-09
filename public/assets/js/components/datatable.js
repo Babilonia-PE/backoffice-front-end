@@ -804,6 +804,8 @@ const datatable = (options = {})=>{
             }
         }
 
+		$('.select2').val(null).trigger('change');
+
 		tableSaved.ajax.reload();
 	});
 	$('.select2').select2({
