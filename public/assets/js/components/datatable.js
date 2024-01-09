@@ -397,45 +397,26 @@ const datatable = (options = {})=>{
                 storage=''
             } = filtersFields[i] ?? {};
 
-            switch (type) {
-                case filtersParamsTypes.USER:
+			let fieldValue = filter_storage[name]??'';
 
-                    if(search){
-                        let filter_user_field = JSON.parse(localStorage.getItem(storage)) ?? [];
-                        if(filter_user_field.length > 0){
-                            let selectUser = document.getElementById(name);
-                            filter_user_field.forEach((item) => {
-                                let option = document.createElement("option");
-                                option.value = item.id;
-                                option.innerHTML = `${item.full_name??''} - ${item.email??''}`;
-                                selectUser.append(option);
-                            });
-                        }
-                    }
+			if(document.getElementById(name) == null) continue;
 
-                    let userSaved = filter_storage[name]??'';                    
-                    if(document.getElementById(name))document.getElementById(name).value = userSaved;
-                    
-                break;
-
-                case filtersParamsTypes.DATE:
-
-                    let fieldDateValue = filter_storage[name]??'';
-                        fieldDateValue = fieldDateValue != '' ? moment(fieldDateValue, 'YYYY-MM-DD').format("DD/MM/YYYY") : '';
-
-                    if(document.getElementById(name))
-                        document.getElementById(name).value=fieldDateValue;                
-                    
-                break;
-            
-                default:
-
-                    let fieldValue = filter_storage[name]??'';                        
-                    if(document.getElementById(name))
-                    document.getElementById(name).value = fieldValue; 
-
-                break;
-            }
+			if(type == filtersParamsTypes.USER && search){				
+				let filter_user_field = JSON.parse(localStorage.getItem(storage)) ?? [];
+				if(filter_user_field.length > 0){
+					let selectUser = document.getElementById(name);
+					filter_user_field.forEach((item) => {
+						let option = document.createElement("option");
+						option.value = item.id;
+						option.innerHTML = `${item.full_name??''} - ${item.email??''}`;
+						selectUser.append(option);
+					});
+				}
+										
+			}else if(type == filtersParamsTypes.DATE){				
+				fieldValue = (fieldValue != '' ? moment(fieldDateValue, 'YYYY-MM-DD').format("DD/MM/YYYY") : '');
+			}   
+			$(`#${name}`).val(fieldValue);
         }
 
         $("#filter_box").removeClass("collapsed-card");
@@ -470,7 +451,7 @@ const datatable = (options = {})=>{
 		// Function to add an option to the select element
 		let addOption = (filt, text) => {
 			if (that.s.type.includes('html') && filt !== null && typeof filt === 'string') {
-			filt.replace(/(<([^>]+)>)/ig, '');
+			filt?.replace(/(<([^>]+)>)/ig, '');
 			}
 			// Add text and value, stripping out any html if that is the column type
 			let opt = $('<option>', {
@@ -595,7 +576,7 @@ const datatable = (options = {})=>{
 				"dataSrc": function ( json ) {
 					const data = json.data??{};
 					const records = data.records??[];
-					globalRecords=records;
+					//globalRecords=records;
 					let object = {
 						"draw": 1,
 						"recordsTotal": data.listings_count,
@@ -689,8 +670,8 @@ const datatable = (options = {})=>{
 				"=" : {
                     init: function(that, fn, preDefined = null, array = false) {
 						let column = that.dom.data.children('option:selected').val();
-						let indexArray = that.s.dt.rows().indexes().toArray();
-						let settings = that.s.dt.settings()[0];
+						//let indexArray = that.s.dt.rows().indexes().toArray();
+						//let settings = that.s.dt.settings()[0];
 						that.dom.valueTitle.prop('selected', true);
 						const field = headers[column];
 
@@ -755,10 +736,10 @@ const datatable = (options = {})=>{
 		let data = tableSaved.rows( target ).data()[0];
 		$("#rowDetails .modal-body").html("");
 
-        let newHeader = header;
+        let newHeader = headers;
         if(modalOrder.length > 0){
             data = modalOrder.map(i => data[i]);
-            newheader = modalOrder.map(i => headers[i]);
+            newHeader = modalOrder.map(i => headers[i]);
         }
 
 		data.forEach((element, 
