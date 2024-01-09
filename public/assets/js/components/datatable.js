@@ -575,6 +575,16 @@ const datatable = (options = {})=>{
 					delete data.search;
 				},
 				"dataSrc": function ( json ) {
+
+					if(!json.hasOwnProperty("data")){						
+						setTimeout(() => {
+							Toast.fire({
+								icon: 'error',
+								title: 'Se genero un error inesperado, vuelva a intentar porfavor.'
+							});
+						}, 250);					  
+						return false;
+					}
 					const data = json.data??{};
 					const records = data.records??[];
 					globalRecords=records;					
