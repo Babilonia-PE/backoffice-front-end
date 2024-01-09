@@ -1,14 +1,31 @@
 <?php
 namespace App\Controllers;
-class Configuration2faController{
+class ConfigurationUsersController{
     public function __construct(){
-        $this->currentPage = "configuration-2fa";                
-        $this->data = $this->getStore();
+        $this->currentPage = "configuration-usuarios";                
+        $this->data = $this->getStore() ?? [];
     }
     public function index(){        
-        echo view("configuracion-2fa", [
+        $userStore = $this->data;
+        $permisionsLevel = [];
+
+        $usersAdmin = env("APP_USERS_IDENTIFY");
+        $usersAdmin = isset($usersAdmin) && $usersAdmin!=null ? explode(",", $usersAdmin) : [];
+
+        foreach($userStore as $key => $item){
+            $permissions = $item["permissions"] ?? 0;
+            $dni = $item["dni"] ?? "";
+            if(in_array($dni, $usersAdmin)){
+                $userPermissionsvalue = "Super Admin";
+            }else{
+                $userPermissionsvalue = $permisionsLevel[$permissions] ?? 'No asignado';
+            }
+            $userStore[$key]["permissionsValue"] = $userPermissionsvalue;
+        }
+
+        echo view("configuracion-usuarios", [
             "currentPage" => $this->currentPage,
-            "data" => $this->data
+            "data" => $userStore
         ]);
     }
     public function post(){
@@ -42,7 +59,7 @@ class Configuration2faController{
             break;
         }
 
-        echo view("configuracion-2fa", [
+        echo view("configuracion-usuarios", [
             "currentPage" => $this->currentPage,
             "data" => $data
         ]);
