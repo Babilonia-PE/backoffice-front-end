@@ -785,6 +785,8 @@ const datatable = (options = {})=>{
 	});
 	$("#removefiltters").on('click', function (e) {
 
+		localStorage.removeItem(storageView);
+
         for(let i in filtersFields){
             let {
                 name='',
