@@ -118,8 +118,8 @@ Paquetes
 				<div class="row align-items-end">
               		<div class="col-md-4">
                 		<div class="form-group">
-                  			<label>Paquete ID</label>
-                  			<input type="text" class="form-control" id="id" placeholder="User ID">
+                  			<label>ID del paquete</label>
+                  			<input type="text" class="form-control" id="id" placeholder="ID del paquete">
                 		</div>
                 	</div>
                     <div class="col-md-4">
