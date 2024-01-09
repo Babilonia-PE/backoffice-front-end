@@ -414,7 +414,7 @@ const datatable = (options = {})=>{
 				}
 										
 			}else if(type == filtersParamsTypes.DATE){				
-				fieldValue = (fieldValue != '' ? moment(fieldDateValue, 'YYYY-MM-DD').format("DD/MM/YYYY") : '');
+				fieldValue = (fieldValue != '' ? moment(fieldValue, 'YYYY-MM-DD').format("DD/MM/YYYY") : '');
 			}   
 			$(`#${name}`).val(fieldValue);
         }
