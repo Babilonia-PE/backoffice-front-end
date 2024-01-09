@@ -576,7 +576,7 @@ const datatable = (options = {})=>{
 				"dataSrc": function ( json ) {
 					const data = json.data??{};
 					const records = data.records??[];
-					//globalRecords=records;
+					globalRecords=records;					
 					let object = {
 						"draw": 1,
 						"recordsTotal": data.listings_count,
@@ -584,7 +584,7 @@ const datatable = (options = {})=>{
 						"data": []
 					};
 					records.forEach((element, index) => {
-						
+
                         const resultParams = processParams(element)??[];
 
 						object.data.push([
@@ -746,7 +746,7 @@ const datatable = (options = {})=>{
 		index, array) => {
 			if (index + 1 === array.length){ return; }
 			if (index === 0){
-                let customHeader = modalTitle(element)??`Detalles para ${element}`;
+                let customHeader = modalTitle(element, globalRecords)??`Detalles para ${element}`;
 				$("#rowDetails .modal-title").html(customHeader);
 			}
 			$("#rowDetails .modal-body").append(`
