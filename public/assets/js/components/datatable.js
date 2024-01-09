@@ -779,7 +779,7 @@ const datatable = (options = {})=>{
         }
 
 		if(!$.isEmptyObject(filters)){
-			localStorage.setItem('filter_leads', JSON.stringify(filters));
+			localStorage.setItem(storageView, JSON.stringify(filters));
 		}
 		tableSaved.ajax.reload();
 	});
