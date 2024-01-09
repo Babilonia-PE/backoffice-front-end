@@ -423,16 +423,8 @@ Avisos
 			( ( element.location ) ? element.location.department??'':'' ),
 			( ( element.location ) ? element.location.country??'':'' ),
 			`<span class="badge text-bg-secondary ${(state[id_status]??[]).code??''}">${(state[id_status]??[]).name??''}</span>`,
-			( ( element.created_at ) ? new Date(Date.parse(element.created_at)).toLocaleDateString("default", { 
-				year: "numeric",
-				month: "2-digit",
-				day: "2-digit",
-			}):'' ),
-			( ( element.created_at ) ? new Date(Date.parse(element.created_at)).toLocaleDateString("default", { 
-				year: "numeric",
-				month: "2-digit",
-				day: "2-digit",
-			}):'' ),
+			( ( element.created_at ) ? moment(element.created_at).format('DD/MM/YYYY'):'' ),
+			( ( element.ad_purchased_at ) ? moment(element.ad_purchased_at).format('DD/MM/YYYY'):'' ),
 			( ( element.contacts ) ? element.contacts[0]?.name??'':'' ),
 			element.ad_plan??'',
 			( ( element.days_remain ) ? element.days_remain + ' días':'' ),
@@ -455,16 +447,8 @@ Avisos
 			element.views_count??'',
 			element.favourites_count??'',
 			element.contacts_count??'',
-			( ( element.updated_at ) ? new Date(Date.parse(element.updated_at)).toLocaleDateString("default", { 
-				year: "numeric",
-				month: "2-digit",
-				day: "2-digit",
-			}):'' ),
-			( ( element.ad_expires_at ) ? new Date(Date.parse(element.ad_expires_at)).toLocaleDateString("default", { 
-				year: "numeric",
-				month: "2-digit",
-				day: "2-digit",
-			}):'' ),
+			( ( element.updated_at ) ? moment(element.updated_at).format('DD/MM/YYYY') :'' ),
+			( ( element.ad_expires_at ) ? moment(element.ad_expires_at).format('DD/MM/YYYY') :'' ),
 		];
 	}
 	const modalOrder =  [
