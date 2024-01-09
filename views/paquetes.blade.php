@@ -168,9 +168,9 @@ Paquetes
                   			<label>Categoria</label>
                   			<select class="form-control" id="category" name="category">
 								<option value="">- Seleccione una opción -</option>
-								<option value="standard">standard</option>
-                                <option value="plus">plus</option>
-                                <option value="premium">premium</option>
+								<option value="essentials">essentials</option>
+                                <option value="pro">pro</option>
+                                <option value="prestige">prestige</option>
 							</select>
                 		</div>
                 	</div>
@@ -293,10 +293,10 @@ Paquetes
 		{ "title": "Duración" },
 		{ "title": "Fecha de compra" },
 		{ "title": "Fecha de expiración" },
-		{ "title": "Total de anuncios publicados" },
-		{ "title": "Total de anuncios standart publicados" },
-		{ "title": "Total de anuncios plus publicados" },
-		{ "title": "Total de anuncios premium publicados" },
+		{ "title": "Total de anuncios permitidos" },
+		{ "title": "Total de anuncios standart restantes" },
+		{ "title": "Total de anuncios plus restantes" },
+		{ "title": "Total de anuncios premium restantes" },
 		{ "title": "ID orden" },
 		{ "title": "Tipo" },
 		{ "title": "Acciones" }
@@ -304,6 +304,9 @@ Paquetes
 	const filtersFields = [
 		{
 			name: 'id'
+		},
+		{
+			name: 'type'
 		},
 		{
 			name: 'user_id',
