@@ -4,7 +4,7 @@ namespace App\Middlewares;
 use App\Services\Helpers;
 use App\Services\SesionService;
 use App\Controllers\AccountManager;
-use App\Controllers\Configuration2faController;
+use App\Controllers\ConfigurationUsersController;
 
 
 class Authentication{
@@ -79,7 +79,7 @@ class Authentication{
 
     public static function getUserByDNI($dni){
 
-        $new2fa = new Configuration2faController();
+        $new2fa = new ConfigurationUsersController();
         $store = $new2fa->getStore();
         $response = null;
         if(count($store) > 0){

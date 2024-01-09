@@ -19,8 +19,8 @@ use App\Controllers\ClientesController;
 use App\Controllers\PaquetesController;
 use App\Controllers\ReportesController;
 use App\Controllers\LeadsProjectsController;
-use App\Controllers\Configuration2faController;
 use App\Controllers\ConfigurationMenuController;
+use App\Controllers\ConfigurationUsersController;
 use Phroute\Phroute\Exception\HttpRouteNotFoundException;
 use Phroute\Phroute\Exception\HttpMethodNotAllowedException;
 
@@ -48,8 +48,8 @@ $router
                 ->get("/menu", [ConfigurationMenuController::class, "index"], ['before' => 'verifyPrivileges'])
                 ->post("/menu", [ConfigurationMenuController::class, "post"], ['before' => 'verifyPrivileges'])
 
-                ->get("/2fa", [Configuration2faController::class, "index"], ['before' => 'verifyPrivileges'])
-                ->post("/2fa", [Configuration2faController::class, "post"], ['before' => 'verifyPrivileges'])
+                ->get("/usuarios", [ConfigurationUsersController::class, "index"], ['before' => 'verifyPrivileges'])
+                ->post("/usuarios", [ConfigurationUsersController::class, "post"], ['before' => 'verifyPrivileges'])
 
                 ->get("/alertas", [AlertasController::class, "index"])
                 ->get("/avisos", [AvisosController::class, "index"])

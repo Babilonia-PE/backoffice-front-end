@@ -5,7 +5,6 @@ use App\Services\SesionService;
 use PragmaRX\Google2FA\Google2FA;
 use App\Controllers\AccountManager;
 use App\Middlewares\Authentication;
-use App\Controllers\Configuration2faController;
 
 class LoginController{
     
