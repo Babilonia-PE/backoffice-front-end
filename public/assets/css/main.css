@@ -31,6 +31,17 @@
   -webkit-transform: rotate(90deg) !important;
   transform: rotate(90deg) !important;
 }
+.dropdown.bootstrap-select > button.btn:is(:hover,:focus,:visited){
+  outline: none !important;
+}
+.dropdown.bootstrap-select > button.btn,
+.dropdown.bootstrap-select > button.btn:hover{
+  background-color: #fff;
+  background-clip: padding-box;
+  border: 1px solid #ced4da;
+  outline: none !important;
+  color: #495057;
+}
 
 #filter_box.card:not(.collapsed-card) .card-header #icon_filter_box:before{
   content: "\f068" !important;
