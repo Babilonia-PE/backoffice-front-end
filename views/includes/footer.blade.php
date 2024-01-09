@@ -32,7 +32,7 @@
 <!-- Sparkline -->
 <script>
   window.currentPage = "{{ $currentPage }}";
-  const URL_WEB_FRONT = "{{ env('URL_WEB_FRONT', 'https://www-testing.babilonia.io/') }}";
+  const URL_WEB_FRONT = "{{ env('URL_WEB_FRONT', 'https://www-testing.babilonia.io') }}";
 </script>
 @if($currentPage == "home")
 
