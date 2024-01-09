@@ -8,6 +8,7 @@ const datatable = (options = {})=>{
 		modalTitle = function(){},
         processParams = function(){},
         initParams = function(){},
+		initParamsModal = function(){},
         storageView = '',
         url = '',
     } = options ?? {};
@@ -758,6 +759,7 @@ const datatable = (options = {})=>{
 		});
 		
 		$("#rowDetails").modal('show');
+		initParamsModal();
 	});
 
 	$("#applyfiltters").on('click', function (e) {

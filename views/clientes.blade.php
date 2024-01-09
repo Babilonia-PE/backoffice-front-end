@@ -81,6 +81,10 @@
 		background-color: #000000;
 		color: #ffffff;
 	}
+
+	.table tbody tr td button[data-copy="inner"]{
+		display: none !important;
+	}
     @media(max-width: 400px) {
 		.box-details{
 			flex-direction: column;
@@ -115,19 +119,19 @@ Clientes
               		<div class="col-md-4">
                 		<div class="form-group">
                   			<label>User ID</label>
-                  			<input type="text" class="form-control" id="client_id" placeholder="User ID">
+                  			<input type="text" class="form-control" id="id" placeholder="User ID">
                 		</div>
                 	</div>
               		<div class="col-md-4">
                 		<div class="form-group">
                   			<label>RUC</label>
-                  			<input type="text" class="form-control" id="ruc" placeholder="RUC">
+                  			<input type="text" class="form-control" id="company_id" placeholder="RUC">
                 		</div>
                 	</div>
               		<div class="col-md-4">
                 		<div class="form-group">
                   			<label>Razón social</label>
-                  			<input type="text" class="form-control" id="razon_social" placeholder="Razón social">
+                  			<input type="text" class="form-control" id="company_name" placeholder="Razón social">
                 		</div>
                 	</div>
               		<div class="col-md-4">
@@ -151,7 +155,7 @@ Clientes
               		<div class="col-md-4">
                 		<div class="form-group">
                   			<label>Nombre completo</label>
-                  			<input type="text" class="form-control" id="name" placeholder="Nombre completo">
+                  			<input type="text" class="form-control" id="full_name" placeholder="Nombre completo">
                 		</div>
                 	</div>
               		<div class="col-md-4">
@@ -171,10 +175,10 @@ Clientes
 							<label for="exampleInputEmail1">Fecha de creación (Desde - Hasta)</label>
 							<div class="form-row">
 								<div class="col-6">
-									<input type="text" class="form-control" id="date_from" placeholder="dd/mm/yyyy">
+									<input type="text" class="form-control" id="created_start" placeholder="dd/mm/yyyy">
 								</div>
 								<div class="col-6">
-									<input type="text" class="form-control" id="date_to" placeholder="dd/mm/yyyy">
+									<input type="text" class="form-control" id="created_end" placeholder="dd/mm/yyyy">
 								</div>
 							</div>
 						</div>
@@ -235,19 +239,19 @@ Clientes
 <script src="public/plugins/LibDataTables/JSZip-3.10.1/jszip.min.js"></script>
 <script src="public/plugins/LibDataTables/Buttons-2.4.2/js/buttons.html5.min.js"></script>
 <script src="public/plugins/LibDataTables/Buttons-2.4.2/js/buttons.colVis.min.js"></script>
+<script src="@asset("js/components/datatable.js")"></script>
+<!-- Select2 -->
+<script src="public/plugins/select2/js/select2.full.min.js"></script>
 <script>
-	setMask('#date_from', { mask: "99/99/9999", showMaskOnHover: false, placeholder: "dd/mm/yyyy", rightAlign:false });
-	setMask('#date_to', { mask: "99/99/9999", showMaskOnHover: false, placeholder: "dd/mm/yyyy", rightAlign:false });
+	setMask('#created_start', { mask: "99/99/9999", showMaskOnHover: false, placeholder: "dd/mm/yyyy", rightAlign:false });
+	setMask('#created_end', { mask: "99/99/9999", showMaskOnHover: false, placeholder: "dd/mm/yyyy", rightAlign:false });
 </script>
 <script>
+	/*
     let tableSaved = null;
 	let dtDraw = 1;
 	let filters = [];
-	let state = [];
-		state[1] = 'Activo';
-		state[2] = 'Bloqueado';
-		state[3] = 'Baneado';
-		state[5] = 'Eliminado';
+
 	
 	const headers = [
 			{ "title" : "ID del usuario" },
@@ -623,31 +627,7 @@ Clientes
 						data.order_by = headers[element.column].code;
 						data.order_dir = element.dir;
 					});
-					/*
-					if(tableSaved?.searchBuilder){
-						const searchBuilder = tableSaved.searchBuilder.getDetails();
-						let criterios = [];
-						(searchBuilder.criteria??[]).forEach(element => {
-							if( typeof element.condition == 'undefined'){
-								return;
-							}
-							let index = headers.findIndex(x => x.title === element.data??null);
-							if( filters.includes(headers[index].code)){
-								return;
-							}
-							switch (element.condition) {
-								case '=':
-									data[headers[index].code] = element.value[0];
-									break;
-								case 'between':
-									data[headers[index].code + '[from]'] = element.value[0];
-									data[headers[index].code + '[to]'] = element.value[1];
-									break;
-							}
-							filters.push(headers[index].code);
-						});
-						//data.criterios = criterios;
-					}*/
+					 
 					delete data.searchPanes;
 					delete data.searchPanesLast;
 					delete data.searchPanes_null;
@@ -736,19 +716,7 @@ Clientes
 			//stateSave: true,
 			//searchBuilder: searchBuilder,
 			columnDefs: columnDefs,
-			/*searchPanes: {
-				viewCount: false,
-				initCollapsed: true,
-                cascadePanes: false,
-				layout: 'columns-2',
-				columns: [0, 1, 2, 3, 4],
-				dtOpts: {
-					dom: 'tp',
-					paging: true,
-					pagingType: 'simple',
-					searching: true
-				}
-			},*/
+
 		})
 		.on('xhr.dt', function ( e, settings, json, xhr ) {
 			json.recordsTotal = json.data.pagination.total_records;
@@ -832,91 +800,122 @@ Clientes
 	$(document).ready(function(){
 		copyToClipboard();
 	});
-	/*
-    async function myAjax(param) {
-        let result
-        try {
-            result = await $.ajax({
-                url: 'https://services-testing.babilonia.io/app/users/users',
-                type: 'GET',
-                //data: jQuery.param( { "obtener-registros-marcacion": 1, "semestreid": param } ) ,
-                dataType: 'JSON',
-            })
-            return result
-        } catch (error) {
-            console.error(error)
-        }
-    }
-
-    myAjax().then((data) => {
-        const users = data?.data?.records??[]
-        console.log(users);
-        const columnDefs = [{
-			targets: [0, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15],
-			visible: false,
-			class: "none"
-		},
-		{ type: "date", targets: 15 }];
-        const searchBuilder = {};
-        let object = [];
-        users.forEach((element, index) => {
-            object.push([
-                element.id,
-                element.full_name,
-                element.email,
-                element.phone_number,
-                ( ( element.company ) ? element.company.name??'':'' ),
-                ( ( element.company ) ? element.company.commercial_name??'':'' ),
-                ( ( element.company ) ? element.company.id??'':'' ),
-                ( ( element.company ) ? element.company.comercial_address??'':'' ),
-                ( ( element.company ) ? element.company.commercial_description??'':'' ),
-				( element.permissions??{} ).collections? 'SI':'NO',
-				( element.permissions??{} ).interested? 'SI':'NO',
-				( element.permissions??{} ).my_listings? 'SI':'NO',
-				( element.permissions??{} ).my_projects? 'SI':'NO',
-				( element.permissions??{} ).stadistics? 'SI':'NO',
-				( element.permissions??{} ).summary? 'SI':'NO',
-				new Date(Date.parse(element.created_at)).toLocaleDateString("default", { // you can use undefined as first argument
-					year: "numeric",
-					month: "2-digit",
-					day: "2-digit",
-				}),
-				`
-				<div class="dropdown">
-					<button class="btn btn-secondary btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="false">
-						Acciones
-					</button>
-					<div class="dropdown-menu">
-						<a class="dropdown-item details" data-index="${index}" role="button"><i class="fas fa-eye"></i>&nbsp;&nbsp;Ver</a>
-						<a class="dropdown-item" href="#"><i class="fas fa-edit"></i>&nbsp;&nbsp;Editar</a>
-						<a class="dropdown-item" href="#"><i class="fas fa-trash-alt"></i>&nbsp;&nbsp;Eliminar</a>
-					</div>
-				</div>
-				`
-            ]);
-        });
-        $(this).createDataTable(searchBuilder, columnDefs, false, 10, true, headers, object);
-		tableSaved.on('click', '.details', function (e) {
-			e.preventDefault();
-			const target = $(this).attr('data-index');
-			const data = tableSaved.rows( target ).data()[0];
-			$("#rowDetails .modal-body").html("");
-			data.forEach((element, index, array) => {
-				if (index + 1 === array.length){ return; }
-				if (index === 0){
-					$("#rowDetails .modal-title").html("Detalles para " + element);
-				}
-				$("#rowDetails .modal-body").append(`
-					<div class="box-details">
-						<div>${headers[index].title}</div>
-						<div>${element}</div>
-					</div>
-				`);
-			});
-			
-			$("#rowDetails").modal('show');
-		});
-    });
 	*/
+</script>
+<script>
+	let state = [];
+		state[1] = 'Activo';
+		state[2] = 'Bloqueado';
+		state[3] = 'Baneado';
+		state[5] = 'Eliminado';
+		
+	const headers = [
+		{ "title" : "ID del usuario" },
+		{ "title": "Nombre Completo" },
+		{ "title": "Correo electronico" },
+		{ "title": "Teléfono" },
+		{ "title": "Nombre comercial" },
+		{ "title": "Fecha y hora de creación" },
+		{ "title": "Estado" },
+		{ "title": "Razon social" },
+		{ "title": "RUC" },
+		{ "title": "Dirección" },
+		{ "title": "Descripción" },
+		{ "title": "Colecciones" },
+		{ "title": "Interesados" },
+		{ "title": "Avisos" },
+		{ "title": "Proyectos" },
+		{ "title": "Estadísticas" },
+		{ "title": "URL" },			
+		{ "title": "Metodo de authenticación" },
+		{ "title": "Acciones" }
+	];
+	const filtersFields = [
+		{
+			name: 'client_id'
+		},
+		{
+			name: 'company_id'
+		},
+		{
+			name: 'company_name'
+		},
+		{
+			name: 'state'
+		},
+		{
+			name: 'commercial_name',
+		},
+		{
+			name: 'full_name',
+		},
+		{
+			name: 'email',
+		},
+		{
+			name: 'phone_number',
+		},
+		{
+			name: 'created_start',
+			type: filtersParamsTypes.DATE
+		},
+		{
+			name: 'created_end',
+			type: filtersParamsTypes.DATE
+		}
+	];
+	const processParams = (element) =>{
+
+		let urlClient = URL_WEB_FRONT + ((element.url && element.url!=null)?element.url:'');
+
+		return [
+			element.id,
+			element.full_name,
+			(element.email) ? `${element.email} <button class="btn btn-sm btn-primary text-danger-emphasis text-dark" type="button" data-copy="inner" data-value="${element.email}"><i class="far fa-copy text-white"></i></button>`:'',
+			element.phone_number,
+			( ( element.company ) ? element.company.commercial_name??'':'' ),
+			moment(element.created_at).format('DD/MM/YYYY h:mm a'),
+			(`<span class="badge text-bg-secondary badge-${element.state}">${state[element.state]??''}</span>`),
+			( ( element.company ) ? element.company.name??'':'' ),
+			( ( element.company ) ? element.company.id??'':'' ),
+			( ( element.company ) ? element.company.commercial_address??'':'' ),
+			( ( element.company ) ? element.company.commercial_description??'':'' ),
+			( element.permissions??{} ).collections? 'SI':'NO',
+			( element.permissions??{} ).interested? 'SI':'NO',
+			( element.permissions??{} ).my_listings? 'SI':'NO',
+			( element.permissions??{} ).my_projects? 'SI':'NO',
+			( element.permissions??{} ).stadistics? 'SI':'NO',
+			( element.url && element.url!=null) ? `<a href="${urlClient}" target="_blank">${urlClient}</a>` : '',							
+			( element.sign_method??"" ),
+		];
+	}
+	const modalOrder =  [];
+	const modalTitle = (element, globalRecords = []) =>{
+	}
+	const initParams = ()=>{
+		copyToClipboard();
+	}
+	const initParamsModal = ()=>{
+		copyToClipboard();
+	}
+	const columnsHidden = [0, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17];
+	const columnsDates = [15];
+	const options = {
+		processParams,
+		headers,
+		filtersFields,
+		storageView : 'filter_clientes',
+		columnsHidden,
+		columnsDates,
+		modalOrder,
+		modalTitle,
+		initParams,
+		initParamsModal,
+		url: 'https://services-testing.babilonia.io/app/user/users'
+	};
+	
+	datatable(options);
+
+	copyToClipboard();
 </script>
 @endsection
