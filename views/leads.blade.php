@@ -136,7 +136,7 @@ Leads
               		<div class="col-md-4">
                 		<div class="form-group">
                   			<label>Nombre completo</label>
-							@component("components.search-user")
+							@component("components.search-user", ['placeholder' => 'Buscar por nombre'])
 							@endcomponent
                 		</div>
                 	</div>              							
