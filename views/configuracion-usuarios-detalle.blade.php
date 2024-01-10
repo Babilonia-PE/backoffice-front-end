@@ -49,10 +49,20 @@ Detalle de usuario {{ $data["fullname"]??'' }}
                         </div>
                         <div class="col-xs-12 col-md-12 col-sm-12">
                             <strong>DNI:</strong> {{ $data["dni"]??'' }}
-                        </div>                       
+                        </div>  
+                        <div class="col-xs-12 col-md-12 col-sm-12 d-flex flex-row gap-1">
+                            <strong>Estado:</strong>
+                            <div class="form-group">
+                                <div class="custom-control custom-switch custom-switch-off-danger custom-switch-on-success">     
+                                    <input type="checkbox" class="custom-control-input" id="state" name="state" @if(isset($data["state"]) && $data["state"] == true) checked @endif>
+                                    <label class="custom-control-label" for="state">(Active o desactive al usuario para poder acceder al sistema)</label>
+                                </div>
+                            </div>
+                        </div>
                     </div>                    
 				</div>
 			</div>
+            @if($data["permissions"] != "777")
 			<div class="card-header rounded-0">
 				<h3 class="card-title">Permisos</h3>
 			</div>
@@ -68,6 +78,7 @@ Detalle de usuario {{ $data["fullname"]??'' }}
                     </div>                    
 				</div>
 			</div>
+            @endif			
 			<div class="card-header rounded-0">
 				<h3 class="card-title">Two Factor Authentication (2FA)</h3>
 			</div>
@@ -76,19 +87,20 @@ Detalle de usuario {{ $data["fullname"]??'' }}
 				<div class="card-body table-responsive">					
 					<div class="row">
                         <div class="col-xs-12 col-md-12 col-sm-12">
-                            <select name="auth-disabled" id="auth-disabled" class="form-control">
+                            <select name="2fa" id="2fa" class="form-control">
                                 <option value="">-Seleccione una opción-</option>
-                                <option value="true" {{ $data["auth-disabled"] == true ? 'selected' : '' }}>Habilitado</option>
-                                <option value="false" {{ $data["auth-disabled"] == false ? 'selected' : '' }}>Deshabilitado</option>
+                                <option value="1" {{ $data["auth-disabled"] == true ? 'selected' : '' }}>Deshabilitado</option>
+                                <option value="0" {{ $data["auth-disabled"] == false ? 'selected' : '' }}>Habilitado</option>
                             </select>
-                            <input type="hidden" name="id" value="{{ $data["dni"]??'' }}">
-                            <input type="hidden" name="type" value="edit">
+                            
                         </div>               
                     </div>                    
 				</div>
 			</div>
             <hr class="m-0"/>
             <div class="card-body d-flex gap-2">
+                <input type="hidden" name="id" value="{{ $data["dni"]??'' }}">
+                <input type="hidden" name="type" value="update">
                 <button type="submit" class="btn btn-primary">Guardar</button>
                 <a href="/usuarios" class="btn btn-danger">Cancelar</a>
             </div>

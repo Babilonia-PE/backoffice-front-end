@@ -42,7 +42,8 @@ Administración de usuarios
 								<th width="100">Celular</th>
 								<th width="100">DNI</th>
 								<th width="100">Permissions</th>
-								<th width="100">Disable Auth</th>
+								<th width="80">Estado</th>
+								<th width="80">2FA</th>
 								<th width="100">acciones</th>
 							</tr>
 						</thead>
@@ -54,6 +55,7 @@ Administración de usuarios
 								<td>{{ $item["celular"] ?? '' }}</td>
 								<td>{{ $item["dni"] ?? '' }}</td>
 								<td>{{ $item["permissionsValue"] ?? '' }}</td>
+								<td><span class="badge btn {{ $item["stateClase"]??'' }}" disabled="true">{{ $item["stateValue"] }}</span></td>
 								<td><span class="badge btn {{ $item["authClase"]??'' }}" disabled="true">{{ $item["authValue"] }}</span></td>
 								<td>
 									<div class="dropdown">

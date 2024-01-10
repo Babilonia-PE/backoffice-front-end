@@ -1,41 +1,20 @@
 <?php
 namespace App\Controllers;
+
+use App\Services\SesionService;
+
 class ConfigurationUsersController{
     public function __construct(){
         $this->currentPage = "configuration-usuarios";                
         $this->data = $this->getStore() ?? [];
-    }
-    public function index(){        
-        $userStore = $this->data;
-        $permisionsLevel = [];
 
         $usersAdmin = env("APP_USERS_IDENTIFY");
         $usersAdmin = isset($usersAdmin) && $usersAdmin!=null ? explode(",", $usersAdmin) : [];
-
-        foreach($userStore as $key => $item){
-            $permissions = $item["permissions"] ?? 0;
-            $dni = $item["dni"] ?? "";
-            $auth = $item["auth-disabled"] ?? false;
-            $secret = $item["secret"] ?? "";
-
-            if(in_array($dni, $usersAdmin)){
-                $userPermissionsvalue = "Super Admin";
-            }else{
-                $userPermissionsvalue = $permisionsLevel[$permissions] ?? 'No asignado';
-            }
-
-            if($secret == ''){
-                $authValue = 'No registrado';
-                $clase = "btn-secondary";
-            }else{
-                $authValue = ($auth) ? 'Habilitado' : 'Deshabilitado';
-                $clase = "btn-primary";
-            }
-
-            $userStore[$key]["permissionsValue"] = $userPermissionsvalue;
-            $userStore[$key]["authValue"] = $authValue;
-            $userStore[$key]["authClase"] = $clase;
-        }
+        $this->usersAdmin = $usersAdmin;
+    }
+    public function index(){        
+        
+        $userStore = $this->formatUserResults($this->data) ?? [];
 
         echo view("configuracion-usuarios", [
             "currentPage" => $this->currentPage,
@@ -44,41 +23,55 @@ class ConfigurationUsersController{
     }
     public function post(){
         
-        $type = trim($_POST["type"]??'');
         $id = trim($_POST["id"]??'');
+        $type = trim($_POST["type"]??'');
+
         $username = trim($_POST["username"]??'');
         $permission = trim($_POST["permission"]??false);
-        $authDisabled = trim($_POST["auth-disabled"]??false);
-        $data = $this->data ?? [];
+        $state = trim(isset($_POST["state"])?true:false);
+        $authDisabled = (isset($_POST["2fa"]) && $_POST["2fa"] == "1") ? true : false;
+        $userStore = $this->data ?? [];
+        //dd($authDisabled);
+        $userSession = SesionService::leer("correoUsuario");
+        $userSession_dni = $userSession["dni"]??'';
 
         switch ($type) {
             case 'delete':
-                foreach($data as $key => $item){
+                foreach($userStore as $key => $item){
                     $_username = $item["username"] ?? '';
                     if($_username == $username){
-                        unset($data[$key]);
+                        unset($userStore[$key]);
                     }
                 }        
-                $this->saveStore($data);
+                $this->saveStore($userStore);
             break;
             
-            default:
-                $data = $this->data ?? [];
-        
-                foreach($data as $key => $item){
-                    $_username = $item["username"] ?? '';
-                    $_auth_disabled = $item["auth-disabled"] ?? false;
-                    if($username == $_username){
-                        $data[$key]["auth-disabled"] = $_auth_disabled ? false : true;
+            case 'update':        
+                foreach($userStore as $key => $item){
+                    $_dni = $item["dni"] ?? '';
+                    if($_dni == $id){
+                        
+                        $userStore[$key]["auth-disabled"] = $authDisabled;
+                        $userStore[$key]["state"] = $state;
+                        $userStore[$key]["permission"] = $permission;                                                                        
                     }
+
                 }        
-                $this->saveStore($data);
+                $this->saveStore($userStore);
+
+                if($state == 0 && $userSession_dni == $id){
+                    SesionService::destruir();
+                    redirect("login");
+                }  
+                
             break;
         }
 
+        $userStore = $this->formatUserResults($userStore) ?? [];
+
         echo view("configuracion-usuarios", [
             "currentPage" => $this->currentPage,
-            "data" => $data
+            "data" => $userStore
         ]);
     }
 
@@ -113,6 +106,7 @@ class ConfigurationUsersController{
         $user = null;
         foreach($userStore as $key => $item){
             $_dni = $item["dni"]??'';
+            if(in_array($_dni, $this->usersAdmin)) $userStore[$key]["permissions"] = 777;
             if($_dni == $id) $user = $userStore[$key] ?? null;
         }
 
@@ -122,6 +116,43 @@ class ConfigurationUsersController{
             "currentPage" => "configuration-usuarios-detalle",
             "data" => $user
         ]);
+    }
+
+    public function formatUserResults ($users = []) {
+        $userStore = $users;
+        $permisionsLevel = [];
+
+        foreach($userStore as $key => $item){
+            $permissions = $item["permissions"] ?? 0;
+            $dni = $item["dni"] ?? "";
+            $auth = $item["auth-disabled"] ?? false;
+            $secret = $item["secret"] ?? "";
+            $state = $item["state"] ?? false;
+
+            if(in_array($dni, $this->usersAdmin)){
+                $userPermissionsvalue = "Super Admin";
+                $userStore[$key]["permissions"] = 777;
+                
+            }else{
+                $userPermissionsvalue = $permisionsLevel[$permissions] ?? 'No asignado';
+            }
+
+            if($secret == ''){
+                $authValue = 'No registrado';
+                $clase = "btn-secondary";
+            }else{
+                $authValue = ($auth) ? 'Desactivado' : 'Activado';
+                $clase = "btn-primary";
+            }
+
+            $userStore[$key]["permissionsValue"] = $userPermissionsvalue;
+            $userStore[$key]["authValue"] = $authValue;
+            $userStore[$key]["authClase"] = $clase;
+            $userStore[$key]["stateValue"] = $state ? 'Activo' : 'Desactivo';
+            $userStore[$key]["stateClase"] = $state ? 'btn-success' : 'btn-danger';
+        }
+
+        return $userStore;
     }
 }
 ?>
