@@ -145,6 +145,7 @@ function menu_drag_sort(){
 }
 function menu_item_drag_sort($key = 0, $array = []){
 
+    $_id = $array["id"] ?? time();
     $_controller = $array["controller"] ?? '';
     $_url = $array["url"] ?? '#';
     $_name = $array["label"] ?? '';
@@ -153,7 +154,7 @@ function menu_item_drag_sort($key = 0, $array = []){
     $_menu = $array["children"] ?? [];
     $_disabled = false; #($_controller == "configuracion" || $_controller == "configuracion-menu") ? true : false;
     $_state_badge = ($_state == "on") ? '<span class="badge text-bg-success">Activo</span>' : '<span class="badge text-bg-danger">Desactivado</span>';
-    $template = "<li class='dd-item dd3-item' data-id='$key' data-label='$_name' data-url='$_url' data-controller='$_controller' data-icon='$_icon' data-state='$_state' style='". ($_disabled ? "pointer-events: none;":"")."'>
+    $template = "<li class='dd-item dd3-item' data-id='$_id' data-label='$_name' data-url='$_url' data-controller='$_controller' data-icon='$_icon' data-state='$_state' style='". ($_disabled ? "pointer-events: none;":"")."'>
                     <div class='dd-handle dd3-handle'>Drag</div>
                     <div class='dd3-content'>
                         <div class='d-inline w-auto'>
