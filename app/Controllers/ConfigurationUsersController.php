@@ -28,10 +28,10 @@ class ConfigurationUsersController{
 
         $username = trim($_POST["username"]??'');
         $permission = trim($_POST["permission"]??false);
-        $state = trim(isset($_POST["state"])?true:false);
+        $state = isset($_POST["state"]) && $_POST["state"] == 'on' ? true:false;
         $authDisabled = (isset($_POST["2fa"]) && $_POST["2fa"] == "1") ? true : false;
         $userStore = $this->data ?? [];
-        //dd($authDisabled);
+        
         $userSession = SesionService::leer("correoUsuario");
         $userSession_dni = $userSession["dni"]??'';
 

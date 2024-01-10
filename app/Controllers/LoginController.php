@@ -84,6 +84,12 @@ class LoginController{
             $secret_key = AccountManager::verifySecondAuthSaved($_username);
 
             $usersStore = Authentication::getUserByDNI($_dni);
+            $state = isset($usersStore["state"]) && ($usersStore["state"] === true || $usersStore["state"] == 1) ? true : false;
+            if($state === false){
+                SesionService::destruir();
+                echo view("login", ["message"=> "El usuario o la contraseña no coinciden"]);
+                die();
+            }
             $usersfind = ($usersStore == null) ? false : true;
             $usersAuthDisable = $usersfind && $usersStore["auth-disabled"] == true ? true : false;
             $session_usuario = [
