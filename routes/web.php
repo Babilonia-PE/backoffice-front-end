@@ -21,6 +21,7 @@ use App\Controllers\ReportesController;
 use App\Controllers\LeadsProjectsController;
 use App\Controllers\ConfigurationMenuController;
 use App\Controllers\ConfigurationUsersController;
+use App\Controllers\ConfigurationPermissionsController;
 use Phroute\Phroute\Exception\HttpRouteNotFoundException;
 use Phroute\Phroute\Exception\HttpMethodNotAllowedException;
 
@@ -48,10 +49,16 @@ $router
                 ->get("/menu", [ConfigurationMenuController::class, "index"], ['before' => 'verifyPrivileges'])
                 ->post("/menu", [ConfigurationMenuController::class, "post"], ['before' => 'verifyPrivileges'])
 
+                #configuracion
                 ->get("/usuarios", [ConfigurationUsersController::class, "index"], ['before' => 'verifyPrivileges'])
                 ->get("/usuarios/{id}/user", [ConfigurationUsersController::class, "userDetail"], ['before' => 'verifyPrivileges'])
                 ->post("/usuarios", [ConfigurationUsersController::class, "post"], ['before' => 'verifyPrivileges'])
-
+                
+                ->get("/permisos", [ConfigurationPermissionsController::class, "index"], ['before' => 'verifyPrivileges'])
+                ->get("/permisos/{id}/permiso", [ConfigurationPermissionsController::class, "permissionDetail"], ['before' => 'verifyPrivileges'])
+                ->post("/permisos", [ConfigurationPermissionsController::class, "post"], ['before' => 'verifyPrivileges'])
+                #configuracion
+                
                 ->get("/alertas", [AlertasController::class, "index"])
                 ->get("/avisos", [AvisosController::class, "index"])
                 ->get("/clientes", [ClientesController::class, "index"])
