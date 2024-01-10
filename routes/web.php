@@ -49,6 +49,7 @@ $router
                 ->post("/menu", [ConfigurationMenuController::class, "post"], ['before' => 'verifyPrivileges'])
 
                 ->get("/usuarios", [ConfigurationUsersController::class, "index"], ['before' => 'verifyPrivileges'])
+                ->get("/usuarios/{id}/user", [ConfigurationUsersController::class, "userDetail"], ['before' => 'verifyPrivileges'])
                 ->post("/usuarios", [ConfigurationUsersController::class, "post"], ['before' => 'verifyPrivileges'])
 
                 ->get("/alertas", [AlertasController::class, "index"])
