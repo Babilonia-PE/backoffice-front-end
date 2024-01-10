@@ -15,12 +15,26 @@ class ConfigurationUsersController{
         foreach($userStore as $key => $item){
             $permissions = $item["permissions"] ?? 0;
             $dni = $item["dni"] ?? "";
+            $auth = $item["auth-disabled"] ?? false;
+            $secret = $item["secret"] ?? "";
+
             if(in_array($dni, $usersAdmin)){
                 $userPermissionsvalue = "Super Admin";
             }else{
                 $userPermissionsvalue = $permisionsLevel[$permissions] ?? 'No asignado';
             }
+
+            if($secret == ''){
+                $authValue = 'No registrado';
+                $clase = "btn-secondary";
+            }else{
+                $authValue = ($auth) ? 'Habilitado' : 'Deshabilitado';
+                $clase = "btn-primary";
+            }
+
             $userStore[$key]["permissionsValue"] = $userPermissionsvalue;
+            $userStore[$key]["authValue"] = $authValue;
+            $userStore[$key]["authClase"] = $clase;
         }
 
         echo view("configuracion-usuarios", [
@@ -31,7 +45,10 @@ class ConfigurationUsersController{
     public function post(){
         
         $type = trim($_POST["type"]??'');
+        $id = trim($_POST["id"]??'');
         $username = trim($_POST["username"]??'');
+        $permission = trim($_POST["permission"]??false);
+        $authDisabled = trim($_POST["auth-disabled"]??false);
         $data = $this->data ?? [];
 
         switch ($type) {
@@ -88,6 +105,23 @@ class ConfigurationUsersController{
         }
 
         return json_decode($store, true)??[];
+    }
+
+
+    public function userDetail ($id = null){
+        $userStore = $this->data;
+        $user = null;
+        foreach($userStore as $key => $item){
+            $_dni = $item["dni"]??'';
+            if($_dni == $id) $user = $userStore[$key] ?? null;
+        }
+
+        if($user == null) return redirect();
+
+        echo view("configuracion-usuarios-detalle", [
+            "currentPage" => "configuration-usuarios-detalle",
+            "data" => $user
+        ]);
     }
 }
 ?>
