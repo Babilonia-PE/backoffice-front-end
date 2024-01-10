@@ -54,18 +54,14 @@ Administración de usuarios
 								<td>{{ $item["celular"] ?? '' }}</td>
 								<td>{{ $item["dni"] ?? '' }}</td>
 								<td>{{ $item["permissionsValue"] ?? '' }}</td>
-								<td>
-									<form action="/2fa" method="POST">
-										<input type="hidden" name="username" value="{{ $item["username"] ?? '' }}">
-										<button class="badge btn btn-primary">@if(isset($item["auth-disabled"]) && $item["auth-disabled"] == true) Habilitar @else Deshabilitar @endif</button>
-									</form>
-								</td>
+								<td><span class="badge btn {{ $item["authClase"]??'' }}" disabled="true">{{ $item["authValue"] }}</span></td>
 								<td>
 									<div class="dropdown">
 										<button class="btn btn-secondary btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="false">
 											Acciones
 										</button>
 										<div class="dropdown-menu">
+											<a class="dropdown-item" href="/usuarios/{{ $item["dni"]?$item["dni"].'/user':'' }}"><i class="fas fa-edit"></i>&nbsp;&nbsp;Editar</a>
 											<form action="/2fa" method="POST">
 												<input type="hidden" name="type" value="delete" />
 												<input type="hidden" name="username" value="{{ $item["username"] ?? '' }}">
