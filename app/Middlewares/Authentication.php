@@ -43,7 +43,7 @@ class Authentication{
     }
     /*si se tiene una keysecret guardada*/
     public function VerifiedSaved(){        
-        if($this->keyAuth2Store!=""){
+        if($this->keyAuth2Store!="" && $this->authDisabled == false){
             return redirect("verify-account");
         }
     }
