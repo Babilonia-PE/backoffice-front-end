@@ -29,7 +29,7 @@ class ConfigurationUsersController{
         $type = trim($_POST["type"]??'');
 
         $username = trim($_POST["username"]??'');
-        $permission = trim($_POST["permission"]??false);
+        $permission = $_POST["permission"]??0;
         $state = isset($_POST["state"]) && $_POST["state"] == 'on' ? true:false;
         $authDisabled = (isset($_POST["2fa"]) && $_POST["2fa"] == "1") ? true : false;
         $userStore = $this->data ?? [];
@@ -52,10 +52,10 @@ class ConfigurationUsersController{
                 foreach($userStore as $key => $item){
                     $_dni = $item["dni"] ?? '';
                     if($_dni == $id){
-                        
+
                         $userStore[$key]["auth-disabled"] = $authDisabled;
                         $userStore[$key]["state"] = $state;
-                        $userStore[$key]["permission"] = $permission;                                                                        
+                        $userStore[$key]["permissions"] = $permission;                                                                        
                     }
 
                 }        
@@ -126,7 +126,7 @@ class ConfigurationUsersController{
 
     public function formatUserResults ($users = []) {
         $userStore = $users;
-        $permisionsLevel = [];
+        $permisionsLevel = $this->cUsers->readPermissionStore();
 
         foreach($userStore as $key => $item){
             $permissions = $item["permissions"] ?? 0;
@@ -140,7 +140,7 @@ class ConfigurationUsersController{
                 $userStore[$key]["permissions"] = 777;
                 
             }else{
-                $userPermissionsvalue = $permisionsLevel[$permissions] ?? 'No asignado';
+                $userPermissionsvalue = $permisionsLevel[$permissions]["name"] ?? 'No asignado';
             }
 
             if($secret == ''){
