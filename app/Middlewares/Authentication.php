@@ -5,6 +5,7 @@ use App\Services\Helpers;
 use App\Services\SesionService;
 use App\Controllers\AccountManager;
 use App\Controllers\ConfigurationUsersController;
+use App\Controllers\ConfigurationPermissionsController;
 
 
 class Authentication{
@@ -63,9 +64,24 @@ class Authentication{
         }
     }
 
+    #verificar privilegios para super admin
     public function verifyPrivileges(){
         $validateUser = $this->findUserByDNI();
         if(!$validateUser) return redirect();
+    }
+
+    #verificar permisos para vista, lectura, escritura, edicion, etc.
+    public function verifyPermissions(){
+        $userSession = SesionService::leer("correoUsuario");
+        $dni = $userSession["dni"] ?? '';
+
+        $this->cUsers = new ConfigurationPermissionsController();
+        $this->cUsers->actions;
+
+        $user = $this->getUserByDNI($dni);
+        $permission = $user["permissions"]??0;
+
+        dd($permission);
     }
 
     public static function findUserByDNI(){

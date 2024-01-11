@@ -33,6 +33,7 @@ $router->filter("verified", [Authentication::class, "verified"]);
 $router->filter("VerifiedSaved", [Authentication::class, "VerifiedSaved"]);
 $router->filter("VerifiedNoSaved", [Authentication::class, "VerifiedNoSaved"]);
 $router->filter("verifyPrivileges", [Authentication::class, "verifyPrivileges"]);
+$router->filter("verifyPermissions", [Authentication::class, "verifyPermissions"]);
 
 // vistas privadas
 $router
@@ -56,17 +57,22 @@ $router
                 
                 ->get("/permisos", [ConfigurationPermissionsController::class, "index"], ['before' => 'verifyPrivileges'])
                 ->get("/permisos/{id}/permiso", [ConfigurationPermissionsController::class, "permissionDetail"], ['before' => 'verifyPrivileges'])
-                ->post("/permisos", [ConfigurationPermissionsController::class, "post"], ['before' => 'verifyPrivileges'])
+                ->post("/permisos", [ConfigurationPermissionsController::class, "post"], ['before' => 'verifyPrivileges']);
                 #configuracion
                 
-                ->get("/alertas", [AlertasController::class, "index"])
-                ->get("/avisos", [AvisosController::class, "index"])
-                ->get("/clientes", [ClientesController::class, "index"])
-                ->get("/leads-avisos", [LeadsController::class, "index"])
-                ->get("/leads-proyectos", [LeadsProjectsController::class, "index"])
-                ->get("/paquetes", [PaquetesController::class, "index"])
-                ->get("/vistas", [ViewsController::class, "index"])
-                ->get("/reportes", [ReportesController::class, "index"]);
+                $router
+                    ->group(['before' => 'verifyPermissions'], function($enrutadorPermisos){
+
+                        $enrutadorPermisos
+                            ->get("/alertas", [AlertasController::class, "index"])
+                            ->get("/avisos", [AvisosController::class, "index"])
+                            ->get("/clientes", [ClientesController::class, "index"])
+                            ->get("/leads-avisos", [LeadsController::class, "index"])
+                            ->get("/leads-proyectos", [LeadsProjectsController::class, "index"])
+                            ->get("/paquetes", [PaquetesController::class, "index"])
+                            ->get("/vistas", [ViewsController::class, "index"])
+                            ->get("/reportes", [ReportesController::class, "index"]);
+                    });
 
         });
 
