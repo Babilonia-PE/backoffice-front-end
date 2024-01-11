@@ -31,8 +31,12 @@ Administración de permisos
 				<h3 class="card-title">Administración de permisos</h3>
 			</div>
 			<div class="card-body">
-
-				<div class="card-body table-responsive">					
+                <div class="card-body table-responsive">					
+                    <div class="row mb-3">
+                        <div class="col-xs-12 col-sm-12 col-md-12">
+                            <a href="/permisos/new/permiso" class="btn btn-primary">Nuevo</a>
+                        </div>
+                    </div>
 					<table class="display table table-striped nowrap compact responsive" cellspacing="0" width="100%">
 						<thead>
 							<tr>
