@@ -7,39 +7,105 @@
 <!-- Select2 -->
 <link rel="stylesheet" href="public/plugins/select2/css/select2.min.css">
 <link rel="stylesheet" href="public/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css">
-<link rel="stylesheet" href="@asset("css/jquery.nestable.css")">
+
 <style>
-.socialite { display: block; float: left; height: 35px; }
-.gap-1{gap: 0.5rem}
-.gap-2{gap: 1rem}
-.gap-3{gap: 1.5rem}
+    .socialite {
+        display: block;
+        float: left;
+        height: 35px;
+    }
+
+    .gap-1 {
+        gap: 0.5rem
+    }
+
+    .gap-2 {
+        gap: 1rem
+    }
+
+    .gap-3 {
+        gap: 1.5rem
+    }
 </style>
 @endsection
 
 @section('page')
 
-Detalle de -
+{{ $data["title"]??'' }}
 
 @endsection
 
 @section('content')
-<div class="row">
-	<div class="col-12">
+<form action="/permisos" method="POST">
+    <div class="row">
+        <div class="col-12">
 
-		<div class="card card-secondary">
-			<div class="card-header">
-				<h3 class="card-title">Detalle</h3>
-			</div>
-			<div class="card-body">
+            <div class="card card-secondary">
+                <div class="card-header">
+                    <h3 class="card-title">Detalle</h3>
+                </div>
+                <div class="card-body">
+                    <div class="form-group">
+                        <label for="nombrePermisos">Nombre</label>
+                        <input type="text" class="form-control" id="nombrePermisos" name="nombrePermisos" placeholder="Nombre" required>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-12 col-md-12">                            
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>Vista</th>
+                                        @foreach($data["actions"] as $action)
+                                            <th width="120px">{{ $action }}</th>
+                                        @endforeach
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach($data["permissions"] as $k => $permission)
+                                    <tr>
+                                        <td>
+                                            {{ $permission["label"] }}
+                                            <input type="hidden" name="form[{{ $k }}][id]" value="{{ $permission["id"]??'' }}">
+                                            <input type="hidden" name="form[{{ $k }}][url]" value="{{ $permission["url"]??'' }}">
+                                            <input type="hidden" name="form[{{ $k }}][label]" value="{{ $permission["label"]??'' }}">
+                                            <input type="hidden" name="form[{{ $k }}][controller]" value="{{ $permission["controller"]??'' }}">
+                                        </td>
 
-				
+                                        @foreach($data["actions"] as $ak => $action)
+                                            @if(isset($permission[$ak]))
+                                            <td width="120px">
+                                                {{ $permission[$ak] }}
+                                                <div class="icheck-primary d-inline">
+                                                    <input type="checkbox" id="checkbox{{ $ak }}{{ $k }}" name="form[{{ $k }}][{{ $ak }}]" @if($permission[$ak]===true) checked @endif>                                                    
+                                                    <label for="checkbox{{ $ak }}{{ $k }}"></label>
+                                                </div>
+                                            </td>
+                                            @endif
+                                        @endforeach                                        
+                                    </tr>
+                                    @endforeach      
+                                </tbody>
+                            </table>
 
-			</div>
+                        </div>
+                    </div>
+                </div>
+                <hr class="m-0" />
+                <div class="card-body">
+                    <div class="d-flex flex-row gap-1">
 
-		</div>
+                        <input type="hidden" name="type" value="{{ $data["type"]??'' }}">
+                        <input type="hidden" name="id" value="{{ $data["id"]??'' }}">
+                        
+                        <button type="submit" class="btn btn-success">Guardar</button>
+                        <a href="/permisos" class="btn btn-danger">Cancelar</a>
+                    </div>
+                </div>
+            </div>
 
-	</div>
-</div>
+        </div>
+    </div>
+</form>
 
 @endsection
 
@@ -53,9 +119,11 @@ Detalle de -
 <script src="public/plugins/LibDataTables/Buttons-2.4.2/js/buttons.colVis.min.js"></script>
 <!-- Select2 -->
 <script src="public/plugins/select2/js/select2.full.min.js"></script>
-<script>
-	$(document).ready( function () {
-		$('.table').DataTable();
-	} );
-</script>
 @endsection
+@push("child-scripts")
+<script>
+    $("#nombrePermisos").on("input", function(e){
+        $(".content-header h1").html((e.target.value && e.target.value!="")?e.target.value:'{{ $data["title"]??'' }}');
+    });
+</script>
+@endpush
