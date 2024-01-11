@@ -58,7 +58,7 @@ class ConfigurationPermissionsController{
             case 'delete':
 
                 unset($store[$id]);
-
+                $store = $this->savePermissionStore($store);
                 echo view("configuracion-permissions", [
                     "currentPage" => $this->currentPage,
                     "data" => $store
