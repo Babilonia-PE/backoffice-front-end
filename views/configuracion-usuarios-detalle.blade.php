@@ -73,6 +73,9 @@ Detalle de usuario {{ $data["fullname"]??'' }}
                         <div class="col-xs-12 col-md-12 col-sm-12">
                             <select name="permission" id="permissions" class="form-control">
                                 <option value="">-Seleccione una opción-</option>
+                                @foreach ($data["permissionsList"] as $k => $permission)
+                                    <option value="{{ $k }}" @if($data["permissions"] == $k) selected @endif>{{$permission["name"]??''}}</option>
+                                @endforeach
                             </select>
                         </div>               
                     </div>                    

@@ -2,6 +2,7 @@
 namespace App\Controllers;
 
 use App\Services\SesionService;
+use App\Controllers\ConfigurationPermissionsController;
 
 class ConfigurationUsersController{
     public function __construct(){
@@ -11,6 +12,7 @@ class ConfigurationUsersController{
         $usersAdmin = env("APP_USERS_IDENTIFY");
         $usersAdmin = isset($usersAdmin) && $usersAdmin!=null ? explode(",", $usersAdmin) : [];
         $this->usersAdmin = $usersAdmin;
+        $this->cUsers = new ConfigurationPermissionsController();
     }
     public function index(){        
         
@@ -111,6 +113,10 @@ class ConfigurationUsersController{
         }
 
         if($user == null) return redirect();
+
+
+        $permissions = $this->cUsers->readPermissionStore();
+        if(count($permissions) > 0) $user["permissionsList"] = $permissions;
 
         echo view("configuracion-usuarios-detalle", [
             "currentPage" => "configuration-usuarios-detalle",
