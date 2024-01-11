@@ -74,7 +74,6 @@
                                         @foreach($data["actions"] as $ak => $action)
                                             @if(isset($permission[$ak]))
                                             <td width="120px">
-                                                {{ $permission[$ak] }}
                                                 <div class="icheck-primary d-inline">
                                                     <input type="checkbox" id="checkbox{{ $ak }}{{ $k }}" name="form[{{ $k }}][{{ $ak }}]" @if($permission[$ak]===true) checked @endif>                                                    
                                                     <label for="checkbox{{ $ak }}{{ $k }}"></label>
@@ -96,7 +95,7 @@
 
                         <input type="hidden" name="type" value="{{ $data["type"]??'' }}">
                         <input type="hidden" name="id" value="{{ $data["id"]??'' }}">
-                        
+
                         <button type="submit" class="btn btn-success">Guardar</button>
                         <a href="/permisos" class="btn btn-danger">Cancelar</a>
                     </div>

@@ -61,6 +61,18 @@ class ConfigurationPermissionsController{
         }
         
         $store = $this->savePermissionStore($store);
+
+        echo view("configuracion-permissions-detalle", [
+            "currentPage" => $this->currentPage,
+            "data" => [
+                "title" => $name,
+                "name" => $name,
+                "permissions" => $form,
+                "actions" => $this->actions,
+                "id" => $id,
+                "type" => "edit"
+            ]
+        ]);
     }
 
     public function permissionDetail($id = null){
