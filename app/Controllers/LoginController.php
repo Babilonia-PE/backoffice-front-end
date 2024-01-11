@@ -85,6 +85,7 @@ class LoginController{
 
             $usersStore = Authentication::getUserByDNI($_dni);
             $state = isset($usersStore["state"]) && ($usersStore["state"] === true || $usersStore["state"] == 1) ? true : false;
+            $authDisabled = $usersStore["auth-disabled"] ?? false;
             if($state === false){
                 SesionService::destruir();
                 echo view("login", ["message"=> "El usuario o la contraseña no coinciden"]);
@@ -99,9 +100,10 @@ class LoginController{
                 "username" =>$_username,
                 "role" => "",
                 "approved" => false,
+                "2fa-disabled" => $usersAuthDisable
             ];
-
-            if($usersAuthDisable == true){
+            
+            if($usersAuthDisable === true){
                 $session_usuario["approved"] = true;
 
                 SesionService::escribir("correoUsuario", $session_usuario);

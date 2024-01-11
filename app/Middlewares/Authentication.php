@@ -16,6 +16,7 @@ class Authentication{
         $this->updateAccountFind = Helpers::getConstainsRequestURI("update-account-2fa");
         $this->method = $_SERVER['REQUEST_METHOD'] ?? 'GET';
         $this->keyAuth2Store = AccountManager::verifySecondAuthSaved();
+        $this->authDisabled = $this->session_usuario["2fa-disabled"]??false;
 
         Helpers::tracer();
 
@@ -36,7 +37,7 @@ class Authentication{
     /*si se intenta acceder a ruta protegida sin tener una keysecret guardada*/
     public function verified(){
         if((!$this->approved && !empty($this->session_usuario)) || 
-           ($this->approved && $this->keyAuth2Store=="") ){
+           ($this->approved && $this->keyAuth2Store=="" && $this->authDisabled == false) ){
             return redirect("update-account-2fa");
         }
     }
