@@ -40,12 +40,30 @@ Administración de permisos
 					<table class="display table table-striped nowrap compact responsive" cellspacing="0" width="100%">
 						<thead>
 							<tr>
-								<th>Permiso</th>
-								<th width="150">Estado</th>
+								<th>Permiso</th>								
 								<th width="100">acciones</th>
 							</tr>
 						</thead>
-						
+						@foreach ($data as $key => $item)
+							<tr>
+								<td>{{ $item["name"] ?? '' }}</td>																
+								<td>
+									<div class="dropdown">
+										<button class="btn btn-secondary btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="false">
+											Acciones
+										</button>
+										<div class="dropdown-menu">
+											<a class="dropdown-item" href="/permisos/{{ $key }}/permiso"><i class="fas fa-edit"></i>&nbsp;&nbsp;Editar</a>
+											<form action="/permisos" method="POST">
+												<input type="hidden" name="type" value="delete" />
+												<input type="hidden" name="id" value="{{ $key }}">
+												<button class="dropdown-item" type="submit"><i class="fas fa-trash-alt"></i>&nbsp;&nbsp;Eliminar</button>
+											</form>
+										</div>
+									</div>
+								</td>
+							</tr>
+						@endforeach
 					</table>
 				</div>
 

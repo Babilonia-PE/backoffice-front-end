@@ -22,9 +22,11 @@ class ConfigurationPermissionsController{
 
     public function index(){
 
+        $store = $this->readPermissionStore();
+
         echo view("configuracion-permissions", [
             "currentPage" => $this->currentPage,
-            "data" => []
+            "data" => $store
         ]);
     }
 
@@ -56,6 +58,12 @@ class ConfigurationPermissionsController{
             case 'delete':
 
                 unset($store[$id]);
+
+                echo view("configuracion-permissions", [
+                    "currentPage" => $this->currentPage,
+                    "data" => $store
+                ]);
+                die();
                 
             break;            
         }
