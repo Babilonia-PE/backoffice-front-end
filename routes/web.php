@@ -58,23 +58,17 @@ $router
                 
                 ->get("/permisos", [ConfigurationPermissionsController::class, "index"], ['before' => 'verifyPrivileges'])
                 ->get("/permisos/{id}/permiso", [ConfigurationPermissionsController::class, "permissionDetail"], ['before' => 'verifyPrivileges'])
-                ->post("/permisos", [ConfigurationPermissionsController::class, "post"], ['before' => 'verifyPrivileges']);
+                ->post("/permisos", [ConfigurationPermissionsController::class, "post"], ['before' => 'verifyPrivileges'])
                 #configuracion
                 
-                $router
-                    ->group(['before' => 'verifyPermissions'], function($enrutadorPermisos){
-
-                        $enrutadorPermisos
-                            ->get("/alertas", [AlertasController::class, "index"])
-                            ->get("/avisos", [AvisosController::class, "index"])
-                            ->get("/clientes", [ClientesController::class, "index"])
-                            ->get("/leads-avisos", [LeadsController::class, "index"])
-                            ->get("/leads-proyectos", [LeadsProjectsController::class, "index"])
-                            ->get("/paquetes", [PaquetesController::class, "index"])
-                            ->get("/vistas", [ViewsController::class, "index"])
-                            ->get("/reportes-id", [ReportesIdController::class, "index"]);
-                    });
-
+                ->get("/alertas", [AlertasController::class, "index"])
+                ->get("/avisos", [AvisosController::class, "index"])
+                ->get("/clientes", [ClientesController::class, "index"])
+                ->get("/leads-avisos", [LeadsController::class, "index"])
+                ->get("/leads-proyectos", [LeadsProjectsController::class, "index"])
+                ->get("/paquetes", [PaquetesController::class, "index"])
+                ->get("/vistas", [ViewsController::class, "index"])
+                ->get("/reportes-id", [ReportesIdController::class, "index"]);
         });
 
         $enrutadorVistasPrivadas->group(['before' => 'VerifiedSaved'], function($router){

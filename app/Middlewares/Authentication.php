@@ -81,7 +81,7 @@ class Authentication{
         $user = $this->getUserByDNI($dni);
         $permission = $user["permissions"]??0;
 
-        dd($permission);
+        //dd($permission);
     }
 
     public static function findUserByDNI(){
