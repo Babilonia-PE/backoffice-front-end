@@ -123,42 +123,27 @@ Avisos
               		<div class="col-md-4">
                 		<div class="form-group">
                   			<label>Estado</label>
-                  			<select class="form-control select2" id="state" style="width: 100%;">
-								<option selected disabled value="">Elige una opción</option>
-								<option value="published">Publicado</option>
-								<option value="not_published">No publicado</option>
-								<option value="unpublished">Despublicado</option>
-								<option value="expired">Expirado</option>
-							</select>
+							  @component("components.select", ['data'=>APP_LANG_STATE, 'id' => "state", 'placeholder' => 'Estado', 'first' => true])
+							  @endcomponent                  			
                 		</div>
                 	</div>
               		<div class="col-md-4">
                 		<div class="form-group">
                   			<label>Tipo de operación</label>
-                  			<select class="form-control select2" id="listing_type" style="width: 100%;">
-								<option selected disabled value="">Elige una opción</option>
-								<option value="sale">Venta</option>
-								<option value="rent">Alquiler</option>
-							</select>
+							  @component("components.select", ['data'=>APP_LANG_LISTING_TYPE, 'id' => "listing_type", 'placeholder' => 'Tipo de operación'])
+							  @endcomponent                  			
                 		</div>
                 	</div>
               		<div class="col-md-4">
                 		<div class="form-group">
                   			<label>Tipo de inmueble</label>
-                  			<select class="form-control select2" id="property_type" style="width: 100%;">
-								<option selected disabled value="">Elige una opción</option>
-								<option value="apartment">Departamento</option>
-								<option value="house">Casa</option>
-								<option value="commercial">Local Comercial</option>
-								<option value="office">Oficina</option>
-								<option value="land">Terreno</option>
-							</select>
+                  			@component("components.select", ['data'=>APP_LANG_PROPERTY_TYPE, 'id' => "property_type", 'placeholder' => 'Tipo de inmueble'])
+							@endcomponent
                 		</div>
                 	</div>
               		<div class="col-md-4">
                 		<div class="form-group">
                   			<label>Cliente</label>
-
 							@component("components.search-user",array("storage"=>"filter_listing_users"))
 							@endcomponent
                 		</div>
@@ -401,9 +386,6 @@ Avisos
 	];
 	const processParams = (element) =>{
 
-		const id_listing_type = listing_type.findIndex(x => x.code === element.listing_type??null);
-		const id_property_type = property_type.findIndex(x => x.code === element.property_type??null);
-		const id_status = state.findIndex(x => x.code === element.state??null);
 		let facilities = [], advanced_details = [];
 		(element.facilities??[]).forEach(element => {
 			facilities.push(element.title_lang.es??'');
@@ -414,15 +396,15 @@ Avisos
 
 		return [
 			element.id,							
-			(listing_type[id_listing_type]??[]).name??'',
-			(property_type[id_property_type]??[]).name??'',
+			(APP_LANG_LISTING_TYPE[element.listing_type]??[])??'',
+			(APP_LANG_PROPERTY_TYPE[element.property_type]??[])??'',
 			'$' + Number(element.price??'').toLocaleString("en"),
 			( ( element.location ) ? element.location.address??'':'' ),
 			( ( element.location ) ? element.location.district??'':'' ),
 			( ( element.location ) ? element.location.province??'':'' ),
 			( ( element.location ) ? element.location.department??'':'' ),
 			( ( element.location ) ? element.location.country??'':'' ),
-			`<span class="badge text-bg-secondary ${(state[id_status]??[]).code??''}">${(state[id_status]??[]).name??''}</span>`,
+			`<span class="badge text-bg-secondary ${element.state}">${APP_LANG_STATE[element.state]??''}</span>`,
 			( ( element.created_at ) ? moment(element.created_at).format('DD/MM/YYYY'):'' ),
 			( ( element.ad_purchased_at ) ? moment(element.ad_purchased_at).format('DD/MM/YYYY'):'' ),
 			( ( element.contacts ) ? element.contacts[0]?.name??'':'' ),
