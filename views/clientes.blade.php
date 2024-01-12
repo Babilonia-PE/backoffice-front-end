@@ -4,6 +4,9 @@
 <link rel="stylesheet" href="public/plugins/LibDataTables/DataTables-1.13.6/css/dataTables.bootstrap4.min.css">
 <link rel="stylesheet" href="public/plugins/LibDataTables/Responsive-2.5.0/css/responsive.bootstrap4.min.css">
 <link rel="stylesheet" href="public/plugins/LibDataTables/Buttons-2.4.2/css/buttons.bootstrap4.min.css">
+<!-- Select2 -->
+<link rel="stylesheet" href="public/plugins/select2/css/select2.min.css">
+<link rel="stylesheet" href="public/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css">
 <style>
 	
     /*
@@ -137,13 +140,8 @@ Clientes
               		<div class="col-md-4">
                 		<div class="form-group">
                   			<label>Estado</label>
-                  			<select class="form-control" id="state" name="" id="">
-								<option value="">- Seleccione una opción -</option>
-								<option value="1">Activo</option>
-								<option value="2">Bloqueado</option>
-								<option value="3">Baneado</option>
-								<option value="5">Eliminado</option>
-							</select>
+							@component("components.select", ['data'=>APP_LANG_CLIENTS_STATE, 'id' => "state", 'placeholder' => 'Estado', 'first' => true])
+							@endcomponent
                 		</div>
                 	</div>
               		<div class="col-md-4">
@@ -247,11 +245,6 @@ Clientes
 	setMask('#created_end', { mask: "99/99/9999", showMaskOnHover: false, placeholder: "dd/mm/yyyy", rightAlign:false });
 </script>
 <script>
-	let state = [];
-		state[1] = 'Activo';
-		state[2] = 'Bloqueado';
-		state[3] = 'Baneado';
-		state[5] = 'Eliminado';
 		
 	const headers = [
 		{ "title" : "ID del usuario" },
@@ -319,7 +312,7 @@ Clientes
 			element.phone_number,
 			( ( element.company ) ? element.company.commercial_name??'':'' ),
 			moment(element.created_at).format('DD/MM/YYYY h:mm a'),
-			(`<span class="badge text-bg-secondary badge-${element.state}">${state[element.state]??''}</span>`),
+			(`<span class="badge text-bg-secondary badge-${element.state}">${APP_LANG_CLIENTS_STATE[element.state]??''}</span>`),
 			( ( element.company ) ? element.company.name??'':'' ),
 			( ( element.company ) ? element.company.id??'':'' ),
 			( ( element.company ) ? element.company.commercial_address??'':'' ),

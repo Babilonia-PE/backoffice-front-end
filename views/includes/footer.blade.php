@@ -80,6 +80,7 @@
   window.APP_LANG_LEADS_KEYS = {!! json_encode(APP_LANG_LEADS_KEYS) !!};
   window.APP_LANG_ADS_TYPE = {!! json_encode(APP_LANG_ADS_TYPE) !!};
   window.APP_LANG_PACKAGE_CATEGORY = {!! json_encode(APP_LANG_PACKAGE_CATEGORY) !!};
+  window.APP_LANG_CLIENTS_STATE = {!! json_encode(APP_LANG_CLIENTS_STATE) !!};
   window.filtersParamsTypes = {!! json_encode(FILTERSPARAMSTYPES) !!};
 </script>
 @yield("scripts")
