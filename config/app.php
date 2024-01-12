@@ -32,4 +32,49 @@ ini_set('display_errors', 1);
 ini_set("log_errors", 1);
 ini_set("error_log", URL_LOGS . "errors/" . date("Y-m-d") . ".log");
 
+$app_lang_listing_type = [
+    "all" => "Todos",
+    "sale" => "Venta",
+    "rent" => "Alquiler"
+];
+$app_lang_property_type = [
+    "all" => 'Todos',
+    "offices" => 'Oficinas',
+    "residential" => 'Residencial',
+    "both" => 'Residencial y Oficinas',
+    "apartment" => 'Departamento',
+    "Residencial" =>  'Residencial',
+    "Oficinas" =>  'Oficinas',
+    "Mixto" =>  'Mixto',
+    "house" =>  'Casa',
+    "commercial" =>  'Local comercial',
+    "office" =>  'Oficina',
+    "land" =>  'Terreno',
+    "room" =>  'Habitación',
+    "local_industrial" =>  'Local Industrial',
+    "land_agricultural" =>  'Terreno Agrícola',
+    "land_industrial" =>  'Terreno Industrial',
+    "land_commercial" =>  'Terreno Comercial',
+    "cottage" =>  'Casa de Campo',
+    "beach_house" =>  'Casa de Playa',
+    "building" =>  'Edificio',
+    "hotel" =>  'Hotel;',
+    "deposit" =>  'Depósito',
+    "parking" =>  'Estacionamiento',
+    "airs" =>  'Aires'        
+];
+$app_lang_alert_type = [
+    "lead" => "Lead",
+    "similar" => "Similar",
+    "alert" => "Alert"
+];
+$app_lang_alert_state = [
+    "Desactivado",
+    "Activado"
+];
+define("APP_LANG_LISTING_TYPE", $app_lang_listing_type);
+define("APP_LANG_PROPERTY_TYPE", $app_lang_property_type);
+define("APP_LANG_ALERT_TYPE", $app_lang_alert_type);
+define("APP_LANG_ALERT_STATE", $app_lang_alert_state);
+
 ?>
