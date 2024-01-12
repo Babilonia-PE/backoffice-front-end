@@ -239,12 +239,6 @@ Leads
 		{ "title": "Fecha de actualización", "code": "id" },
 		{ "title": "Acciones", "code": "id" }
 	];
-	const keys = {
-		phone_view : 'telefono',
-		email_view : 'email',
-		whatsapp_view : 'whatsapp',
-		visit_request : 'visita'
-	}
 	const filtersFields = [
 		{
 			name: 'listing_id'
@@ -282,7 +276,7 @@ Leads
 		return [
 			element.id,
 			element.listing_id,
-			element.key ? keys[element.key] : '',
+			element.key ? APP_LANG_LEADS_KEYS[element.key] : '',
 			element.user_id,
 			element.full_name,
 			element.email,
