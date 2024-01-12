@@ -18,6 +18,7 @@ use App\Controllers\AlertasController;
 use App\Controllers\ClientesController;
 use App\Controllers\PaquetesController;
 use App\Controllers\ReportesController;
+use App\Controllers\ReportesIdController;
 use App\Controllers\LeadsProjectsController;
 use App\Controllers\ConfigurationMenuController;
 use App\Controllers\ConfigurationUsersController;
@@ -71,7 +72,7 @@ $router
                             ->get("/leads-proyectos", [LeadsProjectsController::class, "index"])
                             ->get("/paquetes", [PaquetesController::class, "index"])
                             ->get("/vistas", [ViewsController::class, "index"])
-                            ->get("/reportes", [ReportesController::class, "index"]);
+                            ->get("/reportes-id", [ReportesIdController::class, "index"]);
                     });
 
         });
