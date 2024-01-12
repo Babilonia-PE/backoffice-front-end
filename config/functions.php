@@ -39,6 +39,18 @@ function secure_asset($ruta){
     return URL_WEB . "public/". $ruta;
 }
 
+function unsetArray($array = [], $n = 0, $condition = true){
+    $num = 0;
+    $data = $array;
+    if(count($data) > 0){
+        foreach($data as $k => $item){
+            if($num == $n && $condition) unset($data[$k]);        
+            $num++;
+        }
+    }
+    return $data;
+}
+
 function identifyCurrentPage($menu){
     
     $identify = "home";
