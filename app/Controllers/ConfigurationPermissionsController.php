@@ -11,7 +11,7 @@ class ConfigurationPermissionsController{
     public $dbPermission = URL_ROOT. "db/permissionsstore.json";
 
     public function __construct(){
-        $this->currentPage = "configuration-permisos";
+        $this->currentPage = "ConfigurationPermissionsController";
         $this->actions = [
             "view" => "Ver",
             "create" => "Crear",

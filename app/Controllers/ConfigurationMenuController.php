@@ -4,7 +4,7 @@ namespace App\Controllers;
 class ConfigurationMenuController{
 
     public function __construct(){
-        $this->currentPage = "configuracion-menu";
+        $this->currentPage = "ConfigurationMenuController";
     }
     public function index(){     
         

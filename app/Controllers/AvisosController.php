@@ -5,7 +5,7 @@ class AvisosController{
 
     function index(){
         echo view("avisos", [
-            "currentPage" => "avisos"
+            "currentPage" => "AvisosController"
          ]);
     }
 }

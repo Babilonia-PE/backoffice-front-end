@@ -7,7 +7,7 @@ class AlertasController extends Helpers{
 
     function index(){
         echo view("alertas", [
-           "currentPage" => "alertas"
+           "currentPage" => "AlertasController"
         ]);
     }
 }

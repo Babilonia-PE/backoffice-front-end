@@ -5,7 +5,7 @@ class ViewsController{
 
     function index(){
         echo view("views", [
-            "currentPage" => "views"
+            "currentPage" => "ViewsController"
          ]);
     }
 }

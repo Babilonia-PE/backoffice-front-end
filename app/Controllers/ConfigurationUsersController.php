@@ -6,7 +6,7 @@ use App\Controllers\ConfigurationPermissionsController;
 
 class ConfigurationUsersController{
     public function __construct(){
-        $this->currentPage = "configuration-usuarios";                
+        $this->currentPage = "ConfigurationUsersController";                
         $this->data = $this->getStore() ?? [];
 
         $usersAdmin = env("APP_USERS_IDENTIFY");

@@ -5,7 +5,7 @@ class PaquetesController{
 
     function index(){
         echo view("paquetes", [
-            "currentPage" => "paquetes"
+            "currentPage" => "PaquetesController"
          ]);
     }
 }

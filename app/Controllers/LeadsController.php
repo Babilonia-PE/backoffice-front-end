@@ -5,7 +5,7 @@ class LeadsController{
 
     function index(){
         echo view("leads", [
-            "currentPage" => "leads"
+            "currentPage" => "LeadsController"
          ]);
     }
 }

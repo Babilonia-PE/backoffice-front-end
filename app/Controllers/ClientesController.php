@@ -5,7 +5,7 @@ class ClientesController{
 
     function index(){
         echo view("clientes", [
-            "currentPage" => "clientes"
+            "currentPage" => "ClientesController"
          ]);
     }
 }
