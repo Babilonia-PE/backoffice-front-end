@@ -143,13 +143,8 @@ Leads
 					<div class="col-md-4">
                 		<div class="form-group">
                   			<label>Key</label>
-                  			<select class="form-control select2" id="key" style="width: 100%;">
-								<option selected disabled value="">Elige una opción</option>
-								<option value="phone_view">Telefono</option>
-								<option value="email_view">Email</option>
-								<option value="whatsapp_view">Whatsapp</option>
-								<option value="visit_request">Visita</option>
-							</select>
+							@component("components.select", ['data'=>APP_LANG_LEADS_KEYS, 'id' => "key", 'placeholder' => 'Key', 'first' => true])
+							@endcomponent
                 		</div>
                 	</div>           							
 					<div class="col-md-4">

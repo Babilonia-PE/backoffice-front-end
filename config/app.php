@@ -72,9 +72,46 @@ $app_lang_alert_state = [
     "Desactivado",
     "Activado"
 ];
+$app_lang_state = [
+    "published" => "Publicado",
+    "not_published" => "No publicado",
+    "unpublished" => "Despublicado",
+    "expired" => "Expirado"
+];
+$app_lang_leads_keys = [
+    "phone_view" => 'Telefono',
+    "email_view" => 'Email',
+    "whatsapp_view" => 'Whatsapp',
+    "visit_request" => 'Visita'
+];
+$app_lang_leads_keys = [
+    "phone_view" => 'Telefono',
+    "email_view" => 'Email',
+    "whatsapp_view" => 'Whatsapp',
+    "visit_request" => 'Visita'
+];
+$app_lang_ads_type = [
+    "listing" => "Avisos",
+    "project" => "Proyectos"
+];
+$app_lang_package_category = [
+    "essentials" => "Essentials",
+    "pro" => "Pro",
+    "prestige" => "Prestige"
+];
+
+$filtersParamsTypes = [
+    'USER'=> 'user',
+    'DATE'=> 'date'
+];
 define("APP_LANG_LISTING_TYPE", $app_lang_listing_type);
 define("APP_LANG_PROPERTY_TYPE", $app_lang_property_type);
 define("APP_LANG_ALERT_TYPE", $app_lang_alert_type);
 define("APP_LANG_ALERT_STATE", $app_lang_alert_state);
+define("APP_LANG_STATE", $app_lang_state);
+define("APP_LANG_LEADS_KEYS", $app_lang_leads_keys);
+define("APP_LANG_ADS_TYPE", $app_lang_ads_type);
+define("APP_LANG_PACKAGE_CATEGORY", $app_lang_package_category);
+define("FILTERSPARAMSTYPES", $filtersParamsTypes);
 
 ?>

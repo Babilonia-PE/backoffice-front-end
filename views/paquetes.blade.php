@@ -4,6 +4,9 @@
 <link rel="stylesheet" href="public/plugins/LibDataTables/DataTables-1.13.6/css/dataTables.bootstrap4.min.css">
 <link rel="stylesheet" href="public/plugins/LibDataTables/Responsive-2.5.0/css/responsive.bootstrap4.min.css">
 <link rel="stylesheet" href="public/plugins/LibDataTables/Buttons-2.4.2/css/buttons.bootstrap4.min.css">
+<!-- Select2 -->
+<link rel="stylesheet" href="public/plugins/select2/css/select2.min.css">
+<link rel="stylesheet" href="public/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css">
 <style>
 	
     /*
@@ -64,26 +67,28 @@
 	.box-details > div:first-child {
 		font-weight: 600;
 	}
-	
-	.badge.badge-1{
+	.badge:is(.published,.not_published,.unpublished,.expired,.deleted){
+		box-shadow: 2px 2px 17px 1px rgba(0, 0, 0, 0.2)
+	}
+	.badge.published{
 		background-color: #198754;
 		color: #ffffff;
 	}
-	.badge.badge-3{
+	.badge.not_published{
 		background-color: #ffffff;
 		color: #000000;
 	}
-	.badge.badge-2{
+	.badge.unpublished{
+		background-color: #ff8300;
+		color: #000000;
+	}
+	.badge.expired{
 		background-color: #dc3545;
 		color: #ffffff;
 	}
-	.badge.badge-5{
+	.badge.deleted{
 		background-color: #000000;
 		color: #ffffff;
-	}
-
-	.table tbody tr td button[data-copy="inner"]{
-		display: none !important;
 	}
     @media(max-width: 400px) {
 		.box-details{
@@ -133,17 +138,14 @@ Paquetes
               		<div class="col-md-4">
                 		<div class="form-group">
                   			<label>Tipo</label>
-                  			<select class="form-control" id="type" name="type">
-								<option value="">- Seleccione una opción -</option>
-								<option value="listing">listing</option>
-								<option value="project">project</option>
-							</select>
+                  			@component("components.select", ['data'=>APP_LANG_ADS_TYPE, 'id' => "type", 'placeholder' => 'Tipo', 'first' => true])
+							@endcomponent                  			
                 		</div>
                 	</div>
               		<div class="col-md-4">
                 		<div class="form-group">
                   			<label>Cantidad de paquetes</label>
-                  			<select class="form-control" id="ads_count" name="ads_count">
+                  			<select class="form-control select2" id="ads_count" name="ads_count">
 								<option value="">- Seleccione una opción -</option>
 								<option value="5">5</option>
                                 <option value="10">10</option>
@@ -166,18 +168,14 @@ Paquetes
               		<div class="col-md-4">
                 		<div class="form-group">
                   			<label>Categoria</label>
-                  			<select class="form-control" id="category" name="category">
-								<option value="">- Seleccione una opción -</option>
-								<option value="essentials">essentials</option>
-                                <option value="pro">pro</option>
-                                <option value="prestige">prestige</option>
-							</select>
+							@component("components.select", ['data'=>APP_LANG_PACKAGE_CATEGORY, 'id' => "category", 'placeholder' => 'Categoria', 'first' => true])
+							@endcomponent
                 		</div>
                 	</div>
               		<div class="col-md-4">
                 		<div class="form-group">
                   			<label>Duración del paquete</label>
-                  			<select class="form-control" id="duration" name="duration">
+                  			<select class="form-control select2" id="duration" name="duration">
                                 <option value="">- Seleccione una opción -</option>
 								<option value="90">90</option>
                                 <option value="180">180</option>
@@ -346,7 +344,7 @@ Paquetes
 
 		return [
 			element.id,
-            element.category,
+            APP_LANG_PACKAGE_CATEGORY[element.category]??'',
             element.is_unlimited_standard?'si':'no',
             element.available_standard_ads_count,
             element.is_unlimited_plus?'si':'no',
@@ -361,7 +359,7 @@ Paquetes
             element.initial_plus_ads_count,
             element.initial_premium_ads_count,
             element.order_id,
-            element.type,
+            APP_LANG_ADS_TYPE[element.type]??'',
 		];
 	}
 	const modalOrder =  [];
