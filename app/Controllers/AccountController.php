@@ -7,7 +7,7 @@ use PragmaRX\Google2FA\Google2FA;
 use App\Controllers\AccountManager;
 use App\Middlewares\Authentication;
 
-class AccountController extends Permissions{
+class AccountController{
 
     public function viewUpdate2fa(){
 
@@ -108,7 +108,31 @@ class AccountController extends Permissions{
     }
 
     public function viewEditAccount(){
-        echo view("account");
+
+        $userSession = SesionService::leer("correoUsuario");
+        $dni = $userSession["dni"] ?? '';
+
+        $userStore = $this->getStore();
+        $user = null;
+        foreach($userStore as $key => $item){
+            $_dni = $item["dni"]??'';
+            if($_dni == $dni) $user = $userStore[$key] ?? null;
+        }
+
+        echo view("account", [
+            "currentPage" => "AccountController",
+            "data" => $user
+        ]);
+    }
+
+    public function getStore(){
+        if(file_exists(URL_ROOT."db/userstore.json")){
+            $store = file_get_contents(URL_ROOT."db/userstore.json");
+        }else{
+            $store = "[]";
+        }
+
+        return json_decode($store, true)??[];
     }
 }
 ?>
