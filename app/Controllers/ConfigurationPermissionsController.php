@@ -4,8 +4,9 @@ namespace App\Controllers;
 use RecursiveArrayIterator;
 use RecursiveIteratorIterator;
 use App\Services\SesionService;
+use App\Middlewares\Permissions;
 
-class ConfigurationPermissionsController{
+class ConfigurationPermissionsController extends Permissions{
 
     public $actions = [];
     public $dbPermission = URL_ROOT. "db/permissionsstore.json";

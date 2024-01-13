@@ -1,7 +1,9 @@
 <?php
 namespace App\Controllers;
 
-class ConfigurationMenuController{
+use App\Middlewares\Permissions;
+
+class ConfigurationMenuController extends Permissions{
 
     public function __construct(){
         $this->currentPage = "ConfigurationMenuController";

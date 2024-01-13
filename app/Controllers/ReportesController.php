@@ -1,6 +1,9 @@
 <?php
 namespace App\Controllers;
-class ReportesController{
+
+use App\Middlewares\Permissions;
+
+class ReportesController extends Permissions{
 
     public function index(){
         echo view("reportes", [

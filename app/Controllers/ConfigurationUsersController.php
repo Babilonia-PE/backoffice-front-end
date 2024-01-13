@@ -2,9 +2,10 @@
 namespace App\Controllers;
 
 use App\Services\SesionService;
+use App\Middlewares\Permissions;
 use App\Controllers\ConfigurationPermissionsController;
 
-class ConfigurationUsersController{
+class ConfigurationUsersController extends Permissions{
     public function __construct(){
         $this->currentPage = "ConfigurationUsersController";                
         $this->data = $this->getStore() ?? [];

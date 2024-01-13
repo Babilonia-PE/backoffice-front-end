@@ -1,7 +1,9 @@
 <?php
 namespace App\Controllers;
 
-class PaquetesController{
+use App\Middlewares\Permissions;
+
+class PaquetesController extends Permissions{
 
     function index(){
         echo view("paquetes", [

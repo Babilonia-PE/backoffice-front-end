@@ -3,6 +3,7 @@ use App\Services\Blade;
 use App\Services\Helpers;
 use eftec\bladeone\BladeOne;
 use App\Services\SesionService;
+use App\Middlewares\Permissions;
 use App\Middlewares\Authentication;
 
 if (!file_exists(URL_LOGS)) {
@@ -21,6 +22,12 @@ function dd($string)
         var_dump($string);
     echo "</pre>";
     exit();
+}
+function dump($string)
+{
+    echo "<pre>";
+        var_dump($string);
+    echo "</pre>";
 }
 
 function env($string = "", $default = "")
@@ -214,6 +221,11 @@ function menu_item($array = [], $currentPage = ""){
     $_menu = $array["children"] ?? [];
     $_state = $array["state"] ?? "off";
     $_active = ($_id ==  $currentPage) ? 'active':'';
+
+    $newPermission = new Permissions(false);
+    $authPermission = $newPermission->authPermission("view", $_id, false);
+
+    if($authPermission === false) return '';
 
     $template = "";
     if($_state == "on"){

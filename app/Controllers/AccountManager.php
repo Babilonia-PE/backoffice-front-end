@@ -2,8 +2,9 @@
 namespace App\Controllers;
 
 use App\Services\SesionService;
+use App\Middlewares\Permissions;
 
-class AccountManager {
+class AccountManager  extends Permissions{
     function __construct(){
         self::init();
     }

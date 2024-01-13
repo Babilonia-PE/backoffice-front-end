@@ -2,11 +2,12 @@
 namespace App\Controllers;
 
 use App\Services\SesionService;
+use App\Middlewares\Permissions;
 use PragmaRX\Google2FA\Google2FA;
 use App\Controllers\AccountManager;
 use App\Middlewares\Authentication;
 
-class AccountController{
+class AccountController extends Permissions{
 
     public function viewUpdate2fa(){
 
