@@ -71,17 +71,7 @@ class ConfigurationPermissionsController extends Permissions{
         
         $store = $this->savePermissionStore($store);
 
-        echo view("configuracion-permissions-detalle", [
-            "currentPage" => $this->currentPage,
-            "data" => [
-                "title" => $name,
-                "name" => $name,
-                "permissions" => $form,
-                "actions" => $this->actions,
-                "id" => $id,
-                "type" => "edit"
-            ]
-        ]);
+        redirect("permisos/$id/permiso");
     }
 
     public function permissionDetail($id = null){
@@ -143,9 +133,9 @@ class ConfigurationPermissionsController extends Permissions{
         $menu = $GLOBALS["menu"];
 
         # set nuevo menu a array de permisos        
-        $permissionsdb = $this->readPermissionStore();
-        $permissionsdb = $permissionsdb[$id]["permissions"] ?? [];
-        $permissionsName = $permissionsdb[$id]["name"] ?? '';
+        $permissions_db = $this->readPermissionStore();
+        $permissionsdb = $permissions_db[$id]["permissions"] ?? [];
+        $permissionsName = $permissions_db[$id]["name"] ?? '';        
 
         if(count($menu) > 0){
             foreach($menu as $k2 => $y){
