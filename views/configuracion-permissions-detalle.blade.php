@@ -76,14 +76,10 @@
                                         @foreach($data["actions"] as $ak => $action)
                                             @if(isset($permission[$ak]))
                                             <td width="120px">
-                                                @if (isset($permission["url"]) && ($permission["url"] == '' || $permission["url"]== '#'))
-                                                    &nbsp;
-                                                @else
                                                 <div class="icheck-primary d-inline">
                                                     <input type="checkbox" id="checkbox{{ $ak }}{{ $k }}" name="form[{{ $k }}][{{ $ak }}]" @if($permission[$ak]===true) checked @endif>                                                    
                                                     <label for="checkbox{{ $ak }}{{ $k }}"></label>
                                                 </div>
-                                                @endif
                                             </td>
                                             @endif
                                         @endforeach                                        
