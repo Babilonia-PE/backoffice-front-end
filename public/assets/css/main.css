@@ -22,3 +22,30 @@
   #world-map{height: 420px !important;}
   /* MAP */
 /*DASHBOARD*/
+
+
+.nav-sidebar .menu-is-opening>.nav-link i.right,
+.nav-sidebar .menu-is-opening>.nav-link svg.right,
+.nav-sidebar .menu-open>.nav-link i.right,
+.nav-sidebar .menu-open>.nav-link svg.right {
+  -webkit-transform: rotate(90deg) !important;
+  transform: rotate(90deg) !important;
+}
+.dropdown.bootstrap-select > button.btn:is(:hover,:focus,:visited){
+  outline: none !important;
+}
+.dropdown.bootstrap-select > button.btn,
+.dropdown.bootstrap-select > button.btn:hover{
+  background-color: #fff;
+  background-clip: padding-box;
+  border: 1px solid #ced4da;
+  outline: none !important;
+  color: #495057;
+}
+
+#filter_box.card:not(.collapsed-card) .card-header #icon_filter_box:before{
+  content: "\f068" !important;
+}
+.dropdown-menu{
+  width: auto !important;
+}

@@ -29,6 +29,8 @@
   <link rel="stylesheet" href="@asset("plugins/summernote/summernote-bs4.min.css")">
   <!-- Bootstrap dropdown -->
   <link rel="stylesheet" href="@asset("plugins/bootstrap-select/css/bootstrap-select.min.css")">
+
+  <link rel="stylesheet" href="@asset("plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css")">
   <!-- Main styles -->
   <link rel="stylesheet" href="@asset("css/main.css")">
 

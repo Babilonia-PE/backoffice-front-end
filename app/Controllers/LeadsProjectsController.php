@@ -1,11 +1,11 @@
 <?php
 namespace App\Controllers;
 
-class LeadsController{
+class LeadsProjectsController{
 
     function index(){
         echo view("leads", [
-            "currentPage" => "LeadsController"
+            "currentPage" => "LeadsProjectsController"
          ]);
     }
 }

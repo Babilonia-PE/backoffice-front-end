@@ -6,7 +6,9 @@ use App\Services\Helpers;
 class AlertasController extends Helpers{
 
     function index(){
-        echo view("alertas");
+        echo view("alertas", [
+           "currentPage" => "AlertasController"
+        ]);
     }
 }
 ?>
