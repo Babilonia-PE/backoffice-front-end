@@ -271,5 +271,4 @@ function set_menu_is_empty(){
     }
 
 }
-set_menu_is_empty();
 ?>
