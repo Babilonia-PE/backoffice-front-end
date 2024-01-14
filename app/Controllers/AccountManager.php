@@ -1,6 +1,7 @@
 <?php
 namespace App\Controllers;
 
+use App\Services\Store;
 use App\Services\SesionService;
 use App\Middlewares\Permissions;
 
@@ -18,9 +19,7 @@ class AccountManager  extends Permissions{
             $usernameSession = $userSession["username"]??'';
         }
 
-        $db = URL_ROOT. "db/userstore.json";
-        $userdb = file_get_contents($db);
-        $userdb = json_decode($userdb, true) ?? [];
+        $userdb =  Store::readDb("userstore");
         $usuario = [];
 
         foreach($userdb as $key => $item){
@@ -44,10 +43,7 @@ class AccountManager  extends Permissions{
         $usernameSession = $userSession["username"]??'';
         $dniSession = $userSession["dni"]??'';
 
-        $db = URL_ROOT. "db/userstore.json";
-        
-        $userdb = file_get_contents($db);
-        $userdb = json_decode($userdb, true)  ?? [];
+        $userdb = Store::readDb("userstore");        
         $usuario = [];
         
         foreach($userdb as $key => $item){

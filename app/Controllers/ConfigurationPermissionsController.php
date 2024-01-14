@@ -1,6 +1,7 @@
 <?php
 namespace App\Controllers;
 
+use App\Services\Store;
 use RecursiveArrayIterator;
 use RecursiveIteratorIterator;
 use App\Services\SesionService;
@@ -9,7 +10,8 @@ use App\Middlewares\Permissions;
 class ConfigurationPermissionsController extends Permissions{
 
     public $actions = [];
-    public $dbPermission = URL_ROOT. "db/permissionsstore.json";
+    public $dbPermission = "permissionsstore";
+    public $dbUser = "menustore";
 
     public function __construct(){
         $this->currentPage = "ConfigurationPermissionsController";
@@ -23,7 +25,7 @@ class ConfigurationPermissionsController extends Permissions{
 
     public function index(){
 
-        $store = $this->readPermissionStore();
+        $store = Store::readDb($this->dbPermission);
 
         echo view("configuracion-permissions", [
             "currentPage" => $this->currentPage,
@@ -42,7 +44,7 @@ class ConfigurationPermissionsController extends Permissions{
         if($id == '') redirect("/permisos");
         if($type == '') redirect("/permisos/$id/permiso");
 
-        $store = $this->readPermissionStore();
+        $store = Store::readDb($this->dbPermission);
         
         switch ($type) {
             case 'new':
@@ -59,7 +61,7 @@ class ConfigurationPermissionsController extends Permissions{
             case 'delete':
 
                 unset($store[$id]);
-                $store = $this->savePermissionStore($store);
+                $store = Store::updateDb($this->dbPermission,$store);
                 echo view("configuracion-permissions", [
                     "currentPage" => $this->currentPage,
                     "data" => $store
@@ -69,7 +71,7 @@ class ConfigurationPermissionsController extends Permissions{
             break;            
         }
         
-        $store = $this->savePermissionStore($store);
+        Store::updateDb($this->dbPermission,$store);
 
         echo view("configuracion-permissions-detalle", [
             "currentPage" => $this->currentPage,
@@ -128,13 +130,7 @@ class ConfigurationPermissionsController extends Permissions{
             }            
         }
         
-        if(file_exists(URL_ROOT."db/menustore.json")){
-            $menudb = file_get_contents(URL_ROOT."db/menustore.json");
-        }else{
-            $menudb = "[]";
-        }
-
-        $menuStore = json_decode($menudb, true)??[];
+        $menuStore = Store::readDb($this->dbUser);
         
         foreach($menuStore as $item){
            menu_item($item);            
@@ -143,7 +139,7 @@ class ConfigurationPermissionsController extends Permissions{
         $menu = $GLOBALS["menu"];
 
         # set nuevo menu a array de permisos        
-        $permissionsdb = $this->readPermissionStore();
+        $permissionsdb = Store::readDb($this->dbPermission);
         $permissionsdb = $permissionsdb[$id]["permissions"] ?? [];
         $permissionsName = $permissionsdb[$id]["name"] ?? '';
 
@@ -188,29 +184,6 @@ class ConfigurationPermissionsController extends Permissions{
             $permissionsName,
             $menu
         ];
-    }
-
-    public function savePermissionStore($store){
-        
-        if(!is_dir(URL_ROOT. "db")){ mkdir(URL_ROOT. "db", 0777, true);} 
-
-        if(!file_exists($this->dbPermission)){
-            file_put_contents($this->dbPermission, json_encode($store));
-            chmod($this->dbPermission, 0777);
-        }else{
-            file_put_contents($this->dbPermission, json_encode($store));
-        }
-
-        return $store;
-    }
-
-    public function readPermissionStore(){
-
-        $permissionsdb = "[]";
-
-        if(file_exists($this->dbPermission)) $permissionsdb = file_get_contents($this->dbPermission);
-
-        return json_decode($permissionsdb, true)??[];
     }
 
     public function updateStateActions($form = []){

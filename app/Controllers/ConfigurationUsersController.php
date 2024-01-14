@@ -6,9 +6,13 @@ use App\Middlewares\Permissions;
 use App\Controllers\ConfigurationPermissionsController;
 
 class ConfigurationUsersController extends Permissions{
+
+    public $dbPermission = "permissionsstore";
+    public $dbUser = "menustore";
+
     public function __construct(){
         $this->currentPage = "ConfigurationUsersController";                
-        $this->data = $this->getStore() ?? [];
+        $this->data = Store::readDb($this->dbUser) ?? [];
 
         $usersAdmin = env("APP_USERS_IDENTIFY");
         $usersAdmin = isset($usersAdmin) && $usersAdmin!=null ? explode(",", $usersAdmin) : [];
@@ -45,8 +49,8 @@ class ConfigurationUsersController extends Permissions{
                     if($_username == $username){
                         unset($userStore[$key]);
                     }
-                }        
-                $this->saveStore($userStore);
+                }
+                Static::saveDb($this->dbUser, $userStore);
             break;
             
             case 'update':        
@@ -59,8 +63,8 @@ class ConfigurationUsersController extends Permissions{
                         $userStore[$key]["permissions"] = $permission;                                                                        
                     }
 
-                }        
-                $this->saveStore($userStore);
+                }     
+                Static::saveDb($this->dbUser, $userStore);
 
                 if($state == 0 && $userSession_dni == $id){
                     SesionService::destruir();
@@ -81,18 +85,6 @@ class ConfigurationUsersController extends Permissions{
     public function delete(){        
     }
 
-    public function saveStore($data){
-        $db = URL_ROOT. "db/userstore.json";
-        
-        if(!is_dir(URL_ROOT. "db")){ mkdir(URL_ROOT. "db", 0777, true);} 
-
-        if(!file_exists($db)){
-            file_put_contents($db, json_encode($data));
-            chmod($db, 0777);
-        }else{
-            file_put_contents($db, json_encode($data));
-        }
-    }
     public function getStore(){
         if(file_exists(URL_ROOT."db/userstore.json")){
             $store = file_get_contents(URL_ROOT."db/userstore.json");

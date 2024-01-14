@@ -1,6 +1,7 @@
 <?php
 namespace App\Controllers;
 
+use App\Services\Store;
 use App\Services\SesionService;
 use App\Middlewares\Permissions;
 use PragmaRX\Google2FA\Google2FA;
@@ -112,7 +113,7 @@ class AccountController{
         $userSession = SesionService::leer("correoUsuario");
         $dni = $userSession["dni"] ?? '';
 
-        $userStore = $this->getStore();
+        $userStore = Store::readDb("userstore");
         $user = null;
         foreach($userStore as $key => $item){
             $_dni = $item["dni"]??'';
@@ -123,16 +124,6 @@ class AccountController{
             "currentPage" => "AccountController",
             "data" => $user
         ]);
-    }
-
-    public function getStore(){
-        if(file_exists(URL_ROOT."db/userstore.json")){
-            $store = file_get_contents(URL_ROOT."db/userstore.json");
-        }else{
-            $store = "[]";
-        }
-
-        return json_decode($store, true)??[];
     }
 }
 ?>
