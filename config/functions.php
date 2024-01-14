@@ -257,4 +257,19 @@ function get_current_view(){
     $file_name_without_ext = preg_replace('/\.\w+$/', '', $file_name);    
     return $file_name_without_ext;
 }
+
+function set_menu_is_empty(){
+    if(env("APP_TESTING")==false) return false;
+    $menu_json = '[{"state":"on","icon":"nav-icon fa fa-cog","controller":"configuracion","url":"configuracion","label":"Configuraci\u00f3n","id":1704920828,"children":[{"state":"on","icon":"fas fa-bars","controller":"configuracion-menu","url":"menu","label":"Men\u00fa","id":1704920829},{"state":"on","icon":"fas fa-shield-alt","controller":"configuration-permisos","url":"\/permisos","label":"Permisos","id":1704920830},{"state":"on","icon":"fas fa-users","controller":"configuration-usuarios","url":"usuarios","label":"Usuarios","id":1704920831}]},{"state":"on","icon":"far fa-circle nav-icon","controller":"alertas","url":"alertas","label":"Alertas","id":1704920832},{"state":"on","icon":"far fa-circle nav-icon","controller":"clientes","url":"clientes","label":"Clientes","id":1704920833},{"state":"on","icon":"far fa-circle nav-icon","controller":"AvisosController","url":"#","label":"Anuncios","id":1704920834,"children":[{"state":"on","icon":"far fa-circle nav-icon","controller":"avisos","url":"avisos","label":"Avisos","id":1704920835},{"state":"on","icon":"far fa-circle nav-icon","controller":"proyectos","url":"#","label":"Proyectos","id":1704920836}]},{"state":"on","icon":"fas fa-mail-bulk","controller":"leads","url":3,"label":"Leads","id":1704920837,"children":[{"state":"on","icon":"far fa-circle nav-icon","controller":"leads","url":"leads-avisos","label":"Avisos","id":1704920838},{"state":"on","icon":"far fa-circle nav-icon","controller":"leads-projects","url":"leads-proyectos","label":"Proyectos","id":1704920839}]},{"state":"on","icon":"far fa-circle nav-icon","controller":"views","url":"vistas","label":"Views","id":1704920840},{"state":"on","icon":"far fa-circle nav-icon","controller":"paquetes","url":"paquetes","label":"Paquetes","id":1704920841},{"state":"on","icon":"fas fa-project-diagram","controller":"ReportsController","url":"#","label":"Reportes","id":1704920842,"children":[{"state":"on","icon":"far fa-circle nav-icon","controller":"reportes","url":"reportes","label":"Reporte ID","id":1704920843}]}]';
+    $db = URL_ROOT. "db/menustore.json";
+        
+    if(!is_dir(URL_ROOT. "db")){ mkdir(URL_ROOT. "db", 0777, true);} 
+
+    if(!file_exists($db)){
+        file_put_contents($db, $menu_json);
+        chmod($db, 0777);
+    }
+
+}
+set_menu_is_empty();
 ?>
