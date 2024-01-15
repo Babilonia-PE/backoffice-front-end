@@ -28,5 +28,17 @@ class Store{
 
         return $data;
     }
+    static function initStore($name = ""){
+        if($name == "") return false;
+
+        $db = URL_ROOT. "db/$name.json";
+        
+        if(!is_dir(URL_ROOT. "db")){ mkdir(URL_ROOT. "db", 0777, true);} 
+
+        if(!file_exists($db)){
+            file_put_contents($db, json_encode([]));
+            chmod($db, 0777);
+        }
+    }
 }
 ?>

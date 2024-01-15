@@ -92,7 +92,6 @@ class AccountController{
                 $userSession["approved"] = true;
                 
                 SesionService::escribir("correoUsuario", $userSession, true);
-                //dd(SesionService::leer("correoUsuario"));
                 redirect();
             } else {
                

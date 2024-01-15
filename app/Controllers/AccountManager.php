@@ -7,12 +7,12 @@ use App\Middlewares\Permissions;
 
 class AccountManager  extends Permissions{
     function __construct(){
-        self::init();
+        Store::initStore("userstore");
     }
 
     static function verifySecondAuthSaved($usernameSession = ""){
 
-        self::init();
+        Store::initStore("userstore");
         if($usernameSession == ""){
 
             $userSession = SesionService::leer("correoUsuario");
@@ -38,7 +38,7 @@ class AccountManager  extends Permissions{
     }
     static function saveSecretKey($get_secret){
 
-        self::init();
+        Store::initStore("userstore");
         $userSession = SesionService::leer("correoUsuario");
         $usernameSession = $userSession["username"]??'';
         $dniSession = $userSession["dni"]??'';
@@ -68,18 +68,6 @@ class AccountManager  extends Permissions{
         
         $userJson = json_encode($userdb);
         file_put_contents($db, $userJson);
-    }
-
-    static function init(){
-
-        $db = URL_ROOT. "db/userstore.json";
-        
-        if(!is_dir(URL_ROOT. "db")){ mkdir(URL_ROOT. "db", 0777, true);} 
-
-        if(!file_exists($db)){
-            file_put_contents($db, json_encode([]));
-            chmod($db, 0777);
-        }
     }
 }
 ?>
