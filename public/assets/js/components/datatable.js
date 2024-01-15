@@ -439,7 +439,7 @@ const datatable = (options = {})=>{
 					data.per_page = ( tableSaved ) ? ( tableSaved.page.info().length ) : 25;
 					data.order.forEach(element => {
 						data.order_by = headers[element.column].code;
-						data.order_dir = element.dir;
+						data.sort_by = element.dir;
 					});
 
                     //CARGA DE DATA PARA FILTROS DESPUES DE RECARGAR UNA PAGINA
@@ -561,7 +561,7 @@ const datatable = (options = {})=>{
 		{
 			targets: columnsHidden,
 			visible: false,
-			class: "none"
+			/*class: "none"*/
 		},
 		{ type: "date", targets: columnsDates },
 		{ orderable: false, targets: ['_all'] }
