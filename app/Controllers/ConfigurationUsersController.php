@@ -1,6 +1,7 @@
 <?php
 namespace App\Controllers;
 
+use App\Services\Store;
 use App\Services\SesionService;
 use App\Middlewares\Permissions;
 use App\Controllers\ConfigurationPermissionsController;
