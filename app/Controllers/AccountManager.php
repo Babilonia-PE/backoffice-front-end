@@ -1,25 +1,25 @@
 <?php
 namespace App\Controllers;
 
+use App\Services\Store;
 use App\Services\SesionService;
+use App\Middlewares\Permissions;
 
-class AccountManager {
+class AccountManager  extends Permissions{
     function __construct(){
-        self::init();
+        Store::initStore("userstore");
     }
 
     static function verifySecondAuthSaved($usernameSession = ""){
 
-        self::init();
+        Store::initStore("userstore");
         if($usernameSession == ""){
 
             $userSession = SesionService::leer("correoUsuario");
             $usernameSession = $userSession["username"]??'';
         }
 
-        $db = URL_ROOT. "db/userstore.json";
-        $userdb = file_get_contents($db);
-        $userdb = json_decode($userdb, true) ?? [];
+        $userdb =  Store::readDb("userstore");
         $usuario = [];
 
         foreach($userdb as $key => $item){
@@ -38,15 +38,12 @@ class AccountManager {
     }
     static function saveSecretKey($get_secret){
 
-        self::init();
+        Store::initStore("userstore");
         $userSession = SesionService::leer("correoUsuario");
         $usernameSession = $userSession["username"]??'';
         $dniSession = $userSession["dni"]??'';
 
-        $db = URL_ROOT. "db/userstore.json";
-        
-        $userdb = file_get_contents($db);
-        $userdb = json_decode($userdb, true)  ?? [];
+        $userdb = Store::readDb("userstore");        
         $usuario = [];
         
         foreach($userdb as $key => $item){
@@ -71,18 +68,6 @@ class AccountManager {
         
         $userJson = json_encode($userdb);
         file_put_contents($db, $userJson);
-    }
-
-    static function init(){
-
-        $db = URL_ROOT. "db/userstore.json";
-        
-        if(!is_dir(URL_ROOT. "db")){ mkdir(URL_ROOT. "db", 0777, true);} 
-
-        if(!file_exists($db)){
-            file_put_contents($db, json_encode([]));
-            chmod($db, 0777);
-        }
     }
 }
 ?>

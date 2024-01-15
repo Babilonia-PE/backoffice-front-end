@@ -18,6 +18,7 @@ use App\Controllers\AlertasController;
 use App\Controllers\ClientesController;
 use App\Controllers\PaquetesController;
 use App\Controllers\ReportesController;
+use App\Controllers\ProyectosController;
 use App\Controllers\ReportesIdController;
 use App\Controllers\LeadsProjectsController;
 use App\Controllers\ConfigurationMenuController;
@@ -34,7 +35,6 @@ $router->filter("verified", [Authentication::class, "verified"]);
 $router->filter("VerifiedSaved", [Authentication::class, "VerifiedSaved"]);
 $router->filter("VerifiedNoSaved", [Authentication::class, "VerifiedNoSaved"]);
 $router->filter("verifyPrivileges", [Authentication::class, "verifyPrivileges"]);
-$router->filter("verifyPermissions", [Authentication::class, "verifyPermissions"]);
 
 // vistas privadas
 $router
@@ -63,6 +63,7 @@ $router
                 
                 ->get("/alertas", [AlertasController::class, "index"])
                 ->get("/avisos", [AvisosController::class, "index"])
+                ->get("/proyectos", [ProyectosController::class, "index"])
                 ->get("/clientes", [ClientesController::class, "index"])
                 ->get("/leads-avisos", [LeadsController::class, "index"])
                 ->get("/leads-proyectos", [LeadsProjectsController::class, "index"])
@@ -96,6 +97,8 @@ $router
         ->post("/login", [LoginController::class, "login"]);
         
     });
+
+set_menu_is_empty();
 
 
 $despachador = new Dispatcher($router->getData());

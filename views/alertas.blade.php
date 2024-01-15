@@ -282,16 +282,16 @@ Alertas
 
 		return [
 			element.id,
-			element.user_id,
+			element.full_name,
 			element.email,
 			phone_full,
-            APP_LANG_LISTING_TYPE[element.listing_type]??'',
-            APP_LANG_PROPERTY_TYPE[element.property_type]??'',
+            element.listing_type,
+            element.property_type,
             element.location,
             element.price,
             element.contact_agent?'Si':'No',
-            APP_LANG_ALERT_STATE[element.state]??'',
-            APP_LANG_ALERT_TYPE[element.type]??'',
+            element.state,
+            element.type,
 			moment(element.created_at).format('DD/MM/YYYY'),
 			moment(element.updated_at).format('DD/MM/YYYY')
 		];

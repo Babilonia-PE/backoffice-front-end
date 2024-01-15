@@ -70,9 +70,6 @@
 	.badge:is(.published,.not_published,.unpublished,.expired,.deleted){
 		box-shadow: 2px 2px 17px 1px rgba(0, 0, 0, 0.2)
 	}
-	.badge{
-		box-shadow: 1px 1px 4px 0px rgba(0,0,0,0.15);
-	}
 	.badge.published{
 		background-color: #198754;
 		color: #ffffff;
@@ -293,43 +290,44 @@ Avisos
 		"owner" : "Propietario"
 	};
 	const headers = [
-			{ "title": "ID del listing", "code": "id", "sortable": true },
+			{ "title": "ID del listing", "code": "id" },
+			
 			{ "title": "Tipo de operación", "code": "listing_type" },
 			{ "title": "Tipo de inmueble", "code": "property_type" },
-			{ "title": "Precio", "code": "price", "sortable": true },
-			{ "title": "Direccion" },
-			{ "title": "Distrito" },
-			{ "title": "Provincia" },
-			{ "title": "Departamento" },
-			{ "title": "Pais" },
-			{ "title": "Estado", "code": "state", "sortable": true },
-			{ "title": "Fecha de creación", "created_date": "id", "sortable": true },
-			{ "title": "Fecha de publicación", "code": "purchased_date", "sortable": true },
-			{ "title": "Nombre del usuario" },
-            { "title": "Categoria" },
-            { "title": "Duración" },
-            { "title": "Rol" },
-            { "title": "Cuartos" },
-            { "title": "Baños" },
-            { "title": "Area total" },
-            { "title": "Área techada" },
-            { "title": "Estacionamientos" },
-            { "title": "Estacionamiento para visitas" },
-            { "title": "Año de construcción" },
-            { "title": "Número de pisos" },
-            { "title": "Piso del inmueble" },
-            { "title": "Pet friendly" },
-            { "title": "Comodidades" },
-            { "title": "Adicionales" },
-            { "title": "Descripción" },
-            { "title": "Numero de fotos" },
-            { "title": "Video" },
-            { "title": "Numero de vistas" },
-            { "title": "Número de favoritos" },
-            { "title": "Numero de contactos" },
-            { "title": "Fecha de actualización", "code": "updated_date", "sortable": true },
-            { "title": "Fecha de expiración", "code": "expires_date", "sortable": true },
-			{ "title": "Acciones" }
+			{ "title": "Precio", "code": "price" },
+			{ "title": "Direccion", "code": "id" },
+			{ "title": "Distrito", "code": "id" },
+			{ "title": "Provincia", "code": "id" },
+			{ "title": "Departamento", "code": "id" },
+			{ "title": "Pais", "code": "id" },
+			{ "title": "Estado", "code": "state" },
+			{ "title": "Fecha de creación", "code": "id" },
+			{ "title": "Fecha de publicación", "code": "id" },
+			{ "title": "Nombre del usuario", "code": "id" },
+            { "title": "Categoria", "code": "id" },
+            { "title": "Duración", "code": "id" },
+            { "title": "Rol", "code": "id" },
+            { "title": "Cuartos", "code": "id" },
+            { "title": "Baños", "code": "id" },
+            { "title": "Area total", "code": "id" },
+            { "title": "Área techada", "code": "id" },
+            { "title": "Estacionamientos", "code": "id" },
+            { "title": "Estacionamiento para visitas", "code": "id" },
+            { "title": "Año de construcción", "code": "id" },
+            { "title": "Número de pisos", "code": "id" },
+            { "title": "Piso del inmueble", "code": "id" },
+            { "title": "Pet friendly", "code": "id" },
+            { "title": "Comodidades", "code": "id" },
+            { "title": "Adicionales", "code": "id" },
+            { "title": "Descripción", "code": "id" },
+            { "title": "Numero de fotos", "code": "id" },
+            { "title": "Video", "code": "id" },
+            { "title": "Numero de vistas", "code": "id" },
+            { "title": "Número de favoritos", "code": "id" },
+            { "title": "Numero de contactos", "code": "id" },
+            { "title": "Fecha de actualización", "code": "id" },
+            { "title": "Fecha de expiración", "code": "id" },
+			{ "title": "Acciones", "code": "id" }
 	];
 	const filtersFields = [
 		{
@@ -390,16 +388,16 @@ Avisos
 
 		let facilities = [], advanced_details = [];
 		(element.facilities??[]).forEach(element => {
-			facilities.push(element.title??'');
+			facilities.push(element.title_lang??'');
 		});
 		(element.advanced_details??[]).forEach(element => {
-			advanced_details.push(element.title??'');
+			advanced_details.push(element.title_lang??'');
 		});
 
 		return [
 			element.id,							
-			(APP_LANG_LISTING_TYPE[element.listing_type]??[])??'',
-			(APP_LANG_PROPERTY_TYPE[element.property_type]??[])??'',
+			(element.listing_type??[])??'',
+			(element.property_type??[])??'',
 			'$' + Number(element.price??'').toLocaleString("en"),
 			( ( element.location ) ? element.location.address??'':'' ),
 			( ( element.location ) ? element.location.district??'':'' ),

@@ -1,14 +1,17 @@
 <?php
 namespace App\Controllers;
 
+use App\Services\Store;
 use RecursiveArrayIterator;
 use RecursiveIteratorIterator;
 use App\Services\SesionService;
+use App\Middlewares\Permissions;
 
-class ConfigurationPermissionsController{
+class ConfigurationPermissionsController extends Permissions{
 
     public $actions = [];
-    public $dbPermission = URL_ROOT. "db/permissionsstore.json";
+    public $dbPermission = "permissionsstore";
+    public $dbUser = "menustore";
 
     public function __construct(){
         $this->currentPage = "ConfigurationPermissionsController";
@@ -22,7 +25,7 @@ class ConfigurationPermissionsController{
 
     public function index(){
 
-        $store = $this->readPermissionStore();
+        $store = Store::readDb($this->dbPermission);
 
         echo view("configuracion-permissions", [
             "currentPage" => $this->currentPage,
@@ -41,7 +44,7 @@ class ConfigurationPermissionsController{
         if($id == '') redirect("/permisos");
         if($type == '') redirect("/permisos/$id/permiso");
 
-        $store = $this->readPermissionStore();
+        $store = Store::readDb($this->dbPermission);
         
         switch ($type) {
             case 'new':
@@ -53,12 +56,14 @@ class ConfigurationPermissionsController{
                     "name" => $name
                 ];
 
+                Store::updateDb($this->dbPermission,$store);
+
             break;
             
             case 'delete':
 
                 unset($store[$id]);
-                $store = $this->savePermissionStore($store);
+                $store = Store::updateDb($this->dbPermission,$store);
                 echo view("configuracion-permissions", [
                     "currentPage" => $this->currentPage,
                     "data" => $store
@@ -68,19 +73,7 @@ class ConfigurationPermissionsController{
             break;            
         }
         
-        $store = $this->savePermissionStore($store);
-
-        echo view("configuracion-permissions-detalle", [
-            "currentPage" => $this->currentPage,
-            "data" => [
-                "title" => $name,
-                "name" => $name,
-                "permissions" => $form,
-                "actions" => $this->actions,
-                "id" => $id,
-                "type" => "edit"
-            ]
-        ]);
+        redirect("permisos/$id/permiso");
     }
 
     public function permissionDetail($id = null){
@@ -105,6 +98,8 @@ class ConfigurationPermissionsController{
 
     public function getPermissions($id = null){
         
+        if($id == null) return [];
+
         $GLOBALS["menu"] = [];
 
         function menu_item($array = []){
@@ -127,25 +122,21 @@ class ConfigurationPermissionsController{
             }            
         }
         
-        if(file_exists(URL_ROOT."db/menustore.json")){
-            $menudb = file_get_contents(URL_ROOT."db/menustore.json");
-        }else{
-            $menudb = "[]";
-        }
-
-        $menuStore = json_decode($menudb, true)??[];
+        $menuStore = Store::readDb($this->dbUser);
         
         foreach($menuStore as $item){
            menu_item($item);            
         }
 
         $menu = $GLOBALS["menu"];
+        $secureMenu = $GLOBALS["menu"];
 
         # set nuevo menu a array de permisos        
-        $permissionsdb = $this->readPermissionStore();
-        $permissionsdb = $permissionsdb[$id]["permissions"] ?? [];
-        $permissionsName = $permissionsdb[$id]["name"] ?? '';
-
+        $permissionsStore = Store::readDb($this->dbPermission);
+        $permissionsdb = $permissionsStore[$id]["permissions"] ?? [];
+        $permissionsName = $permissionsStore[$id]["name"] ?? '';
+        
+        # asignar nuevos elementos al array de permissionsdb que se devolvera a front, ademas de las nuevas acciones
         if(count($menu) > 0){
             foreach($menu as $k2 => $y){
                 $m_id = $y["id"] ?? '';
@@ -177,39 +168,37 @@ class ConfigurationPermissionsController{
                 foreach($this->actions as $ak => $action){
                     $menu[$k2][$ak] = false;
                 }
-                
+                array_splice($permissionsdb, $k2, 0, [$menu[$k2]]);
             }
         }
+        
+        # verificar elementos de permisionsdb este presentes aun en menudb
+        if(count($permissionsdb) > 0){
+            foreach($permissionsdb as $pe => $sitem){
+                $s_id = $sitem["id"] ?? '';
+                $nfound = true;
 
-        $menu = array_merge($permissionsdb, $menu);
+                if(count($secureMenu) > 0){
+                    foreach($secureMenu as $nitem){
+                        $n_id = $nitem["id"]??'';
+
+                        if($n_id == $s_id){
+                            $nfound = false;
+                            continue;
+                        }
+                    }
+                }
+
+                if($nfound == true){
+                    unset($permissionsdb[$pe]);
+                }
+            }
+        }
         
         return [
             $permissionsName,
-            $menu
+            $permissionsdb
         ];
-    }
-
-    public function savePermissionStore($store){
-        
-        if(!is_dir(URL_ROOT. "db")){ mkdir(URL_ROOT. "db", 0777, true);} 
-
-        if(!file_exists($this->dbPermission)){
-            file_put_contents($this->dbPermission, json_encode($store));
-            chmod($this->dbPermission, 0777);
-        }else{
-            file_put_contents($this->dbPermission, json_encode($store));
-        }
-
-        return $store;
-    }
-
-    public function readPermissionStore(){
-
-        $permissionsdb = "[]";
-
-        if(file_exists($this->dbPermission)) $permissionsdb = file_get_contents($this->dbPermission);
-
-        return json_decode($permissionsdb, true)??[];
     }
 
     public function updateStateActions($form = []){

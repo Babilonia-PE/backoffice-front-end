@@ -1,7 +1,9 @@
 <?php
 namespace App\Controllers;
 
+use App\Services\Store;
 use App\Services\SesionService;
+use App\Middlewares\Permissions;
 use PragmaRX\Google2FA\Google2FA;
 use App\Controllers\AccountManager;
 use App\Middlewares\Authentication;
@@ -90,7 +92,6 @@ class AccountController{
                 $userSession["approved"] = true;
                 
                 SesionService::escribir("correoUsuario", $userSession, true);
-                //dd(SesionService::leer("correoUsuario"));
                 redirect();
             } else {
                
@@ -107,7 +108,21 @@ class AccountController{
     }
 
     public function viewEditAccount(){
-        echo view("account");
+
+        $userSession = SesionService::leer("correoUsuario");
+        $dni = $userSession["dni"] ?? '';
+
+        $userStore = Store::readDb("userstore");
+        $user = null;
+        foreach($userStore as $key => $item){
+            $_dni = $item["dni"]??'';
+            if($_dni == $dni) $user = $userStore[$key] ?? null;
+        }
+
+        echo view("account", [
+            "currentPage" => "AccountController",
+            "data" => $user
+        ]);
     }
 }
 ?>

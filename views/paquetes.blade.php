@@ -344,7 +344,7 @@ Paquetes
 
 		return [
 			element.id,
-            APP_LANG_PACKAGE_CATEGORY[element.category]??'',
+            element.category??'',
             element.is_unlimited_standard?'si':'no',
             element.available_standard_ads_count,
             element.is_unlimited_plus?'si':'no',
@@ -359,7 +359,7 @@ Paquetes
             element.initial_plus_ads_count,
             element.initial_premium_ads_count,
             element.order_id,
-            APP_LANG_ADS_TYPE[element.type]??'',
+            element.type??'',
 		];
 	}
 	const modalOrder =  [];

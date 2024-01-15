@@ -2,8 +2,9 @@
 namespace App\Controllers;
 
 use App\Services\Helpers;
+use App\Middlewares\Permissions;
 
-class AlertasController extends Helpers{
+class AlertasController extends Permissions{
 
     function index(){
         echo view("alertas", [

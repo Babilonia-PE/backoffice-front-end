@@ -67,7 +67,9 @@
 	.box-details > div:first-child {
 		font-weight: 600;
 	}
-	
+	.badge{
+		box-shadow: 1px 1px 4px 0px rgba(0,0,0,0.15);
+	}
 	.badge.badge-1{
 		background-color: #198754;
 		color: #ffffff;
@@ -312,7 +314,7 @@ Clientes
 			element.phone_number,
 			( ( element.company ) ? element.company.commercial_name??'':'' ),
 			moment(element.created_at).format('DD/MM/YYYY h:mm a'),
-			(`<span class="badge text-bg-secondary badge-${element.state}">${APP_LANG_CLIENTS_STATE[element.state]??''}</span>`),
+			(`<span class="badge text-bg-secondary badge-${element.state_id}">${element.state}</span>`),
 			( ( element.company ) ? element.company.name??'':'' ),
 			( ( element.company ) ? element.company.id??'':'' ),
 			( ( element.company ) ? element.company.commercial_address??'':'' ),

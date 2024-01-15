@@ -124,3 +124,32 @@ const Toast = Swal.mixin({
     showConfirmButton: false,
     timer: 3000
 });
+
+//script active menu para categoria superiores
+
+const setActiveMenu = (nav = null)=> {
+
+    let parentLi = null;
+    let parentUl = null;
+
+    let navActive = (nav == null) ? document.querySelector("ul.nav-sidebar a.active") : nav;
+    if(navActive == null) return false;
+
+    parentLi = navActive.parentElement;
+    parentUl = parentLi.parentElement;
+
+    if(!parentUl.classList.contains('nav-sidebar')){
+        parentLi = parentUl.parentElement;
+        parentUl = parentLi.parentElement;
+        let nav = parentUl.querySelector("a.nav-link");
+
+        if(!parentUl.classList.contains('nav-sidebar')){
+            setActiveMenu(nav);
+        }else{
+            parentLi.querySelector("a.nav-link").classList.add("active");
+            parentLi.classList.add('menu-open');
+        }
+    }
+}
+
+setActiveMenu();

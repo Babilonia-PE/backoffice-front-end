@@ -102,7 +102,7 @@
 
 @section('page')
 
-Leads Avisos
+Leads Proyectos
 
 @endsection
 
@@ -129,14 +129,14 @@ Leads Avisos
               		<div class="col-md-4">
                 		<div class="form-group">
                   			<label>Propietario del aviso</label>
-							  @component("components.search-user", ['id'=>'owner_id', 'storage'=>'filter_leads_owners'])
+							  @component("components.search-user", ['id'=>'owner_id', 'storage'=>'filter_leads_projects_owners'])
 							  @endcomponent
                 		</div>
                 	</div>              							
               		<div class="col-md-4">
                 		<div class="form-group">
                   			<label>Nombre completo</label>
-							@component("components.search-user", ['placeholder' => 'Buscar por nombre'])
+							@component("components.search-user", ['placeholder' => 'Buscar por nombre', 'storage' => 'filter_leads_projects_users'])
 							@endcomponent
                 		</div>
                 	</div>   
@@ -224,7 +224,7 @@ Leads Avisos
 <script>	
 	const headers = [
 		{ "title": "ID del lead", "code": "id" },
-		{ "title": "ID del aviso", "code": "id" },
+		{ "title": "ID del proyecto", "code": "id" },
 		{ "title": "Key", "code": "id" },
 		{ "title": "Id del usuario", "code": "id" },
 		{ "title": "Nombre completo", "code": "id" },
@@ -242,13 +242,13 @@ Leads Avisos
 			name: 'owner_id',
 			type: filtersParamsTypes.USER,
 			search: true,
-			storage: 'filter_leads_owners'
+			storage: 'filter_leads_projects_owners'
 		},
 		{
 			name: 'user_id',
 			type: filtersParamsTypes.USER,
 			search: true,
-			storage: 'filter_leads_users'
+			storage: 'filter_leads_projects_users'
 		},
 		{
 			name: 'key',		
@@ -270,7 +270,7 @@ Leads Avisos
 
 		return [
 			element.id,
-			element.listing_id,
+			element.project_id,
 			element.key ? element.key : '',
 			element.user_id,
 			element.full_name,
@@ -290,12 +290,12 @@ Leads Avisos
 		processParams,
 		headers,
 		filtersFields,
-		storageView : 'filter_leads',
+		storageView : 'filter_leads_projects',
 		columnsHidden,
 		columnsDates,
 		modalOrder,
 		modalTitle,
-		url: 'https://services-testing.babilonia.io/app/lead/listings'
+		url: 'https://services-testing.babilonia.io/app/lead/projects'
 	};
 	
 	datatable(options);

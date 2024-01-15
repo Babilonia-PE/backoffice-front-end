@@ -1,7 +1,9 @@
 <?php
 namespace App\Controllers;
 
-class LeadsController{
+use App\Middlewares\Permissions;
+
+class LeadsController extends Permissions{
 
     function index(){
         echo view("leads", [
