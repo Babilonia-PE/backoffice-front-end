@@ -282,7 +282,7 @@ Alertas
 
 		return [
 			element.id,
-			element.user_id,
+			element.full_name,
 			element.email,
 			phone_full,
             element.listing_type,
