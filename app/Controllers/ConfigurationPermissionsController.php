@@ -129,12 +129,14 @@ class ConfigurationPermissionsController extends Permissions{
         }
 
         $menu = $GLOBALS["menu"];
+        $secureMenu = $GLOBALS["menu"];
 
         # set nuevo menu a array de permisos        
         $permissionsStore = Store::readDb($this->dbPermission);
         $permissionsdb = $permissionsStore[$id]["permissions"] ?? [];
         $permissionsName = $permissionsStore[$id]["name"] ?? '';
         
+        # asignar nuevos elementos al array de permissionsdb que se devolvera a front, ademas de las nuevas acciones
         if(count($menu) > 0){
             foreach($menu as $k2 => $y){
                 $m_id = $y["id"] ?? '';
@@ -167,6 +169,29 @@ class ConfigurationPermissionsController extends Permissions{
                     $menu[$k2][$ak] = false;
                 }
                 array_splice($permissionsdb, $k2, 0, [$menu[$k2]]);
+            }
+        }
+        
+        # verificar elementos de permisionsdb este presentes aun en menudb
+        if(count($permissionsdb) > 0){
+            foreach($permissionsdb as $pe => $sitem){
+                $s_id = $sitem["id"] ?? '';
+                $nfound = true;
+
+                if(count($secureMenu) > 0){
+                    foreach($secureMenu as $nitem){
+                        $n_id = $nitem["id"]??'';
+
+                        if($n_id == $s_id){
+                            $nfound = false;
+                            continue;
+                        }
+                    }
+                }
+
+                if($nfound == true){
+                    unset($permissionsdb[$pe]);
+                }
             }
         }
         
