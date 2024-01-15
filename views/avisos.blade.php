@@ -387,10 +387,10 @@ Avisos
 
 		let facilities = [], advanced_details = [];
 		(element.facilities??[]).forEach(element => {
-			facilities.push(element.title_lang.es??'');
+			facilities.push(element.title??'');
 		});
 		(element.advanced_details??[]).forEach(element => {
-			advanced_details.push(element.title_lang.es??'');
+			advanced_details.push(element.title??'');
 		});
 
 		return [

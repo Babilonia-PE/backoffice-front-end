@@ -275,6 +275,13 @@ const datatable = (options = {})=>{
 			extend: 'colvis',
             columns: ':not(.noVis)',
 			text: "Ocultar columnas"
+		},
+		{
+			text: 'Reiniciar',
+            action: function ( e, dt, node, config ) {
+				tableSaved.state.clear();
+				window.location.reload();
+            }
 		}
 	];
 	//POBLAR FILTROS
@@ -528,7 +535,7 @@ const datatable = (options = {})=>{
 			},
 			processing: true,
 			serverSide: true,
-			//stateSave: true,
+			stateSave: true,
 			//searchBuilder: searchBuilder,
 			columnDefs: columnDefs,
 			/*searchPanes: {
