@@ -251,13 +251,14 @@ Clientes
 <script>
 		
 	const headers = [
-		{ "title" : "ID del usuario" },
-		{ "title": "Nombre Completo" },
-		{ "title": "Correo electronico" },
-		{ "title": "Teléfono" },
+		{ "title" : "ID del usuario", "code": "id", "sortable": true },
+		{ "title": "Nombre Completo", "code": "full_name", "sortable": true },
+		{ "title": "Correo electronico", "code": "email", "sortable": true },
+		{ "title": "Teléfono", "code": "phone_number", "sortable": true },
 		{ "title": "Nombre comercial" },
-		{ "title": "Fecha y hora de creación" },
-		{ "title": "Estado" },
+		{ "title": "Fecha y hora de creación", "code": "created_at", "sortable": true },
+		{ "title": "Ultimo acceso", "code": "last_login", "sortable": true },
+		{ "title": "Estado", "code": "state", "sortable": true },
 		{ "title": "Razon social" },
 		{ "title": "RUC" },
 		{ "title": "Dirección" },
@@ -268,7 +269,7 @@ Clientes
 		{ "title": "Proyectos" },
 		{ "title": "Estadísticas" },
 		{ "title": "URL" },			
-		{ "title": "Metodo de authenticación" },
+		{ "title": "Metodo de authenticación", "code": "sign_method", "sortable": true },
 		{ "title": "Acciones" }
 	];
 	const filtersFields = [
@@ -316,6 +317,7 @@ Clientes
 			element.phone_number,
 			( ( element.company ) ? element.company.commercial_name??'':'' ),
 			moment(element.created_at).format('DD/MM/YYYY h:mm a'),
+			moment(element.last_login).format('DD/MM/YYYY h:mm a'),
 			(`<span class="badge text-bg-secondary badge-${element.state_id}">${element.state}</span>`),
 			( ( element.company ) ? element.company.name??'':'' ),
 			( ( element.company ) ? element.company.id??'':'' ),
