@@ -271,7 +271,7 @@ Clientes
 	];
 	const filtersFields = [
 		{
-			name: 'client_id'
+			name: 'id'
 		},
 		{
 			name: 'company_id'
