@@ -306,8 +306,8 @@ Alertas
             element.location,
             element.price,
             element.contact_agent?'Si':'No',
-            `<span class="badge text-bg-secondary state-${element.state_id}">${element.state??''}</span>`,
-            `<span class="badge text-bg-secondary type-${element.type_id}">${element.type??''}</span>`,
+            `<span class="badge text-bg-secondary state-${element.state_id??''}">${element.state??''}</span>`,
+            `<span class="badge text-bg-secondary type-${element.type_id??''}">${element.type??''}</span>`,
 			moment(element.created_at).format('DD/MM/YYYY'),
 			moment(element.updated_at).format('DD/MM/YYYY')
 		];
