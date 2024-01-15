@@ -1,10 +1,14 @@
 <?php
 namespace App\Controllers;
 
-class ViewsController{
+use App\Middlewares\Permissions;
+
+class ViewsController extends Permissions{
 
     function index(){
-        echo view("views");
+        echo view("views", [
+            "currentPage" => "ViewsController"
+         ]);
     }
 }
 ?>

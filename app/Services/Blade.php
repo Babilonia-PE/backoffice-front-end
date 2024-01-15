@@ -11,7 +11,7 @@ class Blade extends Helpers{
         if($template == "") return "";
 
         $blade = new BladeOne(URL_VIEWS, URL_CACHE,BladeOne::MODE_DEBUG);
-        if(env("TESTING")) $blade->setIsCompiled(false); 
+        if(env("APP_TESTING")) $blade->setIsCompiled(false); 
         $blade->pipeEnable=true;
         $blade->setBaseUrl(URL_WEB);
     
@@ -24,17 +24,13 @@ class Blade extends Helpers{
         $role = $userSession["role"]??"";
     
         if($name != '') $blade->setAuth($name, $role);
-        
-        $menu = menu();
-        $currentPage = identifyCurrentPage($menu);
-    
-        
+                
         $camelcase = static function($arg=""){ 
             return Helpers::camelcase($arg);
         };
     
         $blade->directive('camelcase', $camelcase);
-        $blade->share("currentPage", $currentPage);
+        $blade->share("currentPage", $parametros["currentPage"] ?? "");
     
         return $blade->run($template, $parametros);
     }

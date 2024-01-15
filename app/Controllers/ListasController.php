@@ -1,7 +1,9 @@
 <?php
 namespace App\Controllers;
 
-class ListasController{
+use App\Middlewares\Permissions;
+
+class ListasController extends Permissions{
 
     public function index(){        
         echo view("listas");        

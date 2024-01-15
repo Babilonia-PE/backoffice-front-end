@@ -1,10 +1,14 @@
 <?php
 namespace App\Controllers;
 
-class ClientesController{
+use App\Middlewares\Permissions;
+
+class ClientesController extends Permissions{
 
     function index(){
-        echo view("clientes");
+        echo view("clientes", [
+            "currentPage" => "ClientesController"
+         ]);
     }
 }
 ?>
