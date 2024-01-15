@@ -312,7 +312,7 @@ Clientes
 			element.phone_number,
 			( ( element.company ) ? element.company.commercial_name??'':'' ),
 			moment(element.created_at).format('DD/MM/YYYY h:mm a'),
-			(`<span class="badge text-bg-secondary badge-${element.state}">${APP_LANG_CLIENTS_STATE[element.state]??''}</span>`),
+			(`<span class="badge text-bg-secondary badge-${element.state}">${element.state}</span>`),
 			( ( element.company ) ? element.company.name??'':'' ),
 			( ( element.company ) ? element.company.id??'':'' ),
 			( ( element.company ) ? element.company.commercial_address??'':'' ),

@@ -271,7 +271,7 @@ Leads Proyectos
 		return [
 			element.id,
 			element.project_id,
-			element.key ? APP_LANG_LEADS_KEYS[element.key] : '',
+			element.key ? element.key : '',
 			element.user_id,
 			element.full_name,
 			element.email,

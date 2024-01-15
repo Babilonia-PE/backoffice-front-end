@@ -271,7 +271,7 @@ Leads Avisos
 		return [
 			element.id,
 			element.listing_id,
-			element.key ? APP_LANG_LEADS_KEYS[element.key] : '',
+			element.key ? element.key : '',
 			element.user_id,
 			element.full_name,
 			element.email,

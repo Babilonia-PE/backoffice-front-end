@@ -388,16 +388,16 @@ Avisos
 
 		let facilities = [], advanced_details = [];
 		(element.facilities??[]).forEach(element => {
-			facilities.push(element.title_lang.es??'');
+			facilities.push(element.title_lang??'');
 		});
 		(element.advanced_details??[]).forEach(element => {
-			advanced_details.push(element.title_lang.es??'');
+			advanced_details.push(element.title_lang??'');
 		});
 
 		return [
 			element.id,							
-			(APP_LANG_LISTING_TYPE[element.listing_type]??[])??'',
-			(APP_LANG_PROPERTY_TYPE[element.property_type]??[])??'',
+			(element.listing_type??[])??'',
+			(element.property_type??[])??'',
 			'$' + Number(element.price??'').toLocaleString("en"),
 			( ( element.location ) ? element.location.address??'':'' ),
 			( ( element.location ) ? element.location.district??'':'' ),
