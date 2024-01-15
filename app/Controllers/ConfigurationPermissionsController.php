@@ -166,15 +166,13 @@ class ConfigurationPermissionsController extends Permissions{
                 foreach($this->actions as $ak => $action){
                     $menu[$k2][$ak] = false;
                 }
-                
+                array_splice($permissionsdb, $k2, 0, [$menu[$k2]]);
             }
         }
-        //dd($menu);
-        $menu = array_merge($permissionsdb, $menu);
         
         return [
             $permissionsName,
-            $menu
+            $permissionsdb
         ];
     }
 
