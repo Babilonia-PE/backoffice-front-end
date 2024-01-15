@@ -98,6 +98,8 @@ class ConfigurationPermissionsController extends Permissions{
 
     public function getPermissions($id = null){
         
+        if($id == null) return [];
+
         $GLOBALS["menu"] = [];
 
         function menu_item($array = []){
@@ -167,7 +169,7 @@ class ConfigurationPermissionsController extends Permissions{
                 
             }
         }
-
+        dd($menu);
         $menu = array_merge($permissionsdb, $menu);
         
         return [
