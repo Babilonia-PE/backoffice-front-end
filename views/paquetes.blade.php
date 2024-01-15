@@ -4,6 +4,7 @@
 <link rel="stylesheet" href="public/plugins/LibDataTables/DataTables-1.13.6/css/dataTables.bootstrap4.min.css">
 <link rel="stylesheet" href="public/plugins/LibDataTables/Responsive-2.5.0/css/responsive.bootstrap4.min.css">
 <link rel="stylesheet" href="public/plugins/LibDataTables/Buttons-2.4.2/css/buttons.bootstrap4.min.css">
+<link rel="stylesheet" href="public/plugins/LibDataTables/ColReorder-1.7.0/css/colReorder.dataTables.min.css">
 <!-- Select2 -->
 <link rel="stylesheet" href="public/plugins/select2/css/select2.min.css">
 <link rel="stylesheet" href="public/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css">
@@ -229,7 +230,7 @@ Paquetes
         <div class="card">
             <div class="card-body table-responsive">
 				<p class="text-center" name="loading"><img src="public/assets/img/loading.gif" width="50" /></p>
-                <table class="display table table-striped nowrap compact responsive d-none" cellspacing="0" width="100%">
+                <table class="display table table-bordered table-striped nowrap compact responsive d-none" cellspacing="0" width="100%">
                     
                 </table>
             </div>
@@ -265,6 +266,7 @@ Paquetes
 <script src="public/plugins/LibDataTables/JSZip-3.10.1/jszip.min.js"></script>
 <script src="public/plugins/LibDataTables/Buttons-2.4.2/js/buttons.html5.min.js"></script>
 <script src="public/plugins/LibDataTables/Buttons-2.4.2/js/buttons.colVis.min.js"></script>
+<script src="public/plugins/LibDataTables/ColReorder-1.7.0/js/dataTables.colReorder.min.js"></script>
 <script src="@asset("js/components/datatable.js")"></script>
 <!-- Select2 -->
 <script src="public/plugins/select2/js/select2.full.min.js"></script>
