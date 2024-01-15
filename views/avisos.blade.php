@@ -70,6 +70,9 @@
 	.badge:is(.published,.not_published,.unpublished,.expired,.deleted){
 		box-shadow: 2px 2px 17px 1px rgba(0, 0, 0, 0.2)
 	}
+	.badge{
+		box-shadow: 1px 1px 4px 0px rgba(0,0,0,0.15);
+	}
 	.badge.published{
 		background-color: #198754;
 		color: #ffffff;
@@ -404,7 +407,7 @@ Avisos
 			( ( element.location ) ? element.location.province??'':'' ),
 			( ( element.location ) ? element.location.department??'':'' ),
 			( ( element.location ) ? element.location.country??'':'' ),
-			`<span class="badge text-bg-secondary ${element.state}">${element.state??''}</span>`,
+			`<span class="badge text-bg-secondary ${element.state_id}">${element.state??''}</span>`,
 			( ( element.created_at ) ? moment(element.created_at).format('DD/MM/YYYY'):'' ),
 			( ( element.ad_purchased_at ) ? moment(element.ad_purchased_at).format('DD/MM/YYYY'):'' ),
 			( ( element.contacts ) ? element.contacts[0]?.name??'':'' ),

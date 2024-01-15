@@ -404,7 +404,7 @@ Avisos
 			( ( element.location ) ? element.location.province??'':'' ),
 			( ( element.location ) ? element.location.department??'':'' ),
 			( ( element.location ) ? element.location.country??'':'' ),
-			`<span class="badge text-bg-secondary ${element.state}">${APP_LANG_STATE[element.state]??''}</span>`,
+			`<span class="badge text-bg-secondary ${element.state_id}">${element.state??''}</span>`,
 			( ( element.created_at ) ? moment(element.created_at).format('DD/MM/YYYY'):'' ),
 			( ( element.ad_purchased_at ) ? moment(element.ad_purchased_at).format('DD/MM/YYYY'):'' ),
 			( ( element.contacts ) ? element.contacts[0]?.name??'':'' ),
