@@ -1,6 +1,7 @@
 <?php
 namespace App\Controllers;
 
+use App\Services\Store;
 use App\Middlewares\Permissions;
 
 class ConfigurationMenuController extends Permissions{
