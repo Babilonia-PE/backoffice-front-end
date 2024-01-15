@@ -441,9 +441,12 @@ const datatable = (options = {})=>{
 				"url": url,
 				"type": 'GET',
 				"data": function ( data ) {
+					let start = parseInt(data.start);
+					let length = parseInt(data.length);
+					let pagestored = ( start / length ) + 1 ;
 					filters = [];
-					data.page = ( tableSaved ) ? ( tableSaved.page.info().page + 1 ) : 1;
-					data.per_page = ( tableSaved ) ? ( tableSaved.page.info().length ) : 25;
+					data.page = ( tableSaved ) ? ( tableSaved.page.info().page + 1 ) : (pagestored ?? 1);
+					data.per_page = ( tableSaved ) ? ( tableSaved.page.info().length ) : (length ?? 25);
 					data.order.forEach(element => {
 						data.order_by = headers[element.column].code;
 						data.sort_by = element.dir;
@@ -536,6 +539,7 @@ const datatable = (options = {})=>{
 			processing: true,
 			serverSide: true,
 			stateSave: true,
+			colReorder: true,
 			//searchBuilder: searchBuilder,
 			columnDefs: columnDefs,
 			/*searchPanes: {
