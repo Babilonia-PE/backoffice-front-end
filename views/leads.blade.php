@@ -123,7 +123,7 @@ Leads Avisos
 				<div class="row align-items-end">
               		<div class="col-md-4">
                 		<div class="form-group">
-                  			<label>Listing ID</label>
+                  			<label>ID aviso</label>
                             <input type="text" name="listing_id" id="listing_id" class="form-control w-100" placeholder="Listing ID">                  			
                 		</div>
                 	</div>
