@@ -285,6 +285,8 @@ Paquetes
 		
 	const headers = [
 		{ "title": "ID del paquete" },
+		{ "title": "Nombre completo" },
+		{ "title": "Email" },
 		{ "title": "Categoria" },
 		{ "title": "Standard ilimitado" },
 		{ "title": "Standard ilimitado cantidad" },
@@ -346,6 +348,8 @@ Paquetes
 
 		return [
 			element.id,
+			element.full_name,
+			element.email,
             element.category??'',
             element.is_unlimited_standard?'si':'no',
             element.available_standard_ads_count,
@@ -354,8 +358,8 @@ Paquetes
             element.is_unlimited_premium?'si':'no',
             element.available_premium_ads_count,
             element.duration,
-            moment(element.purchased_at).format('DD/MM/YYYY h:mm a'),
-            moment(element.expires_at).format('DD/MM/YYYY h:mm a'),
+            moment(element.purchased_at).format('DD/MM/YYYY'),
+            moment(element.expires_at).format('DD/MM/YYYY'),
             element.ads_count,
             element.initial_standard_ads_count,
             element.initial_plus_ads_count,
@@ -371,8 +375,8 @@ Paquetes
 	}
 	const initParamsModal = ()=>{
 	}
-	const columnsHidden = [2,3,4,5,6,7,12,13,14];
-	const columnsDates = [9,10];
+	const columnsHidden = [4,5,6,7,8,9,10,13,14,15,16,17,18];
+	const columnsDates = [11,12];
 	const options = {
 		processParams,
 		headers,
