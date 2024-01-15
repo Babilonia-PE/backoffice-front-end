@@ -56,6 +56,8 @@ class ConfigurationPermissionsController extends Permissions{
                     "name" => $name
                 ];
 
+                Store::updateDb($this->dbPermission,$store);
+
             break;
             
             case 'delete':
@@ -71,8 +73,6 @@ class ConfigurationPermissionsController extends Permissions{
             break;            
         }
         
-        Store::updateDb($this->dbPermission,$store);
-
         redirect("permisos/$id/permiso");
     }
 
@@ -129,10 +129,10 @@ class ConfigurationPermissionsController extends Permissions{
         $menu = $GLOBALS["menu"];
 
         # set nuevo menu a array de permisos        
-        $permissionsdb = Store::readDb($this->dbPermission);
-        $permissionsdb = $permissionsdb[$id]["permissions"] ?? [];
-        $permissionsName = $permissionsdb[$id]["name"] ?? '';
-
+        $permissionsStore = Store::readDb($this->dbPermission);
+        $permissionsdb = $permissionsStore[$id]["permissions"] ?? [];
+        $permissionsName = $permissionsStore[$id]["name"] ?? '';
+        
         if(count($menu) > 0){
             foreach($menu as $k2 => $y){
                 $m_id = $y["id"] ?? '';
