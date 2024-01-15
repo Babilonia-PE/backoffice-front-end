@@ -169,7 +169,7 @@ class ConfigurationPermissionsController extends Permissions{
                 
             }
         }
-        dd($menu);
+        //dd($menu);
         $menu = array_merge($permissionsdb, $menu);
         
         return [
