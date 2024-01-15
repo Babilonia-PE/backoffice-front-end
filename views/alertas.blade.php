@@ -68,22 +68,22 @@
 	.box-details > div:first-child {
 		font-weight: 600;
 	}
-	.badge:is(.published,.not_published,.unpublished,.expired,.deleted){
+	.badge:is(.published,.not_published,.unpublished,.expired,.deleted,.state-1,.type-lead,.type-alert,.type-similar,.state-0){
 		box-shadow: 2px 2px 17px 1px rgba(0, 0, 0, 0.2)
 	}
 	.badge.published,
 	.badge.state-1,
-	.badge.type-alert,
+	.badge.type-alert
 	{
 		background-color: #198754;
 		color: #ffffff;
 	}
-	.badge.type-lead,
+	.badge.type-lead
 	{
-		background-color: #;
+		background-color: #0dcaf0;
 		color: #ffffff;
 	}
-	.badge.type-similar,
+	.badge.type-similar
 	{
 		background-color: #ffc107;
 		color: #ffffff;
@@ -306,8 +306,8 @@ Alertas
             element.location,
             element.price,
             element.contact_agent?'Si':'No',
-            element.state,
-            element.type,
+            `<span class="badge text-bg-secondary state-${element.state_id}">${element.state??''}</span>`,
+            `<span class="badge text-bg-secondary type-${element.type_id}">${element.type??''}</span>`,
 			moment(element.created_at).format('DD/MM/YYYY'),
 			moment(element.updated_at).format('DD/MM/YYYY')
 		];
