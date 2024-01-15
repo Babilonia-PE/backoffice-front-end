@@ -250,20 +250,20 @@ Alertas
 </script>
 <script> 
 	const headers = [
-		{ "title": "ID", "code": "id" },
-		{ "title": "Nombre completo", "code": "id" },
+		{ "title": "ID", "code": "id", "sortable": true },
+		{ "title": "Nombre completo" },
 		{ "title": "Email", "code": "email" },
-		{ "title": "Celular", "code": "id" },
-        { "title": "Operación", "code": "id" },
-		{ "title": "Tipo de propiedad", "code": "id" },
-		{ "title": "Ubicación", "code": "id" },
-		{ "title": "Precio", "code": "id" },
-		{ "title": "Contactar al agente", "code": "id" },
-		{ "title": "Estado", "code": "id" },
-		{ "title": "Tipo", "code": "id" },
-		{ "title": "Fecha de creación", "code": "id" },
-		{ "title": "Fecha de actualización", "code": "id" },
-        { "title": "Acciones", "code": "id" }
+		{ "title": "Celular" },
+        { "title": "Operación" },
+		{ "title": "Tipo de propiedad" },
+		{ "title": "Ubicación" },
+		{ "title": "Precio" },
+		{ "title": "Contactar al agente" },
+		{ "title": "Estado", "code": "state", "sortable": true },
+		{ "title": "Tipo", "code": "type", "sortable": true },
+		{ "title": "Fecha de creación", "code": "created_at", "sortable": true },
+		{ "title": "Fecha de actualización" },
+        { "title": "Acciones" }
 	];
 	const filtersFields = [
 		{
