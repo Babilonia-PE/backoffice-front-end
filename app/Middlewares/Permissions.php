@@ -1,6 +1,7 @@
 <?php
 namespace App\Middlewares;
 
+use App\Services\Store;
 use App\Services\SesionService;
 use App\Middlewares\Authentication;
 use App\Controllers\ConfigurationPermissionsController;
@@ -37,7 +38,7 @@ class Permissions extends Authentication{
         $cUsers = new ConfigurationPermissionsController();
         $actions = $cUsers->actions;
 
-        $store = $cUsers->readPermissionStore();
+        $store = Store::readDb("permissionsstore");
         $userPermissionByStore = $store[$permission] ?? [];
 
         #redirect

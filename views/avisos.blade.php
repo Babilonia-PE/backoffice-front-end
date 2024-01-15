@@ -390,19 +390,11 @@ Avisos
 	];
 	const processParams = (element) =>{
 
-		let facilities = [], advanced_details = [];
-		(element.facilities??[]).forEach(element => {
-			facilities.push(element.title??'');
-		});
-		(element.advanced_details??[]).forEach(element => {
-			advanced_details.push(element.title??'');
-		});
-
 		return [
 			element.id,							
-			(APP_LANG_LISTING_TYPE[element.listing_type]??[])??'',
-			(APP_LANG_PROPERTY_TYPE[element.property_type]??[])??'',
-			'$' + Number(element.price??'').toLocaleString("en"),
+			(element.listing_type??''),
+			(element.property_type??''),
+			element.price??'',
 			( ( element.location ) ? element.location.address??'':'' ),
 			( ( element.location ) ? element.location.district??'':'' ),
 			( ( element.location ) ? element.location.province??'':'' ),
@@ -414,19 +406,19 @@ Avisos
 			( ( element.contacts ) ? element.contacts[0]?.name??'':'' ),
 			element.ad_plan??'',
 			( ( element.days_remain ) ? element.days_remain + ' días':'' ),
-			element.publisher_role?(roles[element.publisher_role]??''):'',
+			element.publisher_role??'',
 			element.bedrooms_count??'',
 			element.bathrooms_count??'',
-			( ( element.area ) ? Number(element.area).toLocaleString("en") + ' m²':'' ),
-			( ( element.built_area ) ? Number(element.built_area).toLocaleString("en") + ' m²':'' ),
+			element.area,
+			element.built_area,
 			element.parking_slots_count??'',
 			element.parking_for_visits ? 'Si': 'No',
 			element.year_of_construction??'',
 			element.total_floors_count??'',
 			element.floor_number??'',
 			element.pet_friendly ? 'Si' : 'No',
-			facilities.join(', '),
-			advanced_details.join(', '),
+			(element.facilities && element.facilities.length>0)?(element.facilities.map((item)=> item.title).join(', ')):'',
+			(element.advanced_details && element.advanced_details.length>0)?(element.advanced_details.map((item)=> item.title).join(', ')):'',
 			element.description??'',
 			element.images.length??'',
 			element.videos.length === 0 ? 'No' : (element.videos[0].content ? `<a href="${element.videos[0].content}" target="_blank">${element.videos[0].content}</a>` : 'No existe la url'),
