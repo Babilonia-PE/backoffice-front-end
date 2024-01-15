@@ -399,9 +399,9 @@ Avisos
 
 		return [
 			element.id,							
-			(APP_LANG_LISTING_TYPE[element.listing_type]??[])??'',
-			(APP_LANG_PROPERTY_TYPE[element.property_type]??[])??'',
-			'$' + Number(element.price??'').toLocaleString("en"),
+			(element.listing_type??''),
+			(element.property_type??''),
+			element.price??'',
 			( ( element.location ) ? element.location.address??'':'' ),
 			( ( element.location ) ? element.location.district??'':'' ),
 			( ( element.location ) ? element.location.province??'':'' ),
