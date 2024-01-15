@@ -73,17 +73,7 @@ class ConfigurationPermissionsController extends Permissions{
         
         Store::updateDb($this->dbPermission,$store);
 
-        echo view("configuracion-permissions-detalle", [
-            "currentPage" => $this->currentPage,
-            "data" => [
-                "title" => $name,
-                "name" => $name,
-                "permissions" => $form,
-                "actions" => $this->actions,
-                "id" => $id,
-                "type" => "edit"
-            ]
-        ]);
+        redirect("permisos/$id/permiso");
     }
 
     public function permissionDetail($id = null){

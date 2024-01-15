@@ -6,7 +6,7 @@ use App\Middlewares\Permissions;
 class LeadsProjectsController extends Permissions{
 
     function index(){
-        echo view("leads", [
+        echo view("leads-projects", [
             "currentPage" => "LeadsProjectsController"
          ]);
     }

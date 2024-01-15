@@ -98,6 +98,8 @@ $router
         
     });
 
+set_menu_is_empty();
+
 
 $despachador = new Dispatcher($router->getData());
 $rutaCompleta = $_SERVER["REQUEST_URI"];

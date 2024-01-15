@@ -47,7 +47,7 @@
                 <div class="card-body">
                     <div class="form-group">
                         <label for="nombrePermisos">Nombre</label>
-                        <input type="text" class="form-control" id="nombrePermisos" name="nombrePermisos" placeholder="Nombre" required>
+                        <input type="text" class="form-control" id="nombrePermisos" name="nombrePermisos" placeholder="Nombre" value="{{ $data["name"]??'' }}" required>
                     </div>
                     <div class="row">
                         <div class="col-xs-12 col-sm-12 col-md-12">                            
@@ -76,14 +76,10 @@
                                         @foreach($data["actions"] as $ak => $action)
                                             @if(isset($permission[$ak]))
                                             <td width="120px">
-                                                @if (isset($permission["url"]) && ($permission["url"] == '' || $permission["url"]== '#'))
-                                                    &nbsp;
-                                                @else
                                                 <div class="icheck-primary d-inline">
                                                     <input type="checkbox" id="checkbox{{ $ak }}{{ $k }}" name="form[{{ $k }}][{{ $ak }}]" @if($permission[$ak]===true) checked @endif>                                                    
                                                     <label for="checkbox{{ $ak }}{{ $k }}"></label>
                                                 </div>
-                                                @endif
                                             </td>
                                             @endif
                                         @endforeach                                        
