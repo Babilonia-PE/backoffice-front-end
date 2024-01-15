@@ -71,8 +71,21 @@
 	.badge:is(.published,.not_published,.unpublished,.expired,.deleted){
 		box-shadow: 2px 2px 17px 1px rgba(0, 0, 0, 0.2)
 	}
-	.badge.published{
+	.badge.published,
+	.badge.state-1,
+	.badge.type-alert,
+	{
 		background-color: #198754;
+		color: #ffffff;
+	}
+	.badge.type-lead,
+	{
+		background-color: #;
+		color: #ffffff;
+	}
+	.badge.type-similar,
+	{
+		background-color: #ffc107;
 		color: #ffffff;
 	}
 	.badge.not_published{
@@ -83,7 +96,8 @@
 		background-color: #ff8300;
 		color: #000000;
 	}
-	.badge.expired{
+	.badge.expired,
+	.badge.state-0{
 		background-color: #dc3545;
 		color: #ffffff;
 	}
