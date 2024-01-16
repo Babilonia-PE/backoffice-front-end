@@ -1,6 +1,7 @@
 <?php
 namespace App\Middlewares;
 
+use App\Services\Store;
 use App\Services\Helpers;
 use App\Services\SesionService;
 use App\Controllers\AccountManager;
@@ -96,8 +97,7 @@ class Authentication{
 
     public static function getUserByDNI($dni){
 
-        $new2fa = new ConfigurationUsersController();
-        $store = $new2fa->getStore();
+        $store = Store::readDb("userstore");
         $response = null;
         if(count($store) > 0){
             foreach($store as $k => $item){
