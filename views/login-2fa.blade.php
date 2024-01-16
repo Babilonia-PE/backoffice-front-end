@@ -56,6 +56,7 @@
 <script src="@asset("public/plugins/jquery/jquery.min.js")"></script>
 <!-- Bootstrap 4 -->
 <script src="@asset("public/plugins/bootstrap/js/bootstrap.bundle.min.js")"></script>
+<script src="@asset("public/plugins/sweetalert2/sweetalert2.min.js")"></script>
 <!-- AdminLTE App -->
 <script src="@asset("public/assets/js/adminlte.min.js")"></script>
 <script src="@asset("public/assets/js/inputmask.min.js")"></script>
