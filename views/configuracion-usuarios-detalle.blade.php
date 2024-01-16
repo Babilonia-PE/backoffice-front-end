@@ -90,7 +90,7 @@ Detalle de usuario {{ $data["fullname"]??'' }}
 				<div class="card-body table-responsive">					
 					<div class="row">
                         <div class="col-xs-12 col-md-12 col-sm-12">
-                            <select name="2fa" id="2fa" class="form-control">
+                            <select name="2fa" id="2fa" class="form-control" required>
                                 <option value="">-Seleccione una opción-</option>
                                 <option value="1" {{ $data["auth-disabled"] == true ? 'selected' : '' }}>Deshabilitado</option>
                                 <option value="0" {{ $data["auth-disabled"] == false ? 'selected' : '' }}>Habilitado</option>
