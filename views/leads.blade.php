@@ -225,16 +225,17 @@ Leads Avisos
 </script>
 <script>	
 	const headers = [
-		{ "title": "ID del lead", "code": "id" },
-		{ "title": "ID del aviso", "code": "id" },
-		{ "title": "Key", "code": "id" },
-		{ "title": "Id del usuario", "code": "id" },
-		{ "title": "Nombre completo", "code": "id" },
+		{ "title": "ID del lead", "code": "id", "sortable": true },
+		{ "title": "ID del aviso", "code": "listing_id", "sortable": true },
+		{ "title": "Key", "code": "key", "sortable": true },
+		{ "title": "Origen", "code": "source", "sortable": true },
+		{ "title": "Id del usuario" },
+		{ "title": "Nombre completo" },
 		{ "title": "Email", "code": "email" },
-		{ "title": "Celular", "code": "id" },
-		{ "title": "Fecha de creación", "code": "id" },
-		{ "title": "Fecha de actualización", "code": "id" },
-		{ "title": "Acciones", "code": "id" }
+		{ "title": "Celular" },
+		{ "title": "Fecha de creación", "code": "created_at", "sortable": true },
+		{ "title": "Fecha de actualización" },
+		{ "title": "Acciones" }
 	];
 	const filtersFields = [
 		{
@@ -256,6 +257,9 @@ Leads Avisos
 			name: 'key',		
 		},
 		{
+			name: 'source',		
+		},
+		{
 			name: 'created_start',
 			type: filtersParamsTypes.DATE
 		},
@@ -274,6 +278,7 @@ Leads Avisos
 			element.id,
 			element.listing_id,
 			element.key ? element.key : '',
+			element.source??'',
 			element.user_id,
 			element.full_name,
 			element.email,
@@ -286,8 +291,8 @@ Leads Avisos
 	const modalTitle = () =>{
 		
 	}
-	const columnsHidden = [3,8];
-	const columnsDates = [6,7];
+	const columnsHidden = [4,9];
+	const columnsDates = [8,9];
 	const options = {
 		processParams,
 		headers,

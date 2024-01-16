@@ -68,11 +68,24 @@
 	.box-details > div:first-child {
 		font-weight: 600;
 	}
-	.badge:is(.published,.not_published,.unpublished,.expired,.deleted){
+	.badge:is(.published,.not_published,.unpublished,.expired,.deleted,.state-1,.type-lead,.type-alert,.type-similar,.state-0){
 		box-shadow: 2px 2px 17px 1px rgba(0, 0, 0, 0.2)
 	}
-	.badge.published{
+	.badge.published,
+	.badge.state-1,
+	.badge.type-alert
+	{
 		background-color: #198754;
+		color: #ffffff;
+	}
+	.badge.type-lead
+	{
+		background-color: #0dcaf0;
+		color: #ffffff;
+	}
+	.badge.type-similar
+	{
+		background-color: #ffc107;
 		color: #ffffff;
 	}
 	.badge.not_published{
@@ -83,7 +96,8 @@
 		background-color: #ff8300;
 		color: #000000;
 	}
-	.badge.expired{
+	.badge.expired,
+	.badge.state-0{
 		background-color: #dc3545;
 		color: #ffffff;
 	}
@@ -284,25 +298,27 @@ Paquetes
 		state[5] = 'Eliminado';
 		
 	const headers = [
-		{ "title": "ID del paquete" },
+		{ "title": "ID del paquete", "code": "id", "sortable": true },
 		{ "title": "Nombre completo" },
 		{ "title": "Email" },
-		{ "title": "Categoria" },
+		{ "title": "Avisos disponibles", "code": "ads_count", "sortable": true },
+		{ "title": "Categoria", "code": "category", "sortable": true },
 		{ "title": "Standard ilimitado" },
 		{ "title": "Standard ilimitado cantidad" },
 		{ "title": "Plus ilimitado" },
 		{ "title": "Plus ilimitado cantidad" },
 		{ "title": "Premium ilimitado" },
 		{ "title": "Premium ilimitado cantidad" },
-		{ "title": "Duración" },
-		{ "title": "Fecha de compra" },
-		{ "title": "Fecha de expiración" },
+		{ "title": "Duración", "code": "duration", "sortable": true },
+		{ "title": "Estado", "code": "state", "sortable": true },
+		{ "title": "Fecha de compra", "code": "purchased_at", "sortable": true },
+		{ "title": "Fecha de expiración", "code": "expires_at", "sortable": true },
 		{ "title": "Total de anuncios permitidos" },
 		{ "title": "Total de anuncios standart restantes" },
 		{ "title": "Total de anuncios plus restantes" },
 		{ "title": "Total de anuncios premium restantes" },
 		{ "title": "ID orden" },
-		{ "title": "Tipo" },
+		{ "title": "Tipo", "code": "type", "sortable": true },
 		{ "title": "Acciones" }
 	];
 	const filtersFields = [
@@ -328,6 +344,9 @@ Paquetes
 			name: 'duration'
         },
 		{
+			name: 'state'
+        },
+		{
 			name: 'purchased_start',
 			type: filtersParamsTypes.DATE
 		},
@@ -350,6 +369,7 @@ Paquetes
 			element.id,
 			element.full_name,
 			element.email,
+			element.ads_count??'',
             element.category??'',
             element.is_unlimited_standard?'si':'no',
             element.available_standard_ads_count,
@@ -358,6 +378,7 @@ Paquetes
             element.is_unlimited_premium?'si':'no',
             element.available_premium_ads_count,
             element.duration,
+            `<span class="badge text-bg-secondary state-${element.state_id??''}">${element.state??''}</span>`,
             moment(element.purchased_at).format('DD/MM/YYYY'),
             moment(element.expires_at).format('DD/MM/YYYY'),
             element.ads_count,
@@ -376,7 +397,7 @@ Paquetes
 	const initParamsModal = ()=>{
 	}
 	const columnsHidden = [4,5,6,7,8,9,10,13,14,15,16,17,18];
-	const columnsDates = [11,12];
+	const columnsDates = [13,14];
 	const options = {
 		processParams,
 		headers,
