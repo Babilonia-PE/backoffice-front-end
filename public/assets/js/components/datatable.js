@@ -438,7 +438,7 @@ const datatable = (options = {})=>{
 			//"data": data,
 
 			ajax: {
-				"url": url,
+				"url": APP_BASE_EP + url,
 				"type": 'GET',
 				"data": function ( data ) {
 					let start = parseInt(data.start);

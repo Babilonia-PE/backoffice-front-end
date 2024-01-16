@@ -302,7 +302,7 @@ Leads Proyectos
 		columnsDates,
 		modalOrder,
 		modalTitle,
-		url: 'https://services-testing.babilonia.io/app/lead/projects'
+		url: 'app/lead/projects'
 	};
 	
 	datatable(options);

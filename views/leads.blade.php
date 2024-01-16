@@ -302,7 +302,7 @@ Leads Avisos
 		columnsDates,
 		modalOrder,
 		modalTitle,
-		url: 'https://services-testing.babilonia.io/app/lead/listings'
+		url: 'app/lead/listings'
 	};
 	
 	datatable(options);

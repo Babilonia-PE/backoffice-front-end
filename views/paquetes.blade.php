@@ -409,7 +409,7 @@ Paquetes
 		modalTitle,
 		initParams,
 		initParamsModal,
-		url: 'https://services-testing.babilonia.io/app/package/packages'
+		url: 'app/package/packages'
 	};
 	
 	datatable(options);

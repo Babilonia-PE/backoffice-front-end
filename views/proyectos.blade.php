@@ -482,7 +482,7 @@ Avisos
 		columnsDates,
 		modalOrder,
 		modalTitle,
-		url: 'https://services-testing.babilonia.io/app/listing/listings'
+		url: 'app/listing/listings'
 	};
 	
 	datatable(options);

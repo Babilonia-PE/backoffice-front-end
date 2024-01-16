@@ -354,7 +354,7 @@ Clientes
 		modalTitle,
 		initParams,
 		initParamsModal,
-		url: 'https://services-testing.babilonia.io/app/user/users'
+		url: 'app/user/users'
 	};
 	
 	datatable(options);

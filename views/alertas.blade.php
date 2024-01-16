@@ -327,7 +327,7 @@ Alertas
 		columnsDates,
 		modalOrder,
 		modalTitle,
-		url: 'https://services-testing.babilonia.io/app/alert/alerts'
+		url: 'app/alert/alerts'
 	};
 	
 	datatable(options);
