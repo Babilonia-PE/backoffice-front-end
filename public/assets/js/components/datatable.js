@@ -274,7 +274,11 @@ const datatable = (options = {})=>{
 		{
 			extend: 'colvis',
             columns: ':not(.noVis)',
-			text: "Ocultar columnas"
+			text: "Ocultar columnas",
+			columnText: function(dt, idx, title ){
+				let title_clean =  headers[idx]["title_clean"]??title;
+				return title_clean;
+			}
 		},
 		{
 			text: 'Reiniciar',

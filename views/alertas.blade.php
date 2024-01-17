@@ -292,7 +292,7 @@ Alertas
 		{ "title": "Precio" },
 		{ "title": "Contactar al agente" },
 		{ "title": "Estado", "code": "state", "sortable": true },
-		{ "title": tipo_header, "code": "type", "sortable": true },
+		{ "title": tipo_header, "code": "type", "sortable": true, "title_clean": 'Tipo' },
 		{ "title": "Creación", "code": "created_at", "sortable": true },
 		{ "title": "Actualización" },
         { "title": "Acciones" }
