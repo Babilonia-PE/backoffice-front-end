@@ -73,6 +73,7 @@
 <script src="@asset("public/assets/js/app.js")"></script>
 <script>
   window.APP_BASE_EP = "{{ APP_BASE_EP }}";
+  window.APP_LANG = "{{ APP_LANG }}";
   window.APP_LANG_LISTING_TYPE = {!! json_encode(APP_LANG_LISTING_TYPE) !!};
   window.APP_LANG_PROPERTY_TYPE = {!! json_encode(APP_LANG_PROPERTY_TYPE) !!};
   window.APP_LANG_ALERT_TYPE = {!! json_encode(APP_LANG_ALERT_TYPE) !!};

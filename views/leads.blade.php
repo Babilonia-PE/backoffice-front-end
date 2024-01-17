@@ -272,7 +272,6 @@ Leads Avisos
 
 		let prefix = element.prefix ?? '';
 		let phone = element.phone_number ?? '';
-		let phone_full = prefix + phone;
 
 		return [
 			element.id,
@@ -282,7 +281,7 @@ Leads Avisos
 			element.user_id,
 			element.full_name,
 			element.email,
-			phone_full,
+			getFullNumber(prefix, phone),
 			moment(element.created_at).format('DD/MM/YYYY'),
 			moment(element.updated_at).format('DD/MM/YYYY')
 		];

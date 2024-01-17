@@ -87,7 +87,9 @@
 		background-color: #000000;
 		color: #ffffff;
 	}
-
+	.badge[data-copy]{
+		border: none;
+	}
 	.table tbody tr td button[data-copy="inner"]{
 		display: none !important;
 	}
@@ -251,12 +253,12 @@ Clientes
 <script>
 		
 	const headers = [
-		{ "title" : "ID del usuario", "code": "id", "sortable": true },
-		{ "title": "Nombre Completo", "code": "full_name", "sortable": true },
-		{ "title": "Correo electronico", "code": "email", "sortable": true },
+		{ "title": "ID", "code": "id", "sortable": true },
+		{ "title": "Nombre", "code": "full_name", "sortable": true },
+		{ "title": "Email", "code": "email", "sortable": true },
 		{ "title": "Teléfono", "code": "phone_number", "sortable": true },
 		{ "title": "Nombre comercial" },
-		{ "title": "Fecha y hora de creación", "code": "created_at", "sortable": true },
+		{ "title": "Creación", "code": "created_at", "sortable": true },
 		{ "title": "Ultimo acceso", "code": "last_login", "sortable": true },
 		{ "title": "Estado", "code": "state", "sortable": true },
 		{ "title": "Razon social" },
@@ -269,7 +271,7 @@ Clientes
 		{ "title": "Proyectos" },
 		{ "title": "Estadísticas" },
 		{ "title": "URL" },			
-		{ "title": "Metodo de authenticación", "code": "sign_method", "sortable": true },
+		{ "title": "Auth", "code": "sign_method", "sortable": true },
 		{ "title": "Acciones" }
 	];
 	const filtersFields = [
@@ -311,10 +313,10 @@ Clientes
 		let urlClient = URL_WEB_FRONT + ((element.url && element.url!=null)?element.url:'');
 
 		return [
-			element.id,
-			element.full_name,
-			(element.email) ? `${element.email} <button class="btn btn-sm btn-primary text-danger-emphasis text-dark" type="button" data-copy="inner" data-value="${element.email}"><i class="far fa-copy text-white"></i></button>`:'',
-			element.phone_number,
+			element.id??'',
+			element.full_name??'',
+			(element.email) ? `${element.email} <button class="badge text-bg-primary btn-primary text-danger-emphasis text-dark" type="button" data-copy="inner" data-value="${element.email}"><i class="far fa-copy text-white"></i></button>`:'',
+			getFullNumber(element.prefix, element.phone_number),
 			( ( element.company ) ? element.company.commercial_name??'':'' ),
 			moment(element.created_at).format('DD/MM/YYYY h:mm a'),
 			moment(element.last_login).format('DD/MM/YYYY h:mm a'),
@@ -328,7 +330,7 @@ Clientes
 			( element.permissions??{} ).my_listings? 'SI':'NO',
 			( element.permissions??{} ).my_projects? 'SI':'NO',
 			( element.permissions??{} ).stadistics? 'SI':'NO',
-			( element.url && element.url!=null) ? `<a href="${urlClient}" target="_blank">${urlClient}</a>` : '',							
+			( element.url && element.url!=null) ? `<a href="${urlClient}" target="_blank">${urlClient} <i class="fas fa-external-link-alt"></i></a>` : '',							
 			( element.sign_method??"" ),
 		];
 	}

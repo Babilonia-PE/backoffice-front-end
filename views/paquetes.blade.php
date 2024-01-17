@@ -298,27 +298,28 @@ Paquetes
 		state[5] = 'Eliminado';
 		
 	const headers = [
-		{ "title": "ID del paquete", "code": "id", "sortable": true },
-		{ "title": "Nombre completo" },
+		{ "title": "ID", "code": "id", "sortable": true },
+		{ "title": "Nombres" },
 		{ "title": "Email" },
 		{ "title": "Avisos disponibles", "code": "ads_count", "sortable": true },
-		{ "title": "Categoria", "code": "category", "sortable": true },
+		{ "title": "Categoría", "code": "category", "sortable": true },
 		{ "title": "Standard ilimitado" },
-		{ "title": "Standard ilimitado cantidad" },
+		{ "title": "Cantidad standard" },
 		{ "title": "Plus ilimitado" },
-		{ "title": "Plus ilimitado cantidad" },
+		{ "title": "Cantidad plus" },
 		{ "title": "Premium ilimitado" },
-		{ "title": "Premium ilimitado cantidad" },
+		{ "title": "Cantidad premium" },
 		{ "title": "Duración", "code": "duration", "sortable": true },
 		{ "title": "Estado", "code": "state", "sortable": true },
-		{ "title": "Fecha de compra", "code": "purchased_at", "sortable": true },
-		{ "title": "Fecha de expiración", "code": "expires_at", "sortable": true },
-		{ "title": "Total de anuncios permitidos" },
-		{ "title": "Total de anuncios standart restantes" },
-		{ "title": "Total de anuncios plus restantes" },
-		{ "title": "Total de anuncios premium restantes" },
+		{ "title": "Compra", "code": "purchased_at", "sortable": true },
+		{ "title": "Expiración", "code": "expires_at", "sortable": true },
+		{ "title": "Total permitidos" },
+		{ "title": "Standart restantes" },
+		{ "title": "Plus restantes" },
+		{ "title": "Premium restantes" },
 		{ "title": "ID orden" },
 		{ "title": "Tipo", "code": "type", "sortable": true },
+		{ "title": "Tipo Compra", "code": "type",},
 		{ "title": "Acciones" }
 	];
 	const filtersFields = [
@@ -369,7 +370,7 @@ Paquetes
 			element.id,
 			element.full_name,
 			element.email,
-			element.ads_count??'',
+			element.ads_count?((element.ads_count=='999999')?'Ilimitado':element.ads_count):'',
             element.category??'',
             element.is_unlimited_standard?'si':'no',
             element.available_standard_ads_count,
@@ -387,6 +388,7 @@ Paquetes
             element.initial_premium_ads_count,
             element.order_id,
             element.type??'',
+            toCamelCase(element.buy_type??''),
 		];
 	}
 	const modalOrder =  [];

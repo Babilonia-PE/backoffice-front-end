@@ -152,4 +152,19 @@ const setActiveMenu = (nav = null)=> {
     }
 }
 
+const getFlag = (flag = null) => {
+    if(flag == null || flag == '' || flag == 'Null') return '';
+    
+    return `<span class="f16"><i class=" inline-flag flag ${flag}"></i></span>`;
+}
+const getFullNumber = (flag = null, number = null) => {
+    return `${getFlag(flag)} ${number??''}`;
+}
+const toCamelCase = (inputString = null) => {
+    if(inputString == '' || inputString == null) return '';
+
+    return inputString.replace(/(?:^\w|[A-Z]|\b\w)/g, function (word, index) {
+        return index == 0 ?  word.toUpperCase() : word.toLowerCase();
+    }).replace(/\s+/g, '');
+}
 setActiveMenu();

@@ -439,6 +439,10 @@ const datatable = (options = {})=>{
 
 			ajax: {
 				"url": APP_BASE_EP + url,
+				headers: {
+					'Accept-Language': APP_LANG,
+            		'accept': 'application/json',					
+				},
 				"type": 'GET',
 				"data": function ( data ) {
 					console.log(data);

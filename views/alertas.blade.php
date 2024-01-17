@@ -105,6 +105,18 @@
 		background-color: #000000;
 		color: #ffffff;
 	}
+	.list-types{
+		list-style: none;
+		padding: 0px;
+		margin: 0px
+	}
+	.btn-info-type,
+	.btn-info-type:is(:hover,:active,:focus) {
+		background: transparent;
+		color: #000;
+		border: none;
+		padding: 0px;
+	}
     @media(max-width: 400px) {
 		.box-details{
 			flex-direction: column;
@@ -249,20 +261,40 @@ Alertas
 	setMask('#created_end', { mask: "99/99/9999", showMaskOnHover: false, placeholder: "dd/mm/yyyy", rightAlign:false });
 </script>
 <script> 
+	const initTooltips = ()=>{
+		let tooltipTriggerList = Array.prototype.slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+		tooltipTriggerList.forEach(function (tooltipTriggerEl) {
+			new bootstrap.Tooltip(tooltipTriggerEl, {
+				boundary: document.body,
+				html:true,
+                title:tooltipTriggerEl.getAttribute("data-bs-title"),
+                trigger:'hover'
+			})
+		})
+	}
+	const tooltip = `
+	<ul class="list-types">
+		${ Object.entries(APP_LANG_ALERT_TYPE).map((array) => {
+			let i = array[0]??'';
+			let item = array[1]??'';
+			return `<li><span class="badge text-bg-secondary type-${i}">${item}</span></li>`;
+		}).join(" ")}
+	</ul>`;
+	const tipo_header = `Tipo <button type="button" class="btn btn-secondary btn-sm btn-info-type" data-bs-toggle="tooltip" data-bs-html="true" data-bs-title='${tooltip}'><i class="fas fa-info-circle"></i></button>`;
 	const headers = [
 		{ "title": "ID", "code": "id", "sortable": true },
-		{ "title": "Nombre completo" },
+		{ "title": "Nombres" },
 		{ "title": "Email", "code": "email" },
-		{ "title": "Celular" },
+		{ "title": "Telefono" },
         { "title": "Operación" },
-		{ "title": "Tipo de propiedad" },
+		{ "title": "Propiedad" },
 		{ "title": "Ubicación" },
 		{ "title": "Precio" },
 		{ "title": "Contactar al agente" },
 		{ "title": "Estado", "code": "state", "sortable": true },
-		{ "title": "Tipo", "code": "type", "sortable": true },
-		{ "title": "Fecha de creación", "code": "created_at", "sortable": true },
-		{ "title": "Fecha de actualización" },
+		{ "title": tipo_header, "code": "type", "sortable": true },
+		{ "title": "Creación", "code": "created_at", "sortable": true },
+		{ "title": "Actualización" },
         { "title": "Acciones" }
 	];
 	const filtersFields = [
@@ -294,13 +326,12 @@ Alertas
 
 		let prefix = element.prefix ?? '';
 		let phone = element.phone_number ?? '';
-		let phone_full = prefix + phone;
 
 		return [
 			element.id,
 			element.full_name,
 			element.email,
-			phone_full,
+			getFullNumber(prefix, phone),
             element.listing_type,
             element.property_type,
             element.location,
@@ -316,6 +347,12 @@ Alertas
 	const modalTitle = () =>{
 		
 	}
+	const initParamsModal = ()=> {
+		initTooltips();
+	}
+	const initParams = ()=>{
+		initTooltips();		
+	}
 	const columnsHidden = [6,7,11,12];
 	const columnsDates = [11,12];
 	const options = {
@@ -327,6 +364,8 @@ Alertas
 		columnsDates,
 		modalOrder,
 		modalTitle,
+		initParams,
+		initParamsModal,
 		url: 'app/alert/alerts'
 	};
 	
