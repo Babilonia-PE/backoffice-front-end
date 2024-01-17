@@ -152,4 +152,12 @@ const setActiveMenu = (nav = null)=> {
     }
 }
 
+const getFlag = (flag = null) => {
+    if(flag == null) return '';
+    
+    return `<span class="f16"><i class=" inline-flag flag ${flag}"></i></span>`;
+}
+const getFullNumber = (flag = null, number = null) => {
+    return `${getFlag(flag)} ${number??''}`;
+}
 setActiveMenu();
