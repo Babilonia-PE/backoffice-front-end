@@ -7,7 +7,7 @@
 <!-- Select2 -->
 <link rel="stylesheet" href="public/plugins/select2/css/select2.min.css">
 <link rel="stylesheet" href="public/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css">
-<link rel="stylesheet" href="@asset("css/jquery.nestable.css")">
+<link rel="stylesheet" href="@asset("public/assets/css/jquery.nestable.css")">
 <style>
 .socialite { display: block; float: left; height: 35px; }
 .gap-1{gap: 0.5rem}
@@ -90,7 +90,7 @@ Detalle de usuario {{ $data["fullname"]??'' }}
 				<div class="card-body table-responsive">					
 					<div class="row">
                         <div class="col-xs-12 col-md-12 col-sm-12">
-                            <select name="2fa" id="2fa" class="form-control">
+                            <select name="2fa" id="2fa" class="form-control" required>
                                 <option value="">-Seleccione una opción-</option>
                                 <option value="1" {{ $data["auth-disabled"] == true ? 'selected' : '' }}>Deshabilitado</option>
                                 <option value="0" {{ $data["auth-disabled"] == false ? 'selected' : '' }}>Habilitado</option>

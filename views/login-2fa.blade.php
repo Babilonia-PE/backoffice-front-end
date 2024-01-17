@@ -8,18 +8,18 @@
   <!-- Google Font: Source Sans Pro -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
   <!-- Font Awesome -->
-  <link rel="stylesheet" href="@asset("plugins/fontawesome-free/css/all.min.css")">
+  <link rel="stylesheet" href="@asset("public/plugins/fontawesome-free/css/all.min.css")">
   <!-- icheck bootstrap -->
-  <link rel="stylesheet" href="@asset("plugins/icheck-bootstrap/icheck-bootstrap.min.css")">
+  <link rel="stylesheet" href="@asset("public/plugins/icheck-bootstrap/icheck-bootstrap.min.css")">
   <!-- Theme style -->
-  <link rel="stylesheet" href="@asset("css/adminlte.min.css")">
-  <link rel="stylesheet" href="@asset("css/login.css")">
+  <link rel="stylesheet" href="@asset("public/assets/css/adminlte.min.css")">
+  <link rel="stylesheet" href="@asset("public/assets/css/login.css")">
 </head>
 <body class="hold-transition login-page bg-white">
 <div class="login-box">
   <div class="login-logo">
     <a href="/login">
-      <img src="@asset("img/logo.svg")" alt="">
+      <img src="@asset("public/assets/img/logo.svg")" alt="">
     </a>
   </div>
   @if(isset($message))
@@ -53,13 +53,14 @@
 <!-- /.login-box -->
 
 <!-- jQuery -->
-<script src="@asset("plugins/jquery/jquery.min.js")"></script>
+<script src="@asset("public/plugins/jquery/jquery.min.js")"></script>
 <!-- Bootstrap 4 -->
-<script src="@asset("plugins/bootstrap/js/bootstrap.bundle.min.js")"></script>
+<script src="@asset("public/plugins/bootstrap/js/bootstrap.bundle.min.js")"></script>
+<script src="@asset("public/plugins/sweetalert2/sweetalert2.min.js")"></script>
 <!-- AdminLTE App -->
-<script src="@asset("js/adminlte.min.js")"></script>
-<script src="@asset("js/inputmask.min.js")"></script>
-<script src="@asset("js/app.js")"></script>
+<script src="@asset("public/assets/js/adminlte.min.js")"></script>
+<script src="@asset("public/assets/js/inputmask.min.js")"></script>
+<script src="@asset("public/assets/js/app.js")"></script>
 <script>
 setMask('#code', { mask: "999 999", showMaskOnHover: false, placeholder: "___ ___", rightAlign:false });
 </script>

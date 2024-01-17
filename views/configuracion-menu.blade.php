@@ -7,7 +7,7 @@
 <!-- Select2 -->
 <link rel="stylesheet" href="public/plugins/select2/css/select2.min.css">
 <link rel="stylesheet" href="public/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css">
-<link rel="stylesheet" href="@asset("css/jquery.nestable.css")">
+<link rel="stylesheet" href="@asset("public/assets/css/jquery.nestable.css")">
 <style>
 .socialite { display: block; float: left; height: 35px; }
 .gap-1{gap: 0.5rem}
@@ -87,7 +87,7 @@ Configuración
 <script src="public/plugins/LibDataTables/Buttons-2.4.2/js/buttons.colVis.min.js"></script>
 <!-- Select2 -->
 <script src="public/plugins/select2/js/select2.full.min.js"></script>
-<script src="@asset("js/jquery.nestable.js")"></script>
+<script src="@asset("public/assets/js/jquery.nestable.js")"></script>
 <script type="text/javascript">
 	$(document).ready(function () {
 

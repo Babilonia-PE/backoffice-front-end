@@ -72,7 +72,7 @@ class AccountController{
         );
 
         SesionService::escribir("secretKeyUsuario", $secret_key, true);
-        $image_url = 'https://chart.googleapis.com/chart?cht=qr&chs=300x300&chl='.$text;
+        $image_url = 'https://quickchart.io/qr?text='.$text;
 
         return $image_url;
     }
@@ -123,6 +123,10 @@ class AccountController{
             "currentPage" => "AccountController",
             "data" => $user
         ]);
+    }
+
+    public function generateImageQR(){
+        $writer = new PngWriter();
     }
 }
 ?>

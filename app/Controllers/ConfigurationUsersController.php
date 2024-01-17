@@ -9,7 +9,7 @@ use App\Controllers\ConfigurationPermissionsController;
 class ConfigurationUsersController extends Permissions{
 
     public $dbPermission = "permissionsstore";
-    public $dbUser = "menustore";
+    public $dbUser = "userstore";
 
     public function __construct(){
         $this->currentPage = "ConfigurationUsersController";                
@@ -51,7 +51,7 @@ class ConfigurationUsersController extends Permissions{
                         unset($userStore[$key]);
                     }
                 }
-                Static::saveDb($this->dbUser, $userStore);
+                Store::updateDb($this->dbUser, $userStore);
             break;
             
             case 'update':        
@@ -65,7 +65,7 @@ class ConfigurationUsersController extends Permissions{
                     }
 
                 }     
-                Static::saveDb($this->dbUser, $userStore);
+                Store::updateDb($this->dbUser, $userStore);
 
                 if($state == 0 && $userSession_dni == $id){
                     SesionService::destruir();
@@ -86,17 +86,6 @@ class ConfigurationUsersController extends Permissions{
     public function delete(){        
     }
 
-    public function getStore(){
-        if(file_exists(URL_ROOT."db/userstore.json")){
-            $store = file_get_contents(URL_ROOT."db/userstore.json");
-        }else{
-            $store = "[]";
-        }
-
-        return json_decode($store, true)??[];
-    }
-
-
     public function userDetail ($id = null){
         $userStore = $this->data;
         $user = null;
@@ -109,7 +98,7 @@ class ConfigurationUsersController extends Permissions{
         if($user == null) return redirect();
 
 
-        $permissions = $this->cUsers->readPermissionStore();
+        $permissions = Store::readDb($this->dbPermission);
         if(count($permissions) > 0) $user["permissionsList"] = $permissions;
 
         echo view("configuracion-usuarios-detalle", [
@@ -120,7 +109,7 @@ class ConfigurationUsersController extends Permissions{
 
     public function formatUserResults ($users = []) {
         $userStore = $users;
-        $permisionsLevel = $this->cUsers->readPermissionStore();
+        $permisionsLevel = Store::readDb($this->dbPermission);
 
         foreach($userStore as $key => $item){
             $permissions = $item["permissions"] ?? 0;

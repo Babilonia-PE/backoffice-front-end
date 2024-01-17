@@ -21,8 +21,8 @@
     RewriteRule ^ /routes/web.php?req=$1 [L,QSA]
     
     # hidden route public assets
-    Redirect /img/ /public/assets/img/ 
-    Redirect /css/ /public/assets/css/ 
-    Redirect /js/ /public/assets/js/   
+    #Redirect /img/ /public/assets/img/ 
+    #Redirect /css/ /public/assets/css/ 
+    #Redirect /js/ /public/assets/js/   
     
-    Redirect /plugins/ /public/plugins/
+    #Redirect /plugins/ /public/plugins/

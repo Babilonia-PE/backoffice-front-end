@@ -66,8 +66,7 @@ class AccountManager  extends Permissions{
             array_push($userdb, $usuario);
         }
         
-        $userJson = json_encode($userdb);
-        file_put_contents($db, $userJson);
+        Store::updateDb("userstore", $userdb);
     }
 }
 ?>
