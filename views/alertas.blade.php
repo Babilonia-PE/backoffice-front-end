@@ -110,6 +110,9 @@
 		padding: 0px;
 		margin: 0px
 	}
+	.list-types li{
+		text-align: left
+	}
 	.btn-info-type,
 	.btn-info-type:is(:hover,:active,:focus) {
 		background: transparent;
@@ -178,8 +181,8 @@ Alertas
                 		<div class="form-group">
                   			<label>Tipo de alerta</label>
                   			<select class="form-control select2" id="alert_type" style="width: 100%;">
-                                    <option selected disabled value="">Elige una opción</option>
-								@foreach (APP_LANG_ALERT_TYPE as $k => $type)
+								<option selected disabled value="">Elige una opción</option>								
+								@foreach ($data["NewLangAlertType"] as $k => $type)
                                     <option value="{{ $k }}">{{ $type }}</option>
                                 @endforeach
 							</select>
@@ -276,8 +279,10 @@ Alertas
 	<ul class="list-types">
 		${ Object.entries(APP_LANG_ALERT_TYPE).map((array) => {
 			let i = array[0]??'';
-			let item = array[1]??'';
-			return `<li><span class="badge text-bg-secondary type-${i}">${item}</span></li>`;
+			let obj = array[1]??{};
+				let description = obj.description ?? '';
+				let name = obj.name ?? '';
+			return `<li><span class="badge text-bg-secondary type-${i}">${name}</span> : ${description}</li>`;
 		}).join(" ")}
 	</ul>`;
 	const tipo_header = `Tipo <button type="button" class="btn btn-secondary btn-sm btn-info-type" data-bs-toggle="tooltip" data-bs-html="true" data-bs-title='${tooltip}'><i class="fas fa-info-circle"></i></button>`;

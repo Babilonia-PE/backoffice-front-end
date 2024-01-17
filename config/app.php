@@ -65,9 +65,18 @@ $app_lang_property_type = [
     "airs" =>  'Aires'        
 ];
 $app_lang_alert_type = [
-    "lead" => "Lead",
-    "similar" => "Similar",
-    "alert" => "Alert"
+    "lead" => [
+        "name" => "Lead",
+        "description" => "Autogenerado al generar un lead"
+    ],
+    "similar" => [
+        "name" => "Similar",
+        "description" => "Creado desde la opción de [Quiero que me envíen inmuebles similares]"
+    ],
+    "alert" => [
+        "name" =>"Alert",
+        "description" => "Creado desde formulario de alertas"
+    ]
 ];
 $app_lang_alert_state = [
     "Desactivado",
