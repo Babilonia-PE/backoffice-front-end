@@ -296,6 +296,13 @@ Paquetes
 		state[2] = 'Bloqueado';
 		state[3] = 'Baneado';
 		state[5] = 'Eliminado';
+
+	const BUY_TYPE_COLORS = {
+		"free" : "light",
+		"lottery" : "warning",
+		"buyed" : "success",
+		"expired" : "danger"
+	};
 		
 	const headers = [
 		{ "title": "ID", "code": "id", "sortable": true },
@@ -319,7 +326,8 @@ Paquetes
 		{ "title": "Premium restantes" },
 		{ "title": "ID orden" },
 		{ "title": "Tipo", "code": "type", "sortable": true },
-		{ "title": "Tipo Compra", "code": "type",},
+		{ "title": "Tipo Compra", "code": "type"},
+		{ "title": "Teléfono", "code": "type"},
 		{ "title": "Acciones" }
 	];
 	const filtersFields = [
@@ -388,7 +396,8 @@ Paquetes
             element.initial_premium_ads_count,
             element.order_id,
             element.type??'',
-            toCamelCase(element.buy_type??''),
+            `<span class="badge text-bg-secondary bg-${BUY_TYPE_COLORS[element.buy_type_id??'']}">${toCamelCase(element.buy_type??'')}</span>`,
+			getFullNumber(element.prefix, element.phone_number)
 		];
 	}
 	const modalOrder =  [];

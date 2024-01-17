@@ -65,3 +65,9 @@ table.dataTable thead .sorting_desc:before {
   left: 8px !important;
   right: auto !important;
 }
+
+.align-middle-flag{
+  vertical-align: middle;
+  padding-top: 2px;
+  display: inline-block;
+}
