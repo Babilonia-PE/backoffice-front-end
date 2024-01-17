@@ -106,7 +106,7 @@
 
 @section('page')
 
-Views Avisos
+Views Proyectos
 
 @endsection
 
@@ -126,24 +126,24 @@ Views Avisos
 				<div class="row align-items-end">
               		<div class="col-md-4">
                 		<div class="form-group">
-                  			<label>ID aviso</label>
-                            <input type="text" name="listing_id" id="listing_id" class="form-control w-100" placeholder="Listing ID">                  			
+                  			<label>ID proyecto</label>
+                            <input type="text" name="project_id" id="project_id" class="form-control w-100" placeholder="Project ID">                  			
                 		</div>
                 	</div>
-              		<div class="col-md-4">
+                    <div class="col-md-4">
                 		<div class="form-group">
                   			<label>Propietario del aviso</label>
-							  @component("components.search-user", ['id'=>'owner_id', 'storage'=>'filter_views_owners', 'placeholder' => 'Buscar por propietario'])
+							  @component("components.search-user", ['id'=>'owner_id', 'storage'=>'filter_views_projects_owners', 'placeholder' => 'Buscar por propietario'])
 							  @endcomponent
                 		</div>
                 	</div>              							
               		<div class="col-md-4">
                 		<div class="form-group">
                   			<label>Nombre completo</label>
-							@component("components.search-user", ['placeholder' => 'Buscar por nombre', 'storage' => 'filter_views_users'])
+							@component("components.search-user", ['placeholder' => 'Buscar por nombre', 'storage' => 'filter_views_projects_users'])
 							@endcomponent
                 		</div>
-                	</div>           							
+                	</div>             							
 					<div class="col-md-4">
 						<div class="form-group">
 							<label for="exampleInputEmail1">Fecha de creación (Desde - Hasta)</label>
@@ -223,11 +223,10 @@ Views Avisos
 <script>
 	const headers = [
             { "title": "ID de view", "code": "id", "sortable": true },
-            { "title": "ID del aviso", "code": "listing_id", "sortable": true },
-			{ "title": "Tipo de operación", "code": "listing_type" },
-			{ "title": "Tipo de inmueble", "code": "property_type" },
-			{ "title": "Precio", "code": "price" },
-			{ "title": "Distrito" },
+            { "title": "ID del proyecto", "code": "project_id", "sortable": true },
+			{ "title": "Tipo de proyecto", "code": "project_type" },
+			{ "title": "Etapa", "code": "stage" },
+			{ "title": "Nombre del proyecto", "code": "project_name" },
 			{ "title": "ID de usuario", "code": "user_id" },
 			{ "title": "Usuario", "code": "full_name" },
 			{ "title": "Email", "code": "email" },
@@ -239,19 +238,19 @@ Views Avisos
 	];
 	const filtersFields = [
 		{
-			name: 'listing_id'
+			name: 'project_id'
 		},
 		{
 			name: 'owner_id',
 			type: filtersParamsTypes.USER,
 			search: true,
-			storage: 'filter_views_owners'
+			storage: 'filter_views_projects_owners'
 		},
 		{
 			name: 'user_id',
 			type: filtersParamsTypes.USER,
 			search: true,
-			storage: 'filter_views_users'
+			storage: 'filter_views_projects_users'
 		},
 		{
 			name: 'created_start',
@@ -267,11 +266,10 @@ Views Avisos
 		let phone = element.phone_number ?? '';
 		return [
 			element.id,				
-			element.listing_id??'',				
-			element.listing_type??'',
-			element.property_type??'',
-			element.price??'',
-			element.district??'',
+			element.project_id??'',				
+			element.project_type??'',
+			element.stage??'',
+			element.project_name??'',
 			element.user_id??'',
 			element.full_name??'',
 			element.email??'',
@@ -285,18 +283,18 @@ Views Avisos
 	const modalTitle = () =>{
 		
 	}
-	const columnsHidden = [0, 6];
-	const columnsDates = [12, 13];
+	const columnsHidden = [0, 5];
+	const columnsDates = [10, 11];
 	const options = {
 		processParams,
 		headers,
 		filtersFields,
-		storageView : 'filter_views',
+		storageView : 'filter_views_projects',
 		columnsHidden,
 		columnsDates,
 		modalOrder,
 		modalTitle,
-		url: 'app/view/listings'
+		url: 'app/view/projects'
 	};
 	
 	datatable(options);
