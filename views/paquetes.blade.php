@@ -319,7 +319,8 @@ Paquetes
 		{ "title": "Premium restantes" },
 		{ "title": "ID orden" },
 		{ "title": "Tipo", "code": "type", "sortable": true },
-		{ "title": "Tipo Compra", "code": "type",},
+		{ "title": "Tipo Compra", "code": "type"},
+		{ "title": "Teléfono", "code": "type"},
 		{ "title": "Acciones" }
 	];
 	const filtersFields = [
@@ -389,6 +390,7 @@ Paquetes
             element.order_id,
             element.type??'',
             toCamelCase(element.buy_type??''),
+			getFullNumber(element.prefix, element.phone_number)
 		];
 	}
 	const modalOrder =  [];
