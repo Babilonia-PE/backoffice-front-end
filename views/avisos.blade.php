@@ -309,7 +309,6 @@ Avisos
 			{ "title": "Fecha de publicación", "code": "purchased_date", "sortable": true },
 			{ "title": "Nombre del usuario" },
             { "title": "Categoria" },
-            { "title": "Duración" },
             { "title": "Rol" },
             { "title": "Cuartos" },
             { "title": "Baños" },
@@ -405,7 +404,6 @@ Avisos
 			( ( element.ad_purchased_at ) ? moment(element.ad_purchased_at).format('DD/MM/YYYY'):'' ),
 			( ( element.contacts ) ? element.contacts[0]?.name??'':'' ),
 			element.ad_plan??'',
-			( ( element.days_remain ) ? element.days_remain + ' días':'' ),
 			element.publisher_role??'',
 			element.bedrooms_count??'',
 			element.bathrooms_count??'',
@@ -434,8 +432,8 @@ Avisos
 		9, 	//Estado
 		10, //Fecha de creación
 		11, //Fecha de publicación
-		34, //Fecha de actualización
-		35, //Fecha de expiración
+		33, //Fecha de actualización
+		34, //Fecha de expiración
 		1,  //Tipo de operación
 		2,  //Tipo de inmueble
 		3, 	//Precio
@@ -446,26 +444,25 @@ Avisos
 		8, 	//Pais
 		12, //Nombre del usuario
 		13, //Categoria
-		14, //Duración
-		15, //Rol
-		31, //Numero de vistas
-		32, //Número de favoritos
-		33, //Numero de contactos
-		16, //Cuartos
-		17, //Baños
-		18, //Area total
-		19, //Área techada
-		20, //Estacionamientos
-		21, //Estacionamiento para visitas
-		22, //Año de construcción
-		23, //Número de pisos
-		24, //Piso del inmueble
-		25, //Pet friendly
-		26, //Comodidades
-		27, //Adicionales
-		28, //Descripción
-		29, //Numero de fotos
-		30	//Video
+		14, //Rol
+		30, //Numero de vistas
+		31, //Número de favoritos
+		32, //Numero de contactos
+		15, //Cuartos
+		16, //Baños
+		17, //Area total
+		18, //Área techada
+		19, //Estacionamientos
+		20, //Estacionamiento para visitas
+		21, //Año de construcción
+		22, //Número de pisos
+		23, //Piso del inmueble
+		24, //Pet friendly
+		25, //Comodidades
+		26, //Adicionales
+		27, //Descripción
+		28, //Numero de fotos
+		29	//Video
 	];
 	const modalTitle = (element, globalRecords = []) =>{
 		let rowInfo = globalRecords.filter((item)=> item.id == element);
@@ -473,8 +470,8 @@ Avisos
 
 		return `Detalles para <a target="_blank" href="${url_external}">${element}</a>`;
 	}
-	const columnsHidden = [7, 8, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35];
-	const columnsDates = [10, 11, 34, 35];
+	const columnsHidden = [7, 8, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34];
+	const columnsDates = [10, 11, 33, 34];
 	const options = {
 		processParams,
 		headers,
