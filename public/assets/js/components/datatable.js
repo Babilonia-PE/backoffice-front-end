@@ -441,6 +441,7 @@ const datatable = (options = {})=>{
 				"url": APP_BASE_EP + url,
 				"type": 'GET',
 				"data": function ( data ) {
+					console.log(data);
 					let start = parseInt(data.start);
 					let length = parseInt(data.length);
 					let pagestored = ( start / length ) + 1 ;

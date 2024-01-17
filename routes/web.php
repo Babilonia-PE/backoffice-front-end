@@ -11,6 +11,7 @@ use Phroute\Phroute\RouteCollector;
 use App\Controllers\LeadsController;
 use App\Controllers\LoginController;
 use App\Controllers\ViewsController;
+use App\Controllers\ViewsProjectsController;
 use App\Controllers\AvisosController;
 use App\Controllers\ListasController;
 use App\Controllers\AccountController;
@@ -68,7 +69,10 @@ $router
                 ->get("/leads-avisos", [LeadsController::class, "index"])
                 ->get("/leads-proyectos", [LeadsProjectsController::class, "index"])
                 ->get("/paquetes", [PaquetesController::class, "index"])
-                ->get("/vistas", [ViewsController::class, "index"])
+                
+                ->get("/views-avisos", [ViewsController::class, "index"])
+                ->get("/views-proyectos", [ViewsProjectsController::class, "index"])
+                
                 ->get("/reportes-id", [ReportesIdController::class, "index"]);
         });
 
