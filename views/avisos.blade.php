@@ -330,6 +330,8 @@ Avisos
             { "title": "Numero de contactos" },
             { "title": "Fecha de actualización", "code": "updated_date", "sortable": true },
             { "title": "Fecha de expiración", "code": "expires_date", "sortable": true },
+            { "title": "Email", "code": "email", "sortable": true },
+            { "title": "Teléfono", "code": "phone", "sortable": true },
 			{ "title": "Acciones" }
 	];
 	const filtersFields = [
@@ -389,6 +391,9 @@ Avisos
 	];
 	const processParams = (element) =>{
 
+		let prefix = element.prefix ?? '';
+		let phone = element.phone_number ?? '';
+
 		return [
 			element.id,							
 			(element.listing_type??''),
@@ -402,7 +407,7 @@ Avisos
 			`<span class="badge text-bg-secondary ${element.state_id}">${element.state??''}</span>`,
 			( ( element.created_at ) ? moment(element.created_at).format('DD/MM/YYYY'):'' ),
 			( ( element.ad_purchased_at ) ? moment(element.ad_purchased_at).format('DD/MM/YYYY'):'' ),
-			( ( element.contacts ) ? element.contacts[0]?.name??'':'' ),
+			element.full_name??'',
 			element.ad_plan??'',
 			element.publisher_role??'',
 			element.bedrooms_count??'',
@@ -425,6 +430,8 @@ Avisos
 			element.contacts_count??'',
 			( ( element.updated_at ) ? moment(element.updated_at).format('DD/MM/YYYY') :'' ),
 			( ( element.ad_expires_at ) ? moment(element.ad_expires_at).format('DD/MM/YYYY') :'' ),
+			element.email??'',
+			getFullNumber(prefix, phone)
 		];
 	}
 	const modalOrder =  [
@@ -443,6 +450,8 @@ Avisos
 		7, 	//Departamento
 		8, 	//Pais
 		12, //Nombre del usuario
+		35, //Email
+		36, //Telefono
 		13, //Categoria
 		14, //Rol
 		30, //Numero de vistas
@@ -470,7 +479,7 @@ Avisos
 
 		return `Detalles para <a target="_blank" href="${url_external}">${element}</a>`;
 	}
-	const columnsHidden = [7, 8, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34];
+	const columnsHidden = [7, 8, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34,35,36];
 	const columnsDates = [10, 11, 33, 34];
 	const options = {
 		processParams,

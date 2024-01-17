@@ -71,6 +71,9 @@
 	.badge:is(.published,.not_published,.unpublished,.expired,.deleted){
 		box-shadow: 2px 2px 17px 1px rgba(0, 0, 0, 0.2)
 	}
+	.badge{
+		box-shadow: 1px 1px 4px 0px rgba(0,0,0,0.15);
+	}
 	.badge.published{
 		background-color: #198754;
 		color: #ffffff;
@@ -292,44 +295,44 @@ Avisos
 		"owner" : "Propietario"
 	};
 	const headers = [
-			{ "title": "ID del listing", "code": "id" },
-			
+			{ "title": "ID del listing", "code": "id", "sortable": true },
 			{ "title": "Tipo de operación", "code": "listing_type" },
 			{ "title": "Tipo de inmueble", "code": "property_type" },
-			{ "title": "Precio", "code": "price" },
-			{ "title": "Direccion", "code": "id" },
-			{ "title": "Distrito", "code": "id" },
-			{ "title": "Provincia", "code": "id" },
-			{ "title": "Departamento", "code": "id" },
-			{ "title": "Pais", "code": "id" },
-			{ "title": "Estado", "code": "state" },
-			{ "title": "Fecha de creación", "code": "id" },
-			{ "title": "Fecha de publicación", "code": "id" },
-			{ "title": "Nombre del usuario", "code": "id" },
-            { "title": "Categoria", "code": "id" },
-            { "title": "Duración", "code": "id" },
-            { "title": "Rol", "code": "id" },
-            { "title": "Cuartos", "code": "id" },
-            { "title": "Baños", "code": "id" },
-            { "title": "Area total", "code": "id" },
-            { "title": "Área techada", "code": "id" },
-            { "title": "Estacionamientos", "code": "id" },
-            { "title": "Estacionamiento para visitas", "code": "id" },
-            { "title": "Año de construcción", "code": "id" },
-            { "title": "Número de pisos", "code": "id" },
-            { "title": "Piso del inmueble", "code": "id" },
-            { "title": "Pet friendly", "code": "id" },
-            { "title": "Comodidades", "code": "id" },
-            { "title": "Adicionales", "code": "id" },
-            { "title": "Descripción", "code": "id" },
-            { "title": "Numero de fotos", "code": "id" },
-            { "title": "Video", "code": "id" },
-            { "title": "Numero de vistas", "code": "id" },
-            { "title": "Número de favoritos", "code": "id" },
-            { "title": "Numero de contactos", "code": "id" },
-            { "title": "Fecha de actualización", "code": "id" },
-            { "title": "Fecha de expiración", "code": "id" },
-			{ "title": "Acciones", "code": "id" }
+			{ "title": "Precio", "code": "price", "sortable": true },
+			{ "title": "Direccion" },
+			{ "title": "Distrito" },
+			{ "title": "Provincia" },
+			{ "title": "Departamento" },
+			{ "title": "Pais" },
+			{ "title": "Estado", "code": "state", "sortable": true },
+			{ "title": "Fecha de creación", "created_date": "id", "sortable": true },
+			{ "title": "Fecha de publicación", "code": "purchased_date", "sortable": true },
+			{ "title": "Nombre del usuario" },
+            { "title": "Categoria" },
+            { "title": "Rol" },
+            { "title": "Cuartos" },
+            { "title": "Baños" },
+            { "title": "Area total" },
+            { "title": "Área techada" },
+            { "title": "Estacionamientos" },
+            { "title": "Estacionamiento para visitas" },
+            { "title": "Año de construcción" },
+            { "title": "Número de pisos" },
+            { "title": "Piso del inmueble" },
+            { "title": "Pet friendly" },
+            { "title": "Comodidades" },
+            { "title": "Adicionales" },
+            { "title": "Descripción" },
+            { "title": "Numero de fotos" },
+            { "title": "Video" },
+            { "title": "Numero de vistas" },
+            { "title": "Número de favoritos" },
+            { "title": "Numero de contactos" },
+            { "title": "Fecha de actualización", "code": "updated_date", "sortable": true },
+            { "title": "Fecha de expiración", "code": "expires_date", "sortable": true },
+            { "title": "Email", "code": "email", "sortable": true },
+            { "title": "Teléfono", "code": "phone", "sortable": true },
+			{ "title": "Acciones" }
 	];
 	const filtersFields = [
 		{
@@ -388,6 +391,9 @@ Avisos
 	];
 	const processParams = (element) =>{
 
+		let prefix = element.prefix ?? '';
+		let phone = element.phone_number ?? '';
+
 		return [
 			element.id,							
 			(element.listing_type??''),
@@ -401,14 +407,13 @@ Avisos
 			`<span class="badge text-bg-secondary ${element.state_id}">${element.state??''}</span>`,
 			( ( element.created_at ) ? moment(element.created_at).format('DD/MM/YYYY'):'' ),
 			( ( element.ad_purchased_at ) ? moment(element.ad_purchased_at).format('DD/MM/YYYY'):'' ),
-			( ( element.contacts ) ? element.contacts[0]?.name??'':'' ),
+			element.full_name??'',
 			element.ad_plan??'',
-			( ( element.days_remain ) ? element.days_remain + ' días':'' ),
 			element.publisher_role??'',
 			element.bedrooms_count??'',
 			element.bathrooms_count??'',
-			element.area??'' ,
-			element.built_area??'',
+			element.area,
+			element.built_area,
 			element.parking_slots_count??'',
 			element.parking_for_visits ? 'Si': 'No',
 			element.year_of_construction??'',
@@ -425,6 +430,8 @@ Avisos
 			element.contacts_count??'',
 			( ( element.updated_at ) ? moment(element.updated_at).format('DD/MM/YYYY') :'' ),
 			( ( element.ad_expires_at ) ? moment(element.ad_expires_at).format('DD/MM/YYYY') :'' ),
+			element.email??'',
+			getFullNumber(prefix, phone)
 		];
 	}
 	const modalOrder =  [
@@ -432,8 +439,8 @@ Avisos
 		9, 	//Estado
 		10, //Fecha de creación
 		11, //Fecha de publicación
-		34, //Fecha de actualización
-		35, //Fecha de expiración
+		33, //Fecha de actualización
+		34, //Fecha de expiración
 		1,  //Tipo de operación
 		2,  //Tipo de inmueble
 		3, 	//Precio
@@ -443,27 +450,28 @@ Avisos
 		7, 	//Departamento
 		8, 	//Pais
 		12, //Nombre del usuario
+		35, //Email
+		36, //Telefono
 		13, //Categoria
-		14, //Duración
-		15, //Rol
-		31, //Numero de vistas
-		32, //Número de favoritos
-		33, //Numero de contactos
-		16, //Cuartos
-		17, //Baños
-		18, //Area total
-		19, //Área techada
-		20, //Estacionamientos
-		21, //Estacionamiento para visitas
-		22, //Año de construcción
-		23, //Número de pisos
-		24, //Piso del inmueble
-		25, //Pet friendly
-		26, //Comodidades
-		27, //Adicionales
-		28, //Descripción
-		29, //Numero de fotos
-		30	//Video
+		14, //Rol
+		30, //Numero de vistas
+		31, //Número de favoritos
+		32, //Numero de contactos
+		15, //Cuartos
+		16, //Baños
+		17, //Area total
+		18, //Área techada
+		19, //Estacionamientos
+		20, //Estacionamiento para visitas
+		21, //Año de construcción
+		22, //Número de pisos
+		23, //Piso del inmueble
+		24, //Pet friendly
+		25, //Comodidades
+		26, //Adicionales
+		27, //Descripción
+		28, //Numero de fotos
+		29	//Video
 	];
 	const modalTitle = (element, globalRecords = []) =>{
 		let rowInfo = globalRecords.filter((item)=> item.id == element);
@@ -471,8 +479,8 @@ Avisos
 
 		return `Detalles para <a target="_blank" href="${url_external}">${element}</a>`;
 	}
-	const columnsHidden = [7, 8, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35];
-	const columnsDates = [10, 11, 34, 35];
+	const columnsHidden = [7, 8, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34,35,36];
+	const columnsDates = [10, 11, 33, 34];
 	const options = {
 		processParams,
 		headers,
