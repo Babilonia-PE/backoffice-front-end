@@ -112,7 +112,7 @@ Views Avisos
 
 @section('content')
 <div class="row">
-	<div class="col-12">
+    <div class="col-12">
         <div id="filter_box" class="card collapsed-card">
 			<div class="card-header" role="button" data-card-widget="collapse">
                 <h5 class="card-title">Filtros de búsqueda</h5>
@@ -126,45 +126,24 @@ Views Avisos
 				<div class="row align-items-end">
               		<div class="col-md-4">
                 		<div class="form-group">
-                  			<label>Estado</label>
-							  @component("components.select", ['data'=>APP_LANG_STATE, 'id' => "state", 'placeholder' => 'Estado', 'first' => true])
-							  @endcomponent                  			
+                  			<label>ID aviso</label>
+                            <input type="text" name="listing_id" id="listing_id" class="form-control w-100" placeholder="Listing ID">                  			
                 		</div>
                 	</div>
               		<div class="col-md-4">
                 		<div class="form-group">
-                  			<label>Tipo de operación</label>
-							  @component("components.select", ['data'=>APP_LANG_LISTING_TYPE, 'id' => "listing_type", 'placeholder' => 'Tipo de operación'])
-							  @endcomponent                  			
+                  			<label>Propietario del aviso</label>
+							  @component("components.search-user", ['id'=>'owner_id', 'storage'=>'filter_views_owners', 'placeholder' => 'Buscar por propietario'])
+							  @endcomponent
                 		</div>
-                	</div>
+                	</div>              							
               		<div class="col-md-4">
                 		<div class="form-group">
-                  			<label>Tipo de inmueble</label>
-                  			@component("components.select", ['data'=>APP_LANG_PROPERTY_TYPE, 'id' => "property_type", 'placeholder' => 'Tipo de inmueble'])
+                  			<label>Nombre completo</label>
+							@component("components.search-user", ['placeholder' => 'Buscar por nombre', 'storage' => 'filter_views_users'])
 							@endcomponent
                 		</div>
-                	</div>
-              		<div class="col-md-4">
-                		<div class="form-group">
-                  			<label>Cliente</label>
-							@component("components.search-user",array("storage"=>"filter_listing_users"))
-							@endcomponent
-                		</div>
-                	</div>
-					<div class="col-md-4">
-						<div class="form-group">
-							<label for="exampleInputEmail1">Precio (Desde - Hasta)</label>
-							<div class="form-row">
-								<div class="col-6">
-									<input type="text" class="form-control" id="price_from" placeholder="desde">
-								</div>
-								<div class="col-6">
-									<input type="text" class="form-control" id="price_to" placeholder="hasta">
-								</div>
-							</div>
-						</div>
-					</div>
+                	</div>           							
 					<div class="col-md-4">
 						<div class="form-group">
 							<label for="exampleInputEmail1">Fecha de creación (Desde - Hasta)</label>
@@ -174,45 +153,6 @@ Views Avisos
 								</div>
 								<div class="col-6">
 									<input type="text" class="form-control" id="created_end" placeholder="dd/mm/yyyy">
-								</div>
-							</div>
-						</div>
-					</div>
-					<div class="col-md-4">
-						<div class="form-group">
-							<label for="exampleInputEmail1">Fecha de actualización (Desde - Hasta)</label>
-							<div class="form-row">
-								<div class="col-6">
-									<input type="text" class="form-control" id="updated_start" placeholder="dd/mm/yyyy">
-								</div>
-								<div class="col-6">
-									<input type="text" class="form-control" id="updated_end" placeholder="dd/mm/yyyy">
-								</div>
-							</div>
-						</div>
-					</div>
-					<div class="col-md-4">
-						<div class="form-group">
-							<label for="exampleInputEmail1">Fecha de publicación (Desde - Hasta)</label>
-							<div class="form-row">
-								<div class="col-6">
-									<input type="text" class="form-control" id="purchased_start" placeholder="dd/mm/yyyy">
-								</div>
-								<div class="col-6">
-									<input type="text" class="form-control" id="purchased_end" placeholder="dd/mm/yyyy">
-								</div>
-							</div>
-						</div>
-					</div>
-					<div class="col-md-4">
-						<div class="form-group">
-							<label for="exampleInputEmail1">Fecha de expiración (Desde - Hasta)</label>
-							<div class="form-row">
-								<div class="col-6">
-									<input type="text" class="form-control" id="expires_start" placeholder="dd/mm/yyyy">
-								</div>
-								<div class="col-6">
-									<input type="text" class="form-control" id="expires_end" placeholder="dd/mm/yyyy">
 								</div>
 							</div>
 						</div>
@@ -278,81 +218,40 @@ Views Avisos
 <script>
 	setMask('#created_start', { mask: "99/99/9999", showMaskOnHover: false, placeholder: "dd/mm/yyyy", rightAlign:false });
 	setMask('#created_end', { mask: "99/99/9999", showMaskOnHover: false, placeholder: "dd/mm/yyyy", rightAlign:false });
-
-	setMask('#updated_start', { mask: "99/99/9999", showMaskOnHover: false, placeholder: "dd/mm/yyyy", rightAlign:false });
-	setMask('#updated_end', { mask: "99/99/9999", showMaskOnHover: false, placeholder: "dd/mm/yyyy", rightAlign:false });
-
-	setMask('#purchased_start', { mask: "99/99/9999", showMaskOnHover: false, placeholder: "dd/mm/yyyy", rightAlign:false });
-	setMask('#purchased_end', { mask: "99/99/9999", showMaskOnHover: false, placeholder: "dd/mm/yyyy", rightAlign:false });
-
-	setMask('#expires_start', { mask: "99/99/9999", showMaskOnHover: false, placeholder: "dd/mm/yyyy", rightAlign:false });
-	setMask('#expires_end', { mask: "99/99/9999", showMaskOnHover: false, placeholder: "dd/mm/yyyy", rightAlign:false });
 </script>
 
 <script>
-	const roles = {
-		"realtor" : "Agente",
-		"owner" : "Propietario"
-	};
 	const headers = [
-			{ "title": "ID del listing", "code": "id", "sortable": true },
+            { "title": "ID de view", "code": "id", "sortable": true },
+            { "title": "ID del aviso", "code": "listing_id", "sortable": true },
 			{ "title": "Tipo de operación", "code": "listing_type" },
 			{ "title": "Tipo de inmueble", "code": "property_type" },
-			{ "title": "Precio", "code": "price", "sortable": true },
-			{ "title": "Direccion" },
+			{ "title": "Precio", "code": "price" },
 			{ "title": "Distrito" },
-			{ "title": "Provincia" },
-			{ "title": "Departamento" },
-			{ "title": "Pais" },
-			{ "title": "Estado", "code": "state", "sortable": true },
+			{ "title": "ID de usuario", "code": "user_id" },
+			{ "title": "Usuario", "code": "full_name" },
+			{ "title": "Email", "code": "email" },
+			{ "title": "Teléfono", "code": "phone_number" },
+			{ "title": "Origen", "code": "source", "sortable": true },
 			{ "title": "Fecha de creación", "created_date": "id", "sortable": true },
-			{ "title": "Fecha de publicación", "code": "purchased_date", "sortable": true },
-			{ "title": "Nombre del usuario" },
-            { "title": "Categoria" },
-            { "title": "Rol" },
-            { "title": "Cuartos" },
-            { "title": "Baños" },
-            { "title": "Area total" },
-            { "title": "Área techada" },
-            { "title": "Estacionamientos" },
-            { "title": "Estacionamiento para visitas" },
-            { "title": "Año de construcción" },
-            { "title": "Número de pisos" },
-            { "title": "Piso del inmueble" },
-            { "title": "Pet friendly" },
-            { "title": "Comodidades" },
-            { "title": "Adicionales" },
-            { "title": "Descripción" },
-            { "title": "Numero de fotos" },
-            { "title": "Video" },
-            { "title": "Numero de vistas" },
-            { "title": "Número de favoritos" },
-            { "title": "Numero de contactos" },
-            { "title": "Fecha de actualización", "code": "updated_date", "sortable": true },
-            { "title": "Fecha de expiración", "code": "expires_date", "sortable": true },
+            { "title": "Fecha de actualización", "code": "updated_date" },
 			{ "title": "Acciones" }
 	];
 	const filtersFields = [
 		{
-			name: 'state'
+			name: 'listing_id'
 		},
 		{
-			name: 'listing_type'
-		},
-		{
-			name: 'property_type'
+			name: 'owner_id',
+			type: filtersParamsTypes.USER,
+			search: true,
+			storage: 'filter_views_owners'
 		},
 		{
 			name: 'user_id',
 			type: filtersParamsTypes.USER,
 			search: true,
-			storage: 'filter_listing_users'
-		},
-		{
-			name: 'price_from',			
-		},
-		{
-			name: 'price_to',			
+			storage: 'filter_views_users'
 		},
 		{
 			name: 'created_start',
@@ -361,122 +260,38 @@ Views Avisos
 		{
 			name: 'created_end',
 			type: filtersParamsTypes.DATE
-		},
-		{
-			name: 'updated_start',
-			type: filtersParamsTypes.DATE
-		},
-		{
-			name: 'updated_end',
-			type: filtersParamsTypes.DATE
-		},
-		{
-			name: 'purchased_start',
-			type: filtersParamsTypes.DATE
-		},
-		{
-			name: 'purchased_end',
-			type: filtersParamsTypes.DATE
-		},
-		{
-			name: 'expires_start',
-			type: filtersParamsTypes.DATE
-		},
-		{
-			name: 'expires_end',
-			type: filtersParamsTypes.DATE
-		},
+		}
 	];
 	const processParams = (element) =>{
-
+        let prefix = element.prefix ?? '';
+		let phone = element.phone_number ?? '';
 		return [
-			element.id,							
-			(element.listing_type??''),
-			(element.property_type??''),
+			element.id,				
+			element.listing_id??'',				
+			element.listing_type??'',
+			element.property_type??'',
 			element.price??'',
-			( ( element.location ) ? element.location.address??'':'' ),
-			( ( element.location ) ? element.location.district??'':'' ),
-			( ( element.location ) ? element.location.province??'':'' ),
-			( ( element.location ) ? element.location.department??'':'' ),
-			( ( element.location ) ? element.location.country??'':'' ),
-			`<span class="badge text-bg-secondary ${element.state_id}">${element.state??''}</span>`,
+			element.district??'',
+			element.user_id??'',
+			element.full_name??'',
+			element.email??'',
+			getFullNumber(prefix, phone),
+			element.source??'',
 			( ( element.created_at ) ? moment(element.created_at).format('DD/MM/YYYY'):'' ),
-			( ( element.ad_purchased_at ) ? moment(element.ad_purchased_at).format('DD/MM/YYYY'):'' ),
-			( ( element.contacts ) ? element.contacts[0]?.name??'':'' ),
-			element.ad_plan??'',
-			element.publisher_role??'',
-			element.bedrooms_count??'',
-			element.bathrooms_count??'',
-			element.area,
-			element.built_area,
-			element.parking_slots_count??'',
-			element.parking_for_visits ? 'Si': 'No',
-			element.year_of_construction??'',
-			element.total_floors_count??'',
-			element.floor_number??'',
-			element.pet_friendly ? 'Si' : 'No',
-			(element.facilities && element.facilities.length>0)?(element.facilities.map((item)=> item.title).join(', ')):'',
-			(element.advanced_details && element.advanced_details.length>0)?(element.advanced_details.map((item)=> item.title).join(', ')):'',
-			element.description??'',
-			element.images.length??'',
-			element.videos.length === 0 ? 'No' : (element.videos[0].content ? `<a href="${element.videos[0].content}" target="_blank">${element.videos[0].content}</a>` : 'No existe la url'),
-			element.views_count??'',
-			element.favourites_count??'',
-			element.contacts_count??'',
-			( ( element.updated_at ) ? moment(element.updated_at).format('DD/MM/YYYY') :'' ),
-			( ( element.ad_expires_at ) ? moment(element.ad_expires_at).format('DD/MM/YYYY') :'' ),
+			( ( element.updated_at ) ? moment(element.updated_at).format('DD/MM/YYYY') :'' )
 		];
 	}
-	const modalOrder =  [
-		0, 	//ID del listing
-		9, 	//Estado
-		10, //Fecha de creación
-		11, //Fecha de publicación
-		33, //Fecha de actualización
-		34, //Fecha de expiración
-		1,  //Tipo de operación
-		2,  //Tipo de inmueble
-		3, 	//Precio
-		4, 	//Direccion
-		5, 	//Distrito
-		6, 	//Provincia
-		7, 	//Departamento
-		8, 	//Pais
-		12, //Nombre del usuario
-		13, //Categoria
-		14, //Rol
-		30, //Numero de vistas
-		31, //Número de favoritos
-		32, //Numero de contactos
-		15, //Cuartos
-		16, //Baños
-		17, //Area total
-		18, //Área techada
-		19, //Estacionamientos
-		20, //Estacionamiento para visitas
-		21, //Año de construcción
-		22, //Número de pisos
-		23, //Piso del inmueble
-		24, //Pet friendly
-		25, //Comodidades
-		26, //Adicionales
-		27, //Descripción
-		28, //Numero de fotos
-		29	//Video
-	];
-	const modalTitle = (element, globalRecords = []) =>{
-		let rowInfo = globalRecords.filter((item)=> item.id == element);
-		let url_external = URL_WEB_FRONT + rowInfo[0].url_external ?? '';
-
-		return `Detalles para <a target="_blank" href="${url_external}">${element}</a>`;
+	const modalOrder =  [];
+	const modalTitle = () =>{
+		
 	}
-	const columnsHidden = [7, 8, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34];
-	const columnsDates = [10, 11, 33, 34];
+	const columnsHidden = [0, 6];
+	const columnsDates = [12, 13];
 	const options = {
 		processParams,
 		headers,
 		filtersFields,
-		storageView : 'filter_avisos',
+		storageView : 'filter_views',
 		columnsHidden,
 		columnsDates,
 		modalOrder,

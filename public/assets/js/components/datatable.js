@@ -439,13 +439,8 @@ const datatable = (options = {})=>{
 
 			ajax: {
 				"url": APP_BASE_EP + url,
-				headers: {
-					'Accept-Language': APP_LANG,
-            		'accept': 'application/json',					
-				},
 				"type": 'GET',
 				"data": function ( data ) {
-					console.log(data);
 					let start = parseInt(data.start);
 					let length = parseInt(data.length);
 					let pagestored = ( start / length ) + 1 ;
