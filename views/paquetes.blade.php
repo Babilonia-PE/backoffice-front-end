@@ -319,6 +319,7 @@ Paquetes
 		{ "title": "Premium restantes" },
 		{ "title": "ID orden" },
 		{ "title": "Tipo", "code": "type", "sortable": true },
+		{ "title": "Tipo Compra", "code": "type",},
 		{ "title": "Acciones" }
 	];
 	const filtersFields = [
@@ -387,6 +388,7 @@ Paquetes
             element.initial_premium_ads_count,
             element.order_id,
             element.type??'',
+            toCamelCase(element.buy_type??''),
 		];
 	}
 	const modalOrder =  [];
