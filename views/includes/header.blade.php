@@ -31,6 +31,8 @@
   <link rel="stylesheet" href="@asset("public/plugins/bootstrap-select/css/bootstrap-select.min.css")">
 
   <link rel="stylesheet" href="@asset("public/plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css")">
+  <!-- Bootstrap country select -->
+  <link rel="stylesheet" href="@asset("public/assets/css/bootstrap-select-country.min.css")">
   <!-- Main styles -->
   <link rel="stylesheet" href="@asset("public/assets/css/main.css")">
 
