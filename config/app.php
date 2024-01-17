@@ -11,7 +11,7 @@ $dotenv = Dotenv\Dotenv::createImmutable(URL_ROOT);
 $dotenv->load(); 
 
 define("URL_APP", URL_ROOT . "app");
-define("APP_BASE_EP", $_SERVER["APP_BASE_EP"]??"");
+define("APP_BASE_EP", $_SERVER["APP_BASE_EP"]??"https://services-testing.babilonia.io/");
 define("URL_WEB", $_SERVER["URL_WEB"]??"https://www-testing.babilonia.io/");
 define("URL_LOGS", URL_ROOT. "logs/");
 define("URL_PUBLIC", URL_ROOT . "public/");
