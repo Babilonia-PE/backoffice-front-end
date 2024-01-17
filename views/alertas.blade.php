@@ -251,18 +251,18 @@ Alertas
 <script> 
 	const headers = [
 		{ "title": "ID", "code": "id", "sortable": true },
-		{ "title": "Nombre completo" },
+		{ "title": "Nombres" },
 		{ "title": "Email", "code": "email" },
-		{ "title": "Celular" },
+		{ "title": "Telefono" },
         { "title": "Operación" },
-		{ "title": "Tipo de propiedad" },
+		{ "title": "Propiedad" },
 		{ "title": "Ubicación" },
 		{ "title": "Precio" },
 		{ "title": "Contactar al agente" },
 		{ "title": "Estado", "code": "state", "sortable": true },
 		{ "title": "Tipo", "code": "type", "sortable": true },
-		{ "title": "Fecha de creación", "code": "created_at", "sortable": true },
-		{ "title": "Fecha de actualización" },
+		{ "title": "Creación", "code": "created_at", "sortable": true },
+		{ "title": "Actualización" },
         { "title": "Acciones" }
 	];
 	const filtersFields = [
