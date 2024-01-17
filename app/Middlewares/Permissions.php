@@ -17,14 +17,11 @@ class Permissions extends Authentication{
     public function authPermission($type = "view", $controllerView = null, $redirect = true){
 
 
-        $users = env("APP_USERS_IDENTIFY");
-        $users = isset($users) && $users!=null ? explode(",", $users) : [];
-        
         $userSession = SesionService::leer("correoUsuario");
         $dni = $userSession["dni"] ?? '';
+        $role = $userSession["role"] ?? '';
 
-        $validateUser = in_array($dni, $users);
-        if($validateUser === true) return $validateUser;
+        if($role == USER_ADMIN) return true;
 
         $user = $this->getUserByDNI($dni);
         $permission = $user["permissions"]??'';

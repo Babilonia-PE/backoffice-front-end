@@ -10,6 +10,7 @@ define("URL_ROOT", $_SERVER["DOCUMENT_ROOT"] . $last_line );
 $dotenv = Dotenv\Dotenv::createImmutable(URL_ROOT);
 $dotenv->load(); 
 
+define("USER_ADMIN", "administrator");
 define("URL_APP", URL_ROOT . "app");
 define("APP_BASE_EP", $_SERVER["APP_BASE_EP"]??"https://services-testing.babilonia.io/");
 define("URL_WEB", $_SERVER["URL_WEB"]??"https://app-testing.babilonia.io/");

@@ -91,7 +91,7 @@ class ConfigurationUsersController extends Permissions{
         $user = null;
         foreach($userStore as $key => $item){
             $_dni = $item["dni"]??'';
-            if(in_array($_dni, $this->usersAdmin)) $userStore[$key]["permissions"] = 777;
+            #if(in_array($_dni, $this->usersAdmin)) $userStore[$key]["permissions"] = 777;
             if($_dni == $id) $user = $userStore[$key] ?? null;
         }
 
@@ -101,9 +101,13 @@ class ConfigurationUsersController extends Permissions{
         $permissions = Store::readDb($this->dbPermission);
         if(count($permissions) > 0) $user["permissionsList"] = $permissions;
 
+        $userSession = SesionService::leer("correoUsuario");
+        $userRole = $userSession["role"] ?? '';
+
         echo view("configuracion-usuarios-detalle", [
             "currentPage" => "configuration-usuarios-detalle",
-            "data" => $user
+            "data" => $user,
+            "role" => $userRole
         ]);
     }
 
@@ -120,7 +124,7 @@ class ConfigurationUsersController extends Permissions{
 
             if(in_array($dni, $this->usersAdmin)){
                 $userPermissionsvalue = "Super Admin";
-                $userStore[$key]["permissions"] = 777;
+                #$userStore[$key]["permissions"] = 777;
                 
             }else{
                 $userPermissionsvalue = $permisionsLevel[$permissions]["name"] ?? 'No asignado';
