@@ -326,13 +326,12 @@ Alertas
 
 		let prefix = element.prefix ?? '';
 		let phone = element.phone_number ?? '';
-		let phone_full = prefix + phone;
 
 		return [
 			element.id,
 			element.full_name,
 			element.email,
-			phone_full,
+			getFullNumber(prefix, phone),
             element.listing_type,
             element.property_type,
             element.location,
