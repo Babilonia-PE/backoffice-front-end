@@ -225,16 +225,16 @@ Leads Avisos
 </script>
 <script>	
 	const headers = [
-		{ "title": "ID del lead", "code": "id", "sortable": true },
+		{ "title": "ID", "code": "id", "sortable": true },
 		{ "title": "ID del aviso", "code": "listing_id", "sortable": true },
 		{ "title": "Key", "code": "key", "sortable": true },
 		{ "title": "Origen", "code": "source", "sortable": true },
 		{ "title": "Id del usuario" },
-		{ "title": "Nombre completo" },
+		{ "title": "Nombres" },
 		{ "title": "Email", "code": "email" },
-		{ "title": "Celular" },
-		{ "title": "Fecha de creación", "code": "created_at", "sortable": true },
-		{ "title": "Fecha de actualización" },
+		{ "title": "Teléfono" },
+		{ "title": "Creación", "code": "created_at", "sortable": true },
+		{ "title": "Actualización" },
 		{ "title": "Acciones" }
 	];
 	const filtersFields = [
