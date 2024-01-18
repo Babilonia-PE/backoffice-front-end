@@ -256,7 +256,7 @@ Alertas
 <script src="public/plugins/LibDataTables/Buttons-2.4.2/js/buttons.html5.min.js"></script>
 <script src="public/plugins/LibDataTables/Buttons-2.4.2/js/buttons.colVis.min.js"></script>
 <script src="public/plugins/LibDataTables/ColReorder-1.7.0/js/dataTables.colReorder.min.js"></script>
-<script src="@asset("public/assets/js/components/datatable.js")"></script>
+<script src="@asset("public/assets/js/components/datatable.js")?v={{ APP_VERSION }}"></script>
 <!-- Select2 -->
 <script src="public/plugins/select2/js/select2.full.min.js"></script>
 <script>

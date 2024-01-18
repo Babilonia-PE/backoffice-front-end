@@ -70,7 +70,7 @@
 
 <script src="@asset("public/assets/js/inputmask.min.js")"></script>
 <script src="@asset("public/assets/js/axios.min.js")"></script>
-<script src="@asset("public/assets/js/app.js")"></script>
+<script src="@asset("public/assets/js/app.js")?v={{ APP_VERSION }}"></script>
 <script>
   window.APP_BASE_EP = "{{ APP_BASE_EP }}";
   window.APP_LANG = "{{ APP_LANG }}";
