@@ -121,6 +121,7 @@ $filtersParamsTypes = [
     'USER'=> 'user',
     'DATE'=> 'date'
 ];
+define("APP_VERSION", $_SERVER["VERSION"]??time());
 define("APP_LANG_LISTING_TYPE", $app_lang_listing_type);
 define("APP_LANG_PROPERTY_TYPE", $app_lang_property_type);
 define("APP_LANG_ALERT_TYPE", $app_lang_alert_type);
