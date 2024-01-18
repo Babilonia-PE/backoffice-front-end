@@ -91,23 +91,18 @@ class ConfigurationUsersController extends Permissions{
         $user = null;
         foreach($userStore as $key => $item){
             $_dni = $item["dni"]??'';
-            #if(in_array($_dni, $this->usersAdmin)) $userStore[$key]["permissions"] = 777;
+            if(in_array($_dni, $this->usersAdmin)) $userStore[$key]["permissions"] = 777;
             if($_dni == $id) $user = $userStore[$key] ?? null;
         }
 
         if($user == null) return redirect();
 
-
         $permissions = Store::readDb($this->dbPermission);
-        if(count($permissions) > 0) $user["permissionsList"] = $permissions;
-
-        $userSession = SesionService::leer("correoUsuario");
-        $userRole = $userSession["role"] ?? '';
-
+        if(count($permissions) > 0) $user["permissionsList"] = $permissions;        
+        
         echo view("configuracion-usuarios-detalle", [
             "currentPage" => "configuration-usuarios-detalle",
-            "data" => $user,
-            "role" => $userRole
+            "data" => $user
         ]);
     }
 

@@ -62,7 +62,7 @@ Detalle de usuario {{ $data["fullname"]??'' }}
                     </div>                    
 				</div>
 			</div>
-            @if($role != USER_ADMIN)
+            
 			<div class="card-header rounded-0">
 				<h3 class="card-title">Permisos</h3>
 			</div>
@@ -81,7 +81,7 @@ Detalle de usuario {{ $data["fullname"]??'' }}
                     </div>                    
 				</div>
 			</div>
-            @endif			
+            		
 			<div class="card-header rounded-0">
 				<h3 class="card-title">Two Factor Authentication (2FA)</h3>
 			</div>
