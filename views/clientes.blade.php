@@ -272,6 +272,7 @@ Clientes
 		{ "title": "Estadísticas" },
 		{ "title": "URL" },			
 		{ "title": "Auth", "code": "sign_method", "sortable": true },
+		{ "title": "Actualización", "code": "actualizacion", "sortable": true },
 		{ "title": "Acciones" }
 	];
 	const filtersFields = [
@@ -318,8 +319,8 @@ Clientes
 			(element.email) ? `${element.email} <button class="badge text-bg-primary btn-primary text-danger-emphasis text-dark" type="button" data-copy="inner" data-value="${element.email}"><i class="far fa-copy text-white"></i></button>`:'',
 			getFullNumber(element.prefix, element.phone_number),
 			( ( element.company ) ? element.company.commercial_name??'':'' ),
-			moment(element.created_at).format('DD/MM/YYYY h:mm a'),
-			moment(element.last_login).format('DD/MM/YYYY h:mm a'),
+			moment(element.created_at).format('DD/MM/YYYY'),
+			moment(element.last_login).format('DD/MM/YYYY'),
 			(`<span class="badge text-bg-secondary badge-${element.state_id}">${element.state}</span>`),
 			( ( element.company ) ? element.company.name??'':'' ),
 			( ( element.company ) ? element.company.id??'':'' ),
@@ -332,6 +333,7 @@ Clientes
 			( element.permissions??{} ).stadistics? 'SI':'NO',
 			( element.url && element.url!=null) ? `<a href="${urlClient}" target="_blank">${urlClient} <i class="fas fa-external-link-alt"></i></a>` : '',							
 			( element.sign_method??"" ),
+			moment(element.update_at).format('DD/MM/YYYY'),
 		];
 	}
 	const modalOrder =  [];
