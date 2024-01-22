@@ -145,8 +145,8 @@ Clientes
               		<div class="col-md-4">
                 		<div class="form-group">
                   			<label>Estado</label>
-							@component("components.select", ['data'=>APP_LANG_CLIENTS_STATE, 'id' => "state", 'placeholder' => 'Estado', 'first' => true])
-							@endcomponent
+							@component("components.select", ['data'=>APP_LANG_STATE, 'id' => "state", 'placeholder' => 'Estado', 'first' => true])
+							@endcomponent  
                 		</div>
                 	</div>
               		<div class="col-md-4">

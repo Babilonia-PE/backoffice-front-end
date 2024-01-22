@@ -222,18 +222,18 @@ Views Proyectos
 
 <script>
 	const headers = [
-            { "title": "ID de view", "code": "id", "sortable": true },
-            { "title": "ID del proyecto", "code": "project_id", "sortable": true },
-			{ "title": "Tipo de proyecto", "code": "project_type" },
+            { "title": "Id", "code": "id", "sortable": true },
+            { "title": "Id proyecto", "code": "project_id", "sortable": true },
+			{ "title": "Tipo", "code": "project_type" },
 			{ "title": "Etapa", "code": "stage" },
 			{ "title": "Nombre del proyecto", "code": "project_name" },
-			{ "title": "ID de usuario", "code": "user_id" },
-			{ "title": "Usuario", "code": "full_name" },
+			{ "title": "Id usuario", "code": "user_id" },
+			{ "title": "Nombres", "code": "full_name" },
 			{ "title": "Email", "code": "email" },
 			{ "title": "Teléfono", "code": "phone_number" },
 			{ "title": "Origen", "code": "source", "sortable": true },
-			{ "title": "Fecha de creación", "created_date": "id", "sortable": true },
-            { "title": "Fecha de actualización", "code": "updated_date" },
+			{ "title": "Creación", "created_date": "id", "sortable": true },
+            { "title": "Actualización", "code": "updated_date" },
 			{ "title": "Acciones" }
 	];
 	const filtersFields = [

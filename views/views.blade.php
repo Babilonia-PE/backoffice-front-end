@@ -222,19 +222,19 @@ Views Avisos
 
 <script>
 	const headers = [
-            { "title": "ID de view", "code": "id", "sortable": true },
-            { "title": "ID del aviso", "code": "listing_id", "sortable": true },
-			{ "title": "Tipo de operación", "code": "listing_type" },
-			{ "title": "Tipo de inmueble", "code": "property_type" },
+            { "title": "Id", "code": "id", "sortable": true },
+            { "title": "Id aviso", "code": "listing_id", "sortable": true },
+			{ "title": "Operación", "code": "listing_type" },
+			{ "title": "Inmueble", "code": "property_type" },
 			{ "title": "Precio", "code": "price" },
 			{ "title": "Distrito" },
-			{ "title": "ID de usuario", "code": "user_id" },
-			{ "title": "Usuario", "code": "full_name" },
+			{ "title": "Id usuario", "code": "user_id" },
+			{ "title": "Nombres", "code": "full_name" },
 			{ "title": "Email", "code": "email" },
 			{ "title": "Teléfono", "code": "phone_number" },
 			{ "title": "Origen", "code": "source", "sortable": true },
-			{ "title": "Fecha de creación", "created_date": "id", "sortable": true },
-            { "title": "Fecha de actualización", "code": "updated_date" },
+			{ "title": "Creación", "created_date": "id", "sortable": true },
+            { "title": "Actualización", "code": "updated_date" },
 			{ "title": "Acciones" }
 	];
 	const filtersFields = [
