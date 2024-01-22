@@ -215,7 +215,12 @@ Reclamos
 	setMask('#created_end', { mask: "99/99/9999", showMaskOnHover: false, placeholder: "dd/mm/yyyy", rightAlign:false });
 </script>
 <script>
-		
+	const STATE_BAGES = {
+		1 : "info",
+		2 : "success",
+		3 : "warning",
+		4 : "Light",
+	}
 	const headers = [
 		{ "title": "ID", "code": "id", "sortable": true },		
 		{ "title": "Nombre", "code": "full_name", "sortable": true },
@@ -256,7 +261,7 @@ Reclamos
 			getFullNumber(element.prefix??'', element.phone_number??''),
 			element.document_type??'',
 			element.document_number??'',
-            element.state??'',
+			(`<span class="badge text-bg-secondary badge-${STATE_BAGES[element.state_id]}">${element.state}</span>`),
 			element.description??'',
 			moment(element.created_at).format('DD/MM/YYYY'),
 		];
