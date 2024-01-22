@@ -106,7 +106,7 @@
 
 @section('page')
 
-Avisos
+Proyectos
 
 @endsection
 
