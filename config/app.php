@@ -116,7 +116,13 @@ $app_lang_clients_state = [
     3 => 'Baneado',
     5 => 'Eliminado'
 ];
-
+$app_lang_claims_state = [
+    "all" => "Todos",
+    "received" => "Recibido",
+    "answered" => "Contestado",
+    "returned" => "Devuelto",
+    "ended" => "Terminado"
+];
 $filtersParamsTypes = [
     'USER'=> 'user',
     'DATE'=> 'date'
@@ -131,6 +137,7 @@ define("APP_LANG_LEADS_KEYS", $app_lang_leads_keys);
 define("APP_LANG_ADS_TYPE", $app_lang_ads_type);
 define("APP_LANG_PACKAGE_CATEGORY", $app_lang_package_category);
 define("APP_LANG_CLIENTS_STATE", $app_lang_clients_state);
+define("APP_LANG_CLAIMS_STATE", $app_lang_claims_state);
 define("APP_LANG", $_SERVER["APP_LANG"]??"");
 define("FILTERSPARAMSTYPES", $filtersParamsTypes);
 
