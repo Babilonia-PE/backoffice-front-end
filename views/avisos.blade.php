@@ -490,7 +490,7 @@ Avisos
 		columnsDates,
 		modalOrder,
 		modalTitle,
-		url: 'app/listing/listings'
+		url: 'app/ads/listings'
 	};
 	
 	datatable(options);

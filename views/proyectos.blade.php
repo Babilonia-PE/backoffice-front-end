@@ -133,38 +133,25 @@ Avisos
                 	</div>
               		<div class="col-md-4">
                 		<div class="form-group">
-                  			<label>Tipo de operación</label>
-							  @component("components.select", ['data'=>APP_LANG_LISTING_TYPE, 'id' => "listing_type", 'placeholder' => 'Tipo de operación'])
+                  			<label>Tipo de proyecto</label>
+							  @component("components.select", ['data'=>APP_LANG_PROJECT_TYPE, 'id' => "project_type", 'placeholder' => 'Tipo de proyecto'])
 							  @endcomponent                  			
                 		</div>
                 	</div>
               		<div class="col-md-4">
                 		<div class="form-group">
-                  			<label>Tipo de inmueble</label>
-                  			@component("components.select", ['data'=>APP_LANG_PROPERTY_TYPE, 'id' => "property_type", 'placeholder' => 'Tipo de inmueble'])
+                  			<label>Etapa del proyecto</label>
+                  			@component("components.select", ['data'=>APP_LANG_PROJECT_STAGE, 'id' => "stage", 'placeholder' => 'Etapa'])
 							@endcomponent
                 		</div>
                 	</div>
               		<div class="col-md-4">
                 		<div class="form-group">
                   			<label>Cliente</label>
-							@component("components.search-user",array("storage"=>"filter_listing_users"))
+							@component("components.search-user",array("storage"=>"filter_projects_users"))
 							@endcomponent
                 		</div>
                 	</div>
-					<div class="col-md-4">
-						<div class="form-group">
-							<label for="exampleInputEmail1">Precio (Desde - Hasta)</label>
-							<div class="form-row">
-								<div class="col-6">
-									<input type="text" class="form-control" id="price_from" placeholder="desde">
-								</div>
-								<div class="col-6">
-									<input type="text" class="form-control" id="price_to" placeholder="hasta">
-								</div>
-							</div>
-						</div>
-					</div>
 					<div class="col-md-4">
 						<div class="form-group">
 							<label for="exampleInputEmail1">Fecha de creación (Desde - Hasta)</label>
@@ -295,43 +282,47 @@ Avisos
 		"owner" : "Propietario"
 	};
 	const headers = [
-			{ "title": "ID", "code": "id", "sortable": true },
-			{ "title": "Operación", "code": "listing_type" },
-			{ "title": "Inmueble", "code": "property_type" },
-			{ "title": "Precio", "code": "price", "sortable": true },
+			{ "title": "Id", "code": "id", "sortable": true },
+            { "title": "Categoria" },
+            { "title": "Rol" },
+			{ "title": "Tipo" },
+			{ "title": "Etapa" },
+			{ "title": "Nombre" },
+			{ "title": "Precio de mantenimiento" },
+			{ "title": "Cantidad de pisos" },
+			{ "title": "Cantidad de sotanos" },
+			{ "title": "Cantidad de elevadores" },
+			{ "title": "Cantidad de unidades" },
+			{ "title": "Cantidad de unidades vendidas" },
+			{ "title": "Cantidad de edificios" },
 			{ "title": "Dirección" },
 			{ "title": "Distrito" },
 			{ "title": "Provincia" },
 			{ "title": "Departamento" },
 			{ "title": "País" },
+			{ "title": "Referencia" },
 			{ "title": "Estado", "code": "state", "sortable": true },
-			{ "title": "Creación", "created_date": "id", "sortable": true },
-			{ "title": "Publicación", "code": "purchased_date", "sortable": true },
-			{ "title": "Nombres" },
-            { "title": "Categoria" },
-            { "title": "Rol" },
-            { "title": "Cuartos" },
-            { "title": "Baños" },
-            { "title": "Area total" },
-            { "title": "Área techada" },
-            { "title": "Estacionamientos" },
-            { "title": "Estacionamiento para visitas" },
-            { "title": "Año de construcción" },
-            { "title": "Número de pisos" },
-            { "title": "Piso del inmueble" },
-            { "title": "Pet friendly" },
+            { "title": "Cantidad de fotos" },
+            { "title": "Video" },
+            { "title": "Video 360" },
+            { "title": "Cantidad de vistas" },
+            { "title": "Cantidad de favoritos" },
+            { "title": "Cantidad de contactos" },
+            { "title": "Cantidad de visitas" },
+            { "title": "Cantidad de correos" },
+            { "title": "Cantidad de whatsapp" },
+            { "title": "Data externa" },
             { "title": "Comodidades" },
             { "title": "Adicionales" },
-            { "title": "Descripción" },
-            { "title": "Numero de fotos" },
-            { "title": "Video" },
-            { "title": "Numero de vistas" },
-            { "title": "Número de favoritos" },
-            { "title": "Numero de contactos" },
+            { "title": "Origen" },
+            { "title": "Pet friendly" },
+            { "title": "Año de entrega" },
+            { "title": "Mes de entrega" },
+            { "title": "Financiamiento" },
+			{ "title": "Creación", "created_date": "id", "sortable": true },
+			{ "title": "Publicación", "code": "purchased_date", "sortable": true },
             { "title": "Actualización", "code": "updated_date", "sortable": true },
             { "title": "Expiración", "code": "expires_date", "sortable": true },
-            { "title": "Email", "code": "email", "sortable": true },
-            { "title": "Teléfono", "code": "phone", "sortable": true },
 			{ "title": "Acciones" }
 	];
 	const filtersFields = [
@@ -339,22 +330,16 @@ Avisos
 			name: 'state'
 		},
 		{
-			name: 'listing_type'
+			name: 'project_type'
 		},
 		{
-			name: 'property_type'
+			name: 'stage'
 		},
 		{
 			name: 'user_id',
 			type: filtersParamsTypes.USER,
 			search: true,
-			storage: 'filter_listing_users'
-		},
-		{
-			name: 'price_from',			
-		},
-		{
-			name: 'price_to',			
+			storage: 'filter_projects_users'
 		},
 		{
 			name: 'created_start',
@@ -395,102 +380,68 @@ Avisos
 		let phone = element.phone_number ?? '';
 
 		return [
-			element.id,							
-			(element.listing_type??''),
-			(element.property_type??''),
-			element.price??'',
+			element.id,		
+			element.ad_plan??'',
+			element.publisher_role??'',
+			element.project_type??'',
+			element.stage??'',
+			element.project_name??'',
+			element.maintenance_price??'',
+			element.total_floors??'',
+			element.total_basements??'',
+			element.total_elevators??'',
+			element.total_units??'',
+			element.units_sold??'',
+			element.project_builts??'',
 			( ( element.location ) ? element.location.address??'':'' ),
 			( ( element.location ) ? element.location.district??'':'' ),
 			( ( element.location ) ? element.location.province??'':'' ),
 			( ( element.location ) ? element.location.department??'':'' ),
 			( ( element.location ) ? element.location.country??'':'' ),
+			( ( element.location ) ? element.location.reference??'':'' ),
 			`<span class="badge text-bg-secondary ${element.state_id}">${element.state??''}</span>`,
-			( ( element.created_at ) ? moment(element.created_at).format('DD/MM/YYYY'):'' ),
-			( ( element.ad_purchased_at ) ? moment(element.ad_purchased_at).format('DD/MM/YYYY'):'' ),
-			element.full_name??'',
-			element.ad_plan??'',
-			element.publisher_role??'',
-			element.bedrooms_count??'',
-			element.bathrooms_count??'',
-			element.area,
-			element.built_area,
-			element.parking_slots_count??'',
-			element.parking_for_visits ? 'Si': 'No',
-			element.year_of_construction??'',
-			element.total_floors_count??'',
-			element.floor_number??'',
-			element.pet_friendly ? 'Si' : 'No',
-			(element.facilities && element.facilities.length>0)?(element.facilities.map((item)=> item.title).join(', ')):'',
-			(element.advanced_details && element.advanced_details.length>0)?(element.advanced_details.map((item)=> item.title).join(', ')):'',
-			element.description??'',
 			element.images.length??'',
 			element.videos.length === 0 ? 'No' : (element.videos[0].content ? `<a href="${element.videos[0].content}" target="_blank">${element.videos[0].content}</a>` : 'No existe la url'),
+			element.objects_360.length === 0 ? 'No' : (element.objects_360[0].content ? `<a href="${element.objects_360[0].content}" target="_blank">${element.objects_360[0].content}</a>` : 'No existe la url'),
 			element.views_count??'',
 			element.favourites_count??'',
 			element.contacts_count??'',
+			element.emails_count??'',
+			element.phones_count??'',
+			element.whatsapps_count??'',
+			element.external_data??'',
+			(element.facilities && element.facilities.length>0)?(element.facilities.map((item)=> item.title).join(', ')):'',
+			(element.advanced_details && element.advanced_details.length>0)?(element.advanced_details.map((item)=> item.title).join(', ')):'',
+			element.source??'',
+			element.pet_friendly ? 'Si' : 'No',
+			element.delivery_date_year??'',
+			element.delivery_date_month??'',
+			element.finance??'',
+			( ( element.created_at ) ? moment(element.created_at).format('DD/MM/YYYY'):'' ),
+			( ( element.ad_purchased_at ) ? moment(element.ad_purchased_at).format('DD/MM/YYYY'):'' ),
 			( ( element.updated_at ) ? moment(element.updated_at).format('DD/MM/YYYY') :'' ),
-			( ( element.ad_expires_at ) ? moment(element.ad_expires_at).format('DD/MM/YYYY') :'' ),
-			element.email??'',
-			getFullNumber(prefix, phone)
+			( ( element.ad_expires_at ) ? moment(element.ad_expires_at).format('DD/MM/YYYY') :'' )
 		];
 	}
-	const modalOrder =  [
-		0, 	//ID del listing
-		9, 	//Estado
-		10, //Fecha de creación
-		11, //Fecha de publicación
-		33, //Fecha de actualización
-		34, //Fecha de expiración
-		1,  //Tipo de operación
-		2,  //Tipo de inmueble
-		3, 	//Precio
-		4, 	//Direccion
-		5, 	//Distrito
-		6, 	//Provincia
-		7, 	//Departamento
-		8, 	//Pais
-		12, //Nombre del usuario
-		35, //Email
-		36, //Telefono
-		13, //Categoria
-		14, //Rol
-		30, //Numero de vistas
-		31, //Número de favoritos
-		32, //Numero de contactos
-		15, //Cuartos
-		16, //Baños
-		17, //Area total
-		18, //Área techada
-		19, //Estacionamientos
-		20, //Estacionamiento para visitas
-		21, //Año de construcción
-		22, //Número de pisos
-		23, //Piso del inmueble
-		24, //Pet friendly
-		25, //Comodidades
-		26, //Adicionales
-		27, //Descripción
-		28, //Numero de fotos
-		29	//Video
-	];
+	const modalOrder =  [];
 	const modalTitle = (element, globalRecords = []) =>{
 		let rowInfo = globalRecords.filter((item)=> item.id == element);
 		let url_external = URL_WEB_FRONT + rowInfo[0].url_external ?? '';
 
 		return `Detalles para <a target="_blank" href="${url_external}">${element}</a>`;
 	}
-	const columnsHidden = [7, 8, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34,35,36];
-	const columnsDates = [10, 11, 33, 34];
+	const columnsHidden = [2, 8, 9, 10, 11, 12, 14, 15, 16, 17, 18, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40];
+	const columnsDates = [37, 38, 39, 40];
 	const options = {
 		processParams,
 		headers,
 		filtersFields,
-		storageView : 'filter_avisos',
+		storageView : 'filter_proyectos',
 		columnsHidden,
 		columnsDates,
 		modalOrder,
 		modalTitle,
-		url: 'app/listing/listings'
+		url: 'app/ads/projects'
 	};
 	
 	datatable(options);

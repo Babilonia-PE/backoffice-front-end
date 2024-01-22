@@ -34,6 +34,21 @@ ini_set('display_errors', 1);
 ini_set("log_errors", 1);
 ini_set("error_log", URL_LOGS . "errors/" . date("Y-m-d") . ".log");
 
+$app_lang_project_type = [
+    "all" => "Todos",
+    "residential" => "Residenciales",
+    "beach_house" => "Casa de playa",
+    "cottage" => "Casa de campo",
+    "office" => "Oficinas",
+    "both" => "Mixto"
+];
+$app_lang_project_stage = [
+    "all" => "Todas",
+    "plans" => "En planos",
+    "in_construction" => "En construcción",
+    "soon" => "Proxima entrega",
+    "ready" => "Entrega inmediata"
+];
 $app_lang_listing_type = [
     "all" => "Todos",
     "sale" => "Venta",
@@ -87,7 +102,8 @@ $app_lang_state = [
     "published" => "Publicado",
     "not_published" => "No publicado",
     "unpublished" => "Despublicado",
-    "expired" => "Expirado"
+    "expired" => "Expirado",
+    "deleted" => "Eliminado"
 ];
 $app_lang_leads_keys = [
     "phone_view" => 'Telefono',
@@ -127,6 +143,8 @@ $filtersParamsTypes = [
     'USER'=> 'user',
     'DATE'=> 'date'
 ];
+define("APP_LANG_PROJECT_TYPE", $app_lang_project_type);
+define("APP_LANG_PROJECT_STAGE", $app_lang_project_stage);
 define("APP_VERSION", $_SERVER["VERSION"]??time());
 define("APP_LANG_LISTING_TYPE", $app_lang_listing_type);
 define("APP_LANG_PROPERTY_TYPE", $app_lang_property_type);
