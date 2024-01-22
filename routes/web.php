@@ -13,10 +13,12 @@ use App\Controllers\LoginController;
 use App\Controllers\ViewsController;
 use App\Controllers\ViewsProjectsController;
 use App\Controllers\AvisosController;
+use App\Controllers\ClaimsController;
 use App\Controllers\ListasController;
 use App\Controllers\AccountController;
 use App\Controllers\AlertasController;
 use App\Controllers\ClientesController;
+use App\Controllers\ContactsController;
 use App\Controllers\PaquetesController;
 use App\Controllers\ReportesController;
 use App\Controllers\ProyectosController;
@@ -72,6 +74,9 @@ $router
                 
                 ->get("/views-avisos", [ViewsController::class, "index"])
                 ->get("/views-proyectos", [ViewsProjectsController::class, "index"])
+
+                ->get("/reclamos", [ClaimsController::class, "index"])
+                ->get("/contactos", [ContactsController::class, "index"])
                 
                 ->get("/reportes-id", [ReportesIdController::class, "index"]);
         });

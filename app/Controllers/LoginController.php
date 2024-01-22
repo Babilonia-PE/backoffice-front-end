@@ -79,8 +79,9 @@ class LoginController{
             $_dni = $info[$i]['employeeid'][0] ?? 0;
             $_name = $info[$i]['cn'][0] ?? '';
             $_email = $info[$i]['mail'][0] ?? '';
+            $_type = $info[$i]['employeetype'][0] ?? '';
             $_username = $info[$i]['samaccountname'][0] ?? '';
-            
+
             $secret_key = AccountManager::verifySecondAuthSaved($_username);
 
             $usersStore = Authentication::getUserByDNI($_dni);
@@ -98,7 +99,7 @@ class LoginController{
                 "name" =>$_name,
                 "email" =>$_email,
                 "username" =>$_username,
-                "role" => "",
+                "role" => $_type,
                 "approved" => false,
                 "2fa-disabled" => $usersAuthDisable
             ];

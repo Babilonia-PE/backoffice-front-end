@@ -105,7 +105,7 @@
 
 @section('page')
 
-Clientes
+Reclamos
 
 @endsection
 
@@ -126,53 +126,17 @@ Clientes
 				<div class="row align-items-end">
               		<div class="col-md-4">
                 		<div class="form-group">
-                  			<label>User ID</label>
-                  			<input type="text" class="form-control" id="id" placeholder="User ID">
-                		</div>
-                	</div>
-              		<div class="col-md-4">
-                		<div class="form-group">
-                  			<label>RUC</label>
-                  			<input type="text" class="form-control" id="company_id" placeholder="RUC">
-                		</div>
-                	</div>
-              		<div class="col-md-4">
-                		<div class="form-group">
-                  			<label>Razón social</label>
-                  			<input type="text" class="form-control" id="company_name" placeholder="Razón social">
+                  			<label>Nombre o email</label>
+                  			<input type="text" class="form-control" id="keyword" placeholder="Nombre o email">
                 		</div>
                 	</div>
               		<div class="col-md-4">
                 		<div class="form-group">
                   			<label>Estado</label>
-							@component("components.select", ['data'=>APP_LANG_STATE, 'id' => "state", 'placeholder' => 'Estado', 'first' => true])
-							@endcomponent  
+							@component("components.select", ['data'=>APP_LANG_CLAIMS_STATE, 'id' => "state", 'placeholder' => 'Estado', 'first' => true])
+							@endcomponent
                 		</div>
-                	</div>
-              		<div class="col-md-4">
-                		<div class="form-group">
-                  			<label>Nombre comercial</label>
-                  			<input type="text" class="form-control" id="commercial_name" placeholder="Nombre comercial">
-                		</div>
-                	</div>
-              		<div class="col-md-4">
-                		<div class="form-group">
-                  			<label>Nombre completo</label>
-                  			<input type="text" class="form-control" id="full_name" placeholder="Nombre completo">
-                		</div>
-                	</div>
-              		<div class="col-md-4">
-                		<div class="form-group">
-                  			<label>Correo</label>
-                  			<input type="email" class="form-control" id="email" placeholder="Correo">
-                		</div>
-                	</div>
-              		<div class="col-md-4">
-                		<div class="form-group">
-                  			<label>Teléfono</label>
-                  			<input type="phone_number" class="form-control" id="phone_number" placeholder="Teléfono">
-                		</div>
-                	</div>
+                	</div>              		
 					<div class="col-md-4">
 						<div class="form-group">
 							<label for="exampleInputEmail1">Fecha de creación (Desde - Hasta)</label>
@@ -251,28 +215,22 @@ Clientes
 	setMask('#created_end', { mask: "99/99/9999", showMaskOnHover: false, placeholder: "dd/mm/yyyy", rightAlign:false });
 </script>
 <script>
-		
+	const STATE_BAGES = {
+		1 : "info",
+		2 : "success",
+		3 : "warning",
+		4 : "Light",
+	}
 	const headers = [
-		{ "title": "ID", "code": "id", "sortable": true },
+		{ "title": "ID", "code": "id", "sortable": true },		
 		{ "title": "Nombre", "code": "full_name", "sortable": true },
 		{ "title": "Email", "code": "email", "sortable": true },
 		{ "title": "Teléfono", "code": "phone_number", "sortable": true },
-		{ "title": "Nombre comercial" },
-		{ "title": "Creación", "code": "created_at", "sortable": true },
-		{ "title": "Ultimo acceso", "code": "last_login", "sortable": true },
+		{ "title": "Documento tipo", "code": "document_type", "sortable": true },
+		{ "title": "Documento", "code": "document_number", "sortable": true },
 		{ "title": "Estado", "code": "state", "sortable": true },
-		{ "title": "Razon social" },
-		{ "title": "RUC" },
-		{ "title": "Dirección" },
-		{ "title": "Descripción" },
-		{ "title": "Colecciones" },
-		{ "title": "Interesados" },
-		{ "title": "Avisos" },
-		{ "title": "Proyectos" },
-		{ "title": "Estadísticas" },
-		{ "title": "URL" },			
-		{ "title": "Auth", "code": "sign_method", "sortable": true },
-		{ "title": "Actualización", "code": "actualizacion", "sortable": true },
+		{ "title": "Descripción", "code": "description", },
+		{ "title": "Fecha de creación", "code": "created_at", "sortable": true },
 		{ "title": "Acciones" }
 	];
 	const filtersFields = [
@@ -280,25 +238,10 @@ Clientes
 			name: 'id'
 		},
 		{
-			name: 'company_id'
-		},
-		{
-			name: 'company_name'
+			name: 'keyword'
 		},
 		{
 			name: 'state'
-		},
-		{
-			name: 'commercial_name',
-		},
-		{
-			name: 'full_name',
-		},
-		{
-			name: 'email',
-		},
-		{
-			name: 'phone_number',
 		},
 		{
 			name: 'created_start',
@@ -310,59 +253,41 @@ Clientes
 		}
 	];
 	const processParams = (element) =>{
-
-		let urlClient = URL_WEB_FRONT + ((element.url && element.url!=null)?element.url:'');
-
+       
 		return [
 			element.id??'',
 			element.full_name??'',
-			(element.email) ? `${element.email} <button class="badge text-bg-primary btn-primary text-danger-emphasis text-dark" type="button" data-copy="inner" data-value="${element.email}"><i class="far fa-copy text-white"></i></button>`:'',
-			getFullNumber(element.prefix, element.phone_number),
-			( ( element.company ) ? element.company.commercial_name??'':'' ),
+			element.email??'',
+			getFullNumber(element.prefix??'', element.phone_number??''),
+			element.document_type??'',
+			element.document_number??'',
+			(`<span class="badge text-bg-secondary badge-${STATE_BAGES[element.state_id]}">${element.state}</span>`),
+			element.description??'',
 			moment(element.created_at).format('DD/MM/YYYY'),
-			moment(element.last_login).format('DD/MM/YYYY'),
-			(`<span class="badge text-bg-secondary badge-${element.state_id}">${element.state}</span>`),
-			( ( element.company ) ? element.company.name??'':'' ),
-			( ( element.company ) ? element.company.id??'':'' ),
-			( ( element.company ) ? element.company.commercial_address??'':'' ),
-			( ( element.company ) ? element.company.commercial_description??'':'' ),
-			( element.permissions??{} ).collections? 'SI':'NO',
-			( element.permissions??{} ).interested? 'SI':'NO',
-			( element.permissions??{} ).my_listings? 'SI':'NO',
-			( element.permissions??{} ).my_projects? 'SI':'NO',
-			( element.permissions??{} ).stadistics? 'SI':'NO',
-			( element.url && element.url!=null) ? `<a href="${urlClient}" target="_blank">${urlClient} <i class="fas fa-external-link-alt"></i></a>` : '',							
-			( element.sign_method??"" ),
-			moment(element.update_at).format('DD/MM/YYYY'),
 		];
 	}
 	const modalOrder =  [];
 	const modalTitle = (element, globalRecords = []) =>{
 	}
 	const initParams = ()=>{
-		copyToClipboard();
 	}
 	const initParamsModal = ()=>{
-		copyToClipboard();
 	}
-	const columnsHidden = [0, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17];
-	const columnsDates = [15];
+	const columnsHidden = [4, 5, 7, 8];
+	const columnsDates = [8];
 	const options = {
 		processParams,
 		headers,
 		filtersFields,
-		storageView : 'filter_clientes',
 		columnsHidden,
 		columnsDates,
 		modalOrder,
 		modalTitle,
 		initParams,
 		initParamsModal,
-		url: 'app/user/users'
+		url: 'app/claim/claims'
 	};
 	
 	datatable(options);
-
-	copyToClipboard();
 </script>
 @endsection

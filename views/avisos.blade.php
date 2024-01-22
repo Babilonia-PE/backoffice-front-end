@@ -272,7 +272,7 @@ Avisos
 <script src="public/plugins/LibDataTables/Buttons-2.4.2/js/buttons.html5.min.js"></script>
 <script src="public/plugins/LibDataTables/Buttons-2.4.2/js/buttons.colVis.min.js"></script>
 <script src="public/plugins/LibDataTables/ColReorder-1.7.0/js/dataTables.colReorder.min.js"></script>
-<script src="@asset("public/assets/js/components/datatable.js")"></script>
+<script src="@asset("public/assets/js/components/datatable.js")?v={{ APP_VERSION }}"></script>
 <!-- Select2 -->
 <script src="public/plugins/select2/js/select2.full.min.js"></script>
 <script>
@@ -295,19 +295,19 @@ Avisos
 		"owner" : "Propietario"
 	};
 	const headers = [
-			{ "title": "ID del listing", "code": "id", "sortable": true },
-			{ "title": "Tipo de operación", "code": "listing_type" },
-			{ "title": "Tipo de inmueble", "code": "property_type" },
+			{ "title": "ID", "code": "id", "sortable": true },
+			{ "title": "Operación", "code": "listing_type" },
+			{ "title": "Inmueble", "code": "property_type" },
 			{ "title": "Precio", "code": "price", "sortable": true },
-			{ "title": "Direccion" },
+			{ "title": "Dirección" },
 			{ "title": "Distrito" },
 			{ "title": "Provincia" },
 			{ "title": "Departamento" },
-			{ "title": "Pais" },
+			{ "title": "País" },
 			{ "title": "Estado", "code": "state", "sortable": true },
-			{ "title": "Fecha de creación", "created_date": "id", "sortable": true },
-			{ "title": "Fecha de publicación", "code": "purchased_date", "sortable": true },
-			{ "title": "Nombre del usuario" },
+			{ "title": "Creación", "created_date": "id", "sortable": true },
+			{ "title": "Publicación", "code": "purchased_date", "sortable": true },
+			{ "title": "Nombres" },
             { "title": "Categoria" },
             { "title": "Rol" },
             { "title": "Cuartos" },
@@ -328,8 +328,8 @@ Avisos
             { "title": "Numero de vistas" },
             { "title": "Número de favoritos" },
             { "title": "Numero de contactos" },
-            { "title": "Fecha de actualización", "code": "updated_date", "sortable": true },
-            { "title": "Fecha de expiración", "code": "expires_date", "sortable": true },
+            { "title": "Actualización", "code": "updated_date", "sortable": true },
+            { "title": "Expiración", "code": "expires_date", "sortable": true },
             { "title": "Email", "code": "email", "sortable": true },
             { "title": "Teléfono", "code": "phone", "sortable": true },
 			{ "title": "Acciones" }

@@ -97,10 +97,9 @@ class ConfigurationUsersController extends Permissions{
 
         if($user == null) return redirect();
 
-
         $permissions = Store::readDb($this->dbPermission);
-        if(count($permissions) > 0) $user["permissionsList"] = $permissions;
-
+        if(count($permissions) > 0) $user["permissionsList"] = $permissions;        
+        
         echo view("configuracion-usuarios-detalle", [
             "currentPage" => "configuration-usuarios-detalle",
             "data" => $user
@@ -120,7 +119,7 @@ class ConfigurationUsersController extends Permissions{
 
             if(in_array($dni, $this->usersAdmin)){
                 $userPermissionsvalue = "Super Admin";
-                $userStore[$key]["permissions"] = 777;
+                #$userStore[$key]["permissions"] = 777;
                 
             }else{
                 $userPermissionsvalue = $permisionsLevel[$permissions]["name"] ?? 'No asignado';

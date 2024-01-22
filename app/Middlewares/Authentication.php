@@ -85,14 +85,10 @@ class Authentication{
         //dd($permission);
     }
 
-    public static function findUserByDNI(){
-        $users = env("APP_USERS_IDENTIFY");
-        $users = isset($users) && $users!=null ? explode(",", $users) : [];
-        
+    public static function findUserByDNI(){ // !PENDIENTE: Cambiar nombre de metodo
         $userSession = SesionService::leer("correoUsuario");
-        $dni = $userSession["dni"] ?? '';
-        $validateUser = in_array($dni, $users);
-        return $validateUser;
+        $role = $userSession["role"] ?? '';
+        return $role == USER_ADMIN ? true : false;
     }
 
     public static function getUserByDNI($dni){

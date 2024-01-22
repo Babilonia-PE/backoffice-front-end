@@ -1,5 +1,3 @@
-const baseUrlSerivice = 'https://services-testing.babilonia.io/';
-
 window.setMask = (selector, mask) => {
     let item = $(selector);
     if( item.attr("maxlength") ){
@@ -33,7 +31,7 @@ window.setMask = (selector, mask) => {
 
 const fetchData = async (url = "", data = null, method = 'POST') => {   
     const serviceHttp = await axios.create({
-                            baseURL: baseUrlSerivice,
+                            baseURL: APP_BASE_EP,
                             headers: {
                                 'Accept-Language': 'es',
                                 'accept': 'application/json'
