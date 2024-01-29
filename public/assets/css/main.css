@@ -71,3 +71,34 @@ table.dataTable thead .sorting_desc:before {
   padding-top: 2px;
   display: inline-block;
 }
+.card-body.table-responsive{
+  overflow: visible;
+}
+/*
+body:has(.dt-button-collection){
+  background: #f4f6f9!important;
+  background-color: #f4f6f9!important;
+}
+body:has(.dt-button-collection) footer.main-footer{
+  position: fixed!important;
+  width: 100%;
+  bottom: 0;
+  z-index: 9;
+}
+body:has(.dt-button-collection) div.content-wrapper{
+  margin-bottom: 4rem;
+}
+*/
+body.colvis-btn{
+  background: #f4f6f9!important;
+  background-color: #f4f6f9!important;
+}
+body.colvis-btn footer.main-footer{
+  position: fixed!important;
+  width: 100%;
+  bottom: 0;
+  z-index: 9;
+}
+body.colvis-btn div.content-wrapper{
+  margin-bottom: 4rem;
+}
