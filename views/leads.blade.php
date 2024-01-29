@@ -216,7 +216,7 @@ Leads Avisos
 <script src="public/plugins/LibDataTables/Buttons-2.4.2/js/buttons.html5.min.js"></script>
 <script src="public/plugins/LibDataTables/Buttons-2.4.2/js/buttons.colVis.min.js"></script>
 <script src="public/plugins/LibDataTables/ColReorder-1.7.0/js/dataTables.colReorder.min.js"></script>
-<script src="@asset("public/assets/js/components/datatable.js")"></script>
+<script src="@asset("public/assets/js/components/datatable.js")?v={{ APP_VERSION }}"></script>
 <!-- Select2 -->
 <script src="public/plugins/select2/js/select2.full.min.js"></script>
 <script>
@@ -225,16 +225,16 @@ Leads Avisos
 </script>
 <script>	
 	const headers = [
-		{ "title": "ID del lead", "code": "id", "sortable": true },
+		{ "title": "ID", "code": "id", "sortable": true },
 		{ "title": "ID del aviso", "code": "listing_id", "sortable": true },
 		{ "title": "Key", "code": "key", "sortable": true },
 		{ "title": "Origen", "code": "source", "sortable": true },
 		{ "title": "Id del usuario" },
-		{ "title": "Nombre completo" },
+		{ "title": "Nombres" },
 		{ "title": "Email", "code": "email" },
-		{ "title": "Celular" },
-		{ "title": "Fecha de creación", "code": "created_at", "sortable": true },
-		{ "title": "Fecha de actualización" },
+		{ "title": "Teléfono" },
+		{ "title": "Creación", "code": "created_at", "sortable": true },
+		{ "title": "Actualización" },
 		{ "title": "Acciones" }
 	];
 	const filtersFields = [

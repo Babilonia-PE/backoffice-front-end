@@ -276,7 +276,7 @@ const datatable = (options = {})=>{
             columns: ':not(.noVis)',
 			text: "Ocultar columnas",
 			columnText: function(dt, idx, title ){
-				let title_clean =  headers[idx]["title_clean"]??title;
+				let title_clean =(typeof headers[idx] === "object" && headers[idx].hasOwnProperty("title_clean"))?headers[idx]["title_clean"]:title;
 				return title_clean;
 			}
 		},
