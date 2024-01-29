@@ -168,3 +168,17 @@ const toCamelCase = (inputString = null) => {
     }).replace(/\s+/g, '');
 }
 setActiveMenu();
+
+$(document).on("click", ".buttons-colvis", async function() {
+    const table = $(".dataTables_wrapper");
+    const btn = $(".dt-button-collection");
+    console.log( btn.height() + " " + table.height() );
+    if( btn.height() > table.height() ){
+        $("body").addClass("colvis-btn");
+    }
+});
+$(document).on("DOMNodeRemoved", function(e){
+    if( $(e.target).attr('class') == 'dropdown-menu dt-button-collection' ){
+        $("body").removeClass("colvis-btn");
+    }
+});
