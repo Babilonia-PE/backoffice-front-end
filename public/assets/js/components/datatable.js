@@ -443,10 +443,6 @@ const datatable = (options = {})=>{
 
 			ajax: {
 				"url": APP_BASE_EP + url,
-				headers: {
-					'Accept-Language': APP_LANG,
-            		'accept': 'application/json',					
-				},
 				"type": 'GET',
 				"data": function ( data ) {
 					let start = parseInt(data.start);
@@ -464,17 +460,23 @@ const datatable = (options = {})=>{
                     for(let i in filtersFields){
                         let {
                             name='',
-                            type=''
+                            type='',
+                            value=''
                         } = filtersFields[i] ?? {};
 
-                        if(document.getElementById(name) == null || document.getElementById(name).value == '') continue;
-            
-                        let fieldValue = document.getElementById(name).value;
-                            if(type == filtersParamsTypes.DATE)
-                            fieldValue = moment(fieldValue, "DD/MM/YYYY").format('YYYY-MM-DD');
-                            data[name] = fieldValue;
+						if( type == 'static' ){
+							data[name] = value;
+						}else{
+							if(document.getElementById(name) == null || document.getElementById(name).value == '') continue;
+				
+							let fieldValue = document.getElementById(name).value;
+								if(type == filtersParamsTypes.DATE)
+								fieldValue = moment(fieldValue, "DD/MM/YYYY").format('YYYY-MM-DD');
+								data[name] = fieldValue;
+						}
                     }
 
+					delete data.length;
 					delete data.searchPanes;
 					delete data.searchPanesLast;
 					delete data.searchPanes_null;

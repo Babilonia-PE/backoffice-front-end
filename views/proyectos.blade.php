@@ -22,9 +22,11 @@
 	div.dataTables_wrapper div.dataTables_processing {
 		position: fixed;
 		top: 30%!important;
-		left: 50%;
+		left: calc(50% - 100px);
+		/*left: 50%;*/
 		margin: 0;
 		z-index: 999;
+		width: 200px;
 	}
     .dataTables_wrapper .dt-buttons{
         gap: .5rem;
@@ -327,6 +329,16 @@ Proyectos
 	];
 	const filtersFields = [
 		{
+			name: 'parent',
+			type: 'static',
+			value: 'ad'
+		},
+		{
+			name: 'child',
+			type: 'static',
+			value: 'projects'
+		},
+		{
 			name: 'state'
 		},
 		{
@@ -441,7 +453,7 @@ Proyectos
 		columnsDates,
 		modalOrder,
 		modalTitle,
-		url: 'app/ads/projects'
+		url: 'app/gateway'
 	};
 	
 	datatable(options);
