@@ -126,6 +126,12 @@ Avisos
             </div>
             <div class="card-body">
 				<div class="row align-items-end">
+					<div class="col-md-4">
+                		<div class="form-group">
+                  			<label>ID del aviso</label>
+                  			<input type="text" class="form-control" id="id" placeholder="ID del aviso">
+                		</div>
+                	</div>
               		<div class="col-md-4">
                 		<div class="form-group">
                   			<label>Estado</label>
@@ -332,8 +338,8 @@ Avisos
             { "title": "Numero de contactos" },
             { "title": "Actualización", "code": "updated_date", "sortable": true },
             { "title": "Expiración", "code": "expires_date", "sortable": true },
-            { "title": "Email", "code": "email", "sortable": true },
-            { "title": "Teléfono", "code": "phone", "sortable": true },
+            { "title": "Email" },
+            { "title": "Teléfono" },
 			{ "title": "Acciones" }
 	];
 	const filtersFields = [
@@ -346,6 +352,9 @@ Avisos
 			name: 'child',
 			type: 'static',
 			value: 'listings'
+		},
+		{
+			name: 'id'
 		},
 		{
 			name: 'state'

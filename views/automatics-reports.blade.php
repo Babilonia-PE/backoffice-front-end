@@ -53,7 +53,7 @@ Reportes automáticos
 					</thead>
 					<tbody>
 						<tr>
-							<td>Leads</td>
+							<td>Agentes pago vs Leads</td>
 							<td>
 								<a href="https://app-testing.babilonia.io/assets/reports/leadsAgentsDitricts.xlsx" download class="btn-action download">
 									<i class="fas fa-download"></i>
