@@ -327,6 +327,16 @@ Proyectos
 	];
 	const filtersFields = [
 		{
+			name: 'parent',
+			type: 'static',
+			value: 'ad'
+		},
+		{
+			name: 'child',
+			type: 'static',
+			value: 'projects'
+		},
+		{
 			name: 'state'
 		},
 		{
@@ -441,7 +451,7 @@ Proyectos
 		columnsDates,
 		modalOrder,
 		modalTitle,
-		url: 'app/ads/projects'
+		url: 'app/gateway'
 	};
 	
 	datatable(options);
