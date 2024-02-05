@@ -24,6 +24,7 @@ use App\Controllers\ProyectosController;
 use App\Controllers\ReportesIdController;
 use App\Controllers\LeadsProjectsController;
 use App\Controllers\ViewsProjectsController;
+use App\Controllers\AutomaticReportsController;
 use App\Controllers\ConfigurationMenuController;
 use App\Controllers\ConfigurationUsersController;
 use App\Controllers\ConfigurationPermissionsController;
@@ -77,6 +78,7 @@ $router
 
                 ->get("/reclamos", [ClaimsController::class, "index"])
                 ->get("/contactos", [ContactsController::class, "index"])
+                ->get("/reportes-automaticos", [AutomaticReportsController::class, "index"])
                 
                 ->get("/reportes-id", [ReportesIdController::class, "index"]);
         });
