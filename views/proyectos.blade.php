@@ -126,6 +126,12 @@ Proyectos
             </div>
             <div class="card-body">
 				<div class="row align-items-end">
+					<div class="col-md-4">
+                		<div class="form-group">
+                  			<label>ID del proyecto</label>
+                  			<input type="text" class="form-control" id="id" placeholder="ID del aviso">
+                		</div>
+                	</div>
               		<div class="col-md-4">
                 		<div class="form-group">
                   			<label>Estado</label>
@@ -325,6 +331,9 @@ Proyectos
 			{ "title": "Publicación", "code": "purchased_date", "sortable": true },
             { "title": "Actualización", "code": "updated_date", "sortable": true },
             { "title": "Expiración", "code": "expires_date", "sortable": true },
+			{ "title": "Nombres" },
+            { "title": "Email" },
+            { "title": "Teléfono" },
 			{ "title": "Acciones" }
 	];
 	const filtersFields = [
@@ -337,6 +346,9 @@ Proyectos
 			name: 'child',
 			type: 'static',
 			value: 'projects'
+		},
+		{
+			name: 'id'
 		},
 		{
 			name: 'state'
@@ -432,7 +444,10 @@ Proyectos
 			( ( element.created_at ) ? moment(element.created_at).format('DD/MM/YYYY'):'' ),
 			( ( element.ad_purchased_at ) ? moment(element.ad_purchased_at).format('DD/MM/YYYY'):'' ),
 			( ( element.updated_at ) ? moment(element.updated_at).format('DD/MM/YYYY') :'' ),
-			( ( element.ad_expires_at ) ? moment(element.ad_expires_at).format('DD/MM/YYYY') :'' )
+			( ( element.ad_expires_at ) ? moment(element.ad_expires_at).format('DD/MM/YYYY') :'' ),
+			element.full_name??'',
+			element.email??'',
+			getFullNumber(prefix, phone)
 		];
 	}
 	const modalOrder =  [];
@@ -442,7 +457,7 @@ Proyectos
 
 		return `Detalles para <a target="_blank" href="${url_external}">${element}</a>`;
 	}
-	const columnsHidden = [2, 8, 9, 10, 11, 12, 14, 15, 16, 17, 18, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40];
+	const columnsHidden = [2, 8, 9, 10, 11, 12, 14, 15, 16, 17, 18, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43];
 	const columnsDates = [37, 38, 39, 40];
 	const options = {
 		processParams,
