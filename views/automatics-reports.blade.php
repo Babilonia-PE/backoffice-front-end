@@ -57,7 +57,7 @@ Reportes automáticos
 							<td>1</td>
 							<td>Agentes pago vs Leads</td>
 							<td>
-								<a href="https://app.babilonia.io/assets/reports/leadsAgentsDitricts.xlsx" download class="btn-action download">
+								<a href="{{ env('URL_WEB') }}/assets/reports/leadsAgentsDitricts.xlsx" download class="btn-action download">
 									<i class="fas fa-download"></i>
 								</a>
 							</td>
@@ -66,7 +66,7 @@ Reportes automáticos
 							<td>2</td>
 							<td>Agentes leads vs Distritos, ruta</td>
 							<td>
-								<a href="app.babilonia.io/assets/reports/agentsLeadsDitricts.xlsx" download class="btn-action download">
+								<a href="{{ env('URL_WEB') }}/assets/reports/agentsLeadsDitricts.xlsx" download class="btn-action download">
 									<i class="fas fa-download"></i>
 								</a>
 							</td>
