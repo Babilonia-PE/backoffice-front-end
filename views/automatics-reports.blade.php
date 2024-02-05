@@ -47,15 +47,26 @@ Reportes automáticos
                 <table class="display table table-bordered table-striped nowrap compact responsive d-none" cellspacing="0" width="100%">
 					<thead>
 						<tr>
+							<th>N°</th>
 							<th>Reporte</th>
 							<th width="1%"></th>
 						</tr>
 					</thead>
 					<tbody>
 						<tr>
+							<td>1</td>
 							<td>Agentes pago vs Leads</td>
 							<td>
-								<a href="https://app-testing.babilonia.io/assets/reports/leadsAgentsDitricts.xlsx" download class="btn-action download">
+								<a href="{{ env('URL_WEB') }}/assets/reports/leadsAgentsDitricts.xlsx" download class="btn-action download">
+									<i class="fas fa-download"></i>
+								</a>
+							</td>
+						</tr>
+						<tr>
+							<td>2</td>
+							<td>Agentes leads vs Distritos, ruta</td>
+							<td>
+								<a href="{{ env('URL_WEB') }}/assets/reports/agentsLeadsDitricts.xlsx" download class="btn-action download">
 									<i class="fas fa-download"></i>
 								</a>
 							</td>
