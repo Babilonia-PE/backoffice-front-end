@@ -22,9 +22,11 @@
 	div.dataTables_wrapper div.dataTables_processing {
 		position: fixed;
 		top: 30%!important;
-		left: 50%;
+		left: calc(50% - 100px);
+		/*left: 50%;*/
 		margin: 0;
 		z-index: 999;
+		width: 200px;
 	}
     .dataTables_wrapper .dt-buttons{
         gap: .5rem;
