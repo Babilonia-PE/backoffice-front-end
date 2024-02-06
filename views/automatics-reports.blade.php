@@ -49,24 +49,30 @@ Reportes automáticos
 						<tr>
 							<th>N°</th>
 							<th>Reporte</th>
+							<th>Descripción</th>
+							<th>Frecuencia</th>
 							<th width="1%"></th>
 						</tr>
 					</thead>
 					<tbody>
 						<tr>
 							<td>1</td>
-							<td>Agentes pago vs Leads</td>
+							<td>Agentes pagos VS Leads</td>
+							<td>Reporte de agentes con paquetes pagados vs Leads generados</td>
+							<td>Mes anterior</td>
 							<td>
-								<a href="{{ env('URL_WEB') }}/assets/reports/leadsAgentsDitricts.xlsx" download class="btn-action download">
+								<a href="{{ env('URL_WEB') }}assets/reports/agentsBuyedLeads.xlsx" download class="btn-action download">
 									<i class="fas fa-download"></i>
 								</a>
 							</td>
 						</tr>
 						<tr>
 							<td>2</td>
-							<td>Agentes leads vs Distritos, ruta</td>
+							<td>Agentes leads vs Distritos</td>
+							<td>Reporte de agentes con paquetes pagados vs Cantidad de inmuebles en cada distrito</td>
+							<td>Ayer</td>
 							<td>
-								<a href="{{ env('URL_WEB') }}/assets/reports/agentsLeadsDitricts.xlsx" download class="btn-action download">
+								<a href="{{ env('URL_WEB') }}assets/reports/agentsLeadsDitricts.xlsx" download class="btn-action download">
 									<i class="fas fa-download"></i>
 								</a>
 							</td>
