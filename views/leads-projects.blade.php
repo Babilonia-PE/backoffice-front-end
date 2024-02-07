@@ -228,11 +228,14 @@ Leads Proyectos
 		{ "title": "ID", "code": "id", "sortable": true },
 		{ "title": "ID del proyecto", "code": "listing_id", "sortable": true },
 		{ "title": "Key", "code": "key", "sortable": true },
-		{ "title": "Origen", "code": "source", "sortable": true },
+		{ "title": "Tipo" },
+		{ "title": "Etapa" },
+		{ "title": "Proyecto" },
 		{ "title": "Id del usuario" },
 		{ "title": "Nombres" },
 		{ "title": "Email", "code": "email" },
 		{ "title": "teléfono" },
+		{ "title": "Origen", "code": "source", "sortable": true },
 		{ "title": "Creación", "code": "created_at", "sortable": true },
 		{ "title": "Actualización" },
 		{ "title": "Acciones" }
@@ -277,11 +280,14 @@ Leads Proyectos
 			element.id,
 			element.project_id,
 			element.key ? element.key : '',
-			element.source??'',
+			element.project_type??'',
+			element.stage??'',
+			element.project_name??'',
 			element.user_id,
 			element.full_name,
 			element.email,
 			getFullNumber(prefix, phone),
+			element.source??'',
 			moment(element.created_at).format('DD/MM/YYYY'),
 			moment(element.updated_at).format('DD/MM/YYYY')
 		];
@@ -290,8 +296,8 @@ Leads Proyectos
 	const modalTitle = () =>{
 		
 	}
-	const columnsHidden = [4,9];
-	const columnsDates = [8,9];
+	const columnsHidden = [0,2,6,10,12];
+	const columnsDates = [11,12];
 	const options = {
 		processParams,
 		headers,
