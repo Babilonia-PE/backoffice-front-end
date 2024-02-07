@@ -227,12 +227,15 @@ Leads Avisos
 	const headers = [
 		{ "title": "ID", "code": "id", "sortable": true },
 		{ "title": "ID del aviso", "code": "listing_id", "sortable": true },
+		{ "title": "Inmueble" },
+		{ "title": "Precio" },
+		{ "title": "Distrito" },
 		{ "title": "Key", "code": "key", "sortable": true },
-		{ "title": "Origen", "code": "source", "sortable": true },
 		{ "title": "Id del usuario" },
 		{ "title": "Nombres" },
 		{ "title": "Email", "code": "email" },
 		{ "title": "Teléfono" },
+		{ "title": "Origen", "code": "source", "sortable": true },
 		{ "title": "Creación", "code": "created_at", "sortable": true },
 		{ "title": "Actualización" },
 		{ "title": "Acciones" }
@@ -276,12 +279,15 @@ Leads Avisos
 		return [
 			element.id,
 			element.listing_id,
+			element.property_type,
+			element.price,
+			element.district,
 			element.key ? element.key : '',
-			element.source??'',
 			element.user_id,
 			element.full_name,
 			element.email,
 			getFullNumber(prefix, phone),
+			element.source??'',
 			moment(element.created_at).format('DD/MM/YYYY'),
 			moment(element.updated_at).format('DD/MM/YYYY')
 		];
@@ -290,8 +296,8 @@ Leads Avisos
 	const modalTitle = () =>{
 		
 	}
-	const columnsHidden = [4,9];
-	const columnsDates = [8,9];
+	const columnsHidden = [0,5,6,10,12];
+	const columnsDates = [11,12];
 	const options = {
 		processParams,
 		headers,
