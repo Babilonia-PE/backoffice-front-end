@@ -227,6 +227,7 @@ Views Proyectos
 			{ "title": "Tipo", "code": "project_type" },
 			{ "title": "Etapa", "code": "stage" },
 			{ "title": "Nombre del proyecto", "code": "project_name" },
+			{ "title": "Distrito", "code": "district" },
 			{ "title": "Id usuario", "code": "user_id" },
 			{ "title": "Nombres", "code": "full_name" },
 			{ "title": "Email", "code": "email" },
@@ -270,6 +271,7 @@ Views Proyectos
 			element.project_type??'',
 			element.stage??'',
 			element.project_name??'',
+			element.district??'',
 			element.user_id??'',
 			element.full_name??'',
 			element.email??'',
@@ -283,8 +285,8 @@ Views Proyectos
 	const modalTitle = () =>{
 		
 	}
-	const columnsHidden = [0, 5];
-	const columnsDates = [10, 11];
+	const columnsHidden = [0, 6];
+	const columnsDates = [11, 12];
 	const options = {
 		processParams,
 		headers,
