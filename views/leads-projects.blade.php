@@ -242,6 +242,16 @@ Leads Proyectos
 	];
 	const filtersFields = [
 		{
+			name: 'parent',
+			type: 'static',
+			value: 'view'
+		},
+		{
+			name: 'child',
+			type: 'static',
+			value: 'projects'
+		},
+		{
 			name: 'listing_id'
 		},
 		{
@@ -307,7 +317,7 @@ Leads Proyectos
 		columnsDates,
 		modalOrder,
 		modalTitle,
-		url: 'app/lead/projects'
+		url: 'app/gateway'
 	};
 	
 	datatable(options);

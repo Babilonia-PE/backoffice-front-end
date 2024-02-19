@@ -239,6 +239,16 @@ Views Avisos
 	];
 	const filtersFields = [
 		{
+			name: 'parent',
+			type: 'static',
+			value: 'view'
+		},
+		{
+			name: 'child',
+			type: 'static',
+			value: 'listings'
+		},
+		{
 			name: 'listing_id'
 		},
 		{
@@ -296,7 +306,7 @@ Views Avisos
 		columnsDates,
 		modalOrder,
 		modalTitle,
-		url: 'app/view/listings'
+		url: 'app/gateway'
 	};
 	
 	datatable(options);

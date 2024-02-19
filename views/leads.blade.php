@@ -227,6 +227,7 @@ Leads Avisos
 	const headers = [
 		{ "title": "ID", "code": "id", "sortable": true },
 		{ "title": "ID del aviso", "code": "listing_id", "sortable": true },
+		{ "title": "Operación" },
 		{ "title": "Inmueble" },
 		{ "title": "Precio" },
 		{ "title": "Distrito" },
@@ -241,6 +242,16 @@ Leads Avisos
 		{ "title": "Acciones" }
 	];
 	const filtersFields = [
+		{
+			name: 'parent',
+			type: 'static',
+			value: 'lead'
+		},
+		{
+			name: 'child',
+			type: 'static',
+			value: 'listings'
+		},
 		{
 			name: 'listing_id'
 		},
@@ -279,6 +290,7 @@ Leads Avisos
 		return [
 			element.id,
 			element.listing_id,
+			element.listing_type,
 			element.property_type,
 			element.price,
 			element.district,
@@ -296,8 +308,8 @@ Leads Avisos
 	const modalTitle = () =>{
 		
 	}
-	const columnsHidden = [0,5,6,10,12];
-	const columnsDates = [11,12];
+	const columnsHidden = [0,6,7,12,13];
+	const columnsDates = [12,13];
 	const options = {
 		processParams,
 		headers,
@@ -307,7 +319,7 @@ Leads Avisos
 		columnsDates,
 		modalOrder,
 		modalTitle,
-		url: 'app/lead/listings'
+		url: 'app/gateway'
 	};
 	
 	datatable(options);

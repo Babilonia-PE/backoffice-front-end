@@ -239,6 +239,16 @@ Views Proyectos
 	];
 	const filtersFields = [
 		{
+			name: 'parent',
+			type: 'static',
+			value: 'view'
+		},
+		{
+			name: 'child',
+			type: 'static',
+			value: 'projects'
+		},
+		{
 			name: 'project_id'
 		},
 		{
@@ -296,7 +306,7 @@ Views Proyectos
 		columnsDates,
 		modalOrder,
 		modalTitle,
-		url: 'app/view/projects'
+		url: 'app/gateway'
 	};
 	
 	datatable(options);
