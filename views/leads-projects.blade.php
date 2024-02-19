@@ -237,6 +237,7 @@ Leads Proyectos
 		{ "title": "Tipo" },
 		{ "title": "Etapa" },
 		{ "title": "Proyecto" },
+		{ "title": "Distrito" },
 		{ "title": "Id del usuario" },
 		{ "title": "Nombres" },
 		{ "title": "Email", "code": "email" },
@@ -302,6 +303,7 @@ Leads Proyectos
 			element.project_type??'',
 			element.stage??'',
 			element.project_name??'',
+			element.district,
 			element.user_id,
 			element.full_name,
 			element.email,
@@ -315,8 +317,8 @@ Leads Proyectos
 	const modalTitle = () =>{
 		
 	}
-	const columnsHidden = [0,2,6,10,12];
-	const columnsDates = [11,12];
+	const columnsHidden = [0,2,7,11,13];
+	const columnsDates = [12,13];
 	const options = {
 		processParams,
 		headers,
