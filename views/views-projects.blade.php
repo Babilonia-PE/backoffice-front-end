@@ -126,6 +126,12 @@ Views Proyectos
 				<div class="row align-items-end">
               		<div class="col-md-4">
                 		<div class="form-group">
+                  			<label>ID del view</label>
+                            <input type="text" name="id" id="id" class="form-control w-100" placeholder="View ID">                  			
+                		</div>
+                	</div>
+              		<div class="col-md-4">
+                		<div class="form-group">
                   			<label>ID proyecto</label>
                             <input type="text" name="project_id" id="project_id" class="form-control w-100" placeholder="Project ID">                  			
                 		</div>
@@ -239,6 +245,19 @@ Views Proyectos
 	];
 	const filtersFields = [
 		{
+			name: 'parent',
+			type: 'static',
+			value: 'view'
+		},
+		{
+			name: 'child',
+			type: 'static',
+			value: 'projects'
+		},
+		{
+			name: 'id'
+		},
+		{
 			name: 'project_id'
 		},
 		{
@@ -296,7 +315,7 @@ Views Proyectos
 		columnsDates,
 		modalOrder,
 		modalTitle,
-		url: 'app/view/projects'
+		url: 'app/gateway'
 	};
 	
 	datatable(options);

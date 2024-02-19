@@ -123,8 +123,14 @@ Leads Proyectos
 				<div class="row align-items-end">
               		<div class="col-md-4">
                 		<div class="form-group">
+                  			<label>ID del lead</label>
+                            <input type="text" name="id" id="id" class="form-control w-100" placeholder="Lead ID">                  			
+                		</div>
+                	</div>
+              		<div class="col-md-4">
+                		<div class="form-group">
                   			<label>ID proyecto</label>
-                            <input type="text" name="listing_id" id="listing_id" class="form-control w-100" placeholder="Listing ID">                  			
+                            <input type="text" name="project_id" id="project_id" class="form-control w-100" placeholder="Listing ID">                  			
                 		</div>
                 	</div>
               		<div class="col-md-4">
@@ -226,7 +232,7 @@ Leads Proyectos
 <script>	
 	const headers = [
 		{ "title": "ID", "code": "id", "sortable": true },
-		{ "title": "ID del proyecto", "code": "listing_id", "sortable": true },
+		{ "title": "ID del proyecto", "code": "project_id", "sortable": true },
 		{ "title": "Key", "code": "key", "sortable": true },
 		{ "title": "Tipo" },
 		{ "title": "Etapa" },
@@ -234,7 +240,7 @@ Leads Proyectos
 		{ "title": "Id del usuario" },
 		{ "title": "Nombres" },
 		{ "title": "Email", "code": "email" },
-		{ "title": "teléfono" },
+		{ "title": "Teléfono" },
 		{ "title": "Origen", "code": "source", "sortable": true },
 		{ "title": "Creación", "code": "created_at", "sortable": true },
 		{ "title": "Actualización" },
@@ -242,7 +248,20 @@ Leads Proyectos
 	];
 	const filtersFields = [
 		{
-			name: 'listing_id'
+			name: 'parent',
+			type: 'static',
+			value: 'lead'
+		},
+		{
+			name: 'child',
+			type: 'static',
+			value: 'projects'
+		},
+		{
+			name: 'id'
+		},
+		{
+			name: 'project_id'
 		},
 		{
 			name: 'owner_id',
@@ -307,7 +326,7 @@ Leads Proyectos
 		columnsDates,
 		modalOrder,
 		modalTitle,
-		url: 'app/lead/projects'
+		url: 'app/gateway'
 	};
 	
 	datatable(options);
