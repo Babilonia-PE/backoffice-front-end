@@ -126,6 +126,12 @@ Views Proyectos
 				<div class="row align-items-end">
               		<div class="col-md-4">
                 		<div class="form-group">
+                  			<label>ID del view</label>
+                            <input type="text" name="id" id="id" class="form-control w-100" placeholder="View ID">                  			
+                		</div>
+                	</div>
+              		<div class="col-md-4">
+                		<div class="form-group">
                   			<label>ID proyecto</label>
                             <input type="text" name="project_id" id="project_id" class="form-control w-100" placeholder="Project ID">                  			
                 		</div>
@@ -247,6 +253,9 @@ Views Proyectos
 			name: 'child',
 			type: 'static',
 			value: 'projects'
+		},
+		{
+			name: 'id'
 		},
 		{
 			name: 'project_id'
