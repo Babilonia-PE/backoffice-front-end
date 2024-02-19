@@ -126,6 +126,12 @@ Views Avisos
 				<div class="row align-items-end">
               		<div class="col-md-4">
                 		<div class="form-group">
+                  			<label>ID del view</label>
+                            <input type="text" name="id" id="id" class="form-control w-100" placeholder="View ID">                  			
+                		</div>
+                	</div>
+              		<div class="col-md-4">
+                		<div class="form-group">
                   			<label>ID aviso</label>
                             <input type="text" name="listing_id" id="listing_id" class="form-control w-100" placeholder="Listing ID">                  			
                 		</div>
@@ -239,6 +245,19 @@ Views Avisos
 	];
 	const filtersFields = [
 		{
+			name: 'parent',
+			type: 'static',
+			value: 'view'
+		},
+		{
+			name: 'child',
+			type: 'static',
+			value: 'listings'
+		},
+		{
+			name: 'id'
+		},
+		{
 			name: 'listing_id'
 		},
 		{
@@ -296,7 +315,7 @@ Views Avisos
 		columnsDates,
 		modalOrder,
 		modalTitle,
-		url: 'app/view/listings'
+		url: 'app/gateway'
 	};
 	
 	datatable(options);
