@@ -104,7 +104,7 @@ $app_lang_user_state = [
     "active" => "Activo",
     "locked" => "Bloqueado",
     "banned" => "Baneado",
-    "deleted" => "Expirado"
+    "deleted" => "Eliminado"
 ];
 $app_lang_leads_keys = [
     "phone_view" => 'Telefono',
