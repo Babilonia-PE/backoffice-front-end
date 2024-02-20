@@ -126,13 +126,13 @@ Clientes
 				<div class="row align-items-end">
               		<div class="col-md-4">
                 		<div class="form-group">
-                  			<label>User ID</label>
-                  			<input type="text" class="form-control" id="id" placeholder="User ID">
+                  			<label>Usuario</label>
+                  			<input type="text" class="form-control" id="user" placeholder="User ID, nombre, correo o telefono">
                 		</div>
                 	</div>
               		<div class="col-md-4">
                 		<div class="form-group">
-                  			<label>RUC, razon social o nombre comercial</label>
+                  			<label>Empresa</label>
                   			<input type="text" class="form-control" id="company" placeholder="RUC, razon social o nombre comercial">
                 		</div>
                 	</div>
@@ -141,24 +141,6 @@ Clientes
                   			<label>Estado</label>
 							@component("components.select", ['data'=>APP_LANG_USER_STATE, 'id' => "state", 'placeholder' => 'Estado', 'first' => true])
 							@endcomponent  
-                		</div>
-                	</div>
-              		<div class="col-md-4">
-                		<div class="form-group">
-                  			<label>Nombre completo</label>
-                  			<input type="text" class="form-control" id="full_name" placeholder="Nombre completo">
-                		</div>
-                	</div>
-              		<div class="col-md-4">
-                		<div class="form-group">
-                  			<label>Correo</label>
-                  			<input type="email" class="form-control" id="email" placeholder="Correo">
-                		</div>
-                	</div>
-              		<div class="col-md-4">
-                		<div class="form-group">
-                  			<label>Teléfono</label>
-                  			<input type="phone_number" class="form-control" id="phone_number" placeholder="Teléfono">
                 		</div>
                 	</div>
 					<div class="col-md-4">
@@ -275,22 +257,13 @@ Clientes
 			value: 'get'
 		},
 		{
-			name: 'id'
+			name: 'user'
 		},
 		{
 			name: 'company'
 		},
 		{
 			name: 'state'
-		},
-		{
-			name: 'full_name',
-		},
-		{
-			name: 'email',
-		},
-		{
-			name: 'phone_number',
 		},
 		{
 			name: 'created_start',
