@@ -99,6 +99,13 @@ $app_lang_state = [
     "expired" => "Expirado",
     "deleted" => "Eliminado"
 ];
+$app_lang_user_state = [
+    "incomplete" => "Incompleto",
+    "active" => "Activo",
+    "locked" => "Bloqueado",
+    "banned" => "Baneado",
+    "deleted" => "Expirado"
+];
 $app_lang_leads_keys = [
     "phone_view" => 'Telefono',
     "email_view" => 'Email',
@@ -145,6 +152,7 @@ define("APP_LANG_PROPERTY_TYPE", $app_lang_property_type);
 define("APP_LANG_ALERT_TYPE", $app_lang_alert_type);
 define("APP_LANG_ALERT_STATE", $app_lang_alert_state);
 define("APP_LANG_STATE", $app_lang_state);
+define("APP_LANG_USER_STATE", $app_lang_user_state);
 define("APP_LANG_LEADS_KEYS", $app_lang_leads_keys);
 define("APP_LANG_ADS_TYPE", $app_lang_ads_type);
 define("APP_LANG_PACKAGE_CATEGORY", $app_lang_package_category);

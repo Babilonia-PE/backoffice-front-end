@@ -132,27 +132,15 @@ Clientes
                 	</div>
               		<div class="col-md-4">
                 		<div class="form-group">
-                  			<label>RUC</label>
-                  			<input type="text" class="form-control" id="company_id" placeholder="RUC">
-                		</div>
-                	</div>
-              		<div class="col-md-4">
-                		<div class="form-group">
-                  			<label>Razón social</label>
-                  			<input type="text" class="form-control" id="company_name" placeholder="Razón social">
+                  			<label>RUC, razon social o nombre comercial</label>
+                  			<input type="text" class="form-control" id="company" placeholder="RUC, razon social o nombre comercial">
                 		</div>
                 	</div>
               		<div class="col-md-4">
                 		<div class="form-group">
                   			<label>Estado</label>
-							@component("components.select", ['data'=>APP_LANG_STATE, 'id' => "state", 'placeholder' => 'Estado', 'first' => true])
+							@component("components.select", ['data'=>APP_LANG_USER_STATE, 'id' => "state", 'placeholder' => 'Estado', 'first' => true])
 							@endcomponent  
-                		</div>
-                	</div>
-              		<div class="col-md-4">
-                		<div class="form-group">
-                  			<label>Nombre comercial</label>
-                  			<input type="text" class="form-control" id="commercial_name" placeholder="Nombre comercial">
                 		</div>
                 	</div>
               		<div class="col-md-4">
@@ -272,24 +260,28 @@ Clientes
 		{ "title": "Estadísticas" },
 		{ "title": "URL" },			
 		{ "title": "Auth", "code": "sign_method", "sortable": true },
-		{ "title": "Actualización", "code": "actualizacion", "sortable": true },
+		{ "title": "Actualización" },
 		{ "title": "Acciones" }
 	];
 	const filtersFields = [
 		{
+			name: 'parent',
+			type: 'static',
+			value: 'user'
+		},
+		{
+			name: 'child',
+			type: 'static',
+			value: 'get'
+		},
+		{
 			name: 'id'
 		},
 		{
-			name: 'company_id'
-		},
-		{
-			name: 'company_name'
+			name: 'company'
 		},
 		{
 			name: 'state'
-		},
-		{
-			name: 'commercial_name',
 		},
 		{
 			name: 'full_name',
@@ -358,7 +350,7 @@ Clientes
 		modalTitle,
 		initParams,
 		initParamsModal,
-		url: 'app/user/users'
+		url: 'app/gateway'
 	};
 	
 	datatable(options);

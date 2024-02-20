@@ -155,8 +155,8 @@ Proyectos
                 	</div>
               		<div class="col-md-4">
                 		<div class="form-group">
-                  			<label>Cliente</label>
-							@component("components.search-user",array("storage"=>"filter_projects_users"))
+                  			<label>Propietario del proyecto</label>
+							@component("components.search-user", ['id'=>'owner_id', 'storage'=>'filter_projects_owners', 'placeholder' => 'Buscar por propietario'])
 							@endcomponent
                 		</div>
                 	</div>
@@ -294,7 +294,7 @@ Proyectos
             { "title": "Categoria" },
             { "title": "Rol" },
 			{ "title": "Tipo" },
-			{ "title": "Etapa" },
+			{ "title": "Etapa", "code": "stage", "sortable": true },
 			{ "title": "Nombre" },
 			{ "title": "Precio de mantenimiento" },
 			{ "title": "Cantidad de pisos" },
@@ -327,10 +327,10 @@ Proyectos
             { "title": "Año de entrega" },
             { "title": "Mes de entrega" },
             { "title": "Financiamiento" },
-			{ "title": "Creación", "created_date": "id", "sortable": true },
-			{ "title": "Publicación", "code": "purchased_date", "sortable": true },
-            { "title": "Actualización", "code": "updated_date", "sortable": true },
-            { "title": "Expiración", "code": "expires_date", "sortable": true },
+			{ "title": "Creación", "created_at": "id", "sortable": true },
+			{ "title": "Publicación", "code": "ad_purchased_at", "sortable": true },
+            { "title": "Actualización", "code": "updated_at", "sortable": true },
+            { "title": "Expiración", "code": "ad_expires_at", "sortable": true },
 			{ "title": "Nombres" },
             { "title": "Email" },
             { "title": "Teléfono" },
@@ -360,10 +360,10 @@ Proyectos
 			name: 'stage'
 		},
 		{
-			name: 'user_id',
+			name: 'owner_id',
 			type: filtersParamsTypes.USER,
 			search: true,
-			storage: 'filter_projects_users'
+			storage: 'filter_projects_owners'
 		},
 		{
 			name: 'created_start',
