@@ -155,8 +155,8 @@ Avisos
                 	</div>
               		<div class="col-md-4">
                 		<div class="form-group">
-                  			<label>Cliente</label>
-							@component("components.search-user",array("storage"=>"filter_listing_users"))
+                  			<label>Propietario del aviso</label>
+							@component("components.search-user", ['id'=>'owner_id', 'storage'=>'filter_listing_owners', 'placeholder' => 'Buscar por propietario'])
 							@endcomponent
                 		</div>
                 	</div>
@@ -313,8 +313,8 @@ Avisos
 			{ "title": "Departamento" },
 			{ "title": "País" },
 			{ "title": "Estado", "code": "state", "sortable": true },
-			{ "title": "Creación", "created_date": "id", "sortable": true },
-			{ "title": "Publicación", "code": "purchased_date", "sortable": true },
+			{ "title": "Creación", "created_at": "id", "sortable": true },
+			{ "title": "Publicación", "code": "ad_purchased_at", "sortable": true },
 			{ "title": "Nombres" },
             { "title": "Categoria" },
             { "title": "Rol" },
@@ -336,8 +336,8 @@ Avisos
             { "title": "Numero de vistas" },
             { "title": "Número de favoritos" },
             { "title": "Numero de contactos" },
-            { "title": "Actualización", "code": "updated_date", "sortable": true },
-            { "title": "Expiración", "code": "expires_date", "sortable": true },
+            { "title": "Actualización", "code": "updated_at", "sortable": true },
+            { "title": "Expiración", "code": "ad_expires_at", "sortable": true },
             { "title": "Email" },
             { "title": "Teléfono" },
 			{ "title": "Acciones" }
@@ -366,10 +366,10 @@ Avisos
 			name: 'property_type'
 		},
 		{
-			name: 'user_id',
+			name: 'owner_id',
 			type: filtersParamsTypes.USER,
 			search: true,
-			storage: 'filter_listing_users'
+			storage: 'filter_listing_owners'
 		},
 		{
 			name: 'price_from',			
