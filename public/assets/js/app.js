@@ -96,11 +96,13 @@ const userSearch = (options = {}) => {
         }
         let params = {
             page:1,
-            per_page:1500,
-            keyword: keyword 
+            per_page: 100,
+            keyword: keyword,
+            parent: 'user',
+            child: 'search'
         };
                 
-        const data = await fetchData('/app/search_users', params, 'GET');
+        const data = await fetchData('/app/gateway', params, 'GET');
         const records = data.data?.data?.records ?? [];
         selectUser.innerHTML="";
         if(records.length > 0){
