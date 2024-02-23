@@ -340,6 +340,7 @@ Avisos
             { "title": "Expiración", "code": "ad_expires_at", "sortable": true },
             { "title": "Email" },
             { "title": "Teléfono" },
+			{ "title": "External" },
 			{ "title": "Acciones" }
 	];
 	const filtersFields = [
@@ -416,7 +417,7 @@ Avisos
 		let phone = element.phone_number ?? '';
 
 		return [
-			element.id,							
+			element.id,								
 			(element.listing_type??''),
 			(element.property_type??''),
 			element.price??'',
@@ -452,11 +453,14 @@ Avisos
 			( ( element.updated_at ) ? moment(element.updated_at).format('DD/MM/YYYY') :'' ),
 			( ( element.ad_expires_at ) ? moment(element.ad_expires_at).format('DD/MM/YYYY') :'' ),
 			element.email??'',
-			getFullNumber(prefix, phone)
+			getFullNumber(prefix, phone),
+			( ( element.external_data == '' ) ? '-' : `<a href="${element.external_data}" target="_blank">${element.external_data}</a>` )
+			
 		];
 	}
 	const modalOrder =  [
 		0, 	//ID del listing
+		37, //External data
 		9, 	//Estado
 		10, //Fecha de creación
 		11, //Fecha de publicación
@@ -500,7 +504,7 @@ Avisos
 
 		return `Detalles para <a target="_blank" href="${url_external}">${element}</a>`;
 	}
-	const columnsHidden = [7, 8, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34,35,36];
+	const columnsHidden = [7, 8, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34,35,36, 37];
 	const columnsDates = [10, 11, 33, 34];
 	const options = {
 		processParams,
