@@ -373,7 +373,10 @@ Paquetes
 		}
 	];
 	const processParams = (element) =>{
-
+		let expired = moment(element.expires_at).format('DD/MM/YYYY');
+		let endDate= new Date(Date.parse(element.expires_at));
+		let currentDate = new Date();
+		let bagde = ( endDate < currentDate ) ? 'danger' : 'success';
 		return [
 			element.id,
 			element.full_name,
@@ -389,7 +392,7 @@ Paquetes
             element.duration,
             `<span class="badge text-bg-secondary state-${element.state_id??''}">${element.state??''}</span>`,
             moment(element.purchased_at).format('DD/MM/YYYY'),
-            moment(element.expires_at).format('DD/MM/YYYY'),
+            `<span class="badge text-bg-secondary bg-${bagde}">${expired??''}</span>`,
             element.ads_count,
             element.initial_standard_ads_count,
             element.initial_plus_ads_count,
