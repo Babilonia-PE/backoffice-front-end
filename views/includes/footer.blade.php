@@ -1,6 +1,6 @@
 <!-- /.content-wrapper -->
 <footer class="main-footer">
-    <strong>Copyright &copy; 2023-{{ date("Y") }} <a href="https://babilonia.io">Babilonia.io</a>.</strong>
+    <strong>Copyright &copy; 2023-{{ date("Y") }} <a target="_blank" href="{{ env('URL_WEB_FRONT', 'https://www-testing.babilonia.pe') }}">Babilonia.io</a>.</strong>
     All rights reserved.
     <div class="float-right d-none d-sm-inline-block">
       <b>Version</b> {{ env('VERSION') }}
