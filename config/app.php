@@ -12,8 +12,8 @@ $dotenv->load();
 
 define("USER_ADMIN", "administrator");
 define("URL_APP", URL_ROOT . "app");
-define("APP_BASE_EP", $_SERVER["APP_BASE_EP"]??"https://services-testing.babilonia.io/");
-define("URL_WEB", $_SERVER["URL_WEB"]??"https://app-testing.babilonia.io/");
+define("APP_BASE_EP", $_SERVER["APP_BASE_EP"]??"https://services-testing.babilonia.pe/");
+define("URL_WEB", $_SERVER["URL_WEB"]??"https://app-testing.babilonia.pe/");
 define("URL_LOGS", URL_ROOT. "logs/");
 define("URL_PUBLIC", URL_ROOT . "public/");
 define("URL_ASSETS", URL_ROOT . "public/assets/");
