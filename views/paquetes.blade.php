@@ -145,9 +145,9 @@ Paquetes
                     <div class="col-md-4">
                         {{-- user_id --}}
                 		<div class="form-group">
-                  			<label>Cliente</label>
-							@component("components.search-user") 
-							@endcomponent
+                  			<label>Propietario del paquete</label>
+							@component("components.search-user", ['placeholder' => 'Buscar por nombre, email o empresa'])
+							@endcomponent                  			
                 		</div>
                 	</div>               		
               		<div class="col-md-4">

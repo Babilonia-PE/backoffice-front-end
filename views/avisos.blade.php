@@ -156,7 +156,7 @@ Avisos
               		<div class="col-md-4">
                 		<div class="form-group">
                   			<label>Propietario del aviso</label>
-							@component("components.search-user", ['id'=>'owner_id', 'storage'=>'filter_listing_owners', 'placeholder' => 'Buscar por propietario'])
+							@component("components.search-user", ['id'=>'owner_id', 'storage'=>'filter_listing_owners', 'placeholder' => 'Buscar por nombre, email o empresa'])
 							@endcomponent
                 		</div>
                 	</div>
