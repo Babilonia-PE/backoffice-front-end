@@ -436,7 +436,7 @@ const datatable = (options = {})=>{
 		.DataTable({
 			dom: dom,
 			buttons: Buttons,
-			"lengthMenu": [ ( (lengthMenu == 25) ? 25:lengthMenu ), 50, 75, 100, 200, 500 ],
+			"lengthMenu": [ ( (lengthMenu == 25) ? 25:lengthMenu ), 50, 100, 200, 500 ],
 			"pageLength": lengthMenu,
 			"order": [],
 			//"data": data,
