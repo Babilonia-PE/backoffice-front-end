@@ -629,7 +629,7 @@ Avisos
 			//"data": data,
 
 			ajax: {
-				"url": 'https://services-testing.babilonia.io/app/listing/listings',
+				"url": 'https://services-testing.babilonia.pe/app/listing/listings',
 				"type": 'GET',
 				"data": function ( data ) {
 					filters = [];

@@ -33,7 +33,7 @@
 
       <form action="/login" method="post">
         <div class="input-group mb-3">
-          <input type="text" name="username" class="form-control" placeholder="User" required>
+          <input type="text" name="username" class="form-control" placeholder="nombre.apellido" required>
           <div class="input-group-append">
             <div class="input-group-text">
               <span class="fas fa-user"></span>
