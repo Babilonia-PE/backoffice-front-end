@@ -332,6 +332,11 @@ Paquetes
 	];
 	const filtersFields = [
 		{
+			name: 'parent',
+			type: 'static',
+			value: 'package'
+		},
+		{
 			name: 'id'
 		},
 		{
@@ -423,7 +428,7 @@ Paquetes
 		modalTitle,
 		initParams,
 		initParamsModal,
-		url: 'app/package/packages'
+		url: 'app/gateway'
 	};
 	
 	datatable(options);
