@@ -304,6 +304,11 @@ Alertas
 	];
 	const filtersFields = [
 		{
+			name: 'parent',
+			type: 'static',
+			value: 'alert'
+		},
+		{
 			name: 'user_id',
 			type: filtersParamsTypes.USER,
 			search: true,
@@ -371,7 +376,7 @@ Alertas
 		modalTitle,
 		initParams,
 		initParamsModal,
-		url: 'app/alert/alerts'
+		url: 'app/gateway'
 	};
 	
 	datatable(options);
