@@ -342,7 +342,7 @@ Paquetes
 		{
 			name: 'type'
 		},
-		{git add .
+		{
 			name: 'owner_id',
 			type: filtersParamsTypes.USER,
 			search: true,
