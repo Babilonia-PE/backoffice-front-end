@@ -317,9 +317,6 @@ Paquetes
 		{ "title": "Premium ilimitado" },
 		{ "title": "Cantidad premium" },
 		{ "title": "Duración", "code": "duration", "sortable": true },
-		{ "title": "Estado", "code": "state", "sortable": true },
-		{ "title": "Compra", "code": "purchased_at", "sortable": true },
-		{ "title": "Expiración", "code": "expires_at", "sortable": true },
 		{ "title": "Total permitidos" },
 		{ "title": "Standart restantes" },
 		{ "title": "Plus restantes" },
@@ -327,6 +324,8 @@ Paquetes
 		{ "title": "ID orden" },
 		{ "title": "Tipo", "code": "type", "sortable": true },
 		{ "title": "Tipo Compra", "code": "type"},
+		{ "title": "Compra", "code": "purchased_at", "sortable": true },
+		{ "title": "Expiración", "code": "expires_at", "sortable": true },
 		{ "title": "Teléfono", "code": "type"},
 		{ "title": "Acciones" }
 	];
@@ -389,22 +388,21 @@ Paquetes
 			element.ads_count?((element.ads_count=='999999')?'Ilimitado':element.ads_count):'',
             element.category??'',
             element.is_unlimited_standard?'si':'no',
-            element.available_standard_ads_count,
-            element.is_unlimited_plus?'si':'no',
-            element.available_plus_ads_count,
-            element.is_unlimited_premium?'si':'no',
-            element.available_premium_ads_count,
-            element.duration,
-            `<span class="badge text-bg-secondary state-${element.state_id??''}">${element.state??''}</span>`,
-            moment(element.purchased_at).format('DD/MM/YYYY'),
-            `<span class="badge text-bg-secondary bg-${bagde}">${expired??''}</span>`,
-            element.ads_count,
             element.initial_standard_ads_count,
+            element.is_unlimited_plus?'si':'no',
             element.initial_plus_ads_count,
+            element.is_unlimited_premium?'si':'no',
             element.initial_premium_ads_count,
+            element.duration,
+            element.ads_count,
+            element.available_standard_ads_count,
+            element.available_plus_ads_count,
+            element.available_premium_ads_count,
             element.order_id,
             element.type??'',
             `<span class="badge text-bg-secondary bg-${BUY_TYPE_COLORS[element.buy_type_id??'']}">${toCamelCase(element.buy_type??'')}</span>`,
+			moment(element.purchased_at).format('DD/MM/YYYY'),
+            `<span class="badge text-bg-secondary bg-${bagde}">${expired??''}</span>`,
 			getFullNumber(element.prefix, element.phone_number)
 		];
 	}
@@ -415,8 +413,8 @@ Paquetes
 	}
 	const initParamsModal = ()=>{
 	}
-	const columnsHidden = [4,5,6,7,8,9,10,13,14,15,16,17,18];
-	const columnsDates = [13,14];
+	const columnsHidden = [4,5,6,7,8,9,10,13,14,15,16,20];
+	const columnsDates = [20,21];
 	const options = {
 		processParams,
 		headers,
