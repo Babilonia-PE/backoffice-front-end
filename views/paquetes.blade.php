@@ -146,8 +146,8 @@ Paquetes
                         {{-- user_id --}}
                 		<div class="form-group">
                   			<label>Propietario del paquete</label>
-							@component("components.search-user", ['placeholder' => 'Buscar por nombre, email o empresa'])
-							@endcomponent                  			
+							@component("components.search-user", ['id'=>'owner_id', 'storage'=>'filter_packages_owners', 'placeholder' => 'Buscar por nombre, email o empresa'])
+							@endcomponent            			
                 		</div>
                 	</div>               		
               		<div class="col-md-4">
@@ -342,11 +342,11 @@ Paquetes
 		{
 			name: 'type'
 		},
-		{
-			name: 'user_id',
+		{git add .
+			name: 'owner_id',
 			type: filtersParamsTypes.USER,
 			search: true,
-			storage: 'filter_packages_users'
+			storage: 'filter_packages_owners'
 		},
 		{
 			name: 'ads_count'
