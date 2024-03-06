@@ -226,14 +226,19 @@ Reclamos
 		{ "title": "Nombre", "code": "full_name", "sortable": true },
 		{ "title": "Email", "code": "email", "sortable": true },
 		{ "title": "Teléfono", "code": "phone_number", "sortable": true },
-		{ "title": "Documento tipo", "code": "document_type", "sortable": true },
-		{ "title": "Documento", "code": "document_number", "sortable": true },
+		{ "title": "Documento tipo", "code": "document_type" },
+		{ "title": "Documento", "code": "document_number" },
 		{ "title": "Estado", "code": "state", "sortable": true },
 		{ "title": "Descripción", "code": "description", },
 		{ "title": "Fecha de creación", "code": "created_at", "sortable": true },
 		{ "title": "Acciones" }
 	];
 	const filtersFields = [
+		{
+			name: 'parent',
+			type: 'static',
+			value: 'claim'
+		},
 		{
 			name: 'id'
 		},
@@ -285,7 +290,7 @@ Reclamos
 		modalTitle,
 		initParams,
 		initParamsModal,
-		url: 'app/claim/claims'
+		url: 'app/gateway'
 	};
 	
 	datatable(options);
