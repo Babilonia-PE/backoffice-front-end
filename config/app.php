@@ -39,7 +39,7 @@ $app_lang_project_type = [
     "residential" => "Residenciales",
     "beach_house" => "Casa de playa",
     "cottage" => "Casa de campo",
-    "office" => "Oficinas",
+    "offices" => "Oficinas",
     "both" => "Mixto"
 ];
 $app_lang_project_stage = [

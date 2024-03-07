@@ -309,7 +309,7 @@ Proyectos
 			{ "title": "Departamento" },
 			{ "title": "País" },
 			{ "title": "Referencia" },
-			{ "title": "Estado", "code": "state", "sortable": true },
+			{ "title": "Estado", "code": "state" },
             { "title": "Cantidad de fotos" },
             { "title": "Video" },
             { "title": "Video 360" },
