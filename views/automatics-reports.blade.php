@@ -47,11 +47,11 @@ Reportes automáticos
                 <table class="display table table-bordered table-striped nowrap compact responsive d-none" cellspacing="0" width="100%">
 					<thead>
 						<tr>
-							<th>N°</th>
+							<th>ID</th>
 							<th>Reporte</th>
 							<th>Descripción</th>
 							<th>Periodo</th>
-							<th width="1%"></th>
+							<th width="1%">Descargar</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -68,11 +68,22 @@ Reportes automáticos
 						</tr>
 						<tr>
 							<td>2</td>
-							<td>Agentes leads vs Distritos</td>
-							<td>Reporte con la relación de agentes con paquetes pagados vs Leads y visitas generados</td>
+							<td>Leads avisos: Agentes vs Distritos</td>
+							<td>Reporte con la relación de avisos de agentes con paquetes pagados vs Leads y visitas generados</td>
 							<td>Mes anterior</td>
 							<td>
-								<a href="{{ env('URL_WEB') }}assets/reports/agentsBuyedLeads.xlsx" download class="btn-action download">
+								<a href="{{ env('URL_WEB') }}assets/reports/agentsBuyedListingsLeads.xlsx" download class="btn-action download">
+									<i class="fas fa-download"></i>
+								</a>
+							</td>
+						</tr>
+						<tr>
+							<td>3</td>
+							<td>Leads proyectos: Agentes vs Distritos</td>
+							<td>Reporte con la relación de proyectos de agentes con paquetes pagados vs Leads y visitas generados</td>
+							<td>Mes anterior</td>
+							<td>
+								<a href="{{ env('URL_WEB') }}assets/reports/agentsBuyedProjectsLeads.xlsx" download class="btn-action download">
 									<i class="fas fa-download"></i>
 								</a>
 							</td>
@@ -88,7 +99,7 @@ Reportes automáticos
 	<div class="modal-dialog modal-lg" role="document">
 		<div class="modal-content">
 			<div class="modal-header">
-        		<h5 class="modal-title">Detalles para</h5>
+				<h5 class="modal-title">Detalles para</h5>
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 				<span aria-hidden="true">&times;</span>
 				</button>

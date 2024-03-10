@@ -4,6 +4,8 @@ const datatable = (options = {})=>{
         filtersFields = [],
         columnsHidden = [],
         columnsDates = [],
+		modalFunction = null,
+		returnTable = null,
         modalOrder = [],
 		modalTitle = function(){},
         processParams = function(){},
@@ -423,6 +425,7 @@ const datatable = (options = {})=>{
 		var value = ( !jQuery.isEmptyObject(returnTable) && returnTable.hasOwnProperty('value') ) ? returnTable.value:'display';
 		var dom = ( dom ) ? 'Bilrtip':'lfrtip'; //f: buscador
 		var element =  ( attr == 'class' ) ? $('table.'+ value):$('table['+ attr +'="'+ value +'"]');
+		var buttons = ( !jQuery.isEmptyObject(returnTable) && returnTable.hasOwnProperty('buttons') ) ? returnTable.buttons:Buttons;
 		var table = element
 		//.on( 'search.dt', function () { $(this).redimensionarTable(); } )
 		//.on( 'page.dt', function () { $(this).redimensionarTable(); } )
@@ -435,7 +438,7 @@ const datatable = (options = {})=>{
 		} )
 		.DataTable({
 			dom: dom,
-			buttons: Buttons,
+			buttons: buttons,
 			"lengthMenu": [ ( (lengthMenu == 25) ? 25:lengthMenu ), 50, 100, 200, 500 ],
 			"pageLength": lengthMenu,
 			"order": [],
@@ -519,7 +522,7 @@ const datatable = (options = {})=>{
 									Acciones
 								</button>
 								<div class="dropdown-menu">
-									<a class="dropdown-item details" data-index="${index}" role="button"><i class="fas fa-eye"></i>&nbsp;&nbsp;Ver</a>
+									<a class="dropdown-item details" data-id="${element.id??''}" data-index="${index}" role="button"><i class="fas fa-eye"></i>&nbsp;&nbsp;Ver</a>
 									<!--- <a class="dropdown-item" href="#"><i class="fas fa-edit"></i>&nbsp;&nbsp;Editar</a> --->
 									<!--- <a class="dropdown-item" href="#"><i class="fas fa-trash-alt"></i>&nbsp;&nbsp;Eliminar</a> --->
 								</div>
@@ -567,8 +570,8 @@ const datatable = (options = {})=>{
 			},*/
 		})
 		.on('xhr.dt', function ( e, settings, json, xhr ) {
-			json.recordsTotal = json.data.pagination.total_records;
-			json.recordsFiltered = json.data.pagination.total_records;
+			json.recordsTotal = json.data.pagination.total_records??null;
+			json.recordsFiltered = json.data.pagination.total_records??null;
 			json.draw = dtDraw;
 			dtDraw += 1;
 		} );
@@ -655,88 +658,97 @@ const datatable = (options = {})=>{
 		},
 	};
 	$(this).populatefilters();
-	$(this).createDataTable(searchBuilder, columnDefs, false, 25, true, headers);
-	tableSaved.on('click', '.details', function (e) {
-		e.preventDefault();
-		const target = $(this).attr('data-index');
-		let data = tableSaved.rows( target ).data()[0];
-		$("#rowDetails .modal-body").html("");
+	$(this).createDataTable(searchBuilder, columnDefs, returnTable, 25, true, headers);
 
-        let newHeader = headers;
-        if(modalOrder.length > 0){
-            data = modalOrder.map(i => data[i]);
-            newHeader = modalOrder.map(i => headers[i]);
-        }
-
-		data.forEach((element, 
-		index, array) => {
-			if (index + 1 === array.length){ return; }
-			if (index === 0){
-                let customHeader = modalTitle(element, globalRecords)??`Detalles para ${element}`;
-				$("#rowDetails .modal-title").html(customHeader);
+	if( ( jQuery.isEmptyObject(returnTable) || ( returnTable.actions??true ) == true ) ){
+		tableSaved.on('click', '.details', async function (e) {
+			e.preventDefault();
+			if ( typeof modalFunction == 'function' ) {
+				const id = $(this).attr('data-id');
+				await modalFunction(id); 
+				$("#rowDetails").modal('show');
+				return;
 			}
-			$("#rowDetails .modal-body").append(`
-				<div class="box-details">
-					<div>${newHeader[index]?.title??''}</div>
-					<div>${element}</div>
-				</div>
-			`);
+			const target = $(this).attr('data-index');
+			let data = tableSaved.rows( target ).data()[0];
+			$("#rowDetails .modal-body").html("");
+	
+			let newHeader = headers;
+			if(modalOrder.length > 0){
+				data = modalOrder.map(i => data[i]);
+				newHeader = modalOrder.map(i => headers[i]);
+			}
+	
+			data.forEach((element, 
+			index, array) => {
+				if (index + 1 === array.length){ return; }
+				if (index === 0){
+					let customHeader = modalTitle(element, globalRecords)??`Detalles para ${element}`;
+					$("#rowDetails .modal-title").html(customHeader);
+				}
+				$("#rowDetails .modal-body").append(`
+					<div class="box-details">
+						<div>${newHeader[index]?.title??''}</div>
+						<div>${element}</div>
+					</div>
+				`);
+			});
+			
+			$("#rowDetails").modal('show');
+			initParamsModal();
 		});
-		
-		$("#rowDetails").modal('show');
-		initParamsModal();
-	});
-
-	$("#applyfiltters").on('click', function (e) {
-		let filters = {};
-
-        //GUARDAR LOS FILTROS EN LOCAL
-        for(let i in filtersFields){
-            let {
-                name='',
-                type=''
-            } = filtersFields[i] ?? {};
-
-            if(document.getElementById(name) == null || document.getElementById(name).value == '') continue;
-
-            let fieldValue = document.getElementById(name).value;
-                if(type == filtersParamsTypes.DATE)
-                fieldValue =  moment(fieldValue, "DD/MM/YYYY").format('YYYY-MM-DD');
-                filters[name] = fieldValue;
-        }
-
-		if(!$.isEmptyObject(filters)){
-			localStorage.setItem(storageView, JSON.stringify(filters));
-		}
-		tableSaved.ajax.reload();
-	});
-	$("#removefiltters").on('click', function (e) {
-
-		localStorage.removeItem(storageView);
-
-        for(let i in filtersFields){
-            let {
-                name='',
-                type='',
-                storage=''
-            } = filtersFields[i] ?? {};
-
-            if(document.getElementById(name) == null || document.getElementById(name).value == '') continue;
-
-            if(type === filtersParamsTypes.USER){
-                localStorage.removeItem(storage);
-                $(`#${name}`).val('');
-                $(`#${name}`).html('');
-                $(`#${name}`).selectpicker('refresh');
-            }else{
-                $(`#${name}`).val('');
-            }
-        }
-
-		$('.select2').val(null).trigger('change');
-
-		tableSaved.ajax.reload();
-	});
+		$("#applyfiltters").on('click', function (e) {
+			let filters = {};
+	
+			//GUARDAR LOS FILTROS EN LOCAL
+			for(let i in filtersFields){
+				let {
+					name='',
+					type=''
+				} = filtersFields[i] ?? {};
+	
+				if(document.getElementById(name) == null || document.getElementById(name).value == '') continue;
+	
+				let fieldValue = document.getElementById(name).value;
+					if(type == filtersParamsTypes.DATE)
+					fieldValue =  moment(fieldValue, "DD/MM/YYYY").format('YYYY-MM-DD');
+					filters[name] = fieldValue;
+			}
+	
+			if(!$.isEmptyObject(filters)){
+				localStorage.setItem(storageView, JSON.stringify(filters));
+			}
+			tableSaved.ajax.reload();
+		});
+		$("#removefiltters").on('click', function (e) {
+	
+			localStorage.removeItem(storageView);
+	
+			for(let i in filtersFields){
+				let {
+					name='',
+					type='',
+					storage=''
+				} = filtersFields[i] ?? {};
+	
+				if(document.getElementById(name) == null || document.getElementById(name).value == '') continue;
+	
+				if(type === filtersParamsTypes.USER){
+					localStorage.removeItem(storage);
+					$(`#${name}`).val('');
+					$(`#${name}`).html('');
+					$(`#${name}`).selectpicker('refresh');
+				}else{
+					$(`#${name}`).val('');
+				}
+			}
+	
+			$('.select2').val(null).trigger('change');
+	
+			tableSaved.ajax.reload();
+		});
+	}
+	
 	$('.select2').select2({
       	theme: 'bootstrap4'
     })
