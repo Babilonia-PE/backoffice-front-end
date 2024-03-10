@@ -28,6 +28,7 @@ use App\Controllers\AutomaticReportsController;
 use App\Controllers\ConfigurationMenuController;
 use App\Controllers\ConfigurationUsersController;
 use App\Controllers\ConfigurationPermissionsController;
+use App\Controllers\ChatController;
 use Phroute\Phroute\Exception\HttpRouteNotFoundException;
 use Phroute\Phroute\Exception\HttpMethodNotAllowedException;
 
@@ -79,6 +80,7 @@ $router
                 ->get("/reclamos", [ClaimsController::class, "index"])
                 ->get("/contactos", [ContactsController::class, "index"])
                 ->get("/reportes-automaticos", [AutomaticReportsController::class, "index"])
+                ->get("/chat", [ChatController::class, "index"])
                 
                 ->get("/reportes-id", [ReportesIdController::class, "index"]);
         });
