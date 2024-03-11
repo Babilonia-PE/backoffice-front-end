@@ -108,7 +108,16 @@
 		flex-direction: column;
 		gap: 1rem;
 	}
+	.chatdetail > div{
+		display: flex;
+		flex-direction: column;
+    	align-items: flex-start;
+	}
+	.chatdetail > div.user{
+    	align-items: flex-end;
+	}
 	.chatdetail p.message{
+		max-width: 85%;
 		margin: 0;
 		border-radius: 20px;
 		padding: 10px;
@@ -116,8 +125,14 @@
 		color: #212529;
     	border-top-left-radius: 0;
 	}
+	
+	.chatdetail > div.user p.message{
+		background: #5585ff;
+		color: #FFF;
+		border-radius: 20px;
+		border-top-right-radius: 0;
+	}
 	.chatdetail span.date{
-		
 		display: inline-block;
 		background: #f7f7f7;
 		border-radius: 6px;
@@ -128,6 +143,9 @@
 		padding: 2px 3px;
 		color: #858585;
 		font-size: 14px;
+	}
+	#rowDetails{
+		max-height: 100%;
 	}
 </style>
 @endsection
@@ -286,6 +304,7 @@ Chat
 		const data = details?.data?.data?.records??null;
 		$("#rowDetails .modal-title").html("Detalles para chat " + id);
 		$("#rowDetails .modal-body").html("");
+		$("#rowDetails").addClass("modal-dialog-scrollable");
 		jQuery('<div>', {
             'class': 'chatdetail',
 			'id' : 'Chatdetail' + id
@@ -295,6 +314,7 @@ Chat
 			const date = ( ( element.created_at ) ? moment(element.created_at).format('DD/MM/YYYY HH:mm:ss'):'' );
 			const message = element.message??'';
 			jQuery('<div>', {
+				'class' : ( element.user_id??0 ) == 0 ? 'user' : '',
 				'html' : `
 					<span class="date">${date}</span>
 					<p class="message">${message}</p>
