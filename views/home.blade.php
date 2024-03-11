@@ -1,7 +1,16 @@
 @extends('Layout.master')
 
 @section('styles')
-
+<style>
+  .flotTip {
+    padding: 3px 5px;
+    background-color: #000;
+    z-index: 100;
+    color: #fff;
+    opacity: .80;
+    filter: alpha(opacity=85);
+  }
+</style>
 @endsection
 
 @section('page')
@@ -11,7 +20,28 @@ Dashboard
 @endsection
 
 @section('content')
-
+<div class="row">
+  <div class="col-12">
+    <!-- LINE CHART -->
+    <div class="card">
+      <div class="card-header" role="button" data-card-widget="collapse">
+          <h5 class="card-title">Usuarios</h5>
+          <div class="card-tools">
+              <button type="button" class="btn btn-tool">
+                <i id="icon_filter_box" class="fas fa-plus"></i>
+              </button>
+          </div>
+      </div>
+      <div class="card-body">
+        <div class="chart">
+          <div id="placeholder" style="height: 300px;"></div>
+        </div>
+      </div>
+      <!-- /.card-body -->
+    </div>
+    <!-- /.card -->
+  </div>
+</div>
 
         <!-- Small boxes (Stat box) -->
         <div class="row d-none">
@@ -595,5 +625,213 @@ Dashboard
 @endsection
 
 @section('scripts')
+<script src="@asset("public/plugins/flot/jquery.flot.js")"></script>
+<script src="@asset("public/plugins/flot/plugins/jquery.flot.resize.js")"></script>
+<script src="@asset("public/plugins/flot/plugins/jquery.flot.pie.js")"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/flot.tooltip/0.9.0/jquery.flot.tooltip.js"></script>
+<script>
+  $(function () {
 
+    /*
+    var data        = [],
+        totalPoints = 100
+    function getRandomData() {
+
+      if (data.length > 0) {
+        data = data.slice(1)
+      }
+
+      // Do a random walk
+      while (data.length < totalPoints) {
+
+        var prev = data.length > 0 ? data[data.length - 1] : 50,
+            y    = prev + Math.random() * 10 - 5
+
+        if (y < 0) {
+          y = 0
+        } else if (y > 100) {
+          y = 100
+        }
+
+        data.push(y)
+      }
+
+      // Zip the generated y values with the x values
+      var res = []
+      for (var i = 0; i < data.length; ++i) {
+        res.push([i, data[i]])
+      }
+
+      return res
+    }
+    var interactive_plot = $.plot('#placeholder', [
+        {
+          data: getRandomData(),
+        }
+      ],
+      {
+        grid: {
+          borderColor: '#f3f3f3',
+          borderWidth: 1,
+          tickColor: '#f3f3f3',
+          hoverable: true,
+				  clickable: true
+        },
+        series: {
+          color: '#3c8dbc',
+          lines: {
+            lineWidth: 2,
+            show: true,
+            fill: true,
+          },
+          points: {
+            show: true,
+            radius: 1
+          }
+        },
+        yaxis: {
+          min: 0,
+          max: 100,
+          show: true
+        },
+        xaxis: {
+          show: true
+        },
+	      tooltip: true,
+        tooltipOpts: {
+            cssClass: "flotTip",
+            content: function(label, xval, yval, flotItem) {
+              return label  + ' x:' + xval + ' y: ' + yval;
+            },
+            shifts: {
+                x: 20,
+                y: 0
+            },
+            defaultTheme: false
+        },
+      }
+    )
+    */
+    var sin = [],
+			cos = [];
+
+		for (var i = 0; i < 14; i += 0.5) {
+			sin.push([i, Math.sin(i)]);
+			cos.push([i, Math.cos(i)]);
+		}
+
+		var plot = $.plot("#placeholder", [
+			{ data: sin, label: "sin(x)"},
+			{ data: cos, label: "cos(x)"}
+		], {
+			series: {
+				lines: {
+					show: true
+				},
+				points: {
+					show: true
+				}
+			},
+			grid: {
+				hoverable: true,
+				clickable: true
+			},
+			yaxis: {
+				min: -1.2,
+				max: 1.2
+			}
+		});
+    $("<div id='tooltip'></div>").css({
+			position: "absolute",
+			display: "none",
+			border: "1px solid #fdd",
+			padding: "2px",
+			"background-color": "#fee",
+			opacity: 0.80
+		}).appendTo("body");
+
+    
+    $("#placeholder").bind("plothover", function (event, pos, item) {
+      if (item) {
+        var x = item.datapoint[0].toFixed(2),
+          y = item.datapoint[1].toFixed(2);
+
+        $("#tooltip").html(item.series.label + " of " + x + " = " + y)
+          .css({top: item.pageY+5, left: item.pageX+5})
+          .fadeIn(200);
+      } else {
+        $("#tooltip").hide();
+      }
+    });
+
+
+
+
+
+    /*
+    console.log("holaaa");
+    var areaChartData = {
+      labels  : ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+      datasets: [
+        {
+          label               : 'Digital Goods',
+          backgroundColor     : 'rgba(60,141,188,0.9)',
+          borderColor         : 'rgba(60,141,188,0.8)',
+          pointRadius          : false,
+          pointColor          : '#3b8bba',
+          pointStrokeColor    : 'rgba(60,141,188,1)',
+          pointHighlightFill  : '#fff',
+          pointHighlightStroke: 'rgba(60,141,188,1)',
+          data                : [28, 48, 40, 19, 86, 27, 90]
+        },
+        {
+          label               : 'Electronics',
+          backgroundColor     : 'rgba(210, 214, 222, 1)',
+          borderColor         : 'rgba(210, 214, 222, 1)',
+          pointRadius         : false,
+          pointColor          : 'rgba(210, 214, 222, 1)',
+          pointStrokeColor    : '#c1c7d1',
+          pointHighlightFill  : '#fff',
+          pointHighlightStroke: 'rgba(220,220,220,1)',
+          data                : [65, 59, 80, 81, 56, 55, 40]
+        },
+      ]
+    }
+    var areaChartOptions = {
+      maintainAspectRatio : false,
+      responsive : true,
+      legend: {
+        display: false
+      },
+      scales: {
+        xAxes: [{
+          gridLines : {
+            display : false,
+          }
+        }],
+        yAxes: [{
+          gridLines : {
+            display : false,
+          }
+        }]
+      }
+    }
+    //-------------
+    //- LINE CHART -
+    //--------------
+    var lineChartCanvas = $('#lineChart').get(0).getContext('2d')
+    var lineChartOptions = $.extend(true, {}, areaChartOptions)
+    var lineChartData = $.extend(true, {}, areaChartData)
+    lineChartData.datasets[0].fill = false;
+    lineChartData.datasets[1].fill = false;
+    lineChartOptions.datasetFill = false
+
+    var lineChart = new Chart(lineChartCanvas, {
+      type: 'line',
+      data: lineChartData,
+      options: lineChartOptions
+    })
+    */
+  })
+</script>
 @endsection
