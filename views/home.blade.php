@@ -385,7 +385,7 @@ Dashboard
     barChartData.datasets[0] = temp1
     barChartData.datasets[1] = temp0
     
-    const barChartOptions = getOptions('Projectos publicados', max_label);
+    const barChartOptions = getOptions('Proyectos publicados', max_label);
     tempOptions['projects'] = barChartOptions;
     if( projectChart ){
       projectChart.destroy();
