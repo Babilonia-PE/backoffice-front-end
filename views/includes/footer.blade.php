@@ -64,7 +64,7 @@
 <script src="@asset("public/assets/js/demo.js")"></script>
 @if($currentPage == "home")
 <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
-<script src="@asset("public/assets/js/pages/dashboard.js")"></script>
+<!--<script src="@asset("public/assets/js/pages/dashboard.js")"></script>-->
 @endif
 <script src="@asset("public/plugins/sweetalert2/sweetalert2.min.js")"></script>
 
