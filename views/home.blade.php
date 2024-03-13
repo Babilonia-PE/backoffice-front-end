@@ -233,13 +233,16 @@ Dashboard
         },
         scales: {
             yAxes: [{
-                    display: true,
-                    ticks: {
-                        beginAtZero: true,
-                        stepValue: 5,
-                        max: max_label
+                display: true,
+                ticks: {
+                  beginAtZero: true,
+                  userCallback: function(label, index, labels) {
+                    if (Math.floor(label) === label) {
+                        return label;
                     }
-                }]
+                  }
+                }
+            }]
         },
         title: {
             display: true,
@@ -258,19 +261,26 @@ Dashboard
         },
         scales: {
             xAxes: [{
-                    display: true,
-                    ticks: {
-                        beginAtZero: true,
-                        stepValue: 5,
-                        max: max_label
+                display: true,
+                ticks: {
+                  beginAtZero: true,
+                  userCallback: function(label, index, labels) {
+                    if (Math.floor(label) === label) {
+                        return label;
                     }
-                }]
+                  }
+                }
+            }]
         },
         title: {
             display: true,
             text: title
         }
       },
+    }
+    if( max_label == 0 ){
+      opciones.vertical.scales.yAxes[0].ticks.max = 5;
+      opciones.horizontal.scales.xAxes[0].ticks.max = 5;
     }
     return opciones;
   }
@@ -310,9 +320,6 @@ Dashboard
       data_today.push(day);
       total_data.push(total);
     });
-    let max_label = ( max == 0) ? 30 : ( max + 10 );
-    max_label = (max_label / 5);
-    max_label = (Math.trunc(max_label) * 5);
     //CARGAR GRÁFICO
     const areaChartData = getChartData(labels, { 
       title_today: 'Avisos en el día', data_today: data_today,
@@ -324,7 +331,7 @@ Dashboard
     const temp1 = areaChartData.datasets[1]
     barChartData.datasets[0] = temp1
     barChartData.datasets[1] = temp0
-    const barChartOptions = getOptions('Avisos publicados', max_label);
+    const barChartOptions = getOptions('Avisos publicados', max);
     tempOptions['listings'] = barChartOptions;
     if( listingChart ){
       listingChart.destroy();
@@ -370,9 +377,6 @@ Dashboard
       data_today.push(day);
       total_data.push(total);
     });
-    let max_label = ( max == 0) ? 30 : ( max + 10 );
-    max_label = (max_label / 5);
-    max_label = (Math.trunc(max_label) * 5);
     //CARGAR GRÁFICO
     const areaChartData = getChartData(labels, { 
       title_today: 'Proyectos en el día', data_today: data_today,
@@ -385,7 +389,7 @@ Dashboard
     barChartData.datasets[0] = temp1
     barChartData.datasets[1] = temp0
     
-    const barChartOptions = getOptions('Proyectos publicados', max_label);
+    const barChartOptions = getOptions('Proyectos publicados', max);
     tempOptions['projects'] = barChartOptions;
     if( projectChart ){
       projectChart.destroy();
@@ -433,9 +437,6 @@ Dashboard
       data_today_owner.push(day);
       total_data_owner.push(total);
     });
-    let max_label_owner = ( max_owner == 0) ? 30 : ( max_owner + 10 );
-    max_label_owner = (max_label_owner / 5);
-    max_label_owner = (Math.trunc(max_label_owner) * 5);
     const areaChartDataOwner = getChartData(labels_owner, { 
       title_today: 'Publicaciones del día', data_today: data_today_owner,
       title_total: 'Publicaciones totales', total_data: total_data_owner
@@ -446,7 +447,7 @@ Dashboard
     const temp1Owner = areaChartDataOwner.datasets[1]
     barChartDataOwner.datasets[0] = temp1Owner
     barChartDataOwner.datasets[1] = temp0Owner
-    const barChartOptionsOwner = getOptions('Estadísticas por usuario | Owners', max_label_owner);
+    const barChartOptionsOwner = getOptions('Estadísticas por usuario | Owners', max_owner);
     tempOptions['owners'] = barChartOptionsOwner;
     options = barChartOptionsOwner;
     if( ownerChart ){
@@ -474,9 +475,6 @@ Dashboard
       data_today_realtor.push(day);
       total_data_realtor.push(total);
     });
-    let max_label_realtor = ( max_realtor == 0) ? 30 : ( max_realtor + 10 );
-    max_label_realtor = (max_label_realtor / 5);
-    max_label_realtor = (Math.trunc(max_label_realtor) * 5);
     const areaChartDataRealtor = getChartData(labels_owner, { 
       title_today: 'Publicaciones del día', data_today: data_today_realtor,
       title_total: 'Publicaciones totales', total_data: total_data_realtor
@@ -487,7 +485,7 @@ Dashboard
     const temp1Realtor = areaChartDataRealtor.datasets[1]
     barChartDataRealtor.datasets[0] = temp1Realtor
     barChartDataRealtor.datasets[1] = temp0Realtor
-    const barChartOptionsRealtor = getOptions('Estadísticas por usuario | Realtors', max_label_realtor);
+    const barChartOptionsRealtor = getOptions('Estadísticas por usuario | Realtors', max_realtor);
     tempOptions['realtors'] = barChartOptionsRealtor;
     if( realtorChart ){
       realtorChart.destroy();
