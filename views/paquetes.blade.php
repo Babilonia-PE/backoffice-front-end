@@ -112,6 +112,18 @@
 			align-items: start;
         }
     }
+	.dropdown.bootstrap-select > button.btn.disabled {
+		background-color: #e9ecef;
+    	opacity: 1;
+	}
+	.error{
+    	font-size: 12px;
+		color: red;
+	}
+	.element-required{
+		border-color: red!important;
+		color: red!important;
+	}
 </style>
 @endsection
 
@@ -270,6 +282,82 @@ Paquetes
 	</div>
 </div>
 
+
+<!-- Modal nuevo paquete -->
+<div class="modal fade p-0" id="newPackage" tabindex="-1" role="dialog" aria-labelledby="newPackageLabel" aria-hidden="true">
+	<div class="modal-dialog modal-lg" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+        		<h5 class="modal-title">Nuevo paquete</h5>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+				<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="modal-body">
+				<div class="row align-items-end">
+					
+					<div class="col-md-6">
+						<div class="form-group">
+							<label>Usuario</label>
+							@component("components.search-user", ['id'=>'package_owner_id', 'placeholder' => 'Buscar por nombre, email o empresa'])
+							@endcomponent            			
+						</div>
+					</div>  
+					<div class="col-md-6">
+						<div class="form-group">
+							<label>Número base de avisos</label>
+							<select name="count" id="count" class="form-control" title="Número base de avisos" placeholder="Número base de avisos" >
+							</select>                			
+						</div>
+					</div>
+					<div class="col-md-6">
+						<div class="form-group">
+							<label>Categoría</label>
+							<select disabled name="plan" id="plan" class="form-control" title="Categoría" placeholder="Categoría" >
+							</select>                			
+						</div>
+					</div>
+					<div class="col-md-6">
+						<div class="form-group">
+							<label>Número de avisos estandard</label>
+                  			<input disabled type="text" class="form-control" id="standard_ads_count" placeholder="Avisos estandard">            			
+						</div>
+					</div>
+					<div class="col-md-6">
+						<div class="form-group">
+							<label>Número de avisos plus</label>
+                  			<input disabled type="text" class="form-control" id="plus_ads_count" placeholder="Avisos plus">     	
+						</div>
+					</div>
+					<div class="col-md-6">
+						<div class="form-group">
+							<label>Número de avisos premium</label>
+                  			<input disabled type="text" class="form-control" id="premium_ads_count" placeholder="Avisos premium">     		
+						</div>
+					</div>
+					<div class="col-md-6">
+						<div class="form-group">
+							<label>Duración base del paquete</label>
+							<select disabled name="duracion" id="duracion" class="form-control" title="Duración base del paquete" placeholder="Duración base del paquete" >
+							</select>                			
+						</div>
+					</div>
+					<div class="col-md-6">
+						<div class="form-group">
+							<label>Duración del paquete</label>
+                  			<input disabled type="text" class="form-control" id="days" placeholder="Duración del paquete">     		
+						</div>
+					</div>
+					<div class="col-md-6">
+						<div class="form-group">
+							<button id="addPackage" type="button" class="btn btn-primary btn-block"><i class="fas fa-plus"></i> Crear paquete</button>
+						</div>
+					</div>   
+				</div>        
+			</div>
+		</div>
+	</div>
+</div>
 @endsection
 
 @section('scripts')
@@ -289,6 +377,11 @@ Paquetes
 	setMask('#purchased_end', { mask: "99/99/9999", showMaskOnHover: false, placeholder: "dd/mm/yyyy", rightAlign:false });
 	setMask('#expires_start', { mask: "99/99/9999", showMaskOnHover: false, placeholder: "dd/mm/yyyy", rightAlign:false });
 	setMask('#expires_end', { mask: "99/99/9999", showMaskOnHover: false, placeholder: "dd/mm/yyyy", rightAlign:false });
+
+	setMask('#standard_ads_count', { alias: "numeric", allowMinus: false, digits: '0', showMaskOnHover: false, rightAlign:false });
+	setMask('#plus_ads_count', { alias: "numeric", allowMinus: false, digits: '0', showMaskOnHover: false, rightAlign:false });
+	setMask('#premium_ads_count', { alias: "numeric", allowMinus: false, digits: '0', showMaskOnHover: false, rightAlign:false });
+	setMask('#days', { alias: "numeric", allowMinus: false, digits: '0', showMaskOnHover: false, rightAlign:false });
 </script>
 <script>
 	let state = [];
@@ -334,6 +427,11 @@ Paquetes
 			name: 'parent',
 			type: 'static',
 			value: 'package'
+		},
+		{
+			name: 'child',
+			type: 'static',
+			value: 'packages'
 		},
 		{
 			name: 'id'
@@ -413,8 +511,160 @@ Paquetes
 	}
 	const initParamsModal = ()=>{
 	}
+	const setMessageInput = (selector)=>{
+		const element = $(selector);
+		const disabled = element.attr("disabled");
+		if(element.val() == '' && ( disabled == false || typeof disabled == 'undefined' ) ){
+			if( element.prop('type') == 'select-one' ){
+				element.next().addClass('element-required');
+			}else{
+				element.addClass('element-required');
+			}
+		}
+	}
 	const columnsHidden = [4,5,6,7,8,9,10,13,14,15,16,20];
 	const columnsDates = [20,21];
+	const returnTable = {
+		buttons: [
+			{
+				extend: "excelHtml5",
+				exportOptions: {
+					//columns: ":not(:last-child)",
+					columns: function(idx, data, node) {
+						return $('table').DataTable().column(idx).visible();
+					}
+				}
+			},
+			{
+				extend: 'colvis',
+				columns: ':not(.noVis)',
+				text: "Ocultar columnas",
+				columnText: function(dt, idx, title ){
+					let title_clean =(typeof headers[idx] === "object" && headers[idx].hasOwnProperty("title_clean"))?headers[idx]["title_clean"]:title;
+					return title_clean;
+				}
+			},
+			{
+				text: 'Reiniciar',
+				action: function ( e, dt, node, config ) {
+					dt.state.clear();
+					window.location.reload();
+				}
+			},
+			{
+				text: 'Nuevo paquete',
+				action: async function ( e, dt, node, config ) {
+					const params = {
+						parent: 'package',
+						child: 'list',
+						type: 'listing'
+					};
+					const details = await fetchData('app/gateway', params, 'GET');
+					const data = details?.data?.records??null;
+					let categories = [];
+					$('#count').find('option').remove();
+					$('#plan').find('option').remove();
+					$('#duracion').find('option').remove();
+					$("#standard_ads_count").val("").attr("disabled", true);
+					$("#plus_ads_count").val("").attr("disabled", true);
+					$("#premium_ads_count").val("").attr("disabled", true);
+					$("#days").val("").attr("disabled", true);
+					data.forEach(element => {
+						categories[element.id] = element.packages;
+						jQuery('<option>', {
+						'value': element.id,
+						'text' : element.ads_count
+						}).appendTo("#count");
+					});
+					$('#count').selectpicker('refresh');
+					$('#plan').selectpicker('refresh');
+					$('#duracion').selectpicker('refresh');
+					$(document).off("change", "#count");
+					$(document).on('change', '#count', async function () {
+						const id = $(this).val();
+						$('#plan').find('option').remove();
+						$('#duracion').find('option').remove();
+						$('#plan').attr('data-key', id);
+						$('#plan').attr('disabled', false);
+						$('#duracion').attr('disabled', true);
+						
+						$("#standard_ads_count").val("").attr("disabled", true);
+						$("#plus_ads_count").val("").attr("disabled", true);
+						$("#premium_ads_count").val("").attr("disabled", true);
+						$("#days").val("").attr("disabled", true);
+
+						(categories[id]??[]).forEach( (element, index) => {
+							jQuery('<option>', {
+								'value': index,
+								'text' : element.category
+							}).appendTo("#plan");
+							$('#plan').selectpicker('refresh');
+							$('#duracion').selectpicker('refresh');
+						});
+					});
+					$(document).off("change", "#plan");
+					$(document).on('change', '#plan', async function () {
+						const count_id = $(this).attr('data-key');
+						const plan_id = $(this).val();
+						const count = categories[count_id][plan_id];
+						$("#standard_ads_count").val(count.standard_ads_count);
+						$("#plus_ads_count").val(count.plus_ads_count);
+						$("#premium_ads_count").val(count.premium_ads_count);
+						$("#standard_ads_count").attr("disabled", false);
+						$("#plus_ads_count").attr("disabled", false);
+						$("#premium_ads_count").attr("disabled", false);
+						$("#days").val("").attr("disabled", true);
+
+						$('#duracion').find('option').remove();
+						$('#duracion').attr('disabled', false);
+						(count.products??[]).forEach( (element, index) => {
+							jQuery('<option>', {
+								'value': element.key,
+								'text' : element.duration
+							}).appendTo("#duracion");
+							$('#duracion').selectpicker('refresh');
+						});
+					});
+					$(document).off("change", "#duracion");
+					$(document).on('change', '#duracion', async function () {
+						const option = $(this).find(":selected").text();
+						$("#days").val(option);
+						$("#days").attr("disabled", false);
+					});
+					$(document).off("click", "#addPackage");
+					$(document).on('click', '#addPackage', async function () {
+						setMessageInput("#package_owner_id");
+						setMessageInput("#count");
+						setMessageInput("#plan");
+						setMessageInput("#standard_ads_count");
+						setMessageInput("#plus_ads_count");
+						setMessageInput("#premium_ads_count");
+						setMessageInput("#duracion");
+						setMessageInput("#days");
+
+						const user_id = $("#package_owner_id").val();
+						const key = $("#duracion").val();
+						const standard_ads_count = $("#standard_ads_count").val();
+						const plus_ads_count = $("#plus_ads_count").val();
+						const premium_ads_count = $("#premium_ads_count").val();
+						const duration = $("#days").val();
+						const params = {
+							user_id: user_id,
+							key: key,
+							standard_ads_count: standard_ads_count,
+							plus_ads_count: plus_ads_count,
+							premium_ads_count: premium_ads_count,
+							duration: duration
+						}
+						//alert(JSON.stringify(params));
+						console.log(params);
+					});
+
+					$("#newPackage").modal('show');
+				}
+			}
+		]
+	};
 	const options = {
 		processParams,
 		headers,
@@ -422,6 +672,7 @@ Paquetes
 		storageView : 'filter_packages',
 		columnsHidden,
 		columnsDates,
+		returnTable,
 		modalOrder,
 		modalTitle,
 		initParams,
@@ -432,5 +683,16 @@ Paquetes
 	datatable(options);
 
 	copyToClipboard();
+
+	$(document).on('change', '#package_owner_id, #count, #plan, #duracion', async function () {
+		$(this).next().removeClass('element-required');
+	});
+	$(document).on('input', '#standard_ads_count, #plus_ads_count, #premium_ads_count, #days', async function () {
+		if( $(this).val() !== '' ){
+			$(this).removeClass('element-required');
+		}else{
+			$(this).addClass('element-required');
+		}
+	});
 </script>
 @endsection
