@@ -244,7 +244,7 @@ Leads Proyectos
 		{ "title": "Teléfono" },
 		{ "title": "Origen", "code": "source", "sortable": true },
 		{ "title": "Creación", "code": "created_at", "sortable": true },
-		{ "title": "Actualización" },
+		{ "title": "Actualización", "code": "updated_at", "sortable": true },
 		{ "title": "Acciones" }
 	];
 	const filtersFields = [
