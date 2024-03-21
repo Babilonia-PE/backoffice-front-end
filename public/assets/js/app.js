@@ -39,7 +39,7 @@ const fetchData = async (url = "", data = null, method = 'POST') => {
                         });
 
     if(method == "POST"){
-        return serviceHttp.post(url, { params: data }).catch(function (error) {
+        return serviceHttp.post(url, data).catch(function (error) {
             return error
         })
     }
@@ -151,7 +151,48 @@ const setActiveMenu = (nav = null)=> {
         }
     }
 }
+window.alertShort =  async function alertShort(jsType, jsTitle, jsMsg = '', jsMultiple = false, styles = {} ) {
+    if( !$(".alertShort-container").length ){
+        jQuery('<div>', {
+            'class': 'alertShort-container'
+        }).appendTo("body")
+    }
+    const icons = { 'error': 'babilonia-cross', 'success': 'babilonia-check1', 'warning': 'babilonia-question'}
+    if (jsMultiple) {
+        await Promise.all(Object.entries(jsMsg).map(async ([jsKey, jsValue]) => {
+            const html = `
+                <div class="alertShort" style="${styles.mainstyles}">
+                    <div class="circle ${jsType}">
+                        <div class="${icons[jsType]}"></div>
+                    </div>
+                    <div class="details">
+                        <p>${jsTitle}</p>
+                        <span style="${styles.msgstyles}">${jsValue}</span>
+                    </div>
+                </div>`;
+            $(".alertShort-container").append(html);
+        }));
+    }else{
+        const html = `
+            <div class="alertShort" style="${styles.mainstyles}">
+                <div class="circle ${jsType}">
+                    <div class="${icons[jsType]}"></div>
+                </div>
+                <div class="details">
+                    <p>${jsTitle}</p>
+                    <span style="${styles.msgstyles}">${jsMsg}</span>
+                </div>
+            </div>`;
+        $(".alertShort-container").append(html);
+    }
+    setTimeout(function () {
+        $('.alertShort-container').remove();
+    }, 6000);
 
+    $(".alertShort").on("click", function(){
+        $(this).remove();
+    })
+}
 const getFlag = (flag = null) => {
     if(flag == null || flag == '' || flag == 'Null') return '';
     
@@ -182,3 +223,87 @@ $(document).on("DOMNodeRemoved", function(e){
         $("body").removeClass("colvis-btn");
     }
 });
+//MOSTRAR MENSAJES SI LOS HUBIESE
+const showMessage = (name = 'message') => {
+    let message = localStorage.getItem(name);
+    if( message ){
+        alertShort('success', message);
+    }
+    localStorage.removeItem("message");
+}
+//VERIFICACIÓN DE CÓDIGO
+window.AppValidateHttpCode = async function (jsData, jsRedirect = false) {
+    try {
+        let jsStatus = jsData.response.status
+        switch (jsStatus) {
+            case 401:
+                AppHttpServicePageUnauthorized(jsRedirect);
+                break;
+            case 400:
+                AppHttpServiceBadRequest(jsData);
+                break;
+            case 404:
+                AppHttpServicePageNotFound();
+                break;
+            case 408:
+                AppHttpErrorNetwork();
+                break;
+            case 500:
+                HttpServicePageServerInternal();
+                break;
+            case 501:
+            case 502:
+            case 503:
+            case 504:
+                AppHttpServicePageUnable();
+                break;
+            default:
+                AppHttServicePageOutRange(jsStatus);
+        }
+    } catch (error) {
+        AppHttpErrorNetwork();
+    }
+}
+//VALIDAR CODIGO HTTP
+window.AppHttpServicePageUnauthorized = function(jsRedirect = false)  {
+    if (jsRedirect){
+        window.location.replace(URL_SIGN_IN);
+    }
+}
+window.AppHttpServicePageUnable = function ()   {
+    console.log('Service Unable');
+}
+window.AppHttpErrorNetwork = function()  {
+    let no_message = new URLSearchParams(window.location.search).get("no_message");    
+    if(no_message==null)alertShort('error','Error Network','' );
+}
+window.AppHttServicePageOutRange = function(expr)  {
+    let no_message = new URLSearchParams(window.location.search).get("no_message");    
+    if(no_message==null)alertShort('error', 'Error Network', expr);
+}
+window.AppHttpServiceBadRequest = function (jsResponse)  {
+    if( jsResponse.hasOwnProperty('response')){
+        try {
+            let jsData = jsResponse.response;
+            if ((jsData.data.data).hasOwnProperty('errors')){
+                if (jsData.data.data.errors[0].key === 'authorization'){
+                    localStorage.clear();
+                    window.location.replace(URL_SIGN_IN);
+                }
+                if ( (jsData.data.data.errors[0]).hasOwnProperty('message')   )
+                {
+                    let msg = jsData.data.data.errors[0].message === null?'':jsData.data.data.errors[0].message;
+                    alertShort('error','Datos Invalidos', msg );
+                }
+            }
+        }
+        catch(err) {
+            let errors = err;
+            if(isTesting) console.log(errors);
+        }
+    }
+}
+window.AppHttpServicePageNotFound = function ()  {
+    console.log('Service not Found');
+}
+window.AppHttpServicePageServerInternal = function () { }
