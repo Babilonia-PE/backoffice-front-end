@@ -239,8 +239,8 @@ Views Avisos
 			{ "title": "Email", "code": "email" },
 			{ "title": "Teléfono", "code": "phone_number" },
 			{ "title": "Origen", "code": "source", "sortable": true },
-			{ "title": "Creación", "created_date": "id", "sortable": true },
-            { "title": "Actualización", "code": "updated_date" },
+			{ "title": "Creación", "code": "created_at", "sortable": true },
+            { "title": "Actualización", "code": "updated_at", "sortable": true },
 			{ "title": "Acciones" }
 	];
 	const filtersFields = [
