@@ -346,19 +346,19 @@ Paquetes
 					<div class="col-md-6">
 						<div class="form-group">
 							<label>Número de avisos estandard</label>
-                  			<input disabled type="text" class="form-control disable validate" id="standard_ads_count" placeholder="Avisos estandard">            			
+                  			<input disabled type="text" class="form-control inputmask disable validate" id="standard_ads_count" placeholder="Avisos estandard">            			
 						</div>
 					</div>
 					<div class="col-md-6">
 						<div class="form-group">
 							<label>Número de avisos plus</label>
-                  			<input disabled type="text" class="form-control disable validate" id="plus_ads_count" placeholder="Avisos plus">     	
+                  			<input disabled type="text" class="form-control inputmask disable validate" id="plus_ads_count" placeholder="Avisos plus">     	
 						</div>
 					</div>
 					<div class="col-md-6">
 						<div class="form-group">
 							<label>Número de avisos premium</label>
-                  			<input disabled type="text" class="form-control disable validate" id="premium_ads_count" placeholder="Avisos premium">     		
+                  			<input disabled type="text" class="form-control inputmask disable validate" id="premium_ads_count" placeholder="Avisos premium">     		
 						</div>
 					</div>
 					<div class="col-md-6">
@@ -403,10 +403,6 @@ Paquetes
 	setMask('#purchased_end', { mask: "99/99/9999", showMaskOnHover: false, placeholder: "dd/mm/yyyy", rightAlign:false });
 	setMask('#expires_start', { mask: "99/99/9999", showMaskOnHover: false, placeholder: "dd/mm/yyyy", rightAlign:false });
 	setMask('#expires_end', { mask: "99/99/9999", showMaskOnHover: false, placeholder: "dd/mm/yyyy", rightAlign:false });
-
-	setMask('#standard_ads_count', { alias: "numeric", allowMinus: false, digits: '0', showMaskOnHover: false, rightAlign:false });
-	setMask('#plus_ads_count', { alias: "numeric", allowMinus: false, digits: '0', showMaskOnHover: false, rightAlign:false });
-	setMask('#premium_ads_count', { alias: "numeric", allowMinus: false, digits: '0', showMaskOnHover: false, rightAlign:false });
 	//setMask('#days', { alias: "numeric", allowMinus: false, digits: '0', showMaskOnHover: false, rightAlign:false });
 </script>
 <script>
@@ -581,6 +577,14 @@ Paquetes
 				text: 'Nuevo paquete',
 				action: async function ( e, dt, node, config ) {
 					let categories = [];
+					const mask = {
+						alias: "numeric", 
+						allowMinus: false, 
+						digits: '0', 
+						showMaskOnHover: false, 
+						rightAlign:false
+					};
+					$('.inputmask').inputmask("remove");
 					$('#newPackage .form-control').val("");
 					$('#addPackage').attr("disabled", true);
 					$('#newPackage .disable').attr("disabled", true);
@@ -611,7 +615,7 @@ Paquetes
 							categories[element.id] = element.packages;
 							jQuery('<option>', {
 							'value': element.id,
-							'text' : element.ads_count
+							'text' : ( element.is_unlimited == true ) ? 'Ilimitado' : element.ads_count
 							}).appendTo("#count");
 						});
 						users.forEach(element => {
@@ -637,6 +641,10 @@ Paquetes
 						$('#plan').attr('disabled', false);
 						$('#duracion').attr('disabled', true);
 						
+						$('.inputmask').inputmask("remove");
+						$("#standard_ads_count").removeClass('element-required');
+						$("#plus_ads_count").removeClass('element-required');
+						$("#premium_ads_count").removeClass('element-required');
 						$("#standard_ads_count").val("").attr("disabled", true);
 						$("#plus_ads_count").val("").attr("disabled", true);
 						$("#premium_ads_count").val("").attr("disabled", true);
@@ -656,17 +664,31 @@ Paquetes
 						const count_id = $(this).attr('data-key');
 						const plan_id = $(this).val();
 						const count = categories[count_id][plan_id];
-						$("#standard_ads_count").val(count.standard_ads_count??0);
-						$("#plus_ads_count").val(count.plus_ads_count??0);
-						$("#premium_ads_count").val(count.premium_ads_count??0);
+						const standard_unlimited = count.standard?.is_unlimited??false;
+						const plus_unlimited = count.plus?.is_unlimited??false;
+						const premium_unlimited = count.premium?.is_unlimited??false;
+						const standard_count = ( standard_unlimited == true ) ? 'Ilimitado' : ( count.standard?.ads_count??0 );
+						const plus_count = ( plus_unlimited == true ) ? 'Ilimitado' : ( count.plus?.ads_count??0 );
+						const premium_count = ( premium_unlimited == true ) ? 'Ilimitado' : ( count.premium?.ads_count??0 );
+						if( !standard_unlimited ){
+							$("#standard_ads_count").attr("disabled", false);
+							setMask('#standard_ads_count', mask);
+						}
+						if( !plus_unlimited ){
+							$("#plus_ads_count").attr("disabled", false);
+							setMask('#plus_ads_count', mask);
+						}
+						if( !premium_unlimited ){
+							$("#premium_ads_count").attr("disabled", false);
+							setMask('#premium_ads_count', mask);
+						}
+						$("#standard_ads_count").val(standard_count);
+						$("#plus_ads_count").val(plus_count);
+						$("#premium_ads_count").val(premium_count);
 						$("#standard_ads_count").removeClass('element-required');
 						$("#plus_ads_count").removeClass('element-required');
 						$("#premium_ads_count").removeClass('element-required');
-						$("#standard_ads_count").attr("disabled", false);
-						$("#plus_ads_count").attr("disabled", false);
-						$("#premium_ads_count").attr("disabled", false);
 						$("#days").val("").attr("disabled", true);
-
 						$('#duracion').find('option').remove();
 						$('#duracion').attr('disabled', false);
 						(count.products??[]).forEach( (element, index) => {
