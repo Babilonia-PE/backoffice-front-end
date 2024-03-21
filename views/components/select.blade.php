@@ -8,7 +8,7 @@
     $data = unsetArray($data, 0, !$first);
     
 @endphp
-<select name="{{ $id }}" id="{{ $id }}" class="form-control select2" title="{{ $placeholder }}" placeholder="{{ $placeholder }}" style="width: 100%;">
+<select name="{{ $id }}" id="{{ $id }}" class="form-control select2 {{$class}}" title="{{ $placeholder }}" placeholder="{{ $placeholder }}" style="width: 100%;">
     <option selected disabled value="">Elige una opción</option>
     @foreach ($data as $k => $item)
         <option value="{{ $k }}">{{ $item }}</option>

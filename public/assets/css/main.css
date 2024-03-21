@@ -102,3 +102,76 @@ body.colvis-btn footer.main-footer{
 body.colvis-btn div.content-wrapper{
   margin-bottom: 4rem;
 }
+
+/*--------SHORT ALERTS----------*/
+.alertShort-container{
+  width: 100%;
+  height: auto;
+  position: fixed;
+  top: 1rem;
+  left: 0;
+  z-index: 99999999;
+  padding: 0 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+}
+.alertShort{
+  cursor: pointer;
+  background: #FFF;
+  width: 350px;
+  padding: 1rem;
+  min-height: 70px;
+  overflow: hidden;
+  border-radius: 4px;
+  position: relative;
+  box-shadow: 2px 2px 10px rgba(0, 0, 0, .4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+}
+.alertShort:hover {
+  box-shadow: 0 0 10px rgba(0, 0, 0, .6);
+}
+.alertShort .details{
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+.alertShort .circle{
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+  background-color: #EEE;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #000;
+}
+.alertShort .circle.error{
+  background-color: #FF4F4F;
+  color: #FFF;
+}
+.alertShort .circle.success{
+  background-color: #1BA7B6;
+  color: #FFF;
+}
+.alertShort .circle.warning{
+  background-color: #FDBD32;
+  color: #FFF;
+}
+.alertShort p{
+  margin: 0;
+  font-size: 1rem;
+  font-family: Avenir-Medium, sans-serif; 
+  font-weight: 700;
+  text-align: center;
+}
+.alertShort span{
+  font-size: 1rem;
+  font-family: Avenir-Medium, sans-serif; 
+  text-align: center;
+}

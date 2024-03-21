@@ -5,7 +5,7 @@
 <link rel="stylesheet" href="public/plugins/LibDataTables/Responsive-2.5.0/css/responsive.bootstrap4.min.css">
 <link rel="stylesheet" href="public/plugins/LibDataTables/Buttons-2.4.2/css/buttons.bootstrap4.min.css">
 <link rel="stylesheet" href="public/plugins/LibDataTables/ColReorder-1.7.0/css/colReorder.dataTables.min.css">
-<!-- Select2 -->
+<!-- -->
 <link rel="stylesheet" href="public/plugins/select2/css/select2.min.css">
 <link rel="stylesheet" href="public/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css">
 <style>
@@ -112,6 +112,18 @@
 			align-items: start;
         }
     }
+	.dropdown.bootstrap-select > button.btn.disabled {
+		background-color: #e9ecef;
+    	opacity: 1;
+	}
+	.error{
+    	font-size: 12px;
+		color: red;
+	}
+	.element-required{
+		border-color: red!important;
+		color: red!important;
+	}
 </style>
 @endsection
 
@@ -160,7 +172,7 @@ Paquetes
               		<div class="col-md-4">
                 		<div class="form-group">
                   			<label>Cantidad de paquetes</label>
-                  			<select class="form-control select2" id="ads_count" name="ads_count">
+                  			<select class="form-control" id="ads_count" name="ads_count">
 								<option value="">- Seleccione una opción -</option>
 								<option value="5">5</option>
                                 <option value="10">10</option>
@@ -190,7 +202,7 @@ Paquetes
               		<div class="col-md-4">
                 		<div class="form-group">
                   			<label>Duración del paquete</label>
-                  			<select class="form-control select2" id="duration" name="duration">
+                  			<select class="form-control" id="duration" name="duration">
                                 <option value="">- Seleccione una opción -</option>
 								<option value="90">90</option>
                                 <option value="180">180</option>
@@ -270,6 +282,108 @@ Paquetes
 	</div>
 </div>
 
+
+<!-- Modal nuevo paquete -->
+<div class="modal fade p-0" id="newPackage" tabindex="-1" role="dialog" aria-labelledby="newPackageLabel" aria-hidden="true">
+	<div class="modal-dialog modal-lg" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+        		<h5 class="modal-title">Nuevo paquete</h5>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+				<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="modal-body">
+				<div class="row align-items-end">
+					
+					<div class="col-md-6">
+						<div class="form-group">
+							<label>Usuario</label>
+							@component("components.search-user", ['id'=>'package_owner_id', 'placeholder' => 'Buscar por nombre, email o empresa', 'class' => 'validate'])
+							@endcomponent            			
+						</div>
+					</div>   
+					<div class="col-md-6">
+						<div class="form-group">
+							<label>Método de pago</label>
+							<select name="payment_method" id="payment_method" class="form-control selectpicker validate" title="Método de pago" placeholder="Método de pago">
+								<option value="tranfer">Compra</option>
+								<option value="free">Regalo</option>
+								<option value="lottery">Sorteo</option>
+							</select>                			
+						</div>
+					</div>  
+					<div class="col-md-6">
+						<div class="form-group">
+							<label>Tipo</label>
+							<select name="package_type" id="package_type" class="form-control selectpicker validate" title="Tipo de paquete" placeholder="Tipo de paquete">
+								<option value="listing">Inmuebles</option>
+								<option value="project">Proyectos</option>
+							</select>                			
+						</div>
+					</div> 
+					<div class="col-md-6">
+						<div class="form-group">
+							<label>Agente</label>
+							<select disabled name="realtor" id="realtor" class="form-control selectpicker disable validate" title="Agente" placeholder="Agente">
+							</select>                			
+						</div>
+					</div>
+					<div class="col-md-6">
+						<div class="form-group">
+							<label>Número base de avisos</label>
+							<select disabled name="count" id="count" class="form-control selectpicker disable validate" title="Número base de avisos" placeholder="Número base de avisos" >
+							</select>                			
+						</div>
+					</div>
+					<div class="col-md-6">
+						<div class="form-group">
+							<label>Categoría</label>
+							<select disabled name="plan" id="plan" class="form-control selectpicker disable validate" title="Categoría" placeholder="Categoría" >
+							</select>                			
+						</div>
+					</div>
+					<div class="col-md-6">
+						<div class="form-group">
+							<label>Número de avisos estandard</label>
+                  			<input disabled type="text" class="form-control disable validate" id="standard_ads_count" placeholder="Avisos estandard">            			
+						</div>
+					</div>
+					<div class="col-md-6">
+						<div class="form-group">
+							<label>Número de avisos plus</label>
+                  			<input disabled type="text" class="form-control disable validate" id="plus_ads_count" placeholder="Avisos plus">     	
+						</div>
+					</div>
+					<div class="col-md-6">
+						<div class="form-group">
+							<label>Número de avisos premium</label>
+                  			<input disabled type="text" class="form-control disable validate" id="premium_ads_count" placeholder="Avisos premium">     		
+						</div>
+					</div>
+					<div class="col-md-6">
+						<div class="form-group">
+							<label>Duración base del paquete</label>
+							<select disabled name="duracion" id="duracion" class="form-control selectpicker disable validate" title="Duración base del paquete" placeholder="Duración base del paquete" >
+							</select>                			
+						</div>
+					</div>
+					<div class="col-md-6">
+						<div class="form-group">
+							<label>Duración del paquete</label>
+                  			<input disabled type="date" class="form-control disable" id="days" placeholder="Duración del paquete" min="{{date('Y-m-d', strtotime('+1 day'))}}">     		
+						</div>
+					</div>
+					<div class="col-md-6">
+						<div class="form-group">
+							<button disabled id="addPackage" type="button" class="btn btn-primary btn-block"><i class="fas fa-plus"></i> Crear paquete</button>
+						</div>
+					</div>   
+				</div>        
+			</div>
+		</div>
+	</div>
+</div>
 @endsection
 
 @section('scripts')
@@ -282,13 +396,18 @@ Paquetes
 <script src="public/plugins/LibDataTables/Buttons-2.4.2/js/buttons.colVis.min.js"></script>
 <script src="public/plugins/LibDataTables/ColReorder-1.7.0/js/dataTables.colReorder.min.js"></script>
 <script src="@asset("public/assets/js/components/datatable.js")?v={{ APP_VERSION }}"></script>
-<!-- Select2 -->
+<!-- -->
 <script src="public/plugins/select2/js/select2.full.min.js"></script>
 <script>
 	setMask('#purchased_start', { mask: "99/99/9999", showMaskOnHover: false, placeholder: "dd/mm/yyyy", rightAlign:false });
 	setMask('#purchased_end', { mask: "99/99/9999", showMaskOnHover: false, placeholder: "dd/mm/yyyy", rightAlign:false });
 	setMask('#expires_start', { mask: "99/99/9999", showMaskOnHover: false, placeholder: "dd/mm/yyyy", rightAlign:false });
 	setMask('#expires_end', { mask: "99/99/9999", showMaskOnHover: false, placeholder: "dd/mm/yyyy", rightAlign:false });
+
+	setMask('#standard_ads_count', { alias: "numeric", allowMinus: false, digits: '0', showMaskOnHover: false, rightAlign:false });
+	setMask('#plus_ads_count', { alias: "numeric", allowMinus: false, digits: '0', showMaskOnHover: false, rightAlign:false });
+	setMask('#premium_ads_count', { alias: "numeric", allowMinus: false, digits: '0', showMaskOnHover: false, rightAlign:false });
+	//setMask('#days', { alias: "numeric", allowMinus: false, digits: '0', showMaskOnHover: false, rightAlign:false });
 </script>
 <script>
 	let state = [];
@@ -334,6 +453,11 @@ Paquetes
 			name: 'parent',
 			type: 'static',
 			value: 'package'
+		},
+		{
+			name: 'child',
+			type: 'static',
+			value: 'packages'
 		},
 		{
 			name: 'id'
@@ -413,8 +537,215 @@ Paquetes
 	}
 	const initParamsModal = ()=>{
 	}
+	const setMessageInput = (selector)=>{
+		const element = $(selector);
+		const disabled = element.attr("disabled");
+		if(element.val() == '' && ( disabled == false || typeof disabled == 'undefined' ) ){
+			if( element.prop('type') == 'select-one' ){
+				element.next().addClass('element-required');
+			}else{
+				element.addClass('element-required');
+			}
+		}
+	}
 	const columnsHidden = [4,5,6,7,8,9,10,13,14,15,16,20];
 	const columnsDates = [20,21];
+	const returnTable = {
+		buttons: [
+			{
+				extend: "excelHtml5",
+				exportOptions: {
+					//columns: ":not(:last-child)",
+					columns: function(idx, data, node) {
+						return $('table').DataTable().column(idx).visible();
+					}
+				}
+			},
+			{
+				extend: 'colvis',
+				columns: ':not(.noVis)',
+				text: "Ocultar columnas",
+				columnText: function(dt, idx, title ){
+					let title_clean =(typeof headers[idx] === "object" && headers[idx].hasOwnProperty("title_clean"))?headers[idx]["title_clean"]:title;
+					return title_clean;
+				}
+			},
+			{
+				text: 'Reiniciar',
+				action: function ( e, dt, node, config ) {
+					dt.state.clear();
+					window.location.reload();
+				}
+			},
+			{
+				text: 'Nuevo paquete',
+				action: async function ( e, dt, node, config ) {
+					let categories = [];
+					$('#newPackage .form-control').val("");
+					$('#addPackage').attr("disabled", true);
+					$('#newPackage .disable').attr("disabled", true);
+					$('#newPackage .selectpicker').selectpicker('refresh');
+					$(document).off("change", "#package_type");
+					$(document).on('change', '#package_type', async function () {
+						const params = {
+							parent: 'package',
+							child: 'list',
+							type: $(this).val()
+						};
+						const details = await fetchData('app/gateway', params, 'GET');
+						const data = details?.data?.records??null;
+						const users = details?.data?.users??null;
+						$('#realtor').find('option').remove();
+						$('#count').find('option').remove();
+						$('#plan').find('option').remove();
+						$('#duracion').find('option').remove();
+
+						$("#standard_ads_count").val("").attr("disabled", true);
+						$("#plus_ads_count").val("").attr("disabled", true);
+						$("#premium_ads_count").val("").attr("disabled", true);
+						$("#plan").val("").attr("disabled", true);
+						$("#days").val("").attr("disabled", true);
+						$("#duracion").val("").attr("disabled", true);
+
+						data.forEach(element => {
+							categories[element.id] = element.packages;
+							jQuery('<option>', {
+							'value': element.id,
+							'text' : element.ads_count
+							}).appendTo("#count");
+						});
+						users.forEach(element => {
+							if( element.state == 0 ){ return; }
+							jQuery('<option>', {
+							'value': element.id,
+							'text' : element.full_name
+							}).appendTo("#realtor");
+						});
+						$('#realtor').attr('disabled', false);
+						$('#count').attr('disabled', false);
+						$('#realtor').selectpicker('refresh');
+						$('#count').selectpicker('refresh');
+						$('#plan').selectpicker('refresh');
+						$('#duracion').selectpicker('refresh');
+					});
+					$(document).off("change", "#count");
+					$(document).on('change', '#count', async function () {
+						const id = $(this).val();
+						$('#plan').find('option').remove();
+						$('#duracion').find('option').remove();
+						$('#plan').attr('data-key', id);
+						$('#plan').attr('disabled', false);
+						$('#duracion').attr('disabled', true);
+						
+						$("#standard_ads_count").val("").attr("disabled", true);
+						$("#plus_ads_count").val("").attr("disabled", true);
+						$("#premium_ads_count").val("").attr("disabled", true);
+						$("#days").val("").attr("disabled", true);
+
+						(categories[id]??[]).forEach( (element, index) => {
+							jQuery('<option>', {
+								'value': index,
+								'text' : element.category
+							}).appendTo("#plan");
+							$('#plan').selectpicker('refresh');
+							$('#duracion').selectpicker('refresh');
+						});
+					});
+					$(document).off("change", "#plan");
+					$(document).on('change', '#plan', async function () {
+						const count_id = $(this).attr('data-key');
+						const plan_id = $(this).val();
+						const count = categories[count_id][plan_id];
+						$("#standard_ads_count").val(count.standard_ads_count??0);
+						$("#plus_ads_count").val(count.plus_ads_count??0);
+						$("#premium_ads_count").val(count.premium_ads_count??0);
+						$("#standard_ads_count").removeClass('element-required');
+						$("#plus_ads_count").removeClass('element-required');
+						$("#premium_ads_count").removeClass('element-required');
+						$("#standard_ads_count").attr("disabled", false);
+						$("#plus_ads_count").attr("disabled", false);
+						$("#premium_ads_count").attr("disabled", false);
+						$("#days").val("").attr("disabled", true);
+
+						$('#duracion').find('option').remove();
+						$('#duracion').attr('disabled', false);
+						(count.products??[]).forEach( (element, index) => {
+							jQuery('<option>', {
+								'value': element.key,
+								'text' : element.duration
+							}).appendTo("#duracion");
+							$('#duracion').selectpicker('refresh');
+						});
+					});
+					$(document).off("change", "#duracion");
+					$(document).on('change', '#duracion', async function () {
+						const option = $(this).find(":selected").text();
+						const dt = new Date(); // June 1, 2022 UTC time
+						dt.setDate(dt.getDate() + parseInt(option)); // Add 30 days
+						
+						const date = [
+							dt.getFullYear(),
+							('0' + (dt.getMonth() + 1)).slice(-2),
+							('0' + dt.getDate()).slice(-2)
+						].join('-');
+					
+						$("#days").val(date);
+						$("#days").attr("disabled", false);
+					});
+					$(document).off("click", "#addPackage");
+					$(document).on('click', '#addPackage', async function () {
+						setMessageInput("#package_owner_id");
+						setMessageInput("#count");
+						setMessageInput("#plan");
+						setMessageInput("#standard_ads_count");
+						setMessageInput("#plus_ads_count");
+						setMessageInput("#premium_ads_count");
+						setMessageInput("#duracion");
+						setMessageInput("#days");
+									
+						const type = $("#package_type").val();
+						const agent_id = $("#realtor").val();
+						const user_id = $("#package_owner_id").val();
+						const product_key = $("#duracion").val();
+						const expires_at = $("#days").val();
+						const payment_method = $("#payment_method").val();
+						const standard_ads_count = $("#standard_ads_count").val();
+						const plus_ads_count = $("#plus_ads_count").val();
+						const premium_ads_count = $("#premium_ads_count").val();
+						const now = new Date()
+						const duration = moment(expires_at).diff(moment(), 'days') + 1;		
+						const params = {
+							type: type,
+							agent_id: agent_id,
+							user_id: user_id,
+							product_key: product_key,
+							duration: duration,
+							expires_at: expires_at,
+							payment_method: payment_method,
+							standard_ads_count: standard_ads_count,
+							plus_ads_count: plus_ads_count,
+							premium_ads_count: premium_ads_count,
+						}
+						try {
+							const response = await fetchData('app/package/packages', params, 'POST');
+							if (response.hasOwnProperty('code')){ 
+								AppValidateHttpCode(response);
+								return false;
+							}
+							restartForm();
+							$("#newPackage").modal('hide');
+							localStorage.setItem('message', response?.data?.data?.message??'');
+							window.location.reload();
+						} catch (error) {
+							console.log(error);
+						}
+					});
+
+					$("#newPackage").modal('show');
+				}
+			}
+		]
+	};
 	const options = {
 		processParams,
 		headers,
@@ -422,6 +753,7 @@ Paquetes
 		storageView : 'filter_packages',
 		columnsHidden,
 		columnsDates,
+		returnTable,
 		modalOrder,
 		modalTitle,
 		initParams,
@@ -430,7 +762,50 @@ Paquetes
 	};
 	
 	datatable(options);
-
 	copyToClipboard();
+	showMessage();
+	//VALIDACIONES
+	let disableButton = true;
+	const restartForm = () => {
+		$('#newPackage .form-control').val("");
+		$('#addPackage').attr("disabled", true);
+		$('#newPackage .disable').attr("disabled", true);
+		$('#newPackage .selectpicker').selectpicker('refresh');
+	}
+	const enableButtonSubmitform = () => {
+		$("#addPackage").prop("disabled", disableButton);
+	}
+	const serviceValidateForm = () => {
+		disableButton = false;
+		$('#newPackage *').filter(':input').each(function () {
+			if( ( $(this).val() === '' ||  $(this).val() === null ) && $(this).hasClass('validate') ){
+				disableButton = true;
+			}
+		});
+	}
+	$(document).on('focusout change', '#newPackage select', async function () {
+		disableButton = false;
+		if( $(this).val() !== '' ){
+			$(this).next().removeClass('element-required');
+		}else{
+			if( $(this).hasClass('validate') ){
+				$(this).next().addClass('element-required');
+			}
+		}
+		serviceValidateForm();
+        enableButtonSubmitform();
+	});
+	$(document).on('blur input keyup change', '#newPackage input', async function () {
+		disableButton = false;
+		if( $(this).val() !== '' ){
+			$(this).removeClass('element-required');
+		}else{
+			if( $(this).hasClass('validate') ){
+				$(this).addClass('element-required');
+			}
+		}
+		serviceValidateForm();
+        enableButtonSubmitform();
+	});
 </script>
 @endsection
