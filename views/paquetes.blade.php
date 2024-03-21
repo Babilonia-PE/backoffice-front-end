@@ -318,7 +318,7 @@ Paquetes
 							<label>Tipo</label>
 							<select name="package_type" id="package_type" class="form-control selectpicker validate" title="Tipo de paquete" placeholder="Tipo de paquete">
 								<option value="listing">Inmuebles</option>
-								<option value="project">Proyectos</option>
+								<!--<option value="project">Proyectos</option>-->
 							</select>                			
 						</div>
 					</div> 
