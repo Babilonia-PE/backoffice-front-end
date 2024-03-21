@@ -575,7 +575,7 @@ const datatable = (options = {})=>{
 			json.draw = dtDraw;
 			dtDraw += 1;
 		} );
-		if( !jQuery.isEmptyObject(returnTable) ){
+		if( !jQuery.isEmptyObject(returnTable) && ( returnTable.return??false ) == true ){
 			return table;
 		}else{
 			tableSaved = table;
