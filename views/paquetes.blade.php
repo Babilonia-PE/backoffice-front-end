@@ -215,10 +215,10 @@ Paquetes
 							<label for="exampleInputEmail1">Fecha de compra (Desde - Hasta)</label>
 							<div class="form-row">
 								<div class="col-6">
-									<input type="text" class="form-control" id="purchased_start" placeholder="dd/mm/yyyy">
+									<input type="date" class="form-control" id="purchased_start" placeholder="dd/mm/yyyy">
 								</div>
 								<div class="col-6">
-									<input type="text" class="form-control" id="purchased_end" placeholder="dd/mm/yyyy">
+									<input type="date" class="form-control" id="purchased_end" placeholder="dd/mm/yyyy">
 								</div>
 							</div>
 						</div>
@@ -228,10 +228,10 @@ Paquetes
 							<label for="exampleInputEmail1">Fecha de expiración (Desde - Hasta)</label>
 							<div class="form-row">
 								<div class="col-6">
-									<input type="text" class="form-control" id="expires_start" placeholder="dd/mm/yyyy">
+									<input type="date" class="form-control" id="expires_start" placeholder="dd/mm/yyyy">
 								</div>
 								<div class="col-6">
-									<input type="text" class="form-control" id="expires_end" placeholder="dd/mm/yyyy">
+									<input type="date" class="form-control" id="expires_end" placeholder="dd/mm/yyyy">
 								</div>
 							</div>
 						</div>
@@ -399,11 +399,7 @@ Paquetes
 <!-- -->
 <script src="public/plugins/select2/js/select2.full.min.js"></script>
 <script>
-	setMask('#purchased_start', { mask: "99/99/9999", showMaskOnHover: false, placeholder: "dd/mm/yyyy", rightAlign:false });
-	setMask('#purchased_end', { mask: "99/99/9999", showMaskOnHover: false, placeholder: "dd/mm/yyyy", rightAlign:false });
-	setMask('#expires_start', { mask: "99/99/9999", showMaskOnHover: false, placeholder: "dd/mm/yyyy", rightAlign:false });
-	setMask('#expires_end', { mask: "99/99/9999", showMaskOnHover: false, placeholder: "dd/mm/yyyy", rightAlign:false });
-	//setMask('#days', { alias: "numeric", allowMinus: false, digits: '0', showMaskOnHover: false, rightAlign:false });
+	
 </script>
 <script>
 	let state = [];
@@ -439,8 +435,8 @@ Paquetes
 		{ "title": "ID orden" },
 		{ "title": "Tipo", "code": "type", "sortable": true },
 		{ "title": "Tipo Compra", "code": "type"},
-		{ "title": "Compra", "code": "purchased_at", "sortable": true },
-		{ "title": "Expiración", "code": "expires_at", "sortable": true },
+		{ "title": "Fecha de compra", "code": "purchased_at", "sortable": true },
+		{ "title": "Fecha de expiración", "code": "expires_at", "sortable": true },
 		{ "title": "Teléfono", "code": "type"},
 		{ "title": "Acciones" }
 	];
