@@ -142,10 +142,10 @@ Reclamos
 							<label for="exampleInputEmail1">Fecha de creación (Desde - Hasta)</label>
 							<div class="form-row">
 								<div class="col-6">
-									<input type="text" class="form-control" id="created_start" placeholder="dd/mm/yyyy">
+									<input type="date" class="form-control" id="created_start" placeholder="dd/mm/yyyy">
 								</div>
 								<div class="col-6">
-									<input type="text" class="form-control" id="created_end" placeholder="dd/mm/yyyy">
+									<input type="date" class="form-control" id="created_end" placeholder="dd/mm/yyyy">
 								</div>
 							</div>
 						</div>
@@ -211,8 +211,7 @@ Reclamos
 <!-- Select2 -->
 <script src="public/plugins/select2/js/select2.full.min.js"></script>
 <script>
-	setMask('#created_start', { mask: "99/99/9999", showMaskOnHover: false, placeholder: "dd/mm/yyyy", rightAlign:false });
-	setMask('#created_end', { mask: "99/99/9999", showMaskOnHover: false, placeholder: "dd/mm/yyyy", rightAlign:false });
+	
 </script>
 <script>
 	const STATE_BAGES = {
@@ -284,6 +283,7 @@ Reclamos
 		processParams,
 		headers,
 		filtersFields,
+		storageView : 'filter_reclamos',
 		columnsHidden,
 		columnsDates,
 		modalOrder,
