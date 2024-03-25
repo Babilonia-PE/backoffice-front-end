@@ -51,8 +51,8 @@ Dashboard
           </div>
         </div>
         <div class="btn-group" id="realtime" data-toggle="btn-toggle">
-          <button type="button" id="owners" class="btn btn-default btn-sm active userbtn">Owners</button>
-          <button type="button" id="realtors" class="btn btn-default btn-sm userbtn">Realtors</button>
+          <button type="button" id="owners" class="btn btn-default btn-sm active userbtn">Sin RUC</button>
+          <button type="button" id="realtors" class="btn btn-default btn-sm userbtn">Con RUC</button>
         </div>
         <div class="chart">
           <canvas id="OwnersChart" class="charjs"></canvas>
@@ -438,8 +438,8 @@ Dashboard
       total_data_owner.push(total);
     });
     const areaChartDataOwner = getChartData(labels_owner, { 
-      title_today: 'Publicaciones del día', data_today: data_today_owner,
-      title_total: 'Publicaciones totales', total_data: total_data_owner
+      title_today: 'Clientes del día', data_today: data_today_owner,
+      title_total: 'Clientes totales', total_data: total_data_owner
     });
     const barChartCanvasOwner = $('#OwnersChart').get(0).getContext('2d')
     const barChartDataOwner = $.extend(true, {}, areaChartDataOwner)
@@ -476,8 +476,8 @@ Dashboard
       total_data_realtor.push(total);
     });
     const areaChartDataRealtor = getChartData(labels_owner, { 
-      title_today: 'Publicaciones del día', data_today: data_today_realtor,
-      title_total: 'Publicaciones totales', total_data: total_data_realtor
+      title_today: 'Clientes del día', data_today: data_today_realtor,
+      title_total: 'Clientes totales', total_data: total_data_realtor
     });
     const barChartCanvasRealtor = $('#RealtorsChart').get(0).getContext('2d')
     const barChartDataRealtor = $.extend(true, {}, areaChartDataRealtor)
