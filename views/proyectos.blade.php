@@ -165,10 +165,10 @@ Proyectos
 							<label for="exampleInputEmail1">Fecha de creación (Desde - Hasta)</label>
 							<div class="form-row">
 								<div class="col-6">
-									<input type="text" class="form-control" id="created_start" placeholder="dd/mm/yyyy">
+									<input type="date" class="form-control" id="created_start" placeholder="dd/mm/yyyy">
 								</div>
 								<div class="col-6">
-									<input type="text" class="form-control" id="created_end" placeholder="dd/mm/yyyy">
+									<input type="date" class="form-control" id="created_end" placeholder="dd/mm/yyyy">
 								</div>
 							</div>
 						</div>
@@ -178,10 +178,10 @@ Proyectos
 							<label for="exampleInputEmail1">Fecha de actualización (Desde - Hasta)</label>
 							<div class="form-row">
 								<div class="col-6">
-									<input type="text" class="form-control" id="updated_start" placeholder="dd/mm/yyyy">
+									<input type="date" class="form-control" id="updated_start" placeholder="dd/mm/yyyy">
 								</div>
 								<div class="col-6">
-									<input type="text" class="form-control" id="updated_end" placeholder="dd/mm/yyyy">
+									<input type="date" class="form-control" id="updated_end" placeholder="dd/mm/yyyy">
 								</div>
 							</div>
 						</div>
@@ -191,10 +191,10 @@ Proyectos
 							<label for="exampleInputEmail1">Fecha de publicación (Desde - Hasta)</label>
 							<div class="form-row">
 								<div class="col-6">
-									<input type="text" class="form-control" id="purchased_start" placeholder="dd/mm/yyyy">
+									<input type="date" class="form-control" id="purchased_start" placeholder="dd/mm/yyyy">
 								</div>
 								<div class="col-6">
-									<input type="text" class="form-control" id="purchased_end" placeholder="dd/mm/yyyy">
+									<input type="date" class="form-control" id="purchased_end" placeholder="dd/mm/yyyy">
 								</div>
 							</div>
 						</div>
@@ -204,10 +204,10 @@ Proyectos
 							<label for="exampleInputEmail1">Fecha de expiración (Desde - Hasta)</label>
 							<div class="form-row">
 								<div class="col-6">
-									<input type="text" class="form-control" id="expires_start" placeholder="dd/mm/yyyy">
+									<input type="date" class="form-control" id="expires_start" placeholder="dd/mm/yyyy">
 								</div>
 								<div class="col-6">
-									<input type="text" class="form-control" id="expires_end" placeholder="dd/mm/yyyy">
+									<input type="date" class="form-control" id="expires_end" placeholder="dd/mm/yyyy">
 								</div>
 							</div>
 						</div>
@@ -271,17 +271,7 @@ Proyectos
 <!-- Select2 -->
 <script src="public/plugins/select2/js/select2.full.min.js"></script>
 <script>
-	setMask('#created_start', { mask: "99/99/9999", showMaskOnHover: false, placeholder: "dd/mm/yyyy", rightAlign:false });
-	setMask('#created_end', { mask: "99/99/9999", showMaskOnHover: false, placeholder: "dd/mm/yyyy", rightAlign:false });
-
-	setMask('#updated_start', { mask: "99/99/9999", showMaskOnHover: false, placeholder: "dd/mm/yyyy", rightAlign:false });
-	setMask('#updated_end', { mask: "99/99/9999", showMaskOnHover: false, placeholder: "dd/mm/yyyy", rightAlign:false });
-
-	setMask('#purchased_start', { mask: "99/99/9999", showMaskOnHover: false, placeholder: "dd/mm/yyyy", rightAlign:false });
-	setMask('#purchased_end', { mask: "99/99/9999", showMaskOnHover: false, placeholder: "dd/mm/yyyy", rightAlign:false });
-
-	setMask('#expires_start', { mask: "99/99/9999", showMaskOnHover: false, placeholder: "dd/mm/yyyy", rightAlign:false });
-	setMask('#expires_end', { mask: "99/99/9999", showMaskOnHover: false, placeholder: "dd/mm/yyyy", rightAlign:false });
+	
 </script>
 
 <script>
@@ -327,10 +317,10 @@ Proyectos
             { "title": "Año de entrega" },
             { "title": "Mes de entrega" },
             { "title": "Financiamiento" },
-			{ "title": "Creación", "created_at": "id", "sortable": true },
-			{ "title": "Publicación", "code": "ad_purchased_at", "sortable": true },
-            { "title": "Actualización", "code": "updated_at", "sortable": true },
-            { "title": "Expiración", "code": "ad_expires_at", "sortable": true },
+			{ "title": "Fecha de creación", "created_at": "id", "sortable": true },
+			{ "title": "Fecha de publicación", "code": "ad_purchased_at", "sortable": true },
+            { "title": "Fecha de actualización", "code": "updated_at", "sortable": true },
+            { "title": "Fecha de expiración", "code": "ad_expires_at", "sortable": true },
 			{ "title": "Nombres" },
             { "title": "Email" },
             { "title": "Teléfono" },

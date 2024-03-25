@@ -159,10 +159,10 @@ Leads Proyectos
 							<label for="exampleInputEmail1">Fecha de creación (Desde - Hasta)</label>
 							<div class="form-row">
 								<div class="col-6">
-									<input type="text" class="form-control" id="created_start" placeholder="dd/mm/yyyy">
+									<input type="date" class="form-control" id="created_start" placeholder="dd/mm/yyyy">
 								</div>
 								<div class="col-6">
-									<input type="text" class="form-control" id="created_end" placeholder="dd/mm/yyyy">
+									<input type="date" class="form-control" id="created_end" placeholder="dd/mm/yyyy">
 								</div>
 							</div>
 						</div>
@@ -226,8 +226,7 @@ Leads Proyectos
 <!-- Select2 -->
 <script src="public/plugins/select2/js/select2.full.min.js"></script>
 <script>
-	setMask('#created_start', { mask: "99/99/9999", showMaskOnHover: false, placeholder: "dd/mm/yyyy", rightAlign:false });
-	setMask('#created_end', { mask: "99/99/9999", showMaskOnHover: false, placeholder: "dd/mm/yyyy", rightAlign:false });
+	
 </script>
 <script>	
 	const headers = [
@@ -243,8 +242,8 @@ Leads Proyectos
 		{ "title": "Email", "code": "email" },
 		{ "title": "Teléfono" },
 		{ "title": "Origen", "code": "source", "sortable": true },
-		{ "title": "Creación", "code": "created_at", "sortable": true },
-		{ "title": "Actualización", "code": "updated_at", "sortable": true },
+		{ "title": "Fecha de creación", "code": "created_at", "sortable": true },
+		{ "title": "Fecha de actualización", "code": "updated_at", "sortable": true },
 		{ "title": "Acciones" }
 	];
 	const filtersFields = [
