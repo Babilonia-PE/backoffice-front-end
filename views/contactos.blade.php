@@ -219,6 +219,11 @@ Contactos
 	];
 	const filtersFields = [
 		{
+			name: 'parent',
+			type: 'static',
+			value: 'contact'
+		},
+		{
 			name: 'id'
 		},
 		{
@@ -237,7 +242,7 @@ Contactos
 		}
 	];
 	const processParams = (element) =>{
-       
+		console.log(element);
 		return [
 			element.id??'',
 			element.full_name??'',
@@ -266,7 +271,7 @@ Contactos
 		modalTitle,
 		initParams,
 		initParamsModal,
-		url: 'app/contact/contacts'
+		url: 'app/gateway'
 	};
 	
 	datatable(options);
