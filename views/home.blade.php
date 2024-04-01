@@ -219,7 +219,7 @@ Dashboard
       ]
     }
   }
-  const getOptions = (title, max_label) =>{
+  const getOptions = ({title = '', subtitle = ''}, max_label) =>{
     const opciones = {
       vertical: {
         responsive              : true,
@@ -246,7 +246,7 @@ Dashboard
         },
         title: {
             display: true,
-            text: title
+            text: [title,subtitle],
         }
       },
       horizontal: {
@@ -274,7 +274,7 @@ Dashboard
         },
         title: {
             display: true,
-            text: title
+            text: [title,subtitle],
         }
       },
     }
@@ -293,6 +293,10 @@ Dashboard
 		};
     const details = await fetchData('app/gateway', params, 'GET');
 		const data = details?.data?.data?.records?.listings??[];
+    let updated_at = details?.data?.data?.updated_at??null;
+    if( updated_at ){
+      updated_at = 'Ultima actualizacion: ' + updated_at;
+    }
 		const filters = details?.data?.data?.filters??[];
     let max = 0;
     let labels = [];
@@ -331,7 +335,7 @@ Dashboard
     const temp1 = areaChartData.datasets[1]
     barChartData.datasets[0] = temp1
     barChartData.datasets[1] = temp0
-    const barChartOptions = getOptions('Avisos publicados', max);
+    const barChartOptions = getOptions({title: 'Avisos publicados', subtitle: updated_at}, max);
     tempOptions['listings'] = barChartOptions;
     if( listingChart ){
       listingChart.destroy();
@@ -351,6 +355,10 @@ Dashboard
 		};
     const details = await fetchData('app/gateway', params, 'GET');
 		const data = details?.data?.data?.records?.projects??[];
+    let updated_at = details?.data?.data?.updated_at??null;
+    if( updated_at ){
+      updated_at = 'Ultima actualizacion: ' + updated_at;
+    }
 		const filters = details?.data?.data?.filters??[];
     let max = 0;
     let labels = [];
@@ -389,7 +397,7 @@ Dashboard
     barChartData.datasets[0] = temp1
     barChartData.datasets[1] = temp0
     
-    const barChartOptions = getOptions('Proyectos publicados', max);
+    const barChartOptions = getOptions({title: 'Proyectos publicados', subtitle: updated_at}, max);
     tempOptions['projects'] = barChartOptions;
     if( projectChart ){
       projectChart.destroy();
@@ -411,6 +419,10 @@ Dashboard
 		const owners = details?.data?.data?.records?.users?.owner??[];
 		const realtors = details?.data?.data?.records?.users?.realtor??[];
 		const filters = details?.data?.data?.filters??[];
+    let updated_at = details?.data?.data?.updated_at??null;
+    if( updated_at ){
+      updated_at = 'Ultima actualizacion: ' + updated_at;
+    }
     //ACREGAR SELECT
     if( initial ){
       filters.forEach(element => {
@@ -447,7 +459,7 @@ Dashboard
     const temp1Owner = areaChartDataOwner.datasets[1]
     barChartDataOwner.datasets[0] = temp1Owner
     barChartDataOwner.datasets[1] = temp0Owner
-    const barChartOptionsOwner = getOptions('Estadísticas por usuario | Owners', max_owner);
+    const barChartOptionsOwner = getOptions({title: 'Estadísticas por usuario | Owners', subtitle: updated_at}, max_owner);
     tempOptions['owners'] = barChartOptionsOwner;
     options = barChartOptionsOwner;
     if( ownerChart ){
@@ -485,7 +497,7 @@ Dashboard
     const temp1Realtor = areaChartDataRealtor.datasets[1]
     barChartDataRealtor.datasets[0] = temp1Realtor
     barChartDataRealtor.datasets[1] = temp0Realtor
-    const barChartOptionsRealtor = getOptions('Estadísticas por usuario | Realtors', max_realtor);
+    const barChartOptionsRealtor = getOptions({title: 'Estadísticas por usuario | Realtors', subtitle: updated_at}, max_realtor);
     tempOptions['realtors'] = barChartOptionsRealtor;
     if( realtorChart ){
       realtorChart.destroy();
