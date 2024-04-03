@@ -215,10 +215,10 @@ Paquetes
 							<label for="exampleInputEmail1">Fecha de compra (Desde - Hasta)</label>
 							<div class="form-row">
 								<div class="col-6">
-									<input type="date" class="form-control" id="purchased_start" placeholder="dd/mm/yyyy">
+									<input type="text" class="form-control" id="purchased_start" placeholder="dd/mm/yyyy">
 								</div>
 								<div class="col-6">
-									<input type="date" class="form-control" id="purchased_end" placeholder="dd/mm/yyyy">
+									<input type="text" class="form-control" id="purchased_end" placeholder="dd/mm/yyyy">
 								</div>
 							</div>
 						</div>
@@ -228,10 +228,10 @@ Paquetes
 							<label for="exampleInputEmail1">Fecha de expiración (Desde - Hasta)</label>
 							<div class="form-row">
 								<div class="col-6">
-									<input type="date" class="form-control" id="expires_start" placeholder="dd/mm/yyyy">
+									<input type="text" class="form-control" id="expires_start" placeholder="dd/mm/yyyy">
 								</div>
 								<div class="col-6">
-									<input type="date" class="form-control" id="expires_end" placeholder="dd/mm/yyyy">
+									<input type="text" class="form-control" id="expires_end" placeholder="dd/mm/yyyy">
 								</div>
 							</div>
 						</div>
@@ -398,8 +398,18 @@ Paquetes
 <script src="@asset("public/assets/js/components/datatable.js")?v={{ APP_VERSION }}"></script>
 <!-- -->
 <script src="public/plugins/select2/js/select2.full.min.js"></script>
+<script src="public/plugins/datetimepicker/date-time-picker.min.js"></script>
 <script>
-	
+	//ESTBALECER MASCARAS
+	setMask('#purchased_start', { mask: "99/99/9999", showMaskOnHover: false, placeholder: "dd/mm/yyyy", rightAlign:false });
+	setMask('#purchased_end', { mask: "99/99/9999", showMaskOnHover: false, placeholder: "dd/mm/yyyy", rightAlign:false });
+	setMask('#expires_start', { mask: "99/99/9999", showMaskOnHover: false, placeholder: "dd/mm/yyyy", rightAlign:false });
+	setMask('#expires_end', { mask: "99/99/9999", showMaskOnHover: false, placeholder: "dd/mm/yyyy", rightAlign:false });
+	//DEFINIR DATEPICKER
+	$('#purchased_start').dateTimePicker({format: 'dd/MM/yyyy'});
+	$('#purchased_end').dateTimePicker({format: 'dd/MM/yyyy'});
+	$('#expires_start').dateTimePicker({format: 'dd/MM/yyyy'});
+	$('#expires_end').dateTimePicker({format: 'dd/MM/yyyy'});
 </script>
 <script>
 	let state = [];
