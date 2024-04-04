@@ -110,7 +110,7 @@ const userSearch = (options = {}) => {
             records.forEach((item) => {
                 let option = document.createElement("option");
                 option.value = item.id;
-                option.innerHTML = `${item.full_name} - ${item.email}`;
+                option.innerHTML = `${item.data}`;
                 selectUser.append(option);
             });
         }
