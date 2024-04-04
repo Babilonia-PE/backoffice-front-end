@@ -274,7 +274,7 @@ Reclamos
 			element.document_number??'',
 			(`<span class="badge text-bg-secondary badge-${STATE_BAGES[element.state_id]}">${element.state}</span>`),
 			element.description??'',
-			moment(element.created_at).format('DD/MM/YYYY'),
+			element.created_at??'',
 		];
 	}
 	const modalOrder =  [];
