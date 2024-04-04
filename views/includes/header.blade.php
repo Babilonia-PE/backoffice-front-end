@@ -105,7 +105,7 @@
         </a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="/logout" role="button">
+        <a class="nav-link" role="button" id="logout">
             <i class="fas fa-sign-out-alt"></i>
         </a>
       </li>

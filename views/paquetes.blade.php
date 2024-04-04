@@ -503,9 +503,8 @@ Paquetes
 		}
 	];
 	const processParams = (element) =>{
-		let expired = moment(element.expires_at).format('DD/MM/YYYY');
-		let endDate= new Date(Date.parse(element.expires_at));
-		let currentDate = new Date();
+		let endDate= moment(element.expires_at, 'DD/MM/YYYY HH:mm');
+		let currentDate = moment();
 		let bagde = ( endDate < currentDate ) ? 'danger' : 'success';
 		return [
 			element.id,
@@ -527,8 +526,8 @@ Paquetes
             element.order_id,
             element.type??'',
             `<span class="badge text-bg-secondary bg-${BUY_TYPE_COLORS[element.buy_type_id??'']}">${toCamelCase(element.buy_type??'')}</span>`,
-			moment(element.purchased_at).format('DD/MM/YYYY'),
-            `<span class="badge text-bg-secondary bg-${bagde}">${expired??''}</span>`,
+			element.purchased_at??'',
+            `<span class="badge text-bg-secondary bg-${bagde}">${element.expires_at??''}</span>`,
 			getFullNumber(element.prefix, element.phone_number)
 		];
 	}

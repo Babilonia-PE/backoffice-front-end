@@ -302,8 +302,8 @@ Views Proyectos
 			element.email??'',
 			getFullNumber(prefix, phone),
 			element.source??'',
-			( ( element.created_at ) ? moment(element.created_at).format('DD/MM/YYYY'):'' ),
-			( ( element.updated_at ) ? moment(element.updated_at).format('DD/MM/YYYY') :'' )
+			element.created_at??'',
+			element.updated_at??''
 		];
 	}
 	const modalOrder =  [];

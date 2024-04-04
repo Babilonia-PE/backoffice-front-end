@@ -256,7 +256,7 @@ Contactos
 			element.email??'',
 			getFullNumber(element.prefix??'', element.phone_number??''),
 			element.description??'',
-			moment(element.created_at).format('DD/MM/YYYY'),
+			element.created_at??'',
 		];
 	}
 	const modalOrder =  [];
@@ -272,6 +272,7 @@ Contactos
 		processParams,
 		headers,
 		filtersFields,
+		storageView : 'filter_contactos',
 		columnsHidden,
 		columnsDates,
 		modalOrder,

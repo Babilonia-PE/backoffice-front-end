@@ -314,8 +314,8 @@ Leads Proyectos
 			element.email,
 			getFullNumber(prefix, phone),
 			element.source??'',
-			moment(element.created_at).format('DD/MM/YYYY'),
-			moment(element.updated_at).format('DD/MM/YYYY')
+			element.created_at??'',
+			element.updated_at??''
 		];
 	}
 	const modalOrder =  [];
