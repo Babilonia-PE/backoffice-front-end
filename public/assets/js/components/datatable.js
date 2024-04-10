@@ -322,7 +322,7 @@ const datatable = (options = {})=>{
 				}
 										
 			}else if(type == filtersParamsTypes.DATE){				
-				fieldValue = (fieldValue != '' ? moment(fieldValue, 'YYYY-MM-DD').format("DD/MM/YYYY") : '');
+				fieldValue = fieldValue??'';
 			}   
 			$(`#${name}`).val(fieldValue);
         }
@@ -473,9 +473,7 @@ const datatable = (options = {})=>{
 							if(document.getElementById(name) == null || document.getElementById(name).value == '') continue;
 				
 							let fieldValue = document.getElementById(name).value;
-								if(type == filtersParamsTypes.DATE)
-								fieldValue = moment(fieldValue, "DD/MM/YYYY").format('YYYY-MM-DD');
-								data[name] = fieldValue;
+							data[name] = fieldValue;
 						}
                     }
 
@@ -710,9 +708,7 @@ const datatable = (options = {})=>{
 				if(document.getElementById(name) == null || document.getElementById(name).value == '') continue;
 	
 				let fieldValue = document.getElementById(name).value;
-					if(type == filtersParamsTypes.DATE)
-					fieldValue =  moment(fieldValue, "DD/MM/YYYY").format('YYYY-MM-DD');
-					filters[name] = fieldValue;
+				filters[name] = fieldValue;
 			}
 	
 			if(!$.isEmptyObject(filters)){

@@ -239,11 +239,11 @@ Paquetes
 					<div class="col-md-4">
 						<div class="form-group">
 							<div class="form-row">
-								<div class="col">
-									<button id="applyfiltters" type="button" class="btn btn-primary btn-block"><i class="fas fa-filter"></i> Aplicar filtros</button>
+								<div class="col-sm-6 pb-2 pb-sm-0">
+									<button id="applyfiltters" type="button" class="btn btn-primary btn-block text-truncate"><i class="fas fa-filter"></i> Aplicar filtros</button>
 								</div>
-								<div class="col-auto">
-									<button id="removefiltters" type="button" class="btn btn-secondary"><i class="fas fa-trash"></i></button>
+								<div class="col-sm-6">
+									<button id="removefiltters" type="button" class="btn btn-secondary btn-block text-truncate"><i class="fas fa-trash"></i> Limpiar filtros</button>
 								</div>
 							</div>
 						</div>
@@ -398,12 +398,18 @@ Paquetes
 <script src="@asset("public/assets/js/components/datatable.js")?v={{ APP_VERSION }}"></script>
 <!-- -->
 <script src="public/plugins/select2/js/select2.full.min.js"></script>
+<script src="public/plugins/datetimepicker/date-time-picker.min.js"></script>
 <script>
+	//ESTBALECER MASCARAS
 	setMask('#purchased_start', { mask: "99/99/9999", showMaskOnHover: false, placeholder: "dd/mm/yyyy", rightAlign:false });
 	setMask('#purchased_end', { mask: "99/99/9999", showMaskOnHover: false, placeholder: "dd/mm/yyyy", rightAlign:false });
 	setMask('#expires_start', { mask: "99/99/9999", showMaskOnHover: false, placeholder: "dd/mm/yyyy", rightAlign:false });
 	setMask('#expires_end', { mask: "99/99/9999", showMaskOnHover: false, placeholder: "dd/mm/yyyy", rightAlign:false });
-	//setMask('#days', { alias: "numeric", allowMinus: false, digits: '0', showMaskOnHover: false, rightAlign:false });
+	//DEFINIR DATEPICKER
+	$('#purchased_start').dateTimePicker({format: 'dd/MM/yyyy'});
+	$('#purchased_end').dateTimePicker({format: 'dd/MM/yyyy'});
+	$('#expires_start').dateTimePicker({format: 'dd/MM/yyyy'});
+	$('#expires_end').dateTimePicker({format: 'dd/MM/yyyy'});
 </script>
 <script>
 	let state = [];
@@ -439,8 +445,8 @@ Paquetes
 		{ "title": "ID orden" },
 		{ "title": "Tipo", "code": "type", "sortable": true },
 		{ "title": "Tipo Compra", "code": "type"},
-		{ "title": "Compra", "code": "purchased_at", "sortable": true },
-		{ "title": "Expiración", "code": "expires_at", "sortable": true },
+		{ "title": "Fecha de compra", "code": "purchased_at", "sortable": true },
+		{ "title": "Fecha de expiración", "code": "expires_at", "sortable": true },
 		{ "title": "Teléfono", "code": "type"},
 		{ "title": "Acciones" }
 	];
@@ -497,9 +503,8 @@ Paquetes
 		}
 	];
 	const processParams = (element) =>{
-		let expired = moment(element.expires_at).format('DD/MM/YYYY');
-		let endDate= new Date(Date.parse(element.expires_at));
-		let currentDate = new Date();
+		let endDate= moment(element.expires_at, 'DD/MM/YYYY HH:mm');
+		let currentDate = moment();
 		let bagde = ( endDate < currentDate ) ? 'danger' : 'success';
 		return [
 			element.id,
@@ -521,8 +526,8 @@ Paquetes
             element.order_id,
             element.type??'',
             `<span class="badge text-bg-secondary bg-${BUY_TYPE_COLORS[element.buy_type_id??'']}">${toCamelCase(element.buy_type??'')}</span>`,
-			moment(element.purchased_at).format('DD/MM/YYYY'),
-            `<span class="badge text-bg-secondary bg-${bagde}">${expired??''}</span>`,
+			element.purchased_at??'',
+            `<span class="badge text-bg-secondary bg-${bagde}">${element.expires_at??''}</span>`,
 			getFullNumber(element.prefix, element.phone_number)
 		];
 	}

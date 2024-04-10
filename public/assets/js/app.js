@@ -110,7 +110,7 @@ const userSearch = (options = {}) => {
             records.forEach((item) => {
                 let option = document.createElement("option");
                 option.value = item.id;
-                option.innerHTML = `${item.full_name} - ${item.email}`;
+                option.innerHTML = `${item.data}`;
                 selectUser.append(option);
             });
         }
@@ -307,3 +307,16 @@ window.AppHttpServicePageNotFound = function ()  {
     console.log('Service not Found');
 }
 window.AppHttpServicePageServerInternal = function () { }
+$(document).on('click', '#logout', function () {
+    ClearSomeLocalStorage();
+    window.location.replace('logout');
+});
+window.ClearSomeLocalStorage = function (startsWith = 'filter_') {
+    var myLength = startsWith.length;
+    Object.keys(localStorage) 
+        .forEach(function(key){ 
+            if (key.substring(0,myLength) == startsWith) {
+                localStorage.removeItem(key); 
+            } 
+        }); 
+}

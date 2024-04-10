@@ -166,11 +166,11 @@ Views Avisos
 					<div class="col-md-4">
 						<div class="form-group">
 							<div class="form-row">
-								<div class="col">
-									<button id="applyfiltters" type="button" class="btn btn-primary btn-block"><i class="fas fa-filter"></i> Aplicar filtros</button>
+								<div class="col-sm-6 pb-2 pb-sm-0">
+									<button id="applyfiltters" type="button" class="btn btn-primary btn-block text-truncate"><i class="fas fa-filter"></i> Aplicar filtros</button>
 								</div>
-								<div class="col-auto">
-									<button id="removefiltters" type="button" class="btn btn-secondary"><i class="fas fa-trash"></i></button>
+								<div class="col-sm-6">
+									<button id="removefiltters" type="button" class="btn btn-secondary btn-block text-truncate"><i class="fas fa-trash"></i> Limpiar filtros</button>
 								</div>
 							</div>
 						</div>
@@ -221,9 +221,15 @@ Views Avisos
 <script src="@asset("public/assets/js/components/datatable.js")?v={{ APP_VERSION }}"></script>
 <!-- Select2 -->
 <script src="public/plugins/select2/js/select2.full.min.js"></script>
+<script src="public/plugins/datetimepicker/date-time-picker.min.js"></script>
 <script>
+	//ESTBALECER MASCARAS
 	setMask('#created_start', { mask: "99/99/9999", showMaskOnHover: false, placeholder: "dd/mm/yyyy", rightAlign:false });
 	setMask('#created_end', { mask: "99/99/9999", showMaskOnHover: false, placeholder: "dd/mm/yyyy", rightAlign:false });
+
+	//DEFINIR DATEPICKER
+	$('#created_start').dateTimePicker({format: 'dd/MM/yyyy'});
+	$('#created_end').dateTimePicker({format: 'dd/MM/yyyy'});
 </script>
 
 <script>
@@ -239,8 +245,8 @@ Views Avisos
 			{ "title": "Email", "code": "email" },
 			{ "title": "Teléfono", "code": "phone_number" },
 			{ "title": "Origen", "code": "source", "sortable": true },
-			{ "title": "Creación", "code": "created_at", "sortable": true },
-            { "title": "Actualización", "code": "updated_at", "sortable": true },
+			{ "title": "Fecha de creación", "code": "created_at", "sortable": true },
+            { "title": "Fecha de actualización", "code": "updated_at", "sortable": true },
 			{ "title": "Acciones" }
 	];
 	const filtersFields = [
@@ -296,8 +302,8 @@ Views Avisos
 			element.email??'',
 			getFullNumber(prefix, phone),
 			element.source??'',
-			( ( element.created_at ) ? moment(element.created_at).format('DD/MM/YYYY'):'' ),
-			( ( element.updated_at ) ? moment(element.updated_at).format('DD/MM/YYYY') :'' )
+			element.created_at??'',
+			element.updated_at??''
 		];
 	}
 	const modalOrder =  [];

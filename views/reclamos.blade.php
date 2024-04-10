@@ -153,11 +153,11 @@ Reclamos
 					<div class="col-md-4">
 						<div class="form-group">
 							<div class="form-row">
-								<div class="col">
-									<button id="applyfiltters" type="button" class="btn btn-primary btn-block"><i class="fas fa-filter"></i> Aplicar filtros</button>
+								<div class="col-sm-6 pb-2 pb-sm-0">
+									<button id="applyfiltters" type="button" class="btn btn-primary btn-block text-truncate"><i class="fas fa-filter"></i> Aplicar filtros</button>
 								</div>
-								<div class="col-auto">
-									<button id="removefiltters" type="button" class="btn btn-secondary"><i class="fas fa-trash"></i></button>
+								<div class="col-sm-6">
+									<button id="removefiltters" type="button" class="btn btn-secondary btn-block text-truncate"><i class="fas fa-trash"></i> Limpiar filtros</button>
 								</div>
 							</div>
 						</div>
@@ -210,9 +210,15 @@ Reclamos
 <script src="@asset("public/assets/js/components/datatable.js")?v={{ APP_VERSION }}"></script>
 <!-- Select2 -->
 <script src="public/plugins/select2/js/select2.full.min.js"></script>
+<script src="public/plugins/datetimepicker/date-time-picker.min.js"></script>
 <script>
+	//ESTBALECER MASCARAS
 	setMask('#created_start', { mask: "99/99/9999", showMaskOnHover: false, placeholder: "dd/mm/yyyy", rightAlign:false });
 	setMask('#created_end', { mask: "99/99/9999", showMaskOnHover: false, placeholder: "dd/mm/yyyy", rightAlign:false });
+
+	//DEFINIR DATEPICKER
+	$('#created_start').dateTimePicker({format: 'dd/MM/yyyy'});
+	$('#created_end').dateTimePicker({format: 'dd/MM/yyyy'});
 </script>
 <script>
 	const STATE_BAGES = {
@@ -268,7 +274,7 @@ Reclamos
 			element.document_number??'',
 			(`<span class="badge text-bg-secondary badge-${STATE_BAGES[element.state_id]}">${element.state}</span>`),
 			element.description??'',
-			moment(element.created_at).format('DD/MM/YYYY'),
+			element.created_at??'',
 		];
 	}
 	const modalOrder =  [];
@@ -284,6 +290,7 @@ Reclamos
 		processParams,
 		headers,
 		filtersFields,
+		storageView : 'filter_reclamos',
 		columnsHidden,
 		columnsDates,
 		modalOrder,

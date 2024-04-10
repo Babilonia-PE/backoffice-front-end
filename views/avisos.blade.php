@@ -228,11 +228,11 @@ Avisos
 					<div class="col-md-4">
 						<div class="form-group">
 							<div class="form-row">
-								<div class="col">
-									<button id="applyfiltters" type="button" class="btn btn-primary btn-block"><i class="fas fa-filter"></i> Aplicar filtros</button>
+								<div class="col-sm-6 pb-2 pb-sm-0">
+									<button id="applyfiltters" type="button" class="btn btn-primary btn-block text-truncate"><i class="fas fa-filter"></i> Aplicar filtros</button>
 								</div>
-								<div class="col-auto">
-									<button id="removefiltters" type="button" class="btn btn-secondary"><i class="fas fa-trash"></i></button>
+								<div class="col-sm-6">
+									<button id="removefiltters" type="button" class="btn btn-secondary btn-block text-truncate"><i class="fas fa-trash"></i> Limpiar filtros</button>
 								</div>
 							</div>
 						</div>
@@ -283,21 +283,33 @@ Avisos
 <script src="@asset("public/assets/js/components/datatable.js")?v={{ APP_VERSION }}"></script>
 <!-- Select2 -->
 <script src="public/plugins/select2/js/select2.full.min.js"></script>
+<script src="public/plugins/datetimepicker/date-time-picker.min.js"></script>
 <script>
+	//ESTBALECER MASCARAS
 	setMask('#created_start', { mask: "99/99/9999", showMaskOnHover: false, placeholder: "dd/mm/yyyy", rightAlign:false });
 	setMask('#created_end', { mask: "99/99/9999", showMaskOnHover: false, placeholder: "dd/mm/yyyy", rightAlign:false });
-
 	setMask('#updated_start', { mask: "99/99/9999", showMaskOnHover: false, placeholder: "dd/mm/yyyy", rightAlign:false });
 	setMask('#updated_end', { mask: "99/99/9999", showMaskOnHover: false, placeholder: "dd/mm/yyyy", rightAlign:false });
-
 	setMask('#purchased_start', { mask: "99/99/9999", showMaskOnHover: false, placeholder: "dd/mm/yyyy", rightAlign:false });
 	setMask('#purchased_end', { mask: "99/99/9999", showMaskOnHover: false, placeholder: "dd/mm/yyyy", rightAlign:false });
-
 	setMask('#expires_start', { mask: "99/99/9999", showMaskOnHover: false, placeholder: "dd/mm/yyyy", rightAlign:false });
 	setMask('#expires_end', { mask: "99/99/9999", showMaskOnHover: false, placeholder: "dd/mm/yyyy", rightAlign:false });
-</script>
 
+	//DEFINIR DATEPICKER
+	$('#created_start').dateTimePicker({format: 'dd/MM/yyyy'});
+	$('#created_end').dateTimePicker({format: 'dd/MM/yyyy'});
+	$('#updated_start').dateTimePicker({format: 'dd/MM/yyyy'});
+	$('#updated_end').dateTimePicker({format: 'dd/MM/yyyy'});
+	$('#purchased_start').dateTimePicker({format: 'dd/MM/yyyy'});
+	$('#purchased_end').dateTimePicker({format: 'dd/MM/yyyy'});
+	$('#expires_start').dateTimePicker({format: 'dd/MM/yyyy'});
+	$('#expires_end').dateTimePicker({format: 'dd/MM/yyyy'});
+
+
+</script>
+	
 <script>
+	
 	const roles = {
 		"realtor" : "Agente",
 		"owner" : "Propietario"
@@ -313,8 +325,8 @@ Avisos
 			{ "title": "Departamento" },
 			{ "title": "País" },
 			{ "title": "Estado", "code": "state", "sortable": true },
-			{ "title": "Creación", "created_at": "id", "sortable": true },
-			{ "title": "Publicación", "code": "ad_purchased_at", "sortable": true },
+			{ "title": "Fecha de creación", "created_at": "id", "sortable": true },
+			{ "title": "Fecha de publicación", "code": "ad_purchased_at", "sortable": true },
 			{ "title": "Nombres" },
             { "title": "Categoria" },
             { "title": "Rol" },
@@ -336,8 +348,8 @@ Avisos
             { "title": "Numero de vistas" },
             { "title": "Número de favoritos" },
             { "title": "Numero de contactos" },
-            { "title": "Actualización", "code": "updated_at", "sortable": true },
-            { "title": "Expiración", "code": "ad_expires_at", "sortable": true },
+            { "title": "Fecha de actualización", "code": "updated_at", "sortable": true },
+            { "title": "Fecha de expiración", "code": "ad_expires_at", "sortable": true },
             { "title": "Email" },
             { "title": "Teléfono" },
 			{ "title": "External" },
@@ -427,8 +439,8 @@ Avisos
 			( ( element.location ) ? element.location.department??'':'' ),
 			( ( element.location ) ? element.location.country??'':'' ),
 			`<span class="badge text-bg-secondary ${element.state_id}">${element.state??''}</span>`,
-			( ( element.created_at ) ? moment(element.created_at).format('DD/MM/YYYY'):'' ),
-			( ( element.ad_purchased_at ) ? moment(element.ad_purchased_at).format('DD/MM/YYYY'):'' ),
+			element.created_at??'',
+			element.ad_purchased_at??'',
 			element.full_name??'',
 			element.ad_plan??'',
 			element.publisher_role??'',
@@ -450,8 +462,8 @@ Avisos
 			element.views_count??'',
 			element.favourites_count??'',
 			element.contacts_count??'',
-			( ( element.updated_at ) ? moment(element.updated_at).format('DD/MM/YYYY') :'' ),
-			( ( element.ad_expires_at ) ? moment(element.ad_expires_at).format('DD/MM/YYYY') :'' ),
+			element.updated_at??'',
+			element.ad_expires_at??'',
 			element.email??'',
 			getFullNumber(prefix, phone),
 			( ( element.external_data == '' ) ? '-' : `<a href="${element.external_data}" target="_blank">${element.external_data}</a>` )
