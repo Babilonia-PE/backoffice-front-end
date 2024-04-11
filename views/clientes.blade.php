@@ -127,13 +127,13 @@ Clientes
               		<div class="col-md-4">
                 		<div class="form-group">
                   			<label>Usuario</label>
-                  			<input type="text" class="form-control" id="user" placeholder="User ID, nombre, correo o telefono">
+                  			<input type="text" class="form-control form-control-sm" id="user" placeholder="User ID, nombre, correo o telefono">
                 		</div>
                 	</div>
               		<div class="col-md-4">
                 		<div class="form-group">
                   			<label>Empresa</label>
-                  			<input type="text" class="form-control" id="company" placeholder="RUC, razon social o nombre comercial">
+                  			<input type="text" class="form-control form-control-sm" id="company" placeholder="RUC, razon social o nombre comercial">
                 		</div>
                 	</div>
               		<div class="col-md-4">
@@ -148,10 +148,10 @@ Clientes
 							<label for="exampleInputEmail1">Fecha de creación (Desde - Hasta)</label>
 							<div class="form-row">
 								<div class="col-6">
-									<input type="text" class="form-control" id="created_start" placeholder="dd/mm/yyyy">
+									<input type="text" class="form-control form-control-sm" id="created_start" placeholder="dd/mm/yyyy">
 								</div>
 								<div class="col-6">
-									<input type="text" class="form-control" id="created_end" placeholder="dd/mm/yyyy">
+									<input type="text" class="form-control form-control-sm" id="created_end" placeholder="dd/mm/yyyy">
 								</div>
 							</div>
 						</div>
@@ -160,10 +160,10 @@ Clientes
 						<div class="form-group">
 							<div class="form-row">
 								<div class="col-sm-6 pb-2 pb-sm-0">
-									<button id="applyfiltters" type="button" class="btn btn-primary btn-block text-truncate"><i class="fas fa-filter"></i> Aplicar filtros</button>
+									<button id="applyfiltters" type="button" class="btn btn-primary btn-block text-truncate btn-sm"><i class="fas fa-filter"></i> Aplicar filtros</button>
 								</div>
 								<div class="col-sm-6">
-									<button id="removefiltters" type="button" class="btn btn-secondary btn-block text-truncate"><i class="fas fa-trash"></i> Limpiar filtros</button>
+									<button id="removefiltters" type="button" class="btn btn-secondary btn-block text-truncate btn-sm"><i class="fas fa-trash"></i> Limpiar filtros</button>
 								</div>
 							</div>
 						</div>

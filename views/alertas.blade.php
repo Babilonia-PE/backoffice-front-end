@@ -160,7 +160,7 @@ Alertas
 					<div class="col-md-4">
                 		<div class="form-group">
                   			<label>Tipo de operación</label>
-                  			<select class="form-control select2" id="listing_type" style="width: 100%;">
+                  			<select class="form-control select2 form-control-sm" id="listing_type" style="width: 100%;">
 								@foreach (APP_LANG_LISTING_TYPE as $k => $type)
                                     <option value="{{ $k }}">{{ $type }}</option>
                                 @endforeach
@@ -170,7 +170,7 @@ Alertas
 					<div class="col-md-4">
                 		<div class="form-group">
                   			<label>Tipo de propiedad</label>
-                  			<select class="form-control select2" id="property_type" style="width: 100%;">
+                  			<select class="form-control select2 form-control-sm" id="property_type" style="width: 100%;">
 								@foreach (APP_LANG_PROPERTY_TYPE as $k => $type)
                                     <option value="{{ $k }}">{{ $type }}</option>
                                 @endforeach
@@ -180,7 +180,7 @@ Alertas
 					<div class="col-md-4">
                 		<div class="form-group">
                   			<label>Tipo de alerta</label>
-                  			<select class="form-control select2" id="alert_type" style="width: 100%;">
+                  			<select class="form-control select2 form-control-sm" id="alert_type" style="width: 100%;">
 								<option selected disabled value="">Elige una opción</option>								
 								@foreach ($data["NewLangAlertType"] as $k => $type)
                                     <option value="{{ $k }}">{{ $type }}</option>
@@ -193,10 +193,10 @@ Alertas
 							<label for="exampleInputEmail1">Fecha de creación (Desde - Hasta)</label>
 							<div class="form-row">
 								<div class="col-6">
-									<input type="text" class="form-control" id="created_start" placeholder="dd/mm/yyyy">
+									<input type="text" class="form-control form-control-sm" id="created_start" placeholder="dd/mm/yyyy">
 								</div>
 								<div class="col-6">
-									<input type="text" class="form-control" id="created_end" placeholder="dd/mm/yyyy">
+									<input type="text" class="form-control form-control-sm" id="created_end" placeholder="dd/mm/yyyy">
 								</div>
 							</div>
 						</div>
@@ -205,10 +205,10 @@ Alertas
 						<div class="form-group">
 							<div class="form-row">
 								<div class="col-sm-6 pb-2 pb-sm-0">
-									<button id="applyfiltters" type="button" class="btn btn-primary btn-block text-truncate"><i class="fas fa-filter"></i> Aplicar filtros</button>
+									<button id="applyfiltters" type="button" class="btn btn-primary btn-block text-truncate btn-sm"><i class="fas fa-filter"></i> Aplicar filtros</button>
 								</div>
 								<div class="col-sm-6">
-									<button id="removefiltters" type="button" class="btn btn-secondary btn-block text-truncate"><i class="fas fa-trash"></i> Limpiar filtros</button>
+									<button id="removefiltters" type="button" class="btn btn-secondary btn-block text-truncate btn-sm"><i class="fas fa-trash"></i> Limpiar filtros</button>
 								</div>
 							</div>
 						</div>
