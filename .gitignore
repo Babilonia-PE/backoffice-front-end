@@ -20,5 +20,6 @@ package-lock.json
 *.txt
 *.html
 .env
+.htaccess
 
 keyfile
