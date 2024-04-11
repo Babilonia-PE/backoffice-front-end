@@ -287,21 +287,9 @@ Chat
 		}
 	];
 	const processParams = (element) =>{
-		const date = new Date(1000*(element.created_at??''));
-		const formatter = new Intl.DateTimeFormat("es-ES", {
-			separator: '-',
-			year: "numeric",
-			month: "2-digit",
-			day: "2-digit",
-			hour: "2-digit",
-			minute: "2-digit",
-			second: "2-digit",
-			hour12: false,
-		});
-		const arr = formatter.format(date).replaceAll("/", "-").split(',');
 		return [
 			element.id??'',		
-			`${arr[0]}${arr[1]}`,
+			element.created_at??'',
 		];
 	}
 	const modalOrder =  [];
@@ -327,7 +315,7 @@ Chat
         }).appendTo("#rowDetails .modal-body");
 		
 		data.forEach(element => {
-			const date = ( ( element.created_at ) ? moment(element.created_at).format('DD-MM-YYYY HH:mm:ss'):'' );
+			const date = element.created_at??'';
 			const message = element.message??'';
 			jQuery('<div>', {
 				'class' : ( element.user_id??0 ) == 0 ? 'user' : '',
