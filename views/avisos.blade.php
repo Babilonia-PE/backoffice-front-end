@@ -161,7 +161,7 @@ Avisos
 					<div class="col-md-4">
                 		<div class="form-group">
                   			<label>ID del aviso</label>
-                  			<input type="text" class="form-control" id="id" placeholder="ID del aviso">
+                  			<input type="text" class="form-control form-control-sm" id="id" placeholder="ID del aviso">
                 		</div>
                 	</div>
               		<div class="col-md-4">
@@ -197,10 +197,10 @@ Avisos
 							<label for="exampleInputEmail1">Precio (Desde - Hasta)</label>
 							<div class="form-row">
 								<div class="col-6">
-									<input type="text" class="form-control" id="price_from" placeholder="desde">
+									<input type="text" class="form-control form-control-sm" id="price_from" placeholder="desde">
 								</div>
 								<div class="col-6">
-									<input type="text" class="form-control" id="price_to" placeholder="hasta">
+									<input type="text" class="form-control form-control-sm" id="price_to" placeholder="hasta">
 								</div>
 							</div>
 						</div>
@@ -210,10 +210,10 @@ Avisos
 							<label for="exampleInputEmail1">Fecha de creación (Desde - Hasta)</label>
 							<div class="form-row">
 								<div class="col-6">
-									<input type="text" class="form-control" id="created_start" placeholder="dd/mm/yyyy">
+									<input type="text" class="form-control form-control-sm" id="created_start" placeholder="dd/mm/yyyy">
 								</div>
 								<div class="col-6">
-									<input type="text" class="form-control" id="created_end" placeholder="dd/mm/yyyy">
+									<input type="text" class="form-control form-control-sm" id="created_end" placeholder="dd/mm/yyyy">
 								</div>
 							</div>
 						</div>
@@ -223,10 +223,10 @@ Avisos
 							<label for="exampleInputEmail1">Fecha de actualización (Desde - Hasta)</label>
 							<div class="form-row">
 								<div class="col-6">
-									<input type="text" class="form-control" id="updated_start" placeholder="dd/mm/yyyy">
+									<input type="text" class="form-control form-control-sm" id="updated_start" placeholder="dd/mm/yyyy">
 								</div>
 								<div class="col-6">
-									<input type="text" class="form-control" id="updated_end" placeholder="dd/mm/yyyy">
+									<input type="text" class="form-control form-control-sm" id="updated_end" placeholder="dd/mm/yyyy">
 								</div>
 							</div>
 						</div>
@@ -236,10 +236,10 @@ Avisos
 							<label for="exampleInputEmail1">Fecha de publicación (Desde - Hasta)</label>
 							<div class="form-row">
 								<div class="col-6">
-									<input type="text" class="form-control" id="purchased_start" placeholder="dd/mm/yyyy">
+									<input type="text" class="form-control form-control-sm" id="purchased_start" placeholder="dd/mm/yyyy">
 								</div>
 								<div class="col-6">
-									<input type="text" class="form-control" id="purchased_end" placeholder="dd/mm/yyyy">
+									<input type="text" class="form-control form-control-sm" id="purchased_end" placeholder="dd/mm/yyyy">
 								</div>
 							</div>
 						</div>
@@ -249,10 +249,10 @@ Avisos
 							<label for="exampleInputEmail1">Fecha de expiración (Desde - Hasta)</label>
 							<div class="form-row">
 								<div class="col-6">
-									<input type="text" class="form-control" id="expires_start" placeholder="dd/mm/yyyy">
+									<input type="text" class="form-control form-control-sm" id="expires_start" placeholder="dd/mm/yyyy">
 								</div>
 								<div class="col-6">
-									<input type="text" class="form-control" id="expires_end" placeholder="dd/mm/yyyy">
+									<input type="text" class="form-control form-control-sm" id="expires_end" placeholder="dd/mm/yyyy">
 								</div>
 							</div>
 						</div>
@@ -261,10 +261,10 @@ Avisos
 						<div class="form-group">
 							<div class="form-row">
 								<div class="col-sm-6 pb-2 pb-sm-0">
-									<button id="applyfiltters" type="button" class="btn btn-primary btn-block text-truncate"><i class="fas fa-filter"></i> Aplicar filtros</button>
+									<button id="applyfiltters" type="button" class="btn btn-primary btn-block text-truncate btn-sm"><i class="fas fa-filter"></i> Aplicar filtros</button>
 								</div>
 								<div class="col-sm-6">
-									<button id="removefiltters" type="button" class="btn btn-secondary btn-block text-truncate"><i class="fas fa-trash"></i> Limpiar filtros</button>
+									<button id="removefiltters" type="button" class="btn btn-secondary btn-block text-truncate btn-sm"><i class="fas fa-trash"></i> Limpiar filtros</button>
 								</div>
 							</div>
 						</div>
