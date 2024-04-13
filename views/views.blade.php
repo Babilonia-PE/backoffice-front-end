@@ -310,8 +310,8 @@ Views Avisos
 	const modalTitle = () =>{
 		
 	}
-	const columnsHidden = [0, 6];
-	const columnsDates = [12, 13];
+	const columnsHidden = [0, 6, 13];
+	const columnsDates = [11, 12];
 	const options = {
 		processParams,
 		headers,

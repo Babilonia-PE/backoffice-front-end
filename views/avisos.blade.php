@@ -103,6 +103,38 @@
 			align-items: start;
         }
     }
+	.external-data{
+		display: flex;
+		gap: 0.5rem;
+		flex-wrap: wrap;
+		align-items: center;
+    	position: relative;
+	}
+	.external-data .links{
+		display: none;
+    	position: absolute;
+		gap: 0.5rem;
+		right: 0;
+    	padding: 0 0 0 1rem;
+		background: #FFFFFFD5;
+	}
+	.external-data.title .links{
+		display: flex;
+    	position: relative;
+    	padding: 0;
+	}
+	.external-data.title i{
+		font-size: 16px;
+	}
+	.external-data i{
+		color: #000000DE;
+	}
+	.external-data:hover .links{
+		display: flex;
+	}
+	.swal2-popup.swal2-toast .swal2-html-container{
+		margin: .5em 0;
+	}
 </style>
 @endsection
 
@@ -466,7 +498,15 @@ Avisos
 			element.ad_expires_at??'',
 			element.email??'',
 			getFullNumber(prefix, phone),
-			( ( element.external_data == '' ) ? '-' : `<a href="${element.external_data}" target="_blank">${element.external_data}</a>` )
+			( ( element.external_data == '' ) ? '-' : `
+			<div class="external-data">
+				${element.external_data}
+				<div class="links">
+					<a title="Copiar URL" role="button" onclick="copyText('${element.external_data}')"><i class="far fa-copy"></i></a>
+					<a title="Abrir en una pestaña nueva" href="${element.external_data}" target="_blank"><i class="fas fa-external-link-alt"></i></a>
+				</div>
+			</div>
+			` )
 			
 		];
 	}
@@ -510,10 +550,26 @@ Avisos
 		28, //Numero de fotos
 		29	//Video
 	];
+	const copyText = (text = '') => {
+		navigator.clipboard.writeText(text);
+		Toast.fire({
+			icon: 'info',
+			title: 'Mensaje del sistema',
+			text: 'Se ha copiado la URL en el portapapeles'
+		})
+	}
 	const modalTitle = (element, globalRecords = []) =>{
 		let rowInfo = globalRecords.filter((item)=> item.id == element);
 		let url_external = URL_WEB_FRONT + rowInfo[0].url?.share ?? '';
-		return `Detalles para <a target="_blank" href="${url_external}">${element}</a>`;
+		return `
+			<div class="external-data title">
+				Detalles para ${element}
+				<div class="links">
+					<a title="Copiar URL" role="button" onclick="copyText('${url_external}')"><i class="far fa-copy"></i></a>
+					<a title="Abrir en una pestaña nueva" href="${url_external}" target="_blank"><i class="fas fa-external-link-alt"></i></a>
+				</div>
+			</div>
+		`;
 	}
 	const columnsHidden = [7, 8, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34,35,36, 37];
 	const columnsDates = [10, 11, 33, 34];

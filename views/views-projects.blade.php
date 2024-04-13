@@ -310,7 +310,7 @@ Views Proyectos
 	const modalTitle = () =>{
 		
 	}
-	const columnsHidden = [0, 6];
+	const columnsHidden = [0, 6, 13];
 	const columnsDates = [11, 12];
 	const options = {
 		processParams,

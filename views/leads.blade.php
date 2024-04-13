@@ -322,7 +322,7 @@ Leads Avisos
 	const modalTitle = () =>{
 		
 	}
-	const columnsHidden = [0,6,7,12,13];
+	const columnsHidden = [0,1,6,7,8,9,10,13,14];
 	const columnsDates = [12,13];
 	const options = {
 		processParams,

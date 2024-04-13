@@ -315,8 +315,8 @@ Clientes
 	const initParamsModal = ()=>{
 		copyToClipboard();
 	}
-	const columnsHidden = [0, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17];
-	const columnsDates = [15];
+	const columnsHidden = [0, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 20];
+	const columnsDates = [6, 19];
 	const options = {
 		processParams,
 		headers,
