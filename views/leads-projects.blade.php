@@ -322,7 +322,7 @@ Leads Proyectos
 	const modalTitle = () =>{
 		
 	}
-	const columnsHidden = [0,2,7,11,13];
+	const columnsHidden = [0,1,2,5,7,8,9,10,13,14];
 	const columnsDates = [12,13];
 	const options = {
 		processParams,

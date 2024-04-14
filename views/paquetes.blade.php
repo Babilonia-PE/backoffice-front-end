@@ -172,8 +172,8 @@ Paquetes
               		<div class="col-md-4">
                 		<div class="form-group">
                   			<label>Cantidad de paquetes</label>
-                  			<select class="form-control form-control-sm" id="ads_count" name="ads_count">
-								<option value="">- Seleccione una opción -</option>
+                  			<select class="form-control select2 form-control-sm" style="width: 100%;" id="ads_count" name="ads_count">
+                                <option selected disabled value="">Elige una opción</option>
 								<option value="5">5</option>
                                 <option value="10">10</option>
                                 <option value="25">25</option>
@@ -202,11 +202,33 @@ Paquetes
               		<div class="col-md-4">
                 		<div class="form-group">
                   			<label>Duración del paquete</label>
-                  			<select class="form-control form-control-sm" id="duration" name="duration">
-                                <option value="">- Seleccione una opción -</option>
+                  			<select class="form-control select2 form-control-sm" style="width: 100%;" id="duration" name="duration">
+                                <option selected disabled value="">Elige una opción</option>
 								<option value="90">90</option>
                                 <option value="180">180</option>
                                 <option value="365">365</option>
+							</select>
+                		</div>
+                	</div>
+              		<div class="col-md-4">
+                		<div class="form-group">
+                  			<label>Renovaciones</label>
+                  			<select class="form-control select2 form-control-sm" style="width: 100%;" id="renovations" name="renovations">
+                                <option selected disabled value="">Elige una opción</option>
+								<option value="true">Si</option>
+                                <option value="false">No</option>
+                                <option value="">Todos</option>
+							</select>
+                		</div>
+                	</div>
+					<div class="col-md-4">
+                		<div class="form-group">
+                  			<label>Comerciales</label>
+                  			<select class="form-control select2 form-control-sm" style="width: 100%;" id="agent_id" name="agent_id">
+                                <option selected disabled value="">Elige una opción</option>
+								<option value="76338334">Boris Osterling Grimberg</option>
+								<option value="45531275">Rodrigo Morales Correa</option>
+								<option value="44893949">Roxana Moratones Gallo</option>
 							</select>
                 		</div>
                 	</div>
@@ -427,8 +449,10 @@ Paquetes
 		
 	const headers = [
 		{ "title": "ID", "code": "id", "sortable": true },
+		{ "title": "ID de usuario" },
 		{ "title": "Nombres" },
 		{ "title": "Email" },
+		{ "title": "Comercial asignado"},
 		{ "title": "Avisos disponibles", "code": "ads_count", "sortable": true },
 		{ "title": "Categoría", "code": "category", "sortable": true },
 		{ "title": "Standard ilimitado" },
@@ -483,6 +507,12 @@ Paquetes
 			name: 'duration'
         },
 		{
+			name: 'renovations'
+        },
+		{
+			name: 'agent_id'
+        },
+		{
 			name: 'state'
         },
 		{
@@ -508,8 +538,10 @@ Paquetes
 		let bagde = ( endDate < currentDate ) ? 'danger' : 'success';
 		return [
 			element.id,
+			element.user_id,
 			element.full_name,
 			element.email,
+			element.agent_name,
 			element.ads_count?((element.ads_count=='999999')?'Ilimitado':element.ads_count):'',
             element.category??'',
             element.is_unlimited_standard?'si':'no',
@@ -549,8 +581,8 @@ Paquetes
 			}
 		}
 	}
-	const columnsHidden = [4,5,6,7,8,9,10,13,14,15,16,20];
-	const columnsDates = [20,21];
+	const columnsHidden = [3,6,7,8,9,10,11,12,13,14,15,16,17,18,21,22,23,24];
+	const columnsDates = [21,22];
 	const returnTable = {
 		buttons: [
 			{
@@ -569,6 +601,12 @@ Paquetes
 				columnText: function(dt, idx, title ){
 					let title_clean =(typeof headers[idx] === "object" && headers[idx].hasOwnProperty("title_clean"))?headers[idx]["title_clean"]:title;
 					return title_clean;
+				}
+			},
+			{
+				text: 'Descargar todo',
+				action: function ( e, dt, node, config ) {
+					
 				}
 			},
 			{
