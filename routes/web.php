@@ -16,7 +16,7 @@ use App\Controllers\ClaimsController;
 use App\Controllers\ListasController;
 use App\Controllers\AccountController;
 use App\Controllers\AlertasController;
-use App\Controllers\ClientesController;
+use App\Controllers\UsuariosController;
 use App\Controllers\ContactsController;
 use App\Controllers\PaquetesController;
 use App\Controllers\ReportesController;
@@ -57,9 +57,9 @@ $router
                 ->post("/menu", [ConfigurationMenuController::class, "post"], ['before' => 'verifyPrivileges'])
 
                 #configuracion
-                ->get("/usuarios", [ConfigurationUsersController::class, "index"], ['before' => 'verifyPrivileges'])
-                ->get("/usuarios/{id}/user", [ConfigurationUsersController::class, "userDetail"], ['before' => 'verifyPrivileges'])
-                ->post("/usuarios", [ConfigurationUsersController::class, "post"], ['before' => 'verifyPrivileges'])
+                ->get("/administradores", [ConfigurationUsersController::class, "index"], ['before' => 'verifyPrivileges'])
+                ->get("/administradores/{id}/user", [ConfigurationUsersController::class, "userDetail"], ['before' => 'verifyPrivileges'])
+                ->post("/administradores", [ConfigurationUsersController::class, "post"], ['before' => 'verifyPrivileges'])
                 
                 ->get("/permisos", [ConfigurationPermissionsController::class, "index"], ['before' => 'verifyPrivileges'])
                 ->get("/permisos/{id}/permiso", [ConfigurationPermissionsController::class, "permissionDetail"], ['before' => 'verifyPrivileges'])
@@ -69,7 +69,7 @@ $router
                 ->get("/alertas", [AlertasController::class, "index"])
                 ->get("/avisos", [AvisosController::class, "index"])
                 ->get("/proyectos", [ProyectosController::class, "index"])
-                ->get("/clientes", [ClientesController::class, "index"])
+                ->get("/usuarios", [UsuariosController::class, "index"])
                 ->get("/leads-avisos", [LeadsController::class, "index"])
                 ->get("/leads-proyectos", [LeadsProjectsController::class, "index"])
                 ->get("/paquetes", [PaquetesController::class, "index"])
