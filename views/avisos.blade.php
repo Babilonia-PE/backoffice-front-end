@@ -103,6 +103,38 @@
 			align-items: start;
         }
     }
+	.external-data{
+		display: flex;
+		gap: 0.5rem;
+		flex-wrap: wrap;
+		align-items: center;
+    	position: relative;
+	}
+	.external-data .links{
+		display: none;
+    	position: absolute;
+		gap: 0.5rem;
+		right: 0;
+    	padding: 0 0 0 1rem;
+		background: #FFFFFFD5;
+	}
+	.external-data.title .links{
+		display: flex;
+    	position: relative;
+    	padding: 0;
+	}
+	.external-data.title i{
+		font-size: 16px;
+	}
+	.external-data i{
+		color: #000000DE;
+	}
+	.external-data:hover .links{
+		display: flex;
+	}
+	.swal2-popup.swal2-toast .swal2-html-container{
+		margin: .5em 0;
+	}
 </style>
 @endsection
 
@@ -129,7 +161,7 @@ Avisos
 					<div class="col-md-4">
                 		<div class="form-group">
                   			<label>ID del aviso</label>
-                  			<input type="text" class="form-control" id="id" placeholder="ID del aviso">
+                  			<input type="text" class="form-control form-control-sm" id="id" placeholder="ID del aviso">
                 		</div>
                 	</div>
               		<div class="col-md-4">
@@ -165,10 +197,10 @@ Avisos
 							<label for="exampleInputEmail1">Precio (Desde - Hasta)</label>
 							<div class="form-row">
 								<div class="col-6">
-									<input type="date" class="form-control" id="price_from" placeholder="desde">
+									<input type="text" class="form-control form-control-sm" id="price_from" placeholder="desde">
 								</div>
 								<div class="col-6">
-									<input type="date" class="form-control" id="price_to" placeholder="hasta">
+									<input type="text" class="form-control form-control-sm" id="price_to" placeholder="hasta">
 								</div>
 							</div>
 						</div>
@@ -178,10 +210,10 @@ Avisos
 							<label for="exampleInputEmail1">Fecha de creación (Desde - Hasta)</label>
 							<div class="form-row">
 								<div class="col-6">
-									<input type="date" class="form-control" id="created_start" placeholder="dd/mm/yyyy">
+									<input type="text" class="form-control form-control-sm" id="created_start" placeholder="dd/mm/yyyy">
 								</div>
 								<div class="col-6">
-									<input type="date" class="form-control" id="created_end" placeholder="dd/mm/yyyy">
+									<input type="text" class="form-control form-control-sm" id="created_end" placeholder="dd/mm/yyyy">
 								</div>
 							</div>
 						</div>
@@ -191,10 +223,10 @@ Avisos
 							<label for="exampleInputEmail1">Fecha de actualización (Desde - Hasta)</label>
 							<div class="form-row">
 								<div class="col-6">
-									<input type="date" class="form-control" id="updated_start" placeholder="dd/mm/yyyy">
+									<input type="text" class="form-control form-control-sm" id="updated_start" placeholder="dd/mm/yyyy">
 								</div>
 								<div class="col-6">
-									<input type="date" class="form-control" id="updated_end" placeholder="dd/mm/yyyy">
+									<input type="text" class="form-control form-control-sm" id="updated_end" placeholder="dd/mm/yyyy">
 								</div>
 							</div>
 						</div>
@@ -204,10 +236,10 @@ Avisos
 							<label for="exampleInputEmail1">Fecha de publicación (Desde - Hasta)</label>
 							<div class="form-row">
 								<div class="col-6">
-									<input type="date" class="form-control" id="purchased_start" placeholder="dd/mm/yyyy">
+									<input type="text" class="form-control form-control-sm" id="purchased_start" placeholder="dd/mm/yyyy">
 								</div>
 								<div class="col-6">
-									<input type="date" class="form-control" id="purchased_end" placeholder="dd/mm/yyyy">
+									<input type="text" class="form-control form-control-sm" id="purchased_end" placeholder="dd/mm/yyyy">
 								</div>
 							</div>
 						</div>
@@ -217,10 +249,10 @@ Avisos
 							<label for="exampleInputEmail1">Fecha de expiración (Desde - Hasta)</label>
 							<div class="form-row">
 								<div class="col-6">
-									<input type="date" class="form-control" id="expires_start" placeholder="dd/mm/yyyy">
+									<input type="text" class="form-control form-control-sm" id="expires_start" placeholder="dd/mm/yyyy">
 								</div>
 								<div class="col-6">
-									<input type="date" class="form-control" id="expires_end" placeholder="dd/mm/yyyy">
+									<input type="text" class="form-control form-control-sm" id="expires_end" placeholder="dd/mm/yyyy">
 								</div>
 							</div>
 						</div>
@@ -228,11 +260,11 @@ Avisos
 					<div class="col-md-4">
 						<div class="form-group">
 							<div class="form-row">
-								<div class="col">
-									<button id="applyfiltters" type="button" class="btn btn-primary btn-block"><i class="fas fa-filter"></i> Aplicar filtros</button>
+								<div class="col-sm-6 pb-2 pb-sm-0">
+									<button id="applyfiltters" type="button" class="btn btn-primary btn-block text-truncate btn-sm"><i class="fas fa-filter"></i> Aplicar filtros</button>
 								</div>
-								<div class="col-auto">
-									<button id="removefiltters" type="button" class="btn btn-secondary"><i class="fas fa-trash"></i></button>
+								<div class="col-sm-6">
+									<button id="removefiltters" type="button" class="btn btn-secondary btn-block text-truncate btn-sm"><i class="fas fa-trash"></i> Limpiar filtros</button>
 								</div>
 							</div>
 						</div>
@@ -283,11 +315,33 @@ Avisos
 <script src="@asset("public/assets/js/components/datatable.js")?v={{ APP_VERSION }}"></script>
 <!-- Select2 -->
 <script src="public/plugins/select2/js/select2.full.min.js"></script>
+<script src="public/plugins/datetimepicker/date-time-picker.min.js"></script>
+<script>
+	//ESTBALECER MASCARAS
+	setMask('#created_start', { mask: "99/99/9999", showMaskOnHover: false, placeholder: "dd/mm/yyyy", rightAlign:false });
+	setMask('#created_end', { mask: "99/99/9999", showMaskOnHover: false, placeholder: "dd/mm/yyyy", rightAlign:false });
+	setMask('#updated_start', { mask: "99/99/9999", showMaskOnHover: false, placeholder: "dd/mm/yyyy", rightAlign:false });
+	setMask('#updated_end', { mask: "99/99/9999", showMaskOnHover: false, placeholder: "dd/mm/yyyy", rightAlign:false });
+	setMask('#purchased_start', { mask: "99/99/9999", showMaskOnHover: false, placeholder: "dd/mm/yyyy", rightAlign:false });
+	setMask('#purchased_end', { mask: "99/99/9999", showMaskOnHover: false, placeholder: "dd/mm/yyyy", rightAlign:false });
+	setMask('#expires_start', { mask: "99/99/9999", showMaskOnHover: false, placeholder: "dd/mm/yyyy", rightAlign:false });
+	setMask('#expires_end', { mask: "99/99/9999", showMaskOnHover: false, placeholder: "dd/mm/yyyy", rightAlign:false });
+
+	//DEFINIR DATEPICKER
+	$('#created_start').dateTimePicker({format: 'dd/MM/yyyy'});
+	$('#created_end').dateTimePicker({format: 'dd/MM/yyyy'});
+	$('#updated_start').dateTimePicker({format: 'dd/MM/yyyy'});
+	$('#updated_end').dateTimePicker({format: 'dd/MM/yyyy'});
+	$('#purchased_start').dateTimePicker({format: 'dd/MM/yyyy'});
+	$('#purchased_end').dateTimePicker({format: 'dd/MM/yyyy'});
+	$('#expires_start').dateTimePicker({format: 'dd/MM/yyyy'});
+	$('#expires_end').dateTimePicker({format: 'dd/MM/yyyy'});
+
+
+</script>
+	
 <script>
 	
-</script>
-
-<script>
 	const roles = {
 		"realtor" : "Agente",
 		"owner" : "Propietario"
@@ -417,8 +471,8 @@ Avisos
 			( ( element.location ) ? element.location.department??'':'' ),
 			( ( element.location ) ? element.location.country??'':'' ),
 			`<span class="badge text-bg-secondary ${element.state_id}">${element.state??''}</span>`,
-			( ( element.created_at ) ? moment(element.created_at).format('DD/MM/YYYY'):'' ),
-			( ( element.ad_purchased_at ) ? moment(element.ad_purchased_at).format('DD/MM/YYYY'):'' ),
+			element.created_at??'',
+			element.ad_purchased_at??'',
 			element.full_name??'',
 			element.ad_plan??'',
 			element.publisher_role??'',
@@ -440,11 +494,19 @@ Avisos
 			element.views_count??'',
 			element.favourites_count??'',
 			element.contacts_count??'',
-			( ( element.updated_at ) ? moment(element.updated_at).format('DD/MM/YYYY') :'' ),
-			( ( element.ad_expires_at ) ? moment(element.ad_expires_at).format('DD/MM/YYYY') :'' ),
+			element.updated_at??'',
+			element.ad_expires_at??'',
 			element.email??'',
 			getFullNumber(prefix, phone),
-			( ( element.external_data == '' ) ? '-' : `<a href="${element.external_data}" target="_blank">${element.external_data}</a>` )
+			( ( element.external_data == '' ) ? '-' : `
+			<div class="external-data">
+				${element.external_data}
+				<div class="links">
+					<a title="Copiar URL" role="button" onclick="copyText('${element.external_data}')"><i class="far fa-copy"></i></a>
+					<a title="Abrir en una pestaña nueva" href="${element.external_data}" target="_blank"><i class="fas fa-external-link-alt"></i></a>
+				</div>
+			</div>
+			` )
 			
 		];
 	}
@@ -488,10 +550,26 @@ Avisos
 		28, //Numero de fotos
 		29	//Video
 	];
+	const copyText = (text = '') => {
+		navigator.clipboard.writeText(text);
+		Toast.fire({
+			icon: 'info',
+			title: 'Mensaje del sistema',
+			text: 'Se ha copiado la URL en el portapapeles'
+		})
+	}
 	const modalTitle = (element, globalRecords = []) =>{
 		let rowInfo = globalRecords.filter((item)=> item.id == element);
 		let url_external = URL_WEB_FRONT + rowInfo[0].url?.share ?? '';
-		return `Detalles para <a target="_blank" href="${url_external}">${element}</a>`;
+		return `
+			<div class="external-data title">
+				Detalles para ${element}
+				<div class="links">
+					<a title="Copiar URL" role="button" onclick="copyText('${url_external}')"><i class="far fa-copy"></i></a>
+					<a title="Abrir en una pestaña nueva" href="${url_external}" target="_blank"><i class="fas fa-external-link-alt"></i></a>
+				</div>
+			</div>
+		`;
 	}
 	const columnsHidden = [7, 8, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34,35,36, 37];
 	const columnsDates = [10, 11, 33, 34];

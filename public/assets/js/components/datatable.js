@@ -283,6 +283,12 @@ const datatable = (options = {})=>{
 			}
 		},
 		{
+			text: 'Descargar todo',
+            action: function ( e, dt, node, config ) {
+				
+            }
+		},
+		{
 			text: 'Reiniciar',
             action: function ( e, dt, node, config ) {
 				tableSaved.state.clear();

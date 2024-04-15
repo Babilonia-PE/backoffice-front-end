@@ -129,7 +129,7 @@ Proyectos
 					<div class="col-md-4">
                 		<div class="form-group">
                   			<label>ID del proyecto</label>
-                  			<input type="text" class="form-control" id="id" placeholder="ID del aviso">
+                  			<input type="text" class="form-control form-control-sm" id="id" placeholder="ID del aviso">
                 		</div>
                 	</div>
               		<div class="col-md-4">
@@ -165,10 +165,10 @@ Proyectos
 							<label for="exampleInputEmail1">Fecha de creación (Desde - Hasta)</label>
 							<div class="form-row">
 								<div class="col-6">
-									<input type="date" class="form-control" id="created_start" placeholder="dd/mm/yyyy">
+									<input type="text" class="form-control form-control-sm" id="created_start" placeholder="dd/mm/yyyy">
 								</div>
 								<div class="col-6">
-									<input type="date" class="form-control" id="created_end" placeholder="dd/mm/yyyy">
+									<input type="text" class="form-control form-control-sm" id="created_end" placeholder="dd/mm/yyyy">
 								</div>
 							</div>
 						</div>
@@ -178,10 +178,10 @@ Proyectos
 							<label for="exampleInputEmail1">Fecha de actualización (Desde - Hasta)</label>
 							<div class="form-row">
 								<div class="col-6">
-									<input type="date" class="form-control" id="updated_start" placeholder="dd/mm/yyyy">
+									<input type="text" class="form-control form-control-sm" id="updated_start" placeholder="dd/mm/yyyy">
 								</div>
 								<div class="col-6">
-									<input type="date" class="form-control" id="updated_end" placeholder="dd/mm/yyyy">
+									<input type="text" class="form-control form-control-sm" id="updated_end" placeholder="dd/mm/yyyy">
 								</div>
 							</div>
 						</div>
@@ -191,10 +191,10 @@ Proyectos
 							<label for="exampleInputEmail1">Fecha de publicación (Desde - Hasta)</label>
 							<div class="form-row">
 								<div class="col-6">
-									<input type="date" class="form-control" id="purchased_start" placeholder="dd/mm/yyyy">
+									<input type="text" class="form-control form-control-sm" id="purchased_start" placeholder="dd/mm/yyyy">
 								</div>
 								<div class="col-6">
-									<input type="date" class="form-control" id="purchased_end" placeholder="dd/mm/yyyy">
+									<input type="text" class="form-control form-control-sm" id="purchased_end" placeholder="dd/mm/yyyy">
 								</div>
 							</div>
 						</div>
@@ -204,10 +204,10 @@ Proyectos
 							<label for="exampleInputEmail1">Fecha de expiración (Desde - Hasta)</label>
 							<div class="form-row">
 								<div class="col-6">
-									<input type="date" class="form-control" id="expires_start" placeholder="dd/mm/yyyy">
+									<input type="text" class="form-control form-control-sm" id="expires_start" placeholder="dd/mm/yyyy">
 								</div>
 								<div class="col-6">
-									<input type="date" class="form-control" id="expires_end" placeholder="dd/mm/yyyy">
+									<input type="text" class="form-control form-control-sm" id="expires_end" placeholder="dd/mm/yyyy">
 								</div>
 							</div>
 						</div>
@@ -215,11 +215,11 @@ Proyectos
 					<div class="col-md-4">
 						<div class="form-group">
 							<div class="form-row">
-								<div class="col">
-									<button id="applyfiltters" type="button" class="btn btn-primary btn-block"><i class="fas fa-filter"></i> Aplicar filtros</button>
+								<div class="col-sm-6 pb-2 pb-sm-0">
+									<button id="applyfiltters" type="button" class="btn btn-primary btn-block text-truncate btn-sm"><i class="fas fa-filter"></i> Aplicar filtros</button>
 								</div>
-								<div class="col-auto">
-									<button id="removefiltters" type="button" class="btn btn-secondary"><i class="fas fa-trash"></i></button>
+								<div class="col-sm-6">
+									<button id="removefiltters" type="button" class="btn btn-secondary btn-block text-truncate btn-sm"><i class="fas fa-trash"></i> Limpiar filtros</button>
 								</div>
 							</div>
 						</div>
@@ -270,8 +270,27 @@ Proyectos
 <script src="@asset("public/assets/js/components/datatable.js")?v={{ APP_VERSION }}"></script>
 <!-- Select2 -->
 <script src="public/plugins/select2/js/select2.full.min.js"></script>
+<script src="public/plugins/datetimepicker/date-time-picker.min.js"></script>
 <script>
-	
+	//ESTBALECER MASCARAS
+	setMask('#created_start', { mask: "99/99/9999", showMaskOnHover: false, placeholder: "dd/mm/yyyy", rightAlign:false });
+	setMask('#created_end', { mask: "99/99/9999", showMaskOnHover: false, placeholder: "dd/mm/yyyy", rightAlign:false });
+	setMask('#updated_start', { mask: "99/99/9999", showMaskOnHover: false, placeholder: "dd/mm/yyyy", rightAlign:false });
+	setMask('#updated_end', { mask: "99/99/9999", showMaskOnHover: false, placeholder: "dd/mm/yyyy", rightAlign:false });
+	setMask('#purchased_start', { mask: "99/99/9999", showMaskOnHover: false, placeholder: "dd/mm/yyyy", rightAlign:false });
+	setMask('#purchased_end', { mask: "99/99/9999", showMaskOnHover: false, placeholder: "dd/mm/yyyy", rightAlign:false });
+	setMask('#expires_start', { mask: "99/99/9999", showMaskOnHover: false, placeholder: "dd/mm/yyyy", rightAlign:false });
+	setMask('#expires_end', { mask: "99/99/9999", showMaskOnHover: false, placeholder: "dd/mm/yyyy", rightAlign:false });
+
+	//DEFINIR DATEPICKER
+	$('#created_start').dateTimePicker({format: 'dd/MM/yyyy'});
+	$('#created_end').dateTimePicker({format: 'dd/MM/yyyy'});
+	$('#updated_start').dateTimePicker({format: 'dd/MM/yyyy'});
+	$('#updated_end').dateTimePicker({format: 'dd/MM/yyyy'});
+	$('#purchased_start').dateTimePicker({format: 'dd/MM/yyyy'});
+	$('#purchased_end').dateTimePicker({format: 'dd/MM/yyyy'});
+	$('#expires_start').dateTimePicker({format: 'dd/MM/yyyy'});
+	$('#expires_end').dateTimePicker({format: 'dd/MM/yyyy'});
 </script>
 
 <script>
@@ -431,10 +450,10 @@ Proyectos
 			element.delivery_date_year??'',
 			element.delivery_date_month??'',
 			element.finance??'',
-			( ( element.created_at ) ? moment(element.created_at).format('DD/MM/YYYY'):'' ),
-			( ( element.ad_purchased_at ) ? moment(element.ad_purchased_at).format('DD/MM/YYYY'):'' ),
-			( ( element.updated_at ) ? moment(element.updated_at).format('DD/MM/YYYY') :'' ),
-			( ( element.ad_expires_at ) ? moment(element.ad_expires_at).format('DD/MM/YYYY') :'' ),
+			element.created_at??'',
+			element.ad_purchased_at??'',
+			element.updated_at??'',
+			element.ad_expires_at??'',
 			element.full_name??'',
 			element.email??'',
 			getFullNumber(prefix, phone)

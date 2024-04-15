@@ -181,10 +181,10 @@ Chat
 							<label for="exampleInputEmail1">Fecha de creación (Desde - Hasta)</label>
 							<div class="form-row">
 								<div class="col-6">
-									<input type="date" class="form-control" id="created_start" placeholder="dd/mm/yyyy">
+									<input type="text" class="form-control" id="created_start" placeholder="dd/mm/yyyy">
 								</div>
 								<div class="col-6">
-									<input type="date" class="form-control" id="created_end" placeholder="dd/mm/yyyy">
+									<input type="text" class="form-control" id="created_end" placeholder="dd/mm/yyyy">
 								</div>
 							</div>
 						</div>
@@ -192,11 +192,11 @@ Chat
 					<div class="col-md-4">
 						<div class="form-group">
 							<div class="form-row">
-								<div class="col">
-									<button id="applyfiltters" type="button" class="btn btn-primary btn-block"><i class="fas fa-filter"></i> Aplicar filtros</button>
+								<div class="col-sm-6 pb-2 pb-sm-0">
+									<button id="applyfiltters" type="button" class="btn btn-primary btn-block text-truncate"><i class="fas fa-filter"></i> Aplicar filtros</button>
 								</div>
-								<div class="col-auto">
-									<button id="removefiltters" type="button" class="btn btn-secondary"><i class="fas fa-trash"></i></button>
+								<div class="col-sm-6">
+									<button id="removefiltters" type="button" class="btn btn-secondary btn-block text-truncate"><i class="fas fa-trash"></i> Limpiar filtros</button>
 								</div>
 							</div>
 						</div>
@@ -247,8 +247,14 @@ Chat
 <script src="@asset("public/assets/js/components/datatable.js")?v={{ APP_VERSION }}"></script>
 <!-- Select2 -->
 <script src="public/plugins/select2/js/select2.full.min.js"></script>
+<script src="public/plugins/datetimepicker/date-time-picker.min.js"></script>
 <script>
-	
+	//ESTBALECER MASCARAS
+	setMask('#created_start', { mask: "99/99/9999", showMaskOnHover: false, placeholder: "dd/mm/yyyy", rightAlign:false });
+	setMask('#created_end', { mask: "99/99/9999", showMaskOnHover: false, placeholder: "dd/mm/yyyy", rightAlign:false });
+	//DEFINIR DATEPICKER
+	$('#created_start').dateTimePicker({format: 'dd/MM/yyyy'});
+	$('#created_end').dateTimePicker({format: 'dd/MM/yyyy'});
 </script>
 
 <script>
@@ -281,21 +287,9 @@ Chat
 		}
 	];
 	const processParams = (element) =>{
-		const date = new Date(1000*(element.created_at??''));
-		const formatter = new Intl.DateTimeFormat("es-ES", {
-			separator: '-',
-			year: "numeric",
-			month: "2-digit",
-			day: "2-digit",
-			hour: "2-digit",
-			minute: "2-digit",
-			second: "2-digit",
-			hour12: false,
-		});
-		const arr = formatter.format(date).replaceAll("/", "-").split(',');
 		return [
 			element.id??'',		
-			`${arr[0]}${arr[1]}`,
+			element.created_at??'',
 		];
 	}
 	const modalOrder =  [];
@@ -321,7 +315,7 @@ Chat
         }).appendTo("#rowDetails .modal-body");
 		
 		data.forEach(element => {
-			const date = ( ( element.created_at ) ? moment(element.created_at).format('DD-MM-YYYY HH:mm:ss'):'' );
+			const date = element.created_at??'';
 			const message = element.message??'';
 			jQuery('<div>', {
 				'class' : ( element.user_id??0 ) == 0 ? 'user' : '',

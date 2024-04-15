@@ -151,7 +151,7 @@ Paquetes
               		<div class="col-md-4">
                 		<div class="form-group">
                   			<label>ID del paquete</label>
-                  			<input type="text" class="form-control" id="id" placeholder="ID del paquete">
+                  			<input type="text" class="form-control form-control-sm" id="id" placeholder="ID del paquete">
                 		</div>
                 	</div>
                     <div class="col-md-4">
@@ -172,8 +172,8 @@ Paquetes
               		<div class="col-md-4">
                 		<div class="form-group">
                   			<label>Cantidad de paquetes</label>
-                  			<select class="form-control" id="ads_count" name="ads_count">
-								<option value="">- Seleccione una opción -</option>
+                  			<select class="form-control select2 form-control-sm" style="width: 100%;" id="ads_count" name="ads_count">
+                                <option selected disabled value="">Elige una opción</option>
 								<option value="5">5</option>
                                 <option value="10">10</option>
                                 <option value="25">25</option>
@@ -202,11 +202,33 @@ Paquetes
               		<div class="col-md-4">
                 		<div class="form-group">
                   			<label>Duración del paquete</label>
-                  			<select class="form-control" id="duration" name="duration">
-                                <option value="">- Seleccione una opción -</option>
+                  			<select class="form-control select2 form-control-sm" style="width: 100%;" id="duration" name="duration">
+                                <option selected disabled value="">Elige una opción</option>
 								<option value="90">90</option>
                                 <option value="180">180</option>
                                 <option value="365">365</option>
+							</select>
+                		</div>
+                	</div>
+              		<div class="col-md-4">
+                		<div class="form-group">
+                  			<label>Renovaciones</label>
+                  			<select class="form-control select2 form-control-sm" style="width: 100%;" id="renovations" name="renovations">
+                                <option selected disabled value="">Elige una opción</option>
+								<option value="true">Si</option>
+                                <option value="false">No</option>
+                                <option value="">Todos</option>
+							</select>
+                		</div>
+                	</div>
+					<div class="col-md-4">
+                		<div class="form-group">
+                  			<label>Comerciales</label>
+                  			<select class="form-control select2 form-control-sm" style="width: 100%;" id="agent_id" name="agent_id">
+                                <option selected disabled value="">Elige una opción</option>
+								<option value="76338334">Boris Osterling Grimberg</option>
+								<option value="45531275">Rodrigo Morales Correa</option>
+								<option value="44893949">Roxana Moratones Gallo</option>
 							</select>
                 		</div>
                 	</div>
@@ -215,10 +237,10 @@ Paquetes
 							<label for="exampleInputEmail1">Fecha de compra (Desde - Hasta)</label>
 							<div class="form-row">
 								<div class="col-6">
-									<input type="date" class="form-control" id="purchased_start" placeholder="dd/mm/yyyy">
+									<input type="text" class="form-control form-control-sm" id="purchased_start" placeholder="dd/mm/yyyy">
 								</div>
 								<div class="col-6">
-									<input type="date" class="form-control" id="purchased_end" placeholder="dd/mm/yyyy">
+									<input type="text" class="form-control form-control-sm" id="purchased_end" placeholder="dd/mm/yyyy">
 								</div>
 							</div>
 						</div>
@@ -228,10 +250,10 @@ Paquetes
 							<label for="exampleInputEmail1">Fecha de expiración (Desde - Hasta)</label>
 							<div class="form-row">
 								<div class="col-6">
-									<input type="date" class="form-control" id="expires_start" placeholder="dd/mm/yyyy">
+									<input type="text" class="form-control form-control-sm" id="expires_start" placeholder="dd/mm/yyyy">
 								</div>
 								<div class="col-6">
-									<input type="date" class="form-control" id="expires_end" placeholder="dd/mm/yyyy">
+									<input type="text" class="form-control form-control-sm" id="expires_end" placeholder="dd/mm/yyyy">
 								</div>
 							</div>
 						</div>
@@ -239,11 +261,11 @@ Paquetes
 					<div class="col-md-4">
 						<div class="form-group">
 							<div class="form-row">
-								<div class="col">
-									<button id="applyfiltters" type="button" class="btn btn-primary btn-block"><i class="fas fa-filter"></i> Aplicar filtros</button>
+								<div class="col-sm-6 pb-2 pb-sm-0">
+									<button id="applyfiltters" type="button" class="btn btn-primary btn-block text-truncate btn-sm"><i class="fas fa-filter"></i> Aplicar filtros</button>
 								</div>
-								<div class="col-auto">
-									<button id="removefiltters" type="button" class="btn btn-secondary"><i class="fas fa-trash"></i></button>
+								<div class="col-sm-6">
+									<button id="removefiltters" type="button" class="btn btn-secondary btn-block text-truncate btn-sm"><i class="fas fa-trash"></i> Limpiar filtros</button>
 								</div>
 							</div>
 						</div>
@@ -306,7 +328,7 @@ Paquetes
 					<div class="col-md-6">
 						<div class="form-group">
 							<label>Método de pago</label>
-							<select name="payment_method" id="payment_method" class="form-control selectpicker validate" title="Método de pago" placeholder="Método de pago">
+							<select name="payment_method" id="payment_method" class="form-control form-control-sm selectpicker validate" title="Método de pago" placeholder="Método de pago">
 								<option value="tranfer">Compra</option>
 								<option value="free">Regalo</option>
 								<option value="lottery">Sorteo</option>
@@ -316,7 +338,7 @@ Paquetes
 					<div class="col-md-6">
 						<div class="form-group">
 							<label>Tipo</label>
-							<select name="package_type" id="package_type" class="form-control selectpicker validate" title="Tipo de paquete" placeholder="Tipo de paquete">
+							<select name="package_type" id="package_type" class="form-control form-control-sm selectpicker validate" title="Tipo de paquete" placeholder="Tipo de paquete">
 								<option value="listing">Inmuebles</option>
 								<!--<option value="project">Proyectos</option>-->
 							</select>                			
@@ -325,58 +347,58 @@ Paquetes
 					<div class="col-md-6">
 						<div class="form-group">
 							<label>Agente</label>
-							<select disabled name="realtor" id="realtor" class="form-control selectpicker disable validate" title="Agente" placeholder="Agente">
+							<select disabled name="realtor" id="realtor" class="form-control form-control-sm selectpicker disable validate" title="Agente" placeholder="Agente">
 							</select>                			
 						</div>
 					</div>
 					<div class="col-md-6">
 						<div class="form-group">
 							<label>Número base de avisos</label>
-							<select disabled name="count" id="count" class="form-control selectpicker disable validate" title="Número base de avisos" placeholder="Número base de avisos" >
+							<select disabled name="count" id="count" class="form-control form-control-sm selectpicker disable validate" title="Número base de avisos" placeholder="Número base de avisos" >
 							</select>                			
 						</div>
 					</div>
 					<div class="col-md-6">
 						<div class="form-group">
 							<label>Categoría</label>
-							<select disabled name="plan" id="plan" class="form-control selectpicker disable validate" title="Categoría" placeholder="Categoría" >
+							<select disabled name="plan" id="plan" class="form-control form-control-sm selectpicker disable validate" title="Categoría" placeholder="Categoría" >
 							</select>                			
 						</div>
 					</div>
 					<div class="col-md-6">
 						<div class="form-group">
 							<label>Número de avisos estandard</label>
-                  			<input disabled type="text" class="form-control inputmask disable validate" id="standard_ads_count" placeholder="Avisos estandard">            			
+                  			<input disabled type="text" class="form-control form-control-sm inputmask disable validate" id="standard_ads_count" placeholder="Avisos estandard">            			
 						</div>
 					</div>
 					<div class="col-md-6">
 						<div class="form-group">
 							<label>Número de avisos plus</label>
-                  			<input disabled type="text" class="form-control inputmask disable validate" id="plus_ads_count" placeholder="Avisos plus">     	
+                  			<input disabled type="text" class="form-control form-control-sm inputmask disable validate" id="plus_ads_count" placeholder="Avisos plus">     	
 						</div>
 					</div>
 					<div class="col-md-6">
 						<div class="form-group">
 							<label>Número de avisos premium</label>
-                  			<input disabled type="text" class="form-control inputmask disable validate" id="premium_ads_count" placeholder="Avisos premium">     		
+                  			<input disabled type="text" class="form-control form-control-sm inputmask disable validate" id="premium_ads_count" placeholder="Avisos premium">     		
 						</div>
 					</div>
 					<div class="col-md-6">
 						<div class="form-group">
 							<label>Duración base del paquete</label>
-							<select disabled name="duracion" id="duracion" class="form-control selectpicker disable validate" title="Duración base del paquete" placeholder="Duración base del paquete" >
+							<select disabled name="duracion" id="duracion" class="form-control form-control-sm selectpicker disable validate" title="Duración base del paquete" placeholder="Duración base del paquete" >
 							</select>                			
 						</div>
 					</div>
 					<div class="col-md-6">
 						<div class="form-group">
 							<label>Duración del paquete</label>
-                  			<input disabled type="date" class="form-control disable" id="days" placeholder="Duración del paquete" min="{{date('Y-m-d', strtotime('+1 day'))}}">     		
+                  			<input disabled type="date" class="form-control form-control-sm disable" id="days" placeholder="Duración del paquete" min="{{date('Y-m-d', strtotime('+1 day'))}}">     		
 						</div>
 					</div>
 					<div class="col-md-6">
 						<div class="form-group">
-							<button disabled id="addPackage" type="button" class="btn btn-primary btn-block"><i class="fas fa-plus"></i> Crear paquete</button>
+							<button disabled id="addPackage" type="button" class="btn btn-primary btn-block btn-sm"><i class="fas fa-plus"></i> Crear paquete</button>
 						</div>
 					</div>   
 				</div>        
@@ -398,8 +420,18 @@ Paquetes
 <script src="@asset("public/assets/js/components/datatable.js")?v={{ APP_VERSION }}"></script>
 <!-- -->
 <script src="public/plugins/select2/js/select2.full.min.js"></script>
+<script src="public/plugins/datetimepicker/date-time-picker.min.js"></script>
 <script>
-	
+	//ESTBALECER MASCARAS
+	setMask('#purchased_start', { mask: "99/99/9999", showMaskOnHover: false, placeholder: "dd/mm/yyyy", rightAlign:false });
+	setMask('#purchased_end', { mask: "99/99/9999", showMaskOnHover: false, placeholder: "dd/mm/yyyy", rightAlign:false });
+	setMask('#expires_start', { mask: "99/99/9999", showMaskOnHover: false, placeholder: "dd/mm/yyyy", rightAlign:false });
+	setMask('#expires_end', { mask: "99/99/9999", showMaskOnHover: false, placeholder: "dd/mm/yyyy", rightAlign:false });
+	//DEFINIR DATEPICKER
+	$('#purchased_start').dateTimePicker({format: 'dd/MM/yyyy'});
+	$('#purchased_end').dateTimePicker({format: 'dd/MM/yyyy'});
+	$('#expires_start').dateTimePicker({format: 'dd/MM/yyyy'});
+	$('#expires_end').dateTimePicker({format: 'dd/MM/yyyy'});
 </script>
 <script>
 	let state = [];
@@ -417,8 +449,10 @@ Paquetes
 		
 	const headers = [
 		{ "title": "ID", "code": "id", "sortable": true },
+		{ "title": "ID de usuario" },
 		{ "title": "Nombres" },
 		{ "title": "Email" },
+		{ "title": "Comercial asignado"},
 		{ "title": "Avisos disponibles", "code": "ads_count", "sortable": true },
 		{ "title": "Categoría", "code": "category", "sortable": true },
 		{ "title": "Standard ilimitado" },
@@ -473,6 +507,12 @@ Paquetes
 			name: 'duration'
         },
 		{
+			name: 'renovations'
+        },
+		{
+			name: 'agent_id'
+        },
+		{
 			name: 'state'
         },
 		{
@@ -493,14 +533,15 @@ Paquetes
 		}
 	];
 	const processParams = (element) =>{
-		let expired = moment(element.expires_at).format('DD/MM/YYYY');
-		let endDate= new Date(Date.parse(element.expires_at));
-		let currentDate = new Date();
+		let endDate= moment(element.expires_at, 'DD/MM/YYYY HH:mm');
+		let currentDate = moment();
 		let bagde = ( endDate < currentDate ) ? 'danger' : 'success';
 		return [
 			element.id,
+			element.user_id,
 			element.full_name,
 			element.email,
+			element.agent_name,
 			element.ads_count?((element.ads_count=='999999')?'Ilimitado':element.ads_count):'',
             element.category??'',
             element.is_unlimited_standard?'si':'no',
@@ -517,8 +558,8 @@ Paquetes
             element.order_id,
             element.type??'',
             `<span class="badge text-bg-secondary bg-${BUY_TYPE_COLORS[element.buy_type_id??'']}">${toCamelCase(element.buy_type??'')}</span>`,
-			moment(element.purchased_at).format('DD/MM/YYYY'),
-            `<span class="badge text-bg-secondary bg-${bagde}">${expired??''}</span>`,
+			element.purchased_at??'',
+            `<span class="badge text-bg-secondary bg-${bagde}">${element.expires_at??''}</span>`,
 			getFullNumber(element.prefix, element.phone_number)
 		];
 	}
@@ -540,8 +581,8 @@ Paquetes
 			}
 		}
 	}
-	const columnsHidden = [4,5,6,7,8,9,10,13,14,15,16,20];
-	const columnsDates = [20,21];
+	const columnsHidden = [3,6,7,8,9,10,11,12,13,14,15,16,17,18,21,22,23,24];
+	const columnsDates = [21,22];
 	const returnTable = {
 		buttons: [
 			{
@@ -560,6 +601,12 @@ Paquetes
 				columnText: function(dt, idx, title ){
 					let title_clean =(typeof headers[idx] === "object" && headers[idx].hasOwnProperty("title_clean"))?headers[idx]["title_clean"]:title;
 					return title_clean;
+				}
+			},
+			{
+				text: 'Descargar todo',
+				action: function ( e, dt, node, config ) {
+					
 				}
 			},
 			{

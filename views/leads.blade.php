@@ -124,13 +124,13 @@ Leads Avisos
               		<div class="col-md-4">
                 		<div class="form-group">
                   			<label>ID del lead</label>
-                            <input type="text" name="id" id="id" class="form-control w-100" placeholder="Lead ID">                  			
+                            <input type="text" name="id" id="id" class="form-control form-control-sm w-100" placeholder="Lead ID">                  			
                 		</div>
                 	</div>
               		<div class="col-md-4">
                 		<div class="form-group">
                   			<label>ID aviso</label>
-                            <input type="text" name="listing_id" id="listing_id" class="form-control w-100" placeholder="Listing ID">                  			
+                            <input type="text" name="listing_id" id="listing_id" class="form-control form-control-sm w-100" placeholder="Listing ID">                  			
                 		</div>
                 	</div>
               		<div class="col-md-4">
@@ -159,10 +159,10 @@ Leads Avisos
 							<label for="exampleInputEmail1">Fecha de creación (Desde - Hasta)</label>
 							<div class="form-row">
 								<div class="col-6">
-									<input type="date" class="form-control" id="created_start" placeholder="dd/mm/yyyy">
+									<input type="text" class="form-control form-control-sm" id="created_start" placeholder="dd/mm/yyyy">
 								</div>
 								<div class="col-6">
-									<input type="date" class="form-control" id="created_end" placeholder="dd/mm/yyyy">
+									<input type="text" class="form-control form-control-sm" id="created_end" placeholder="dd/mm/yyyy">
 								</div>
 							</div>
 						</div>
@@ -170,11 +170,11 @@ Leads Avisos
 					<div class="col-md-4">
 						<div class="form-group">
 							<div class="form-row">
-								<div class="col">
-									<button id="applyfiltters" type="button" class="btn btn-primary btn-block"><i class="fas fa-filter"></i> Aplicar filtros</button>
+								<div class="col-sm-6 pb-2 pb-sm-0">
+									<button id="applyfiltters" type="button" class="btn btn-primary btn-block text-truncate btn-sm"><i class="fas fa-filter"></i> Aplicar filtros</button>
 								</div>
-								<div class="col-auto">
-									<button id="removefiltters" type="button" class="btn btn-secondary"><i class="fas fa-trash"></i></button>
+								<div class="col-sm-6">
+									<button id="removefiltters" type="button" class="btn btn-secondary btn-block text-truncate btn-sm"><i class="fas fa-trash"></i> Limpiar filtros</button>
 								</div>
 							</div>
 						</div>
@@ -225,8 +225,14 @@ Leads Avisos
 <script src="@asset("public/assets/js/components/datatable.js")?v={{ APP_VERSION }}"></script>
 <!-- Select2 -->
 <script src="public/plugins/select2/js/select2.full.min.js"></script>
+<script src="public/plugins/datetimepicker/date-time-picker.min.js"></script>
 <script>
-	
+	//ESTBALECER MASCARAS
+	setMask('#created_start', { mask: "99/99/9999", showMaskOnHover: false, placeholder: "dd/mm/yyyy", rightAlign:false });
+	setMask('#created_end', { mask: "99/99/9999", showMaskOnHover: false, placeholder: "dd/mm/yyyy", rightAlign:false });
+	//DEFINIR DATEPICKER
+	$('#created_start').dateTimePicker({format: 'dd/MM/yyyy'});
+	$('#created_end').dateTimePicker({format: 'dd/MM/yyyy'});
 </script>
 <script>	
 	const headers = [
@@ -308,15 +314,15 @@ Leads Avisos
 			element.email,
 			getFullNumber(prefix, phone),
 			element.source??'',
-			moment(element.created_at).format('DD/MM/YYYY'),
-			moment(element.updated_at).format('DD/MM/YYYY')
+			element.created_at??'',
+			element.updated_at??''
 		];
 	}
 	const modalOrder =  [];
 	const modalTitle = () =>{
 		
 	}
-	const columnsHidden = [0,6,7,12,13];
+	const columnsHidden = [0,1,6,7,8,9,10,13,14];
 	const columnsDates = [12,13];
 	const options = {
 		processParams,
