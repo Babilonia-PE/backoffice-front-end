@@ -142,7 +142,8 @@ $app_lang_claims_state = [
 ];
 $filtersParamsTypes = [
     'USER'=> 'user',
-    'DATE'=> 'date'
+    'DATE'=> 'date',
+    'CHECKBOX'=> 'checkbox'
 ];
 define("APP_LANG_PROJECT_TYPE", $app_lang_project_type);
 define("APP_LANG_PROJECT_STAGE", $app_lang_project_stage);
