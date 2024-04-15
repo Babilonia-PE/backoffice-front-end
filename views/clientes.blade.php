@@ -157,6 +157,12 @@ Clientes
 						</div>
 					</div>
 					<div class="col-md-4">
+						<div class="form-group custom-control">
+							<input type="checkbox" class="custom-control-input" id="only_agents" value="true">
+							<label class="custom-control-label" for="only_agents">Ver solo agentes</label>
+						</div>
+					</div>
+					<div class="col-md-4">
 						<div class="form-group">
 							<div class="form-row">
 								<div class="col-sm-6 pb-2 pb-sm-0">
@@ -277,6 +283,10 @@ Clientes
 		{
 			name: 'created_end',
 			type: filtersParamsTypes.DATE
+		},
+		{
+			name: 'only_agents',
+			type: filtersParamsTypes.CHECKBOX
 		}
 	];
 	const processParams = (element) =>{
