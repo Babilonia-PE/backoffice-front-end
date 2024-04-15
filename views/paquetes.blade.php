@@ -450,7 +450,7 @@ Paquetes
 	const headers = [
 		{ "title": "ID", "code": "id", "sortable": true },
 		{ "title": "ID de usuario", "code": "user_id", "sortable": true },
-		{ "title": "Nombres", "code": "full_name ", "sortable": true },
+		{ "title": "Nombres", "code": "full_name", "sortable": true },
 		{ "title": "Email" },
 		{ "title": "Comercial asignado", "code": "agent_name", "sortable": true},
 		{ "title": "Avisos disponibles", "code": "ads_count", "sortable": true },
