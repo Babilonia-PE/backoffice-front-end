@@ -329,7 +329,11 @@ const datatable = (options = {})=>{
 										
 			}else if(type == filtersParamsTypes.DATE){				
 				fieldValue = fieldValue??'';
-			}   
+			}else if(type == filtersParamsTypes.CHECKBOX){	
+				if( fieldValue && fieldValue != '' ){
+					$(`#${name}`).prop("checked", true);
+				}			
+			} 
 			$(`#${name}`).val(fieldValue);
         }
 
@@ -476,8 +480,9 @@ const datatable = (options = {})=>{
 						if( type == 'static' ){
 							data[name] = value;
 						}else{
-							if(document.getElementById(name) == null || document.getElementById(name).value == '') continue;
-				
+							let element = document.getElementById(name);
+							if( element == null || element.value == '' || ( element.type == 'checkbox' && !element.checked ) ) continue;
+			
 							let fieldValue = document.getElementById(name).value;
 							data[name] = fieldValue;
 						}
@@ -740,6 +745,8 @@ const datatable = (options = {})=>{
 					$(`#${name}`).val('');
 					$(`#${name}`).html('');
 					$(`#${name}`).selectpicker('refresh');
+				}else if(type === filtersParamsTypes.CHECKBOX){
+					$(`#${name}`).prop("checked", false);
 				}else{
 					$(`#${name}`).val('');
 				}
