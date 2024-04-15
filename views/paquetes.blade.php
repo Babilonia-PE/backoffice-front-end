@@ -449,10 +449,10 @@ Paquetes
 		
 	const headers = [
 		{ "title": "ID", "code": "id", "sortable": true },
-		{ "title": "ID de usuario" },
-		{ "title": "Nombres" },
+		{ "title": "ID de usuario", "code": "user_id", "sortable": true },
+		{ "title": "Nombres", "code": "full_name ", "sortable": true },
 		{ "title": "Email" },
-		{ "title": "Comercial asignado"},
+		{ "title": "Comercial asignado", "code": "agent_name", "sortable": true},
 		{ "title": "Avisos disponibles", "code": "ads_count", "sortable": true },
 		{ "title": "Categoría", "code": "category", "sortable": true },
 		{ "title": "Standard ilimitado" },
@@ -586,15 +586,6 @@ Paquetes
 	const returnTable = {
 		buttons: [
 			{
-				extend: "excelHtml5",
-				exportOptions: {
-					//columns: ":not(:last-child)",
-					columns: function(idx, data, node) {
-						return $('table').DataTable().column(idx).visible();
-					}
-				}
-			},
-			{
 				extend: 'colvis',
 				columns: ':not(.noVis)',
 				text: "Ocultar columnas",
@@ -604,7 +595,7 @@ Paquetes
 				}
 			},
 			{
-				text: 'Descargar todo',
+				text: 'Descargar',
 				action: function ( e, dt, node, config ) {
 					
 				}

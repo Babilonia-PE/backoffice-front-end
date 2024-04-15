@@ -263,7 +263,7 @@ const datatable = (options = {})=>{
 			"renameTitle": "Cambiar Nombre Estado"
 		}
 	};
-	const Buttons = [
+	const Buttons = [/*
 		{
 			extend: "excelHtml5",
 			exportOptions: {
@@ -272,7 +272,7 @@ const datatable = (options = {})=>{
 					return $('table').DataTable().column(idx).visible();
 				}
 			}
-		},
+		},*/
 		{
 			extend: 'colvis',
             columns: ':not(.noVis)',
@@ -283,7 +283,7 @@ const datatable = (options = {})=>{
 			}
 		},
 		{
-			text: 'Descargar todo',
+			text: 'Descargar',
             action: function ( e, dt, node, config ) {
 				
             }

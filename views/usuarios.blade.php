@@ -331,7 +331,7 @@ Clientes
 		processParams,
 		headers,
 		filtersFields,
-		storageView : 'filter_clientes',
+		storageView : 'filter_usuarios',
 		columnsHidden,
 		columnsDates,
 		modalOrder,
