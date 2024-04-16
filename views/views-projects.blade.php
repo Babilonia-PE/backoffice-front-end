@@ -183,7 +183,7 @@ Views Proyectos
         <div class="card">
             <div class="card-body table-responsive">
 				<p class="text-center" name="loading"><img src="public/assets/img/loading.gif" width="50" /></p>
-                <table class="display table table-bordered table-striped nowrap compact responsive d-none" cellspacing="0" width="100%">
+                <table class="display table table-bordered table-hover nowrap compact responsive d-none" cellspacing="0" width="100%">
                     
                 </table>
             </div>
