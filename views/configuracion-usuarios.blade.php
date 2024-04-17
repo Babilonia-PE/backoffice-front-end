@@ -63,7 +63,7 @@ Administración de usuarios
 											Acciones
 										</button>
 										<div class="dropdown-menu">
-											<a class="dropdown-item" href="/usuarios/{{ $item["dni"]?$item["dni"].'/user':'' }}"><i class="fas fa-edit"></i>&nbsp;&nbsp;Editar</a>
+											<a class="dropdown-item" href="/administradores/{{ $item["dni"]?$item["dni"].'/user':'' }}"><i class="fas fa-edit"></i>&nbsp;&nbsp;Editar</a>
 											<form action="/2fa" method="POST">
 												<input type="hidden" name="type" value="delete" />
 												<input type="hidden" name="username" value="{{ $item["username"] ?? '' }}">
