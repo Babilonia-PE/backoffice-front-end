@@ -105,7 +105,7 @@
 
 @section('page')
 
-Clientes
+Usuarios
 
 @endsection
 
