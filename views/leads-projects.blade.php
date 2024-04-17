@@ -241,7 +241,7 @@ Leads Proyectos
 		{ "title": "Key", "code": "key", "sortable": true },
 		{ "title": "Tipo", "code": "project_type", "sortable": true },
 		{ "title": "Etapa", "code": "stage", "sortable": true },
-		{ "title": "Proyecto" },
+		{ "title": "Nombre del proyecto" },
 		{ "title": "Distrito", "code": "district", "sortable": true },
 		{ "title": "Id del usuario" },
 		{ "title": "Nombres" },
