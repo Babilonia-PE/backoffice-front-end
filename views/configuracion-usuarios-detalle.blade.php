@@ -23,7 +23,7 @@ Detalle de usuario {{ $data["fullname"]??'' }}
 @endsection
 
 @section('content')
-<form action="/usuarios" method="POST">
+<form action="/administradores" method="POST">
 <div class="row">
 	<div class="col-12">
 
