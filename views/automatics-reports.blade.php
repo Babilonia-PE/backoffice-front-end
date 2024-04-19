@@ -55,39 +55,19 @@ Reportes automáticos
 						</tr>
 					</thead>
 					<tbody>
+						@foreach($data as $item)
 						<tr>
-							<td>1</td>
-							<td>Agentes pago vs Distritos</td>
-							<td>Reporte con la relación de leads y agentes con paquetes pagados vs Distritos de sus inmuebles</td>
-							<td>60 días atras</td>
+							<td>{{ $item["id"] }}</td>
+							<td>{{ $item["reporte"] }}</td>
+							<td>{{ $item["descripcion"] }}</td>
+							<td>{{ $item["periodo"] }}</td>
 							<td>
-								<a href="{{ env('URL_WEB') }}assets/reports/agentsLeadsDitricts.xlsx" download class="btn-action download">
+								<a href="{{ $item["url"] }}" download class="btn-action download">
 									<i class="fas fa-download"></i>
 								</a>
 							</td>
 						</tr>
-						<tr>
-							<td>2</td>
-							<td>Leads avisos: Agentes vs Distritos</td>
-							<td>Reporte con la relación de avisos de agentes con paquetes pagados vs Leads y visitas generados</td>
-							<td>Mes anterior</td>
-							<td>
-								<a href="{{ env('URL_WEB') }}assets/reports/agentsBuyedListingsLeads.xlsx" download class="btn-action download">
-									<i class="fas fa-download"></i>
-								</a>
-							</td>
-						</tr>
-						<tr>
-							<td>3</td>
-							<td>Leads proyectos: Agentes vs Distritos</td>
-							<td>Reporte con la relación de proyectos de agentes con paquetes pagados vs Leads y visitas generados</td>
-							<td>Mes anterior</td>
-							<td>
-								<a href="{{ env('URL_WEB') }}assets/reports/agentsBuyedProjectsLeads.xlsx" download class="btn-action download">
-									<i class="fas fa-download"></i>
-								</a>
-							</td>
-						</tr>
+						@endforeach
 					</tbody>
                 </table>
             </div>
