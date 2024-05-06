@@ -201,7 +201,7 @@ Paquetes
                 	</div>
               		<div class="col-md-4">
                 		<div class="form-group">
-                  			<label>Duración del paquete</label>
+                  			<label>Expiración del paquete</label>
                   			<select class="form-control select2 form-control-sm" style="width: 100%;" id="duration" name="duration">
                                 <option selected disabled value="">Elige una opción</option>
 								<option value="90">90</option>
@@ -392,8 +392,8 @@ Paquetes
 					</div>
 					<div class="col-md-6">
 						<div class="form-group">
-							<label>Duración del paquete</label>
-                  			<input disabled type="date" class="form-control form-control-sm disable" id="days" placeholder="Duración del paquete" min="{{date('Y-m-d', strtotime('+1 day'))}}">     		
+							<label>Expiración del paquete</label>
+                  			<input disabled type="date" class="form-control form-control-sm disable" id="days" placeholder="Expiración del paquete" min="{{date('Y-m-d', strtotime('+1 day'))}}">     		
 						</div>
 					</div>
 					<div class="col-md-6">
@@ -413,7 +413,7 @@ Paquetes
 	<div class="modal-dialog modal-lg" role="document">
 		<div class="modal-content">
 			<div class="modal-header">
-        		<h5 class="modal-title">Editar paquete</h5>
+        		<h5 class="modal-title" id="package_id">Editar paquete</h5>
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 				<span aria-hidden="true">&times;</span>
 				</button>
@@ -483,13 +483,16 @@ Paquetes
 					</div>
 					<div class="col-md-6">
 						<div class="form-group">
-							<label>Duración del paquete</label>
-                  			<input disabled type="text" class="form-control form-control-sm disable" id="update_expires_at" placeholder="Duración del paquete" min="{{date('Y-m-d', strtotime('+1 day'))}}">     		
+							<label>Expiración del paquete</label>
+                  			<input disabled type="text" class="form-control form-control-sm disable" id="update_expires_at" placeholder="Expiración del paquete" min="{{date('Y-m-d', strtotime('+1 day'))}}">     		
 						</div>
 					</div>
 					<div class="col-md-6">
 						<div class="form-group">
-							<button id="btnEditPackage" type="button" class="btn btn-primary btn-block btn-sm"><i class="fas fa-save"></i> Editar paquete</button>
+							<button id="btnEditPackage" type="button" class="btn btn-primary btn-block btn-sm">
+								<span class="babilonia-pencil"></span>
+								Editar paquete
+							</button>
 						</div>
 					</div>   
 				</div>        
@@ -672,7 +675,7 @@ Paquetes
 			}
 		}
 	}
-	const columnsHidden = [3,6,7,8,9,10,11,12,13,14,15,16,17,18,21,22,23,24];
+	const columnsHidden = [3,6,7,8,9,10,11,12,13,14,15,16,17,18,21,22,23];
 	const columnsDates = [21,22];
 	const returnTable = {
 		buttons: [
@@ -893,7 +896,6 @@ Paquetes
 			}
 		]
 	};
-	
 	const crud = {
 		view: true,
 		edit: true
@@ -917,6 +919,7 @@ Paquetes
 		e.preventDefault();
 		const key = $(this).attr("data-id");
 		const detail = globalRecords.find(item => item.id === Number(key));
+		$("#package_id").text('Editar paquete ' + detail.id??'');
 		$("#update_package_owner_id").val(detail.full_name??'');
 		$("#update_payment_method").val(detail.buy_type??'');
 		$("#update_package_type").val(detail.type??'');
@@ -952,10 +955,15 @@ Paquetes
 
 		$(document).off("click", "#btnEditPackage");
 		$(document).on('click', '#btnEditPackage', async function () {
+
 			setMessageInput("#standard_ads_count");
 			setMessageInput("#plus_ads_count");
 			setMessageInput("#premium_ads_count");
 			setMessageInput("#days");
+
+			$("#btnEditPackage").attr('disabled', true);
+			$("#btnEditPackage span").removeClass();
+			$("#btnEditPackage span").addClass('spinner-border spinner-border-sm');
 						
 			const id = key;
 			const expires_at = $("#update_expires_at").val();
@@ -975,13 +983,22 @@ Paquetes
 				const response = await fetchData('app/gateway', params, 'PUT');
 				if (response.hasOwnProperty('code')){ 
 					AppValidateHttpCode(response);
+					$("#btnEditPackage").attr('disabled', false);
+					$("#btnEditPackage span").removeClass();
+					$("#btnEditPackage span").addClass('babilonia-pencil');
 					return false;
 				}
+				$("#btnEditPackage").attr('disabled', false);
+				$("#btnEditPackage span").removeClass();
+				$("#btnEditPackage span").addClass('babilonia-pencil');
 				$("#editPackage").modal('hide');
 				localStorage.setItem('message', response?.data?.data?.message??'');
 				window.location.reload();
 			} catch (error) {
 				console.log(error);
+				$("#btnEditPackage").attr('disabled', false);
+				$("#btnEditPackage span").removeClass();
+				$("#btnEditPackage span").addClass('babilonia-pencil');
 			}
 		});
 
