@@ -1,5 +1,11 @@
 const datatable = (options = {})=>{
+    window.globalRecords = [];
     const {
+		crud = {
+			view: true,
+			edit: false,
+			delete: false
+		},
         headers,
         filtersFields = [],
         columnsHidden = [],
@@ -15,7 +21,6 @@ const datatable = (options = {})=>{
         url = '',
     } = options ?? {};
 
-    let globalRecords = [];
     let tableSaved = null;
 	let dtDraw = 1;
 	let filters = [];    
@@ -531,8 +536,7 @@ const datatable = (options = {})=>{
 									Acciones
 								</button>
 								<div class="dropdown-menu">
-									<a class="dropdown-item details" data-id="${element.id??''}" data-index="${index}" role="button"><i class="fas fa-eye"></i>&nbsp;&nbsp;Ver</a>
-									<!--- <a class="dropdown-item" href="#"><i class="fas fa-edit"></i>&nbsp;&nbsp;Editar</a> --->
+									<a class="dropdown-item details" data-id="${element.id??''}" data-index="${index}" role="button"><i class="fas fa-eye"></i>&nbsp;&nbsp;Ver</a>` + ( ( crud.edit ) ? `<a class="dropdown-item" data-action="update" data-id="${element.id??''}" data-index="${index}" role="button"><i class="fas fa-edit"></i>&nbsp;&nbsp;Editar</a>`: ``) + `
 									<!--- <a class="dropdown-item" href="#"><i class="fas fa-trash-alt"></i>&nbsp;&nbsp;Eliminar</a> --->
 								</div>
 							</div>

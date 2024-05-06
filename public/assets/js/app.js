@@ -44,6 +44,12 @@ const fetchData = async (url = "", data = null, method = 'POST') => {
         })
     }
 
+    if(method == "PUT"){
+        return serviceHttp.put(url, data).catch(function (error) {
+            return error
+        })
+    }
+
     return serviceHttp.get(url, { params: data }).catch(function (error) {
         return error
     })
