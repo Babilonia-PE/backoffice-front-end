@@ -406,6 +406,97 @@ Paquetes
 		</div>
 	</div>
 </div>
+
+
+<!-- Modal editar paquete -->
+<div class="modal fade p-0" id="editPackage" tabindex="-1" role="dialog" aria-labelledby="editPackageLabel" aria-hidden="true">
+	<div class="modal-dialog modal-lg" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+        		<h5 class="modal-title">Editar paquete</h5>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+				<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="modal-body">
+				<div class="row align-items-end">
+					
+					<div class="col-md-6">
+						<div class="form-group">
+							<label>Usuario</label>
+							<input disabled type="text" id="update_package_owner_id" class="form-control form-control-sm inputmask disable" placeholder="Usuario">            			
+						</div>
+					</div>   
+					<div class="col-md-6">
+						<div class="form-group">
+							<label>Método de pago</label>
+							<input disabled type="text" id="update_payment_method" class="form-control form-control-sm inputmask disable" placeholder="Método de pago">        			
+						</div>
+					</div>  
+					<div class="col-md-6">
+						<div class="form-group">
+							<label>Tipo</label>
+							<input disabled type="text" id="update_package_type" class="form-control form-control-sm inputmask disable" placeholder="Tipo">             			
+						</div>
+					</div> 
+					<div class="col-md-6">
+						<div class="form-group">
+							<label>Agente</label>
+							<input disabled type="text" id="update_agent_name" class="form-control form-control-sm inputmask disable" placeholder="Agente">           			
+						</div>
+					</div>
+					<div class="col-md-6">
+						<div class="form-group">
+							<label>Número base de avisos</label>
+							<input disabled type="text" id="update_ads_count" class="form-control form-control-sm inputmask disable" placeholder="Número base de avisos">
+						</div>
+					</div>
+					<div class="col-md-6">
+						<div class="form-group">
+							<label>Categoría</label>
+							<input disabled type="text" id="update_category" class="form-control form-control-sm inputmask disable" placeholder="Categoría">
+						</div>
+					</div>
+					<div class="col-md-6">
+						<div class="form-group">
+							<label>Número de avisos estandard</label>
+                  			<input disabled type="text" class="form-control form-control-sm inputmask disable validate" id="update_standard_ads_count" placeholder="Avisos estandard">            			
+						</div>
+					</div>
+					<div class="col-md-6">
+						<div class="form-group">
+							<label>Número de avisos plus</label>
+                  			<input disabled type="text" class="form-control form-control-sm inputmask disable validate" id="update_plus_ads_count" placeholder="Avisos plus">     	
+						</div>
+					</div>
+					<div class="col-md-6">
+						<div class="form-group">
+							<label>Número de avisos premium</label>
+                  			<input disabled type="text" class="form-control form-control-sm inputmask disable validate" id="update_premium_ads_count" placeholder="Avisos premium">     		
+						</div>
+					</div>
+					<div class="col-md-6">
+						<div class="form-group">
+							<label>Duración base del paquete</label>
+                  			<input disabled type="text" class="form-control form-control-sm inputmask disable validate" id="update_duration" placeholder="Duración base del paquete">     			
+						</div>
+					</div>
+					<div class="col-md-6">
+						<div class="form-group">
+							<label>Duración del paquete</label>
+                  			<input disabled type="text" class="form-control form-control-sm disable" id="update_expires_at" placeholder="Duración del paquete" min="{{date('Y-m-d', strtotime('+1 day'))}}">     		
+						</div>
+					</div>
+					<div class="col-md-6">
+						<div class="form-group">
+							<button id="btnEditPackage" type="button" class="btn btn-primary btn-block btn-sm"><i class="fas fa-save"></i> Editar paquete</button>
+						</div>
+					</div>   
+				</div>        
+			</div>
+		</div>
+	</div>
+</div>
 @endsection
 
 @section('scripts')
@@ -802,7 +893,23 @@ Paquetes
 			}
 		]
 	};
+	
+	const modalFunction = async (id = '') => {
+		const params = {
+			parent: 'chat',
+			child: 'detail',
+			id: id,
+			order_by: 'id',
+			sort_by: 'asc'
+		};
+		
+	}
+	const crud = {
+		view: true,
+		edit: true
+	}
 	const options = {
+		crud,
 		processParams,
 		headers,
 		filtersFields,
@@ -816,7 +923,81 @@ Paquetes
 		initParamsModal,
 		url: 'app/gateway'
 	};
-	
+	$(document).on("click", "a[data-action=\"update\"]", async function(e) {
+		e.preventDefault();
+		const key = $(this).attr("data-id");
+		const detail = globalRecords.find(item => item.id === Number(key));
+		$("#update_package_owner_id").val(detail.full_name??'');
+		$("#update_payment_method").val(detail.buy_type??'');
+		$("#update_package_type").val(detail.type??'');
+		$("#update_agent_name").val(detail.agent_name??'');
+		$("#update_ads_count").val(detail.ads_count??'');
+		$("#update_category").val(detail.category??'');
+		if( !(detail.is_unlimited_standard??false) ){
+			$("#update_standard_ads_count").val(detail.initial_standard_ads_count??'');
+			$("#update_standard_ads_count").attr('disabled', false);
+		}else{
+			$("#update_standard_ads_count").val('Ilimitado');
+			$("#update_standard_ads_count").attr('disabled', true);
+		}
+		if( !(detail.is_unlimited_plus??false) ){
+			$("#update_plus_ads_count").val(detail.initial_plus_ads_count??'');
+			$("#update_plus_ads_count").attr('disabled', false);
+		}else{
+			$("#update_plus_ads_count").val('Ilimitado');
+			$("#update_plus_ads_count").attr('disabled', true);
+		}
+		if( !(detail.is_unlimited_premium??false) ){
+			$("#update_premium_ads_count").val(detail.initial_premium_ads_count??'');
+			$("#update_premium_ads_count").attr('disabled', false);
+		}else{
+			$("#update_premium_ads_count").val('Ilimitado');
+			$("#update_premium_ads_count").attr('disabled', true);
+		}
+		$("#update_duration").val(detail.duration??'');
+		$("#update_expires_at").val(detail.expires_at??'');
+		$("#update_expires_at").attr('disabled', false);
+		setMask('#update_expires_at', { mask: "99/99/9999", showMaskOnHover: false, placeholder: "dd/mm/yyyy", rightAlign:false });
+		$('#update_expires_at').dateTimePicker({format: 'dd/MM/yyyy'});
+
+		$(document).off("click", "#btnEditPackage");
+		$(document).on('click', '#btnEditPackage', async function () {
+			setMessageInput("#standard_ads_count");
+			setMessageInput("#plus_ads_count");
+			setMessageInput("#premium_ads_count");
+			setMessageInput("#days");
+						
+			const id = key;
+			const expires_at = $("#update_expires_at").val();
+			const standard_ads_count = $("#update_standard_ads_count").val();
+			const plus_ads_count = $("#update_plus_ads_count").val();
+			const premium_ads_count = $("#update_premium_ads_count").val();	
+			const params = {
+				parent: 'package',
+				child: 'packages',
+				id: id,
+				expires_at: expires_at,
+				standard_ads_count: standard_ads_count,
+				plus_ads_count: plus_ads_count,
+				premium_ads_count: premium_ads_count,
+			}
+			try {
+				const response = await fetchData('app/gateway', params, 'PUT');
+				if (response.hasOwnProperty('code')){ 
+					AppValidateHttpCode(response);
+					return false;
+				}
+				$("#editPackage").modal('hide');
+				localStorage.setItem('message', response?.data?.data?.message??'');
+				window.location.reload();
+			} catch (error) {
+				console.log(error);
+			}
+		});
+
+
+		$("#editPackage").modal('show');
+	})
 	datatable(options);
 	copyToClipboard();
 	showMessage();
