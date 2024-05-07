@@ -242,6 +242,7 @@ Leads Avisos
 		{ "title": "Inmueble", "code": "property_type", "sortable": true },
 		{ "title": "Precio", "code": "price", "sortable": true },
 		{ "title": "Distrito", "code": "district", "sortable": true },
+		{ "title": "Propietario" },
 		{ "title": "Key", "code": "key", "sortable": true },
 		{ "title": "Id del usuario" },
 		{ "title": "Nombres" },
@@ -308,6 +309,7 @@ Leads Avisos
 			element.property_type,
 			element.price,
 			element.district,
+			element.owner_name??'',
 			element.key ? element.key : '',
 			element.user_id,
 			element.full_name,
@@ -322,8 +324,8 @@ Leads Avisos
 	const modalTitle = () =>{
 		
 	}
-	const columnsHidden = [0,1,6,7,8,9,10,13,14];
-	const columnsDates = [12,13];
+	const columnsHidden = [0,1,7,8,9,10,11,14,15];
+	const columnsDates = [13,14];
 	const options = {
 		processParams,
 		headers,

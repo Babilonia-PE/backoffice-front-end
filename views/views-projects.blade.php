@@ -242,6 +242,7 @@ Views Proyectos
 			{ "title": "Distrito", "code": "district" },
 			{ "title": "Id usuario", "code": "user_id" },
 			{ "title": "Nombres", "code": "full_name" },
+			{ "title": "Documento" },
 			{ "title": "Email", "code": "email" },
 			{ "title": "Teléfono", "code": "phone_number" },
 			{ "title": "Origen", "code": "source", "sortable": true },
@@ -299,6 +300,7 @@ Views Proyectos
 			element.district??'',
 			element.user_id??'',
 			element.full_name??'',
+			element.document??'',
 			element.email??'',
 			getFullNumber(prefix, phone),
 			element.source??'',
@@ -310,8 +312,8 @@ Views Proyectos
 	const modalTitle = () =>{
 		
 	}
-	const columnsHidden = [0, 6, 13];
-	const columnsDates = [11, 12];
+	const columnsHidden = [0, 6, 14];
+	const columnsDates = [12, 13];
 	const options = {
 		processParams,
 		headers,

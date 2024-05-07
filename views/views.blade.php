@@ -240,6 +240,7 @@ Views Avisos
 			{ "title": "Inmueble", "code": "property_type" },
 			{ "title": "Precio", "code": "price" },
 			{ "title": "Distrito" },
+			{ "title": "Propietario" },
 			{ "title": "Id usuario", "code": "user_id" },
 			{ "title": "Nombres", "code": "full_name" },
 			{ "title": "Email", "code": "email" },
@@ -297,6 +298,7 @@ Views Avisos
 			element.property_type??'',
 			element.price??'',
 			element.district??'',
+			element.owner_name??'',
 			element.user_id??'',
 			element.full_name??'',
 			element.email??'',
@@ -310,8 +312,8 @@ Views Avisos
 	const modalTitle = () =>{
 		
 	}
-	const columnsHidden = [0, 6, 13];
-	const columnsDates = [11, 12];
+	const columnsHidden = [0, 7, 14];
+	const columnsDates = [12, 13];
 	const options = {
 		processParams,
 		headers,

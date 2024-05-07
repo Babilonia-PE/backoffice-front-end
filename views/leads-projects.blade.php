@@ -245,6 +245,7 @@ Leads Proyectos
 		{ "title": "Distrito", "code": "district", "sortable": true },
 		{ "title": "Id del usuario" },
 		{ "title": "Nombres" },
+		{ "title": "Documento" },
 		{ "title": "Email", "code": "email" },
 		{ "title": "Teléfono" },
 		{ "title": "Origen", "code": "source", "sortable": true },
@@ -311,6 +312,7 @@ Leads Proyectos
 			element.district,
 			element.user_id,
 			element.full_name,
+			element.document??'',
 			element.email,
 			getFullNumber(prefix, phone),
 			element.source??'',
@@ -322,8 +324,8 @@ Leads Proyectos
 	const modalTitle = () =>{
 		
 	}
-	const columnsHidden = [0,1,2,5,7,8,9,10,13,14];
-	const columnsDates = [12,13];
+	const columnsHidden = [0,1,2,5,7,8,10,11,14,15];
+	const columnsDates = [13,14];
 	const options = {
 		processParams,
 		headers,
