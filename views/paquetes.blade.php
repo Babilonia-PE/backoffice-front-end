@@ -493,10 +493,6 @@ Paquetes
 								<span class="babilonia-pencil"></span>
 								Editar paquete
 							</button>
-							<button hidden id="btnEditPackageLoading" class="btn btn-primary btn-block btn-sm" type="button" disabled>
-								<span class="spinner-border spinner-border-sm" aria-hidden="true"></span>
-								<span role="status">Editar paquete</span>
-							</button>
 						</div>
 					</div>   
 				</div>        
@@ -900,17 +896,6 @@ Paquetes
 			}
 		]
 	};
-	
-	const modalFunction = async (id = '') => {
-		const params = {
-			parent: 'chat',
-			child: 'detail',
-			id: id,
-			order_by: 'id',
-			sort_by: 'asc'
-		};
-		
-	}
 	const crud = {
 		view: true,
 		edit: true
