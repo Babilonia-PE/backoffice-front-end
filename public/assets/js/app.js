@@ -30,6 +30,12 @@ window.setMask = (selector, mask) => {
 }
 
 const fetchData = async (url = "", data = null, method = 'POST') => {   
+    
+	const contoller = (permissions?.permissions??[]).find(item => item.controller === currentPage);
+    if((permissions.role??null) !== 'admin' && !(contoller??null) && ( method == 'POST' || method == 'PUT' || method == 'DELETE' )) { 
+        alertShort('warning', 'Acción denegada', 'No se cargaron correctamente los permisos');
+        return;
+    }
     const serviceHttp = await axios.create({
                             baseURL: APP_BASE_EP,
                             headers: {
@@ -39,15 +45,38 @@ const fetchData = async (url = "", data = null, method = 'POST') => {
                         });
 
     if(method == "POST"){
-        return serviceHttp.post(url, data).catch(function (error) {
-            return error
-        })
+        if((permissions.role??null) == 'admin' || ( (permissions.role??null) !== 'admin' && (contoller.create??null) )){
+            return serviceHttp.post(url, data).catch(function (error) {
+                return error
+            })
+        }else{
+            alertShort('warning', 'Acción denegada', 'No tienes permisos necesarios para realizar esta acción');
+            return;
+        }
     }
 
     if(method == "PUT"){
-        return serviceHttp.put(url, data).catch(function (error) {
-            return error
-        })
+        console.log(permissions.role);
+        console.log(contoller);
+        if((permissions.role??null) == 'admin' || ( (permissions.role??null) !== 'admin' && (contoller.update??null) )){
+            return serviceHttp.put(url, data).catch(function (error) {
+                return error
+            })
+        }else{
+            alertShort('warning', 'Acción denegada', 'No tienes permisos necesarios para realizar esta acción');
+            return;
+        }
+    }
+    
+    if(method == "DELETE"){
+        if((permissions.role??null) == 'admin' || ( (permissions.role??null) !== 'admin' && (contoller.delete??null) )){
+            return serviceHttp.delete(url, data).catch(function (error) {
+                return error
+            })
+        }else{
+            alertShort('warning', 'Acción denegada', 'No tienes permisos necesarios para realizar esta acción');
+            return;
+        }
     }
 
     return serviceHttp.get(url, { params: data }).catch(function (error) {

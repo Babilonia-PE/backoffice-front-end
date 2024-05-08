@@ -70,7 +70,6 @@
 
 <script src="@asset("public/assets/js/inputmask.min.js")"></script>
 <script src="@asset("public/assets/js/axios.min.js")"></script>
-<script src="@asset("public/assets/js/app.js")?v={{ APP_VERSION }}"></script>
 <script>
   window.APP_BASE_EP = "{{ APP_BASE_EP }}";
   window.APP_LANG = "{{ APP_LANG }}";
@@ -85,7 +84,9 @@
   window.APP_LANG_CLIENTS_STATE = {!! json_encode(APP_LANG_CLIENTS_STATE) !!};
   window.APP_LANG_CLAIMS_STATE = {!! json_encode(APP_LANG_CLAIMS_STATE) !!};
   window.filtersParamsTypes = {!! json_encode(FILTERSPARAMSTYPES) !!};
+  window.permissions = {!! json_encode($permissions??[]) !!};
 </script>
+<script src="@asset("public/assets/js/app.js")?v={{ APP_VERSION }}"></script>
 @yield("scripts")
 @stack('child-scripts')
 
