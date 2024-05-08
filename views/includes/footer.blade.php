@@ -66,7 +66,7 @@
 <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
 <!--<script src="@asset("public/assets/js/pages/dashboard.js")"></script>-->
 @endif
-<script src="@asset("public/plugins/sweetalert2/sweetalert2.min.js")"></script>
+<script src="@asset("public/plugins/sweetalert2/sweetalert2.minn.js")"></script>
 
 <script src="@asset("public/assets/js/inputmask.min.js")"></script>
 <script src="@asset("public/assets/js/axios.min.js")"></script>
@@ -85,6 +85,7 @@
   window.APP_LANG_CLIENTS_STATE = {!! json_encode(APP_LANG_CLIENTS_STATE) !!};
   window.APP_LANG_CLAIMS_STATE = {!! json_encode(APP_LANG_CLAIMS_STATE) !!};
   window.filtersParamsTypes = {!! json_encode(FILTERSPARAMSTYPES) !!};
+  window.permissions = {!! json_encode($permissions??[]) !!};
 </script>
 @yield("scripts")
 @stack('child-scripts')
