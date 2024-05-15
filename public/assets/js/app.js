@@ -56,8 +56,6 @@ const fetchData = async (url = "", data = null, method = 'POST') => {
     }
 
     if(method == "PUT"){
-        console.log(permissions.role);
-        console.log(contoller);
         if((permissions.role??null) == 'admin' || ( (permissions.role??null) !== 'admin' && (contoller.update??null) )){
             return serviceHttp.put(url, data).catch(function (error) {
                 return error
@@ -321,13 +319,13 @@ window.AppHttpServiceBadRequest = function (jsResponse)  {
         try {
             let jsData = jsResponse.response;
             if ((jsData.data.data).hasOwnProperty('errors')){
-                if (jsData.data.data.errors[0].key === 'authorization'){
+                if (jsData.data.data.errors.key === 'authorization'){
                     localStorage.clear();
                     window.location.replace(URL_SIGN_IN);
                 }
-                if ( (jsData.data.data.errors[0]).hasOwnProperty('message')   )
+                if ( (jsData.data.data.errors).hasOwnProperty('message')   )
                 {
-                    let msg = jsData.data.data.errors[0].message === null?'':jsData.data.data.errors[0].message;
+                    let msg = jsData.data.data.errors.message === null?'':jsData.data.data.errors.message;
                     alertShort('error','Datos Invalidos', msg );
                 }
             }
