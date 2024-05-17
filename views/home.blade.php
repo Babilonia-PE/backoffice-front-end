@@ -641,10 +641,6 @@ Dashboard
     const month = $(this).val();
     await loadStadisticsProjects(month);
   });
-  $(document).on('change', '#month_views', async function () {
-    const month = $(this).val();
-    await loadStadisticsDistricts(month);
-  });
   $(document).on('change', '#month_user', async function () {
     const month = $(this).val();
     await loadStadisticsUsers(month);
