@@ -299,7 +299,15 @@ const datatable = (options = {})=>{
 					return;
 				}
 				$(node).attr('disabled', true);
-				$(node).html('<span class="spinner-border spinner-border-sm"></span> Descargar');
+				$(node).html('<span class="spinner-border spinner-border-sm"></span> Descargando');
+
+				const $preloader = $(".preloader");
+				if ($preloader) {
+					$preloader.removeAttr('style');
+					setTimeout(function () {
+						$preloader.children().show();
+					}, 200);
+				}
 				let params = {};
 				for(let i in filtersFields){
 					let {
@@ -337,6 +345,12 @@ const datatable = (options = {})=>{
 				
 				$(node).attr('disabled', false);
 				$(node).html('Descargar');
+				if ($preloader) {
+					$preloader.css('height', 0);
+					setTimeout(function () {
+						$preloader.children().hide();
+					}, 200);
+				}
             }
 		},
 		{
