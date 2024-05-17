@@ -121,7 +121,7 @@ Dashboard
   <div class="col-12">
     <div class="card">
       <div class="card-header" role="button" data-card-widget="collapse">
-          <h5 class="card-title">Distritos más visto</h5>
+          <h5 class="card-title">Top 10 distritos más visitados</h5>
           <div class="card-tools">
               <button type="button" class="btn btn-tool">
                 <i id="icon_filter_box" class="fas fa-plus"></i>
@@ -214,12 +214,7 @@ Dashboard
     array_month["Dicember"] = "Diciembre";
     return (array_month[month]??'');
   }
-  const getChartPie = (labels, dataset, {title = '', subtitle = ''}) => {
-    let backgroundColor = [];
-    for (let index = 0; index < dataset.length; index++) {
-      const color = "#" + Math.floor(Math.random() * 16777215).toString(16);
-      backgroundColor.push(color);
-    }
+  const getChartPie = (labels, dataset, colors, {title = '', subtitle = ''}) => {
     return {
       data: {
         labels: labels,
@@ -227,7 +222,7 @@ Dashboard
           {
             label: title,
             data: dataset,
-            backgroundColor: backgroundColor
+            backgroundColor: colors
           }
         ],
       },
@@ -485,25 +480,28 @@ Dashboard
 			month: ( month ) ? month : current_mont
 		};
     const details = await fetchData('app/gateway', params, 'GET');
-		const data = details?.data?.data?.records?.projects??[];
+		const data = details?.data?.data?.records?.views??[];
     let updated_at = details?.data?.data?.updated_at??null;
     if( updated_at ){
       updated_at = 'Ultima actualizacion: ' + updated_at;
     }
     let labels = [];
     let data_percent = [];
+    let colors = [];
     data.forEach(element => {
       const department = element.department??'';
       const district = element.district??'';
       const province = element.province??'';
       const qty_impressions = element.qty_impressions??0;
       const percentage_impressions = element.percentage_impressions??0;
+      const color = element.color??'';
       const label = [department + ' - ' + district + ' - ' + province];
       labels.push(label);
+      colors.push(color);
       data_percent.push(percentage_impressions);
     });
     //OBTENER DATA
-    const areaChartData = getChartPie(labels, data_percent, {title: 'Distritos más vistos'});
+    const areaChartData = getChartPie(labels, data_percent, colors, {title: updated_at});
     //CARGAR GRÁFICO
     const barChartCanvas = $('#viewsChart').get(0).getContext('2d')
     if( viewsChart ){
