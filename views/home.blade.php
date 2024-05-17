@@ -13,6 +13,10 @@
     max-height: 350px; 
     max-width: 100%;
   }
+  .charjs-pie{
+    min-height: 550px; 
+    height: 550px; 
+  }
   @media screen and (max-width: 768px) { 
       .charjs{
         min-height: 850px; 
@@ -114,6 +118,25 @@ Dashboard
     </div>
   </div>
 
+  <div class="col-12">
+    <div class="card">
+      <div class="card-header" role="button" data-card-widget="collapse">
+          <h5 class="card-title">Distritos más visto</h5>
+          <div class="card-tools">
+              <button type="button" class="btn btn-tool">
+                <i id="icon_filter_box" class="fas fa-plus"></i>
+              </button>
+          </div>
+      </div>
+      <div class="card-body">
+        <div class="chart">
+          <canvas id="viewsChart" class="charjs-pie"></canvas>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
 </div>
 @endsection
 
@@ -122,6 +145,7 @@ Dashboard
   let initial = true;
   let listingChart = null;
   let projectChart = null;
+  let viewsChart = null;
   let ownerChart = null;
   let realtorChart = null;
   let tempOptions = [];
@@ -189,6 +213,51 @@ Dashboard
     array_month["November"] = "Noviembre";
     array_month["Dicember"] = "Diciembre";
     return (array_month[month]??'');
+  }
+  const getChartPie = (labels, dataset, {title = '', subtitle = ''}) => {
+    let backgroundColor = [];
+    for (let index = 0; index < dataset.length; index++) {
+      const color = "#" + Math.floor(Math.random() * 16777215).toString(16);
+      backgroundColor.push(color);
+    }
+    return {
+      data: {
+        labels: labels,
+        datasets:[
+          {
+            label: title,
+            data: dataset,
+            backgroundColor: backgroundColor
+          }
+        ],
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        legend: {
+          display: false
+        },
+        title: {
+            display: true,
+            text: [title, subtitle],
+        },
+        animation: {
+          animateScale: true,
+          animateRotate: true
+        },
+        tooltips: {
+          callbacks: {
+            label: function(tooltipItem, data) {
+              var dataset = data.datasets[tooltipItem.datasetIndex];
+              var currentLabel = data.labels[tooltipItem.index];
+              var currentValue = dataset.data[tooltipItem.index];
+              var label = currentLabel + ': ' + ( currentValue + '%' );         
+              return label;
+            }
+          }
+        }
+      }
+    }
   }
   const getChartData = (labels, dataset) => {
     return areaChartData = {
@@ -327,7 +396,7 @@ Dashboard
     //CARGAR GRÁFICO
     const areaChartData = getChartData(labels, { 
       title_today: 'Avisos en el día', data_today: data_today,
-      title_total: 'Avisos totales', total_data: total_data
+      title_total: 'Avisos totales (x100)', total_data: total_data
     });
     const barChartCanvas = $('#listingsChart').get(0).getContext('2d')
     const barChartData = $.extend(true, {}, areaChartData)
@@ -408,6 +477,43 @@ Dashboard
       options: (windowWidth > 768) ? barChartOptions.vertical : barChartOptions.horizontal
     })
   }
+  const loadStadisticsDistricts = async (month = null) => {
+    const current_mont = getMonth();
+    const params = {
+			parent: 'homepage',
+			child: 'views',
+			month: ( month ) ? month : current_mont
+		};
+    const details = await fetchData('app/gateway', params, 'GET');
+		const data = details?.data?.data?.records?.projects??[];
+    let updated_at = details?.data?.data?.updated_at??null;
+    if( updated_at ){
+      updated_at = 'Ultima actualizacion: ' + updated_at;
+    }
+    let labels = [];
+    let data_percent = [];
+    data.forEach(element => {
+      const department = element.department??'';
+      const district = element.district??'';
+      const province = element.province??'';
+      const qty_impressions = element.qty_impressions??0;
+      const percentage_impressions = element.percentage_impressions??0;
+      const label = [department + ' - ' + district + ' - ' + province];
+      labels.push(label);
+      data_percent.push(percentage_impressions);
+    });
+    //OBTENER DATA
+    const areaChartData = getChartPie(labels, data_percent, {title: 'Distritos más vistos'});
+    //CARGAR GRÁFICO
+    const barChartCanvas = $('#viewsChart').get(0).getContext('2d')
+    if( viewsChart ){
+      viewsChart.destroy();
+    }
+    viewsChart = new Chart(barChartCanvas, {
+      type: 'doughnut',
+      ...areaChartData
+    })
+  }
   const loadStadisticsUsers = async (month = null) => {
     const current_mont = getMonth();
     const params = {
@@ -451,7 +557,7 @@ Dashboard
     });
     const areaChartDataOwner = getChartData(labels_owner, { 
       title_today: 'Clientes del día', data_today: data_today_owner,
-      title_total: 'Clientes totales', total_data: total_data_owner
+      title_total: 'Clientes totales (x100)', total_data: total_data_owner
     });
     const barChartCanvasOwner = $('#OwnersChart').get(0).getContext('2d')
     const barChartDataOwner = $.extend(true, {}, areaChartDataOwner)
@@ -489,7 +595,7 @@ Dashboard
     });
     const areaChartDataRealtor = getChartData(labels_owner, { 
       title_today: 'Clientes del día', data_today: data_today_realtor,
-      title_total: 'Clientes totales', total_data: total_data_realtor
+      title_total: 'Clientes totales (x100)', total_data: total_data_realtor
     });
     const barChartCanvasRealtor = $('#RealtorsChart').get(0).getContext('2d')
     const barChartDataRealtor = $.extend(true, {}, areaChartDataRealtor)
@@ -514,6 +620,7 @@ Dashboard
           await loadStadisticsUsers();
           await loadStadisticsListings();
           await loadStadisticsProjects();
+          await loadStadisticsDistricts();
           resolve(true);
         } catch (error) {
             reject(error);
@@ -533,6 +640,10 @@ Dashboard
   $(document).on('change', '#month_project', async function () {
     const month = $(this).val();
     await loadStadisticsProjects(month);
+  });
+  $(document).on('change', '#month_views', async function () {
+    const month = $(this).val();
+    await loadStadisticsDistricts(month);
   });
   $(document).on('change', '#month_user', async function () {
     const month = $(this).val();

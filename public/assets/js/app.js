@@ -29,7 +29,7 @@ window.setMask = (selector, mask) => {
     item.inputmask(mask);
 }
 
-const fetchData = async (url = "", data = null, method = 'POST') => {   
+const fetchData = async (url = "", data = null, method = 'POST', blob = false) => {   
     
 	const contoller = (permissions?.permissions??[]).find(item => item.controller === currentPage);
     if((permissions.role??null) !== 'admin' && !(contoller??null) && ( method == 'POST' || method == 'PUT' || method == 'DELETE' )) { 
@@ -76,8 +76,11 @@ const fetchData = async (url = "", data = null, method = 'POST') => {
             return;
         }
     }
-
-    return serviceHttp.get(url, { params: data }).catch(function (error) {
+    let params = { params: data }
+    if( blob ){
+        params = { ...params, responseType: 'blob' }
+    }
+    return serviceHttp.get(url, params).catch(function (error) {
         return error
     })
 }
