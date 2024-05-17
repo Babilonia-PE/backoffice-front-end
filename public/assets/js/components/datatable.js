@@ -6,6 +6,10 @@ const datatable = (options = {})=>{
 			edit: false,
 			delete: false
 		},
+		download = {
+			active: false, 
+			filename: null
+		},
         headers,
         filtersFields = [],
         columnsHidden = [],
@@ -289,8 +293,45 @@ const datatable = (options = {})=>{
 		},
 		{
 			text: 'Descargar',
-            action: function ( e, dt, node, config ) {
-				
+            action: async function ( e, dt, node, config ) {
+				if( !download.active ){
+					console.log("descarga no activa");
+					return;
+				}
+				let params = {};
+				for(let i in filtersFields){
+					let {
+						name='',
+						type='',
+						value=''
+					} = filtersFields[i] ?? {};
+
+					if( type == 'static' ){
+						params[name] = value;
+					}else{
+						let element = document.getElementById(name);
+						if( element == null || element.value == '' || ( element.type == 'checkbox' && !element.checked ) ) continue;
+		
+						let fieldValue = document.getElementById(name).value;
+						params[name] = fieldValue;
+					}
+				}
+				const response = await fetchData('app/downloads', params, 'GET', true);				
+				if (window.navigator && window.navigator.msSaveOrOpenBlob) { // IE variant
+					window.navigator.msSaveOrOpenBlob(new Blob([response.data],
+							{ type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' }
+						),
+						download.filename
+					);
+				} else {
+					const url = window.URL.createObjectURL(new Blob([response.data],
+						{ type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' }));
+					const link = document.createElement('a');
+					link.href = url;
+					link.setAttribute('download', download.filename);
+					document.body.appendChild(link);
+					link.click();
+				}
             }
 		},
 		{
