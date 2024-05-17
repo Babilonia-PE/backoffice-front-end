@@ -298,6 +298,8 @@ const datatable = (options = {})=>{
 					console.log("descarga no activa");
 					return;
 				}
+				$(node).attr('disabled', true);
+				$(node).html('<span class="spinner-border spinner-border-sm"></span> Descargar');
 				let params = {};
 				for(let i in filtersFields){
 					let {
@@ -332,6 +334,9 @@ const datatable = (options = {})=>{
 					document.body.appendChild(link);
 					link.click();
 				}
+				
+				$(node).attr('disabled', false);
+				$(node).html('Descargar');
             }
 		},
 		{
