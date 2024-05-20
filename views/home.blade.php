@@ -54,14 +54,22 @@ Dashboard
               </div>
           </div>
         </div>
+
         <div class="btn-group" id="realtime" data-toggle="btn-toggle">
-          <button type="button" id="owners" class="btn btn-default btn-sm active userbtn">Sin RUC</button>
-          <button type="button" id="realtors" class="btn btn-default btn-sm userbtn">Con RUC</button>
+          <button type="button" id="owners" class="btn btn-default btn-sm active userbtn">Propietarios</button>
+          <button type="button" id="realtors" class="btn btn-default btn-sm userbtn">Agentes</button>
         </div>
-        <div class="chart">
-          <canvas id="OwnersChart" class="charjs"></canvas>
-          <canvas hidden id="RealtorsChart" class="charjs"></canvas>
+        <div class="row align-items-end">
+					<div class="col-md-12">
+            <canvas id="OwnersChart1" class="charjs"></canvas>
+            <canvas hidden id="RealtorsChart1" class="charjs"></canvas>
+          </div>
+					<div class="col-md-12">
+            <canvas id="OwnersChart2" class="charjs"></canvas>
+            <canvas hidden id="RealtorsChart2" class="charjs"></canvas>
+          </div>
         </div>
+
       </div>
     </div>
   </div>
@@ -85,8 +93,13 @@ Dashboard
               </div>
           </div>
         </div>
-        <div class="chart">
-          <canvas id="listingsChart" class="charjs"></canvas>
+        <div class="row align-items-end">
+					<div class="col-md-12">
+            <canvas id="listingsChart1" class="charjs"></canvas>
+          </div>
+					<div class="col-md-12">
+            <canvas id="listingsChart2" class="charjs"></canvas>
+          </div>
         </div>
       </div>
     </div>
@@ -111,8 +124,13 @@ Dashboard
               </div>
           </div>
         </div>
-        <div class="chart">
-          <canvas id="projectsChart" class="charjs"></canvas>
+        <div class="row align-items-end">
+					<div class="col-md-12">
+            <canvas id="projectsChart1" class="charjs"></canvas>
+          </div>
+					<div class="col-md-12">
+            <canvas id="projectsChart2" class="charjs"></canvas>
+          </div>
         </div>
       </div>
     </div>
@@ -142,12 +160,18 @@ Dashboard
 
 @section('scripts')
 <script>
-  let initial = true;
-  let listingChart = null;
-  let projectChart = null;
+  let ownerChart1 = null;
+  let ownerChart2 = null;
+  let realtorChart1 = null;
+  let realtorChart2 = null;
+  let listingChart1 = null;
+  let listingChart2 = null;
+  let projectChart1 = null;
+  let projectChart2 = null;
   let viewsChart = null;
-  let ownerChart = null;
-  let realtorChart = null;
+
+
+  let initial = true;
   let tempOptions = [];
   let windowWidth = window.innerWidth;
   let orientation = (windowWidth > 768) ? 'vertical' : 'horizontal';
@@ -159,42 +183,66 @@ Dashboard
       }
       orientation = 'vertical';
 
-      listingChart.config.type = 'bar';
-      listingChart.options = tempOptions['listings'].vertical;
-      listingChart.update('');
+      listingChart1.config.type = 'bar';
+      listingChart1.options = tempOptions['listings1'].vertical;
+      listingChart1.update('');
+      listingChart2.config.type = 'bar';
+      listingChart2.options = tempOptions['listings2'].vertical;
+      listingChart2.update('');
       
-      projectChart.config.type = 'bar';
-      projectChart.options = tempOptions['projects'].vertical;
-      projectChart.update('');
+      projectChart1.config.type = 'bar';
+      projectChart1.options = tempOptions['projects1'].vertical;
+      projectChart1.update('');
+      projectChart2.config.type = 'bar';
+      projectChart2.options = tempOptions['projects2'].vertical;
+      projectChart2.update('');
       
-      ownerChart.config.type = 'bar';
-      ownerChart.options = tempOptions['owners'].vertical;
-      ownerChart.update('');
+      ownerChart1.config.type = 'bar';
+      ownerChart1.options = tempOptions['owners1'].vertical;
+      ownerChart1.update('');
+      ownerChart2.config.type = 'bar';
+      ownerChart2.options = tempOptions['owners2'].vertical;
+      ownerChart2.update('');
       
-      realtorChart.config.type = 'bar';
-      realtorChart.options = tempOptions['realtors'].vertical;
-      realtorChart.update('');
+      realtorChart1.config.type = 'bar';
+      realtorChart1.options = tempOptions['realtors1'].vertical;
+      realtorChart1.update('');
+      realtorChart2.config.type = 'bar';
+      realtorChart2.options = tempOptions['realtors2'].vertical;
+      realtorChart2.update('');
     }else{
       if( orientation == 'horizontal' ){
         return;
       }
       orientation = 'horizontal';
 
-      listingChart.config.type = 'horizontalBar';
-      listingChart.options = tempOptions['listings'].horizontal;
-      listingChart.update('');
+      listingChart1.config.type = 'horizontalBar';
+      listingChart1.options = tempOptions['listings1'].horizontal;
+      listingChart1.update('');
+      listingChart2.config.type = 'horizontalBar';
+      listingChart2.options = tempOptions['listings2'].horizontal;
+      listingChart2.update('');
       
-      projectChart.config.type = 'horizontalBar';
-      projectChart.options = tempOptions['projects'].horizontal;
-      projectChart.update('');
+      projectChart1.config.type = 'horizontalBar';
+      projectChart1.options = tempOptions['projects1'].horizontal;
+      projectChart1.update('');
+      projectChart2.config.type = 'horizontalBar';
+      projectChart2.options = tempOptions['projects2'].horizontal;
+      projectChart2.update('');
       
-      ownerChart.config.type = 'horizontalBar';
-      ownerChart.options = tempOptions['owners'].horizontal;
-      ownerChart.update('');
+      ownerChart1.config.type = 'horizontalBar';
+      ownerChart1.options = tempOptions['owners1'].horizontal;
+      ownerChart1.update('');
+      ownerChart2.config.type = 'horizontalBar';
+      ownerChart2.options = tempOptions['owners2'].horizontal;
+      ownerChart2.update('');
       
-      realtorChart.config.type = 'horizontalBar';
-      realtorChart.options = tempOptions['realtors'].horizontal;
-      realtorChart.update('');
+      realtorChart1.config.type = 'horizontalBar';
+      realtorChart1.options = tempOptions['realtors1'].horizontal;
+      realtorChart1.update('');
+      realtorChart2.config.type = 'horizontalBar';
+      realtorChart2.options = tempOptions['realtors2'].horizontal;
+      realtorChart2.update('');
     }
   }
   const getMonth = () => {
@@ -256,31 +304,39 @@ Dashboard
   }
   const getChartData = (labels, dataset) => {
     return areaChartData = {
-      labels  : labels,
-      datasets: [
-        {
-          label               : dataset.title_today,
-          backgroundColor     : 'rgba(60,141,188,0.9)',
-          borderColor         : 'rgba(60,141,188,0.8)',
-          pointRadius          : false,
-          pointColor          : '#3b8bba',
-          pointStrokeColor    : 'rgba(60,141,188,1)',
-          pointHighlightFill  : '#fff',
-          pointHighlightStroke: 'rgba(60,141,188,1)',
-          data                : dataset.data_today
-        },
-        {
-          label               : dataset.title_total,
-          backgroundColor     : 'rgba(210, 214, 222, 1)',
-          borderColor         : 'rgba(210, 214, 222, 1)',
-          pointRadius         : false,
-          pointColor          : 'rgba(210, 214, 222, 1)',
-          pointStrokeColor    : '#c1c7d1',
-          pointHighlightFill  : '#fff',
-          pointHighlightStroke: 'rgba(220,220,220,1)',
-          data                : dataset.total_data
-        },
-      ]
+      daily: {
+        labels  : labels,
+        datasets: [
+          {
+            label               : dataset.title_today,
+            backgroundColor     : 'rgba(60,141,188,0.9)',
+            borderColor         : 'rgba(60,141,188,0.8)',
+            pointRadius          : false,
+            pointColor          : '#3b8bba',
+            pointStrokeColor    : 'rgba(60,141,188,1)',
+            pointHighlightFill  : '#fff',
+            pointHighlightStroke: 'rgba(60,141,188,1)',
+            data                : dataset.data_today
+          },
+        ]
+      },
+      total: {
+        labels  : labels,
+        datasets: [
+          {
+            label               : dataset.title_total,
+            backgroundColor     : 'rgba(210, 214, 222, 1)',
+            borderColor         : 'rgba(210, 214, 222, 1)',
+            pointRadius         : false,
+            pointColor          : 'rgba(210, 214, 222, 1)',
+            pointStrokeColor    : '#c1c7d1',
+            pointHighlightFill  : '#fff',
+            pointHighlightStroke: 'rgba(220,220,220,1)',
+            data                : dataset.total_data
+          },
+        ]
+      }
+      
     }
   }
   const getOptions = ({title = '', subtitle = ''}, max_label) =>{
@@ -393,21 +449,28 @@ Dashboard
       title_today: 'Avisos en el día', data_today: data_today,
       title_total: 'Avisos totales (x100)', total_data: total_data
     });
-    const barChartCanvas = $('#listingsChart').get(0).getContext('2d')
-    const barChartData = $.extend(true, {}, areaChartData)
-    const temp0 = areaChartData.datasets[0]
-    const temp1 = areaChartData.datasets[1]
-    barChartData.datasets[0] = temp1
-    barChartData.datasets[1] = temp0
-    const barChartOptions = getOptions({title: 'Avisos publicados', subtitle: updated_at}, max);
-    tempOptions['listings'] = barChartOptions;
-    if( listingChart ){
-      listingChart.destroy();
+    const barChartCanvas1 = $('#listingsChart1').get(0).getContext('2d')
+    const barChartCanvas2 = $('#listingsChart2').get(0).getContext('2d')
+    
+    const barChartOptions1 = getOptions({title: 'Avisos publicados por día', subtitle: updated_at}, max);
+    const barChartOptions2 = getOptions({title: 'Avisos publicados totales', subtitle: updated_at}, max);
+    tempOptions['listings1'] = barChartOptions1;
+    tempOptions['listings2'] = barChartOptions2;
+    if( listingChart1 ){
+      listingChart1.destroy();
     }
-    listingChart = new Chart(barChartCanvas, {
+    listingChart1 = new Chart(barChartCanvas1, {
       type: (windowWidth > 768) ? 'bar' : 'horizontalBar',
-      data: barChartData,
-      options: (windowWidth > 768) ? barChartOptions.vertical : barChartOptions.horizontal
+      data: areaChartData.daily,
+      options: (windowWidth > 768) ? barChartOptions1.vertical : barChartOptions1.horizontal
+    })
+    if( listingChart2 ){
+      listingChart2.destroy();
+    }
+    listingChart2 = new Chart(barChartCanvas2, {
+      type: (windowWidth > 768) ? 'bar' : 'horizontalBar',
+      data: areaChartData.total,
+      options: (windowWidth > 768) ? barChartOptions2.vertical : barChartOptions2.horizontal
     })
   }
   const loadStadisticsProjects = async (month = null) => {
@@ -454,22 +517,29 @@ Dashboard
       title_today: 'Proyectos en el día', data_today: data_today,
       title_total: 'Proyectos totales', total_data: total_data
     });
-    const barChartCanvas = $('#projectsChart').get(0).getContext('2d')
-    const barChartData = $.extend(true, {}, areaChartData)
-    const temp0 = areaChartData.datasets[0]
-    const temp1 = areaChartData.datasets[1]
-    barChartData.datasets[0] = temp1
-    barChartData.datasets[1] = temp0
+    const barChartCanvas1 = $('#projectsChart1').get(0).getContext('2d')
+    const barChartCanvas2 = $('#projectsChart2').get(0).getContext('2d')
     
-    const barChartOptions = getOptions({title: 'Proyectos publicados', subtitle: updated_at}, max);
-    tempOptions['projects'] = barChartOptions;
-    if( projectChart ){
-      projectChart.destroy();
+    
+    const barChartOptions1 = getOptions({title: 'Proyectos publicados por día', subtitle: updated_at}, max);
+    const barChartOptions2 = getOptions({title: 'Proyectos publicados totales', subtitle: updated_at}, max);
+    tempOptions['projects1'] = barChartOptions1;
+    tempOptions['projects2'] = barChartOptions2;
+    if( projectChart1 ){
+      projectChart1.destroy();
     }
-    projectChart = new Chart(barChartCanvas, {
+    projectChart1 = new Chart(barChartCanvas1, {
       type: (windowWidth > 768) ? 'bar' : 'horizontalBar',
-      data: barChartData,
-      options: (windowWidth > 768) ? barChartOptions.vertical : barChartOptions.horizontal
+      data: areaChartData.daily,
+      options: (windowWidth > 768) ? barChartOptions1.vertical : barChartOptions1.horizontal
+    })
+    if( projectChart2 ){
+      projectChart2.destroy();
+    }
+    projectChart2 = new Chart(barChartCanvas2, {
+      type: (windowWidth > 768) ? 'bar' : 'horizontalBar',
+      data: areaChartData.total,
+      options: (windowWidth > 768) ? barChartOptions2.vertical : barChartOptions2.horizontal
     })
   }
   const loadStadisticsDistricts = async (month = null) => {
@@ -557,22 +627,29 @@ Dashboard
       title_today: 'Clientes del día', data_today: data_today_owner,
       title_total: 'Clientes totales (x100)', total_data: total_data_owner
     });
-    const barChartCanvasOwner = $('#OwnersChart').get(0).getContext('2d')
-    const barChartDataOwner = $.extend(true, {}, areaChartDataOwner)
-    const temp0Owner = areaChartDataOwner.datasets[0]
-    const temp1Owner = areaChartDataOwner.datasets[1]
-    barChartDataOwner.datasets[0] = temp1Owner
-    barChartDataOwner.datasets[1] = temp0Owner
-    const barChartOptionsOwner = getOptions({title: 'Estadísticas por usuario | Owners', subtitle: updated_at}, max_owner);
-    tempOptions['owners'] = barChartOptionsOwner;
-    options = barChartOptionsOwner;
-    if( ownerChart ){
-      ownerChart.destroy();
+    const barChartCanvasOwner1 = $('#OwnersChart1').get(0).getContext('2d');
+    const barChartCanvasOwner2 = $('#OwnersChart2').get(0).getContext('2d');
+    const barChartOptionsOwner1 = getOptions({title: 'Clientes por dia | Propietarios', subtitle: updated_at}, max_owner);
+    const barChartOptionsOwner2 = getOptions({title: 'Clientes totales | Propietarios', subtitle: updated_at}, max_owner);
+    tempOptions['owners1'] = barChartOptionsOwner1;
+    tempOptions['owners2'] = barChartOptionsOwner2;
+    options1 = barChartOptionsOwner1;
+    options2 = barChartOptionsOwner2;
+    if( ownerChart1 ){
+      ownerChart1.destroy();
     }
-    ownerChart = new Chart(barChartCanvasOwner, {
+    ownerChart1 = new Chart(barChartCanvasOwner1, {
       type: (windowWidth > 768) ? 'bar' : 'horizontalBar',
-      data: barChartDataOwner,
-      options: (windowWidth > 768) ? barChartOptionsOwner.vertical : barChartOptionsOwner.horizontal
+      data: areaChartDataOwner.daily,
+      options: (windowWidth > 768) ? barChartOptionsOwner1.vertical : barChartOptionsOwner1.horizontal
+    })
+    if( ownerChart2 ){
+      ownerChart2.destroy();
+    }
+    ownerChart2 = new Chart(barChartCanvasOwner2, {
+      type: (windowWidth > 768) ? 'bar' : 'horizontalBar',
+      data: areaChartDataOwner.total,
+      options: (windowWidth > 768) ? barChartOptionsOwner2.vertical : barChartOptionsOwner2.horizontal
     })
 
 
@@ -595,21 +672,28 @@ Dashboard
       title_today: 'Clientes del día', data_today: data_today_realtor,
       title_total: 'Clientes totales (x100)', total_data: total_data_realtor
     });
-    const barChartCanvasRealtor = $('#RealtorsChart').get(0).getContext('2d')
-    const barChartDataRealtor = $.extend(true, {}, areaChartDataRealtor)
-    const temp0Realtor = areaChartDataRealtor.datasets[0]
-    const temp1Realtor = areaChartDataRealtor.datasets[1]
-    barChartDataRealtor.datasets[0] = temp1Realtor
-    barChartDataRealtor.datasets[1] = temp0Realtor
-    const barChartOptionsRealtor = getOptions({title: 'Estadísticas por usuario | Realtors', subtitle: updated_at}, max_realtor);
-    tempOptions['realtors'] = barChartOptionsRealtor;
-    if( realtorChart ){
-      realtorChart.destroy();
+    const barChartCanvasRealtor1 = $('#RealtorsChart1').get(0).getContext('2d');
+    const barChartCanvasRealtor2 = $('#RealtorsChart2').get(0).getContext('2d');
+    const barChartOptionsRealtor1 = getOptions({title: 'Clientes por dia | Agentes', subtitle: updated_at}, max_realtor);
+    const barChartOptionsRealtor2 = getOptions({title: 'Clientes totales | Agentes', subtitle: updated_at}, max_realtor);
+    tempOptions['realtors1'] = barChartOptionsRealtor1;
+    tempOptions['realtors2'] = barChartOptionsRealtor1;
+    if( realtorChart1 ){
+      realtorChart1.destroy();
     }
-    realtorChart = new Chart(barChartCanvasRealtor, {
+    realtorChart1 = new Chart(barChartCanvasRealtor1, {
       type: (windowWidth > 768) ? 'bar' : 'horizontalBar',
-      data: barChartDataRealtor,
-      options: (windowWidth > 768) ? barChartOptionsRealtor.vertical : barChartOptionsRealtor.horizontal
+      data: areaChartDataRealtor.daily,
+      options: (windowWidth > 768) ? barChartOptionsRealtor1.vertical : barChartOptionsRealtor1.horizontal
+    })
+
+    if( realtorChart2 ){
+      realtorChart2.destroy();
+    }
+    realtorChart2 = new Chart(barChartCanvasRealtor2, {
+      type: (windowWidth > 768) ? 'bar' : 'horizontalBar',
+      data: areaChartDataRealtor.total,
+      options: (windowWidth > 768) ? barChartOptionsRealtor2.vertical : barChartOptionsRealtor2.horizontal
     })
   }
   const init = () => {
@@ -646,14 +730,18 @@ Dashboard
   $(document).on('click', '#owners', async function () {
     $(".userbtn").removeClass("active")
     $(this).addClass("active")
-    $("#OwnersChart").attr('hidden', false);
-    $("#RealtorsChart").attr('hidden', true);
+    $("#OwnersChart1").attr('hidden', false);
+    $("#OwnersChart2").attr('hidden', false);
+    $("#RealtorsChart1").attr('hidden', true);
+    $("#RealtorsChart2").attr('hidden', true);
   });
   $(document).on('click', '#realtors', async function () {
     $(".userbtn").removeClass("active")
     $(this).addClass("active")
-    $("#RealtorsChart").attr('hidden', false);
-    $("#OwnersChart").attr('hidden', true);
+    $("#OwnersChart1").attr('hidden', true);
+    $("#OwnersChart2").attr('hidden', true);
+    $("#RealtorsChart1").attr('hidden', false);
+    $("#RealtorsChart2").attr('hidden', false);
   });
   window.addEventListener('resize', changeDirectionBar);
 </script>
