@@ -447,7 +447,7 @@ Dashboard
     //CARGAR GRÁFICO
     const areaChartData = getChartData(labels, { 
       title_today: 'Avisos en el día', data_today: data_today,
-      title_total: 'Avisos totales (x100)', total_data: total_data
+      title_total: 'Avisos totales', total_data: total_data
     });
     const barChartCanvas1 = $('#listingsChart1').get(0).getContext('2d')
     const barChartCanvas2 = $('#listingsChart2').get(0).getContext('2d')
@@ -625,7 +625,7 @@ Dashboard
     });
     const areaChartDataOwner = getChartData(labels_owner, { 
       title_today: 'Clientes del día', data_today: data_today_owner,
-      title_total: 'Clientes totales (x100)', total_data: total_data_owner
+      title_total: 'Clientes totales', total_data: total_data_owner
     });
     const barChartCanvasOwner1 = $('#OwnersChart1').get(0).getContext('2d');
     const barChartCanvasOwner2 = $('#OwnersChart2').get(0).getContext('2d');
@@ -670,7 +670,7 @@ Dashboard
     });
     const areaChartDataRealtor = getChartData(labels_owner, { 
       title_today: 'Clientes del día', data_today: data_today_realtor,
-      title_total: 'Clientes totales (x100)', total_data: total_data_realtor
+      title_total: 'Clientes totales', total_data: total_data_realtor
     });
     const barChartCanvasRealtor1 = $('#RealtorsChart1').get(0).getContext('2d');
     const barChartCanvasRealtor2 = $('#RealtorsChart2').get(0).getContext('2d');
