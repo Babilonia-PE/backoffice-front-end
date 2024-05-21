@@ -8,11 +8,11 @@
   <!-- Google Font: Source Sans Pro -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
   <!-- Font Awesome -->
-  <link rel="stylesheet" href="@asset("public/plugins/fontawesome-free/css/all.min.css")">
+  <link rel="stylesheet" href="@asset('public/plugins/fontawesome-free/css/all.min.css')?{{env('APP_CSS_VERSION')}}">
   <!-- icheck bootstrap -->
-  <link rel="stylesheet" href="@asset("public/plugins/icheck-bootstrap/icheck-bootstrap.min.css")">
+  <link rel="stylesheet" href="@asset('public/plugins/icheck-bootstrap/icheck-bootstrap.min.css')?{{env('APP_CSS_VERSION')}}">
   <!-- Theme style -->
-  <link rel="stylesheet" href="@asset("public/assets/css/adminlte.min.css")">
+  <link rel="stylesheet" href="@asset('public/assets/css/adminlte.min.css')?{{env('APP_CSS_VERSION')}}">
 </head>
 <body class="hold-transition login-page bg-white">
 <div class="login-box">
@@ -66,11 +66,11 @@
 <!-- /.login-box -->
 
 <!-- jQuery -->
-<script src="@asset("public/plugins/jquery/jquery.min.js")"></script>
+<script src="@asset('public/plugins/jquery/jquery.min.js')?{{env('APP_JS_VERSION')}}"></script>
 <!-- Bootstrap 4 -->
-<script src="@asset("public/plugins/bootstrap/js/bootstrap.bundle.min.js")"></script>
+<script src="@asset('public/plugins/bootstrap/js/bootstrap.bundle.min.js')?{{env('APP_JS_VERSION')}}"></script>
 <!-- AdminLTE App -->
-<script src="@asset("public/assets/js/adminlte.min.js")"></script>
+<script src="@asset('public/assets/js/adminlte.min.js')?{{env('APP_JS_VERSION')}}"></script>
 <script>
   $("#hidenshowpassword").click(function(e){
     let input = document.getElementById("password");

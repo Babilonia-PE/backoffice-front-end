@@ -1,8 +1,8 @@
 @extends('Layout.master')
 
 @section('styles')
-<link rel="stylesheet" href="public/plugins/select2/css/select2.min.css">
-<link rel="stylesheet" href="public/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css">
+<link rel="stylesheet" href="@asset('public/plugins/select2/css/select2.min.css')?{{env('APP_CSS_VERSION')}}">
+<link rel="stylesheet" href="@asset('public/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css')?{{env('APP_CSS_VERSION')}}">
 <style>
   button.btn.btn-default.btn-sm.active {
     background: #d9dbdd;
