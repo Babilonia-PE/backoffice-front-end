@@ -68,14 +68,9 @@
 @endif
 <script src="@asset('public/plugins/sweetalert2/sweetalert2.min.js')?{{env('APP_JS_VERSION')}}"></script>
 
-<<<<<<< Updated upstream
-<script src="@asset("public/assets/js/inputmask.min.js")"></script>
-<script src="@asset("public/assets/js/axios.min.js")"></script>
-=======
 <script src="@asset('public/assets/js/inputmask.min.js')?{{env('APP_JS_VERSION')}}"></script>
 <script src="@asset('public/assets/js/axios.min.js')?{{env('APP_JS_VERSION')}}"></script>
 <script src="@asset('public/assets/js/app.js')?{{env('APP_JS_VERSION')}}"></script>
->>>>>>> Stashed changes
 <script>
   window.APP_BASE_EP = "{{ APP_BASE_EP }}";
   window.APP_LANG = "{{ APP_LANG }}";
@@ -92,7 +87,6 @@
   window.filtersParamsTypes = {!! json_encode(FILTERSPARAMSTYPES) !!};
   window.permissions = {!! json_encode($permissions??[]) !!};
 </script>
-<script src="@asset("public/assets/js/app.js")?v={{ APP_VERSION }}"></script>
 @yield("scripts")
 @stack('child-scripts')
 
