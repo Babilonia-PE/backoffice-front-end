@@ -514,8 +514,8 @@ Avisos
 	}
 	const modalOrder =  [
 		0, 	//ID del listing
-		37, //Origen
 		38, //External data
+		37, //Origen
 		9, 	//Estado
 		10, //Fecha de creación
 		11, //Fecha de publicación
