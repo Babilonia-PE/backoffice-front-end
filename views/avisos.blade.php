@@ -384,6 +384,7 @@ Avisos
             { "title": "Fecha de expiración", "code": "ad_expires_at", "sortable": true },
             { "title": "Email" },
             { "title": "Teléfono" },
+			{ "title": "Origen" },
 			{ "title": "External" },
 			{ "title": "Acciones" }
 	];
@@ -498,6 +499,7 @@ Avisos
 			element.ad_expires_at??'',
 			element.email??'',
 			getFullNumber(prefix, phone),
+			element.source??'',
 			( ( element.external_data == '' ) ? '-' : `
 			<div class="external-data">
 				${element.external_data}
@@ -512,7 +514,8 @@ Avisos
 	}
 	const modalOrder =  [
 		0, 	//ID del listing
-		37, //External data
+		37, //Origen
+		38, //External data
 		9, 	//Estado
 		10, //Fecha de creación
 		11, //Fecha de publicación
@@ -571,7 +574,7 @@ Avisos
 			</div>
 		`;
 	}
-	const columnsHidden = [7, 8, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34,35,36, 37];
+	const columnsHidden = [7, 8, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34,35, 36, 37, 38];
 	const columnsDates = [10, 11, 33, 34];
 	const download = { active: true, filename: 'Avisos.xlsx' };
 	const options = {
