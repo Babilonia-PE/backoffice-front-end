@@ -83,6 +83,10 @@
 		background-color: #dc3545;
 		color: #ffffff;
 	}
+	.badge.badge-4{
+		background-color: #083766;
+		color: #ffffff;
+	}
 	.badge.badge-5{
 		background-color: #000000;
 		color: #ffffff;
@@ -236,7 +240,9 @@ Usuarios
 	const headers = [
 		{ "title": "ID", "code": "id", "sortable": true },
 		{ "title": "Nombre", "code": "full_name", "sortable": true },
+		{ "title": "Verif. correo" },
 		{ "title": "Email", "code": "email", "sortable": true },
+		{ "title": "Verif. Telefono" },
 		{ "title": "Teléfono", "code": "phone_number", "sortable": true },
 		{ "title": "Nombre comercial" },
 		{ "title": "Fecha de creación", "code": "created_at", "sortable": true },
@@ -296,7 +302,9 @@ Usuarios
 		return [
 			element.id??'',
 			element.full_name??'',
+			(element.verify?.email??false ? `<span class="badge text-bg-secondary badge-4">Verificado</span>` : `<span class="badge text-bg-secondary badge-2">No verificado</span>`),
 			(element.email) ? `${element.email} <button class="badge text-bg-primary btn-primary text-danger-emphasis text-dark" type="button" data-copy="inner" data-value="${element.email}"><i class="far fa-copy text-white"></i></button>`:'',
+			(element.verify?.phone_number??false ? `<span class="badge text-bg-secondary badge-4">Verificado</span>` : `<span class="badge text-bg-secondary badge-2">No verificado</span>`),
 			getFullNumber(element.prefix, element.phone_number),
 			( ( element.company ) ? element.company.commercial_name??'':'' ),
 			element.created_at??'',
@@ -325,8 +333,8 @@ Usuarios
 	const initParamsModal = ()=>{
 		copyToClipboard();
 	}
-	const columnsHidden = [0, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 20];
-	const columnsDates = [6, 19];
+	const columnsHidden = [0, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 21];
+	const columnsDates = [7, 20];
 	const options = {
 		processParams,
 		headers,
