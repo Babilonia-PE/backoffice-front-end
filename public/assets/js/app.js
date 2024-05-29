@@ -76,7 +76,7 @@ const fetchData = async (url = "", data = null, method = 'POST', blob = false) =
             return;
         }
     }
-    let params = { params: data }
+    let params = { params: { ...data, timestamp : new Date().getTime() } }
     if( blob ){
         params = { ...params, responseType: 'blob' }
     }
