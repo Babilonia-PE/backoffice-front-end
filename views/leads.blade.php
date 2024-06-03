@@ -326,7 +326,9 @@ Leads Avisos
 	}
 	const columnsHidden = [0,1,7,8,9,10,11,14,15];
 	const columnsDates = [13,14];
+	const download = { active: true, filename: 'Leads.xlsx' };
 	const options = {
+		download,
 		processParams,
 		headers,
 		filtersFields,
