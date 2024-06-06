@@ -340,7 +340,7 @@ Paquetes
 							<label>Tipo</label>
 							<select name="package_type" id="package_type" class="form-control form-control-sm selectpicker validate" title="Tipo de paquete" placeholder="Tipo de paquete">
 								<option value="listing">Inmuebles</option>
-								<!--<option value="project">Proyectos</option>-->
+								<option value="project">Proyectos</option>
 							</select>                			
 						</div>
 					</div> 
@@ -516,6 +516,7 @@ Paquetes
 <script src="@asset('public/plugins/select2/js/select2.full.min.js')?{{env('APP_JS_VERSION')}}"></script>
 <script src="@asset('public/plugins/datetimepicker/date-time-picker.min.js')?{{env('APP_JS_VERSION')}}"></script>
 <script>
+	window.realtor = false;
 	//ESTBALECER MASCARAS
 	setMask('#purchased_start', { mask: "99/99/9999", showMaskOnHover: false, placeholder: "dd/mm/yyyy", rightAlign:false });
 	setMask('#purchased_end', { mask: "99/99/9999", showMaskOnHover: false, placeholder: "dd/mm/yyyy", rightAlign:false });
@@ -724,6 +725,14 @@ Paquetes
 							child: 'list',
 							type: $(this).val()
 						};
+						if( $(this).val() == 'project' ){
+							window.realtor = true;
+							const selectUser = document.getElementById('package_owner_id');
+							selectUser.innerHTML="";
+							$(selectUser).selectpicker('refresh');
+						}else{
+							window.realtor = false;
+						}
 						const details = await fetchData('app/gateway', params, 'GET');
 						const data = details?.data?.records??null;
 						const users = details?.data?.users??null;
