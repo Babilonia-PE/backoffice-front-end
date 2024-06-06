@@ -370,7 +370,9 @@ Alertas
 	}
 	const columnsHidden = [6,7,11,12];
 	const columnsDates = [11,12];
+	const download = { active: true, fpilename: 'Alertas.xlsx' };
 	const options = {
+		download,
 		processParams,
 		headers,
 		filtersFields,

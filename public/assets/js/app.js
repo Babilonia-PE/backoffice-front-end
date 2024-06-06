@@ -137,6 +137,9 @@ const userSearch = (options = {}) => {
             parent: 'user',
             child: 'search'
         };
+        if(window.realtor == true){
+            params.realtor = true;
+        }
                 
         const data = await fetchData('/app/gateway', params, 'GET');
         const records = data.data?.data?.records ?? [];
