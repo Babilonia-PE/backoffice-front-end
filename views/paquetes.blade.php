@@ -317,14 +317,16 @@ Paquetes
 			</div>
 			<div class="modal-body">
 				<div class="row align-items-end">
-					
+					 
 					<div class="col-md-6">
 						<div class="form-group">
-							<label>Usuario</label>
-							@component("components.search-user", ['id'=>'package_owner_id', 'placeholder' => 'Buscar por nombre, email o empresa', 'class' => 'validate'])
-							@endcomponent            			
+							<label>Tipo</label>
+							<select name="package_type" id="package_type" class="form-control form-control-sm selectpicker validate" title="Tipo de paquete" placeholder="Tipo de paquete">
+								<option value="listing">Inmuebles</option>
+								<option value="project">Proyectos</option>
+							</select>                			
 						</div>
-					</div>   
+					</div>  
 					<div class="col-md-6">
 						<div class="form-group">
 							<label>Método de pago</label>
@@ -334,16 +336,14 @@ Paquetes
 								<option value="lottery">Sorteo</option>
 							</select>                			
 						</div>
-					</div>  
+					</div> 
 					<div class="col-md-6">
 						<div class="form-group">
-							<label>Tipo</label>
-							<select name="package_type" id="package_type" class="form-control form-control-sm selectpicker validate" title="Tipo de paquete" placeholder="Tipo de paquete">
-								<option value="listing">Inmuebles</option>
-								<option value="project">Proyectos</option>
-							</select>                			
+							<label>Usuario</label>
+							@component("components.search-user", ['id'=>'package_owner_id', 'placeholder' => 'Buscar por nombre, email o empresa', 'class' => 'validate'])
+							@endcomponent            			
 						</div>
-					</div> 
+					</div>  
 					<div class="col-md-6">
 						<div class="form-group">
 							<label>Agente</label>
