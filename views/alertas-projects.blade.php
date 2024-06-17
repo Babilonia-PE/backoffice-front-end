@@ -132,7 +132,7 @@
 
 @section('page')
 
-Alertas Avisos
+Alertas Proyectos
 
 @endsection
 
@@ -370,13 +370,13 @@ Alertas Avisos
 	}
 	const columnsHidden = [6,7,11,12];
 	const columnsDates = [11,12];
-	const download = { active: true, fpilename: 'Alertas-avisos.xlsx' };
+	const download = { active: true, fpilename: 'Alertas-proyectos.xlsx' };
 	const options = {
 		download,
 		processParams,
 		headers,
 		filtersFields,
-		storageView : 'filter_alert',
+		storageView : 'filter_alert_projects',
 		columnsHidden,
 		columnsDates,
 		modalOrder,
