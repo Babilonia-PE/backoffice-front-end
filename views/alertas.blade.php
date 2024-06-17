@@ -314,6 +314,11 @@ Alertas Avisos
 			value: 'alert'
 		},
 		{
+			name: 'child',
+			type: 'static',
+			value: 'listings'
+		},
+		{
 			name: 'user_id',
 			type: filtersParamsTypes.USER,
 			search: true,
@@ -370,7 +375,7 @@ Alertas Avisos
 	}
 	const columnsHidden = [6,7,11,12];
 	const columnsDates = [11,12];
-	const download = { active: true, fpilename: 'Alertas-avisos.xlsx' };
+	const download = { active: true, filename: 'Alertas-avisos.xlsx' };
 	const options = {
 		download,
 		processParams,

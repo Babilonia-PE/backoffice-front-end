@@ -159,9 +159,9 @@ Alertas Proyectos
                 	</div>   
 					<div class="col-md-4">
                 		<div class="form-group">
-                  			<label>Tipo de operación</label>
-                  			<select class="form-control select2 form-control-sm" id="listing_type" style="width: 100%;">
-								@foreach (APP_LANG_LISTING_TYPE as $k => $type)
+                  			<label>Etapa de proyecto</label>
+                  			<select class="form-control select2 form-control-sm" id="stage" style="width: 100%;">
+								@foreach (APP_LANG_PROJECT_STAGE as $k => $type)
                                     <option value="{{ $k }}">{{ $type }}</option>
                                 @endforeach
 							</select>
@@ -169,9 +169,9 @@ Alertas Proyectos
                 	</div>           							
 					<div class="col-md-4">
                 		<div class="form-group">
-                  			<label>Tipo de propiedad</label>
-                  			<select class="form-control select2 form-control-sm" id="property_type" style="width: 100%;">
-								@foreach (APP_LANG_PROPERTY_TYPE as $k => $type)
+                  			<label>Tipo de proyecto</label>
+                  			<select class="form-control select2 form-control-sm" id="project_type" style="width: 100%;">
+								@foreach (APP_LANG_PROJECT_TYPE as $k => $type)
                                     <option value="{{ $k }}">{{ $type }}</option>
                                 @endforeach
 							</select>
@@ -296,8 +296,8 @@ Alertas Proyectos
 		{ "title": "Nombres" },
 		{ "title": "Email", "code": "email" },
 		{ "title": "Telefono" },
-        { "title": "Operación" },
-		{ "title": "Propiedad" },
+        { "title": "Etapa" },
+		{ "title": "Tipo de proyecto" },
 		{ "title": "Ubicación" },
 		{ "title": "Precio" },
 		{ "title": "Contactar al agente" },
@@ -314,16 +314,21 @@ Alertas Proyectos
 			value: 'alert'
 		},
 		{
+			name: 'child',
+			type: 'static',
+			value: 'projects'
+		},
+		{
 			name: 'user_id',
 			type: filtersParamsTypes.USER,
 			search: true,
 			storage: 'filter_leads_users'
 		},
 		{
-			name: 'listing_type',
+			name: 'stage',
 		},
 		{
-			name: 'property_type',
+			name: 'project_type',
 		},
 		{
 			name: 'alert_type',
@@ -347,8 +352,8 @@ Alertas Proyectos
 			element.full_name,
 			element.email,
 			getFullNumber(prefix, phone),
-            element.listing_type,
-            element.property_type,
+            element.stage,
+            element.project_type,
             element.location,
             element.price,
             element.contact_agent?'Si':'No',
@@ -370,7 +375,7 @@ Alertas Proyectos
 	}
 	const columnsHidden = [6,7,11,12];
 	const columnsDates = [11,12];
-	const download = { active: true, fpilename: 'Alertas-proyectos.xlsx' };
+	const download = { active: true, filename: 'Alertas-proyectos.xlsx' };
 	const options = {
 		download,
 		processParams,
