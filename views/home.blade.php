@@ -278,7 +278,12 @@ Dashboard
         responsive: true,
         maintainAspectRatio: false,
         legend: {
-          display: false
+          display: true,
+          position: 'left',
+          labels: {
+            //fontColor: 'red',
+            fontSize: 16
+          }
         },
         title: {
             display: true,
