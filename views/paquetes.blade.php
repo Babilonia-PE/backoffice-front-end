@@ -691,8 +691,64 @@ Paquetes
 			},
 			{
 				text: 'Descargar',
-				action: function ( e, dt, node, config ) {
+				action: async function ( e, dt, node, config ) {
+					if( !download.active ){
+						console.log("descarga no activa");
+						return;
+					}
+					$(node).attr('disabled', true);
+					$(node).html('<span class="spinner-border spinner-border-sm"></span> Descargando');
+
+					const $preloader = $(".preloader");
+					if ($preloader) {
+						$preloader.removeAttr('style');
+						setTimeout(function () {
+							$preloader.children().show();
+						}, 200);
+					}
+					let params = {};
+					for(let i in filtersFields){
+						let {
+							name='',
+							type='',
+							value=''
+						} = filtersFields[i] ?? {};
+
+						if( type == 'static' ){
+							params[name] = value;
+						}else{
+							let element = document.getElementById(name);
+							if( element == null || element.value == '' || ( element.type == 'checkbox' && !element.checked ) ) continue;
+			
+							let fieldValue = document.getElementById(name).value;
+							params[name] = fieldValue;
+						}
+					}
+					const response = await fetchData('app/downloads', params, 'GET', true);				
+					if (window.navigator && window.navigator.msSaveOrOpenBlob) { // IE variant
+						window.navigator.msSaveOrOpenBlob(new Blob([response.data],
+								{ type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' }
+							),
+							download.filename
+						);
+					} else {
+						const url = window.URL.createObjectURL(new Blob([response.data],
+							{ type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' }));
+						const link = document.createElement('a');
+						link.href = url;
+						link.setAttribute('download', download.filename);
+						document.body.appendChild(link);
+						link.click();
+					}
 					
+					$(node).attr('disabled', false);
+					$(node).html('Descargar');
+					if ($preloader) {
+						$preloader.css('height', 0);
+						setTimeout(function () {
+							$preloader.children().hide();
+						}, 200);
+					}
 				}
 			},
 			{
@@ -909,7 +965,9 @@ Paquetes
 		view: true,
 		edit: true
 	}
+	const download = { active: true, filename: 'Paquetes.xlsx' };
 	const options = {
+		download,
 		crud,
 		processParams,
 		headers,
