@@ -218,7 +218,7 @@ Chat
 </div>
 <!-- Modal -->
 <div class="modal fade p-0" id="rowDetails" tabindex="-1" role="dialog" aria-labelledby="rowDetailsLabel" aria-hidden="true">
-	<div class="modal-dialog modal-lg" role="document">
+	<div class="modal-dialog modal-xl" role="document">
 		<div class="modal-content">
 			<div class="modal-header">
         		<h5 class="modal-title">Detalles para</h5>
@@ -227,7 +227,7 @@ Chat
 				</button>
 			</div>
 			<div class="modal-body">
-				<div class="box-details"></div>
+				<div class="table-responsive"></div>
 			</div>
 		</div>
 	</div>
@@ -259,15 +259,17 @@ Chat
 
 <script>
 	const headers = [
-			{ "title": "Id", "code": "id", "sortable": true },
-			{ "title": "Fecha de creación", "created_at": "id", "sortable": true },
+			{ "title": "User ID", "code": "user_id", "sortable": true },
+			{ "title": "Nombre", "code": "full_name" },
+			{ "title": "Correo", "code": "email" },
+			{ "title": "Teléfono", "code": "phone_number" },
 			{ "title": "Acciones" }
 	];
 	const filtersFields = [
 		{
 			name: 'parent',
 			type: 'static',
-			value: 'chat'
+			value: 'team'
 		},
 		{
 			name: 'child',
@@ -288,8 +290,10 @@ Chat
 	];
 	const processParams = (element) =>{
 		return [
-			element.id??'',		
-			element.created_at??'',
+			element.user_id??'',		
+			element.full_name??'',
+			element.email??'',
+			getFullNumber(element.prefix, element.phone_number),
 		];
 	}
 	const modalOrder =  [];
@@ -299,108 +303,81 @@ Chat
 	const modalFunction = {
 		show : async (id = '') => {
 			const params = {
-				parent: 'chat',
+				parent: 'team',
 				child: 'detail',
-				id: id,
+				owner_id: id,
 				order_by: 'id',
 				sort_by: 'asc'
 			};
 			const details = await fetchData('app/gateway', params, 'GET');
 			const data = details?.data?.data?.records??null;
-			$("#rowDetails .modal-title").html("Detalles para chat " + id);
-			$("#rowDetails .modal-body").html("");
-			$("#rowDetails").addClass("modal-dialog-scrollable");
-			jQuery('<div>', {
-				'class': 'chatdetail',
-				'id' : 'Chatdetail' + id
-			}).appendTo("#rowDetails .modal-body");
-			
-			data.forEach(element => {
-				const date = element.created_at??'';
-				const message = element.message??'';
-				jQuery('<div>', {
-					'class' : ( element.user_id??0 ) == 0 ? 'user' : '',
-					'html' : `
-						<span class="date">${date}</span>
-						<p class="message">${message}</p>
-					`
-				}).appendTo('#Chatdetail' + id);
+			$("#rowDetails .modal-title").html("Miembros del equipo");
+			$("#rowDetails .modal-body .table-responsive").html("");
+			const loader = jQuery('<p>', {
+				'class': 'text-center',
+				'name': 'members-loader',
+				'html' : '<img src="public/assets/img/loading.gif" width="50" />'
 			});
-			/*datatable({
-				url: 'app/gateway',
-				filtersFields: [
-					{
-						name: 'parent',
-						type: 'static',
-						value: 'chat'
-					},
-					{
-						name: 'child',
-						type: 'static',
-						value: 'detail'
-					},
-					{
-						name: 'id',
-						type: 'static',
-						value: id
-					},
-					{
-						name: 'order_by',
-						type: 'static',
-						value: 'id'
-					},
-					{
-						name: 'sort_by',
-						type: 'static',
-						value: 'asc'
-					}
-				],
-				processParams: (element) =>{
-					return [
-						element.id,		
-						element.message??'',
-						( ( element.created_at ) ? moment(element.created_at).format('DD/MM/YYYY'):'' ),
-					];
+			const table = jQuery('<table>', {
+				'id': 'members-table',
+				'class': 'display table table-bordered table-hover nowrap compact responsive d-none',
+				'width': '100%',
+				'html' : `
+					<thead>
+						<th>Id</th>
+						<th>Nombres</th>
+						<th>Correo</th>
+						<th>Teléfono</th>
+						<th>Estado</th>
+						<th>Permisos</th>
+						<th>Fecha de creación</th>
+						<th>Fecha de actualización</th>
+					</thead>
+					<tbody id="team_members"></tbody>
+				`
+			});
+			loader.appendTo("#rowDetails .modal-body .table-responsive");
+			table.appendTo("#rowDetails .modal-body .table-responsive");
+			data.forEach(element => {
+				const user_id = jQuery( '<td>', { text: element.user_id??'' } );
+				const full_name = jQuery( '<td>', { text: element.full_name??'' } );
+				const email = jQuery( '<td>', { text: element.email??'' } );
+				const phone = jQuery( '<td>', { html: getFullNumber(element.prefix, element.phone_number) } );
+				const state = jQuery( '<td>', { text: element.state??'' } );
+				const profile = jQuery( '<td>', { text: element.profile??'' } );
+				const created_at = jQuery( '<td>', { text: element.created_at??'' } );
+				const updated_at = jQuery( '<td>', { text: element.updated_at??'' } );
+
+				const row = jQuery('<tr>');
+				user_id.appendTo(row);
+				full_name.appendTo(row);
+				email.appendTo(row);
+				phone.appendTo(row);
+				state.appendTo(row);
+				profile.appendTo(row);
+				created_at.appendTo(row);
+				updated_at.appendTo(row);
+				row.appendTo('#team_members');
+			});
+		},
+		shown : async (id = '') => {
+			$("#members-table").DataTable({
+				"bDestroy": true,
+				"initComplete": function(settings, json) {
+					$( 'p[name=\'members-loader\']' ).remove();
+					$(this).removeClass( 'd-none' );
 				},
-				headers: [
-					{ "title": "Id", "code": "id", "sortable": true },
-					{ "title": "Mensaje", "code": "message" },
-					{ "title": "Creación", "created_at": "id", "sortable": true },
-				],
-				returnTable: {
-					actions: false,
-					attr: 'id',
-					value: 'Chatdetail' + id,
-					buttons: [
-						{
-							extend: "excelHtml5",
-							exportOptions: {
-								//columns: ":not(:last-child)",
-								columns: function(idx, data, node) {
-									return $('.chatdetail').DataTable().column(idx).visible();
-								}
-							}
-						},
-						{
-							extend: 'colvis',
-							columns: ':not(.noVis)',
-							text: "Ocultar columnas",
-							columnText: function(dt, idx, title ){
-								let title_clean =(typeof headers[idx] === "object" && headers[idx].hasOwnProperty("title_clean"))?headers[idx]["title_clean"]:title;
-								return title_clean;
-							}
-						}
-					]
-				},
-				columnsDates: [2]
-			});*/
+			});
+		},
+		hidden : () => {
+			$("#rowDetails .modal-body .table-responsive").html("");
 		}
 	}
 	const options = {
 		processParams,
 		headers,
 		filtersFields,
-		storageView : 'filter_chat',
+		storageView : 'filter_team',
 		modalFunction,
 		columnsHidden,
 		columnsDates,
