@@ -588,7 +588,7 @@ const datatable = (options = {})=>{
 					records.forEach((element, index) => {
 
                         const resultParams = processParams(element)??[];
-
+						const id = ( element.id??null ) ? element.id : element.user_id;
 						object.data.push([
                             ...resultParams,
                             `<div class="dropdown">
@@ -596,7 +596,7 @@ const datatable = (options = {})=>{
 									Acciones
 								</button>
 								<div class="dropdown-menu">
-									<a class="dropdown-item details" data-id="${element.id??''}" data-index="${index}" role="button"><i class="fas fa-eye"></i>&nbsp;&nbsp;Ver</a>` + ( ( crud.edit ) ? `<a class="dropdown-item" data-action="update" data-id="${element.id??''}" data-index="${index}" role="button"><i class="fas fa-edit"></i>&nbsp;&nbsp;Editar</a>`: ``) + `
+									<a class="dropdown-item details" data-id="${id??''}" data-index="${index}" role="button"><i class="fas fa-eye"></i>&nbsp;&nbsp;Ver</a>` + ( ( crud.edit ) ? `<a class="dropdown-item" data-action="update" data-id="${element.id??''}" data-index="${index}" role="button"><i class="fas fa-edit"></i>&nbsp;&nbsp;Editar</a>`: ``) + `
 									<!--- <a class="dropdown-item" href="#"><i class="fas fa-trash-alt"></i>&nbsp;&nbsp;Eliminar</a> --->
 								</div>
 							</div>
@@ -736,9 +736,52 @@ const datatable = (options = {})=>{
 	if( ( jQuery.isEmptyObject(returnTable) || ( returnTable.actions??true ) == true ) ){
 		tableSaved.on('click', '.details', async function (e) {
 			e.preventDefault();
-			if ( typeof modalFunction == 'function' ) {
+			if ( modalFunction ){
 				const id = $(this).attr('data-id');
-				await modalFunction(id); 
+				$('#rowDetails').on('show.bs.modal', async function (e) {
+					if (modalFunction.hasOwnProperty('show')){
+						if ( typeof modalFunction.show == 'function' ) { 
+							try {
+								await modalFunction.show(id); 
+							} catch (error) {
+								console.log(error);
+							}
+						}
+					}  
+				})
+				$('#rowDetails').on('shown.bs.modal', async function (e) {
+					if (modalFunction.hasOwnProperty('shown')){
+						if ( typeof modalFunction.shown == 'function' ) { 
+							try {
+								await modalFunction.shown(id); 
+							} catch (error) {
+								console.log(error);
+							}
+						}
+					}  
+				})
+				$('#rowDetails').on('hide.bs.modal', async function (e) {
+					if (modalFunction.hasOwnProperty('hide')){
+						if ( typeof modalFunction.hide == 'function' ) { 
+							try {
+								await modalFunction.hide(id); 
+							} catch (error) {
+								console.log(error);
+							}
+						}
+					}  
+				})
+				$('#rowDetails').on('hidden.bs.modal', async function (e) {
+					if (modalFunction.hasOwnProperty('hidden')){
+						if ( typeof modalFunction.hidden == 'function' ) { 
+							try {
+								await modalFunction.hidden(id); 
+							} catch (error) {
+								console.log(error);
+							}
+						}
+					}  
+				})
 				$("#rowDetails").modal('show');
 				return;
 			}
