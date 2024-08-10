@@ -152,7 +152,7 @@
 
 @section('page')
 
-Chat
+Equipos
 
 @endsection
 
@@ -172,8 +172,8 @@ Chat
 				<div class="row align-items-end">
 					<div class="col-md-4">
                 		<div class="form-group">
-                  			<label>ID del chat</label>
-                  			<input type="text" class="form-control" id="id" placeholder="ID del chat">
+                  			<label>ID del propietario</label>
+                  			<input type="text" class="form-control" id="owner_id" placeholder="ID del chat">
                 		</div>
                 	</div>
 					<div class="col-md-4">
@@ -185,6 +185,19 @@ Chat
 								</div>
 								<div class="col-6">
 									<input type="text" class="form-control" id="created_end" placeholder="dd/mm/yyyy">
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-4">
+						<div class="form-group">
+							<label for="exampleInputEmail1">Fecha de actualización (Desde - Hasta)</label>
+							<div class="form-row">
+								<div class="col-6">
+									<input type="text" class="form-control" id="updated_start" placeholder="dd/mm/yyyy">
+								</div>
+								<div class="col-6">
+									<input type="text" class="form-control" id="updated_end" placeholder="dd/mm/yyyy">
 								</div>
 							</div>
 						</div>
@@ -252,14 +265,18 @@ Chat
 	//ESTBALECER MASCARAS
 	setMask('#created_start', { mask: "99/99/9999", showMaskOnHover: false, placeholder: "dd/mm/yyyy", rightAlign:false });
 	setMask('#created_end', { mask: "99/99/9999", showMaskOnHover: false, placeholder: "dd/mm/yyyy", rightAlign:false });
+	setMask('#updated_start', { mask: "99/99/9999", showMaskOnHover: false, placeholder: "dd/mm/yyyy", rightAlign:false });
+	setMask('#updated_end', { mask: "99/99/9999", showMaskOnHover: false, placeholder: "dd/mm/yyyy", rightAlign:false });
 	//DEFINIR DATEPICKER
 	$('#created_start').dateTimePicker({format: 'dd/MM/yyyy'});
 	$('#created_end').dateTimePicker({format: 'dd/MM/yyyy'});
+	$('#updated_start').dateTimePicker({format: 'dd/MM/yyyy'});
+	$('#updated_end').dateTimePicker({format: 'dd/MM/yyyy'});
 </script>
 
 <script>
 	const headers = [
-			{ "title": "User ID", "code": "user_id", "sortable": true },
+			{ "title": "User ID", "code": "owner_id", "sortable": true },
 			{ "title": "Nombre", "code": "full_name" },
 			{ "title": "Correo", "code": "email" },
 			{ "title": "Teléfono", "code": "phone_number" },
@@ -277,7 +294,7 @@ Chat
 			value: 'header'
 		},
 		{
-			name: 'id'
+			name: 'owner_id'
 		},
 		{
 			name: 'created_start',
@@ -285,6 +302,14 @@ Chat
 		},
 		{
 			name: 'created_end',
+			type: filtersParamsTypes.DATE
+		},
+		{
+			name: 'update_start',
+			type: filtersParamsTypes.DATE
+		},
+		{
+			name: 'update_end',
 			type: filtersParamsTypes.DATE
 		}
 	];
