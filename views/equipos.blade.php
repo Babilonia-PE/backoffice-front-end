@@ -173,7 +173,7 @@ Equipos
 					<div class="col-md-4">
                 		<div class="form-group">
                   			<label>ID del propietario</label>
-                  			<input type="text" class="form-control" id="owner_id" placeholder="ID del chat">
+                  			<input type="text" class="form-control" id="owner_id" placeholder="ID del propietario">
                 		</div>
                 	</div>
 					<div class="col-md-4">
@@ -185,19 +185,6 @@ Equipos
 								</div>
 								<div class="col-6">
 									<input type="text" class="form-control" id="created_end" placeholder="dd/mm/yyyy">
-								</div>
-							</div>
-						</div>
-					</div>
-					<div class="col-md-4">
-						<div class="form-group">
-							<label for="exampleInputEmail1">Fecha de actualización (Desde - Hasta)</label>
-							<div class="form-row">
-								<div class="col-6">
-									<input type="text" class="form-control" id="updated_start" placeholder="dd/mm/yyyy">
-								</div>
-								<div class="col-6">
-									<input type="text" class="form-control" id="updated_end" placeholder="dd/mm/yyyy">
 								</div>
 							</div>
 						</div>
@@ -265,21 +252,18 @@ Equipos
 	//ESTBALECER MASCARAS
 	setMask('#created_start', { mask: "99/99/9999", showMaskOnHover: false, placeholder: "dd/mm/yyyy", rightAlign:false });
 	setMask('#created_end', { mask: "99/99/9999", showMaskOnHover: false, placeholder: "dd/mm/yyyy", rightAlign:false });
-	setMask('#updated_start', { mask: "99/99/9999", showMaskOnHover: false, placeholder: "dd/mm/yyyy", rightAlign:false });
-	setMask('#updated_end', { mask: "99/99/9999", showMaskOnHover: false, placeholder: "dd/mm/yyyy", rightAlign:false });
 	//DEFINIR DATEPICKER
 	$('#created_start').dateTimePicker({format: 'dd/MM/yyyy'});
 	$('#created_end').dateTimePicker({format: 'dd/MM/yyyy'});
-	$('#updated_start').dateTimePicker({format: 'dd/MM/yyyy'});
-	$('#updated_end').dateTimePicker({format: 'dd/MM/yyyy'});
 </script>
-
 <script>
 	const headers = [
 			{ "title": "User ID", "code": "owner_id", "sortable": true },
 			{ "title": "Nombre", "code": "full_name" },
 			{ "title": "Correo", "code": "email" },
 			{ "title": "Teléfono", "code": "phone_number" },
+			{ "title": "Fecha de creación", "created_at": "id", "sortable": true },
+			{ "title": "Fecha de actualización", "updated_at": "id" },
 			{ "title": "Acciones" }
 	];
 	const filtersFields = [
@@ -307,18 +291,16 @@ Equipos
 		{
 			name: 'update_start',
 			type: filtersParamsTypes.DATE
-		},
-		{
-			name: 'update_end',
-			type: filtersParamsTypes.DATE
 		}
 	];
 	const processParams = (element) =>{
 		return [
-			element.user_id??'',		
+			element.owner_id??'',		
 			element.full_name??'',
 			element.email??'',
 			getFullNumber(element.prefix, element.phone_number),
+			element.created_at??'',
+			element.updated_at??'',
 		];
 	}
 	const modalOrder =  [];
