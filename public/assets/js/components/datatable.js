@@ -588,7 +588,7 @@ const datatable = (options = {})=>{
 					records.forEach((element, index) => {
 
                         const resultParams = processParams(element)??[];
-						const id = ( element.id??null ) ? element.id : element.user_id;
+						const id = ( element.id??null ) ? element.id : element.owner_id;
 						object.data.push([
                             ...resultParams,
                             `<div class="dropdown">
