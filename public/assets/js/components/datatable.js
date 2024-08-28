@@ -875,8 +875,13 @@ const datatable = (options = {})=>{
 			const params = {
 				email: record.email
 			}
-			const response = await fetchData('auth/recover', params, 'POST', true);
-			console.log(response);
+			try {
+				const response = await fetchData('auth/recover', params, 'POST', true);
+				const message = response.data.data.message ?? 'Revisa tu bandeja de entrada y sigue las instrucciones para restablecer tu contraseña';
+				alertShort('success', message);
+			} catch (error) {
+				alertShort('error', 'Error Network', error);
+			}
 			
 		});
 	}
