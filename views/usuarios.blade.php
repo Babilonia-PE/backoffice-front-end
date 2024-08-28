@@ -336,7 +336,9 @@ Usuarios
 	const columnsHidden = [2, 4, 8, 10, 11, 12, 13, 14, 15, 16, 17, 18,19,20, 21];
 	const columnsDates = [7, 20];
 	const download = { active: true, filename: 'Usuarios.xlsx' };
+	const recovery_password = { active: true };
 	const options = {
+		recovery_password,
 		download,
 		processParams,
 		headers,
