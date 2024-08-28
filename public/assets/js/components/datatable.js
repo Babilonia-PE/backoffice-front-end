@@ -1,5 +1,15 @@
 const datatable = (options = {})=>{
+    window.globalRecords = [];
     const {
+		crud = {
+			view: true,
+			edit: false,
+			delete: false
+		},
+		download = {
+			active: false, 
+			filename: null
+		},
         headers,
         filtersFields = [],
         columnsHidden = [],
@@ -15,7 +25,6 @@ const datatable = (options = {})=>{
         url = '',
     } = options ?? {};
 
-    let globalRecords = [];
     let tableSaved = null;
 	let dtDraw = 1;
 	let filters = [];    
@@ -284,8 +293,64 @@ const datatable = (options = {})=>{
 		},
 		{
 			text: 'Descargar',
-            action: function ( e, dt, node, config ) {
+            action: async function ( e, dt, node, config ) {
+				if( !download.active ){
+					console.log("descarga no activa");
+					return;
+				}
+				$(node).attr('disabled', true);
+				$(node).html('<span class="spinner-border spinner-border-sm"></span> Descargando');
+
+				const $preloader = $(".preloader");
+				if ($preloader) {
+					$preloader.removeAttr('style');
+					setTimeout(function () {
+						$preloader.children().show();
+					}, 200);
+				}
+				let params = {};
+				for(let i in filtersFields){
+					let {
+						name='',
+						type='',
+						value=''
+					} = filtersFields[i] ?? {};
+
+					if( type == 'static' ){
+						params[name] = value;
+					}else{
+						let element = document.getElementById(name);
+						if( element == null || element.value == '' || ( element.type == 'checkbox' && !element.checked ) ) continue;
+		
+						let fieldValue = document.getElementById(name).value;
+						params[name] = fieldValue;
+					}
+				}
+				const response = await fetchData('app/downloads', params, 'GET', true);				
+				if (window.navigator && window.navigator.msSaveOrOpenBlob) { // IE variant
+					window.navigator.msSaveOrOpenBlob(new Blob([response.data],
+							{ type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' }
+						),
+						download.filename
+					);
+				} else {
+					const url = window.URL.createObjectURL(new Blob([response.data],
+						{ type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' }));
+					const link = document.createElement('a');
+					link.href = url;
+					link.setAttribute('download', download.filename);
+					document.body.appendChild(link);
+					link.click();
+				}
 				
+				$(node).attr('disabled', false);
+				$(node).html('Descargar');
+				if ($preloader) {
+					$preloader.css('height', 0);
+					setTimeout(function () {
+						$preloader.children().hide();
+					}, 200);
+				}
             }
 		},
 		{
@@ -523,7 +588,7 @@ const datatable = (options = {})=>{
 					records.forEach((element, index) => {
 
                         const resultParams = processParams(element)??[];
-
+						const id = ( element.id??null ) ? element.id : element.owner_id;
 						object.data.push([
                             ...resultParams,
                             `<div class="dropdown">
@@ -531,8 +596,7 @@ const datatable = (options = {})=>{
 									Acciones
 								</button>
 								<div class="dropdown-menu">
-									<a class="dropdown-item details" data-id="${element.id??''}" data-index="${index}" role="button"><i class="fas fa-eye"></i>&nbsp;&nbsp;Ver</a>
-									<!--- <a class="dropdown-item" href="#"><i class="fas fa-edit"></i>&nbsp;&nbsp;Editar</a> --->
+									<a class="dropdown-item details" data-id="${id??''}" data-index="${index}" role="button"><i class="fas fa-eye"></i>&nbsp;&nbsp;Ver</a>` + ( ( crud.edit ) ? `<a class="dropdown-item" data-action="update" data-id="${element.id??''}" data-index="${index}" role="button"><i class="fas fa-edit"></i>&nbsp;&nbsp;Editar</a>`: ``) + `
 									<!--- <a class="dropdown-item" href="#"><i class="fas fa-trash-alt"></i>&nbsp;&nbsp;Eliminar</a> --->
 								</div>
 							</div>
@@ -672,9 +736,52 @@ const datatable = (options = {})=>{
 	if( ( jQuery.isEmptyObject(returnTable) || ( returnTable.actions??true ) == true ) ){
 		tableSaved.on('click', '.details', async function (e) {
 			e.preventDefault();
-			if ( typeof modalFunction == 'function' ) {
+			if ( modalFunction ){
 				const id = $(this).attr('data-id');
-				await modalFunction(id); 
+				$('#rowDetails').on('show.bs.modal', async function (e) {
+					if (modalFunction.hasOwnProperty('show')){
+						if ( typeof modalFunction.show == 'function' ) { 
+							try {
+								await modalFunction.show(id); 
+							} catch (error) {
+								console.log(error);
+							}
+						}
+					}  
+				})
+				$('#rowDetails').on('shown.bs.modal', async function (e) {
+					if (modalFunction.hasOwnProperty('shown')){
+						if ( typeof modalFunction.shown == 'function' ) { 
+							try {
+								await modalFunction.shown(id); 
+							} catch (error) {
+								console.log(error);
+							}
+						}
+					}  
+				})
+				$('#rowDetails').on('hide.bs.modal', async function (e) {
+					if (modalFunction.hasOwnProperty('hide')){
+						if ( typeof modalFunction.hide == 'function' ) { 
+							try {
+								await modalFunction.hide(id); 
+							} catch (error) {
+								console.log(error);
+							}
+						}
+					}  
+				})
+				$('#rowDetails').on('hidden.bs.modal', async function (e) {
+					if (modalFunction.hasOwnProperty('hidden')){
+						if ( typeof modalFunction.hidden == 'function' ) { 
+							try {
+								await modalFunction.hidden(id); 
+							} catch (error) {
+								console.log(error);
+							}
+						}
+					}  
+				})
 				$("#rowDetails").modal('show');
 				return;
 			}

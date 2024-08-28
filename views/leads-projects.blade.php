@@ -1,13 +1,13 @@
 @extends('Layout.master')
 
 @section('styles')
-<link rel="stylesheet" href="public/plugins/LibDataTables/DataTables-1.13.6/css/dataTables.bootstrap4.min.css">
-<link rel="stylesheet" href="public/plugins/LibDataTables/Responsive-2.5.0/css/responsive.bootstrap4.min.css">
-<link rel="stylesheet" href="public/plugins/LibDataTables/Buttons-2.4.2/css/buttons.bootstrap4.min.css">
-<link rel="stylesheet" href="public/plugins/LibDataTables/ColReorder-1.7.0/css/colReorder.dataTables.min.css">
+<link rel="stylesheet" href="@asset('public/plugins/LibDataTables/DataTables-1.13.6/css/dataTables.bootstrap4.min.css')?{{env('APP_CSS_VERSION')}}">
+<link rel="stylesheet" href="@asset('public/plugins/LibDataTables/Responsive-2.5.0/css/responsive.bootstrap4.min.css')?{{env('APP_CSS_VERSION')}}">
+<link rel="stylesheet" href="@asset('public/plugins/LibDataTables/Buttons-2.4.2/css/buttons.bootstrap4.min.css')?{{env('APP_CSS_VERSION')}}">
+<link rel="stylesheet" href="@asset('public/plugins/LibDataTables/ColReorder-1.7.0/css/colReorder.dataTables.min.css')?{{env('APP_CSS_VERSION')}}">
 <!-- Select2 -->
-<link rel="stylesheet" href="public/plugins/select2/css/select2.min.css">
-<link rel="stylesheet" href="public/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css">
+<link rel="stylesheet" href="@asset('public/plugins/select2/css/select2.min.css')?{{env('APP_CSS_VERSION')}}">
+<link rel="stylesheet" href="@asset('public/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css')?{{env('APP_CSS_VERSION')}}">
 <style>
 	
     /*
@@ -159,10 +159,10 @@ Leads Proyectos
 							<label for="exampleInputEmail1">Fecha de creación (Desde - Hasta)</label>
 							<div class="form-row">
 								<div class="col-6">
-									<input type="text" class="form-control form-control-sm" id="created_start" placeholder="dd/mm/yyyy">
+									<input type="text" class="form-control form-control-sm" id="created_start" placeholder="dd/mm/yyyy" value="{{date('d-m-Y', strtotime('-3 month'))}}">
 								</div>
 								<div class="col-6">
-									<input type="text" class="form-control form-control-sm" id="created_end" placeholder="dd/mm/yyyy">
+									<input type="text" class="form-control form-control-sm" id="created_end" placeholder="dd/mm/yyyy" value="{{date('d-m-Y')}}">
 								</div>
 							</div>
 						</div>
@@ -214,18 +214,18 @@ Leads Proyectos
 
 @section('scripts')
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.18/js/bootstrap-select.min.js" integrity="sha512-yDlE7vpGDP7o2eftkCiPZ+yuUyEcaBwoJoIhdXv71KZWugFqEphIS3PU60lEkFaz8RxaVsMpSvQxMBaKVwA5xg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-<script src="public/plugins/LibDataTables/datatables.min.js"></script>
-<script src="public/plugins/LibDataTables/DataTables-1.13.6/js/dataTables.bootstrap4.min.js"></script>
-<script src="public/plugins/LibDataTables/Responsive-2.5.0/js/responsive.bootstrap4.min.js"></script>
-<script src="public/plugins/LibDataTables/Buttons-2.4.2/js/buttons.bootstrap4.min.js"></script>
-<script src="public/plugins/LibDataTables/JSZip-3.10.1/jszip.min.js"></script>
-<script src="public/plugins/LibDataTables/Buttons-2.4.2/js/buttons.html5.min.js"></script>
-<script src="public/plugins/LibDataTables/Buttons-2.4.2/js/buttons.colVis.min.js"></script>
-<script src="public/plugins/LibDataTables/ColReorder-1.7.0/js/dataTables.colReorder.min.js"></script>
-<script src="@asset("public/assets/js/components/datatable.js")?v={{ APP_VERSION }}"></script>
+<script src="@asset('public/plugins/LibDataTables/datatables.min.js')?{{env('APP_JS_VERSION')}}"></script>
+<script src="@asset('public/plugins/LibDataTables/DataTables-1.13.6/js/dataTables.bootstrap4.min.js')?{{env('APP_JS_VERSION')}}"></script>
+<script src="@asset('public/plugins/LibDataTables/Responsive-2.5.0/js/responsive.bootstrap4.min.js')?{{env('APP_JS_VERSION')}}"></script>
+<script src="@asset('public/plugins/LibDataTables/Buttons-2.4.2/js/buttons.bootstrap4.min.js')?{{env('APP_JS_VERSION')}}"></script>
+<script src="@asset('public/plugins/LibDataTables/JSZip-3.10.1/jszip.min.js')?{{env('APP_JS_VERSION')}}"></script>
+<script src="@asset('public/plugins/LibDataTables/Buttons-2.4.2/js/buttons.html5.min.js')?{{env('APP_JS_VERSION')}}"></script>
+<script src="@asset('public/plugins/LibDataTables/Buttons-2.4.2/js/buttons.colVis.min.js')?{{env('APP_JS_VERSION')}}"></script>
+<script src="@asset('public/plugins/LibDataTables/ColReorder-1.7.0/js/dataTables.colReorder.min.js')?{{env('APP_JS_VERSION')}}"></script>
+<script src="@asset('public/assets/js/components/datatable.js')?{{env('APP_JS_VERSION')}}"></script>
 <!-- Select2 -->
-<script src="public/plugins/select2/js/select2.full.min.js"></script>
-<script src="public/plugins/datetimepicker/date-time-picker.min.js"></script>
+<script src="@asset('public/plugins/select2/js/select2.full.min.js')?{{env('APP_JS_VERSION')}}"></script>
+<script src="@asset('public/plugins/datetimepicker/date-time-picker.min.js')?{{env('APP_JS_VERSION')}}"></script>
 <script>
 	//ESTBALECER MASCARAS
 	setMask('#created_start', { mask: "99/99/9999", showMaskOnHover: false, placeholder: "dd/mm/yyyy", rightAlign:false });
@@ -245,6 +245,7 @@ Leads Proyectos
 		{ "title": "Distrito", "code": "district", "sortable": true },
 		{ "title": "Id del usuario" },
 		{ "title": "Nombres" },
+		{ "title": "Documento" },
 		{ "title": "Email", "code": "email" },
 		{ "title": "Teléfono" },
 		{ "title": "Origen", "code": "source", "sortable": true },
@@ -311,6 +312,7 @@ Leads Proyectos
 			element.district,
 			element.user_id,
 			element.full_name,
+			element.document??'',
 			element.email,
 			getFullNumber(prefix, phone),
 			element.source??'',
@@ -322,9 +324,11 @@ Leads Proyectos
 	const modalTitle = () =>{
 		
 	}
-	const columnsHidden = [0,1,2,5,7,8,9,10,13,14];
-	const columnsDates = [12,13];
+	const columnsHidden = [0,1,2,5,7,8,10,11,14,15];
+	const columnsDates = [13,14];
+	const download = { active: true, filename: 'Project-leads.xlsx' };
 	const options = {
+		download,
 		processParams,
 		headers,
 		filtersFields,

@@ -1,13 +1,13 @@
 @extends('Layout.master')
 
 @section('styles')
-<link rel="stylesheet" href="public/plugins/LibDataTables/DataTables-1.13.6/css/dataTables.bootstrap4.min.css">
-<link rel="stylesheet" href="public/plugins/LibDataTables/Responsive-2.5.0/css/responsive.bootstrap4.min.css">
-<link rel="stylesheet" href="public/plugins/LibDataTables/Buttons-2.4.2/css/buttons.bootstrap4.min.css">
-<link rel="stylesheet" href="public/plugins/LibDataTables/ColReorder-1.7.0/css/colReorder.dataTables.min.css">
-<!-- -->
-<link rel="stylesheet" href="public/plugins/select2/css/select2.min.css">
-<link rel="stylesheet" href="public/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css">
+<link rel="stylesheet" href="@asset('public/plugins/LibDataTables/DataTables-1.13.6/css/dataTables.bootstrap4.min.css')?{{env('APP_CSS_VERSION')}}">
+<link rel="stylesheet" href="@asset('public/plugins/LibDataTables/Responsive-2.5.0/css/responsive.bootstrap4.min.css')?{{env('APP_CSS_VERSION')}}">
+<link rel="stylesheet" href="@asset('public/plugins/LibDataTables/Buttons-2.4.2/css/buttons.bootstrap4.min.css')?{{env('APP_CSS_VERSION')}}">
+<link rel="stylesheet" href="@asset('public/plugins/LibDataTables/ColReorder-1.7.0/css/colReorder.dataTables.min.css')?{{env('APP_CSS_VERSION')}}">
+<!-- Select2 -->
+<link rel="stylesheet" href="@asset('public/plugins/select2/css/select2.min.css')?{{env('APP_CSS_VERSION')}}">
+<link rel="stylesheet" href="@asset('public/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css')?{{env('APP_CSS_VERSION')}}">
 <style>
 	
     /*
@@ -201,7 +201,7 @@ Paquetes
                 	</div>
               		<div class="col-md-4">
                 		<div class="form-group">
-                  			<label>Duración del paquete</label>
+                  			<label>Expiración del paquete</label>
                   			<select class="form-control select2 form-control-sm" style="width: 100%;" id="duration" name="duration">
                                 <option selected disabled value="">Elige una opción</option>
 								<option value="90">90</option>
@@ -317,14 +317,16 @@ Paquetes
 			</div>
 			<div class="modal-body">
 				<div class="row align-items-end">
-					
+					 
 					<div class="col-md-6">
 						<div class="form-group">
-							<label>Usuario</label>
-							@component("components.search-user", ['id'=>'package_owner_id', 'placeholder' => 'Buscar por nombre, email o empresa', 'class' => 'validate'])
-							@endcomponent            			
+							<label>Tipo</label>
+							<select name="package_type" id="package_type" class="form-control form-control-sm selectpicker validate" title="Tipo de paquete" placeholder="Tipo de paquete">
+								<option value="listing">Inmuebles</option>
+								<option value="project">Proyectos</option>
+							</select>                			
 						</div>
-					</div>   
+					</div>  
 					<div class="col-md-6">
 						<div class="form-group">
 							<label>Método de pago</label>
@@ -334,16 +336,14 @@ Paquetes
 								<option value="lottery">Sorteo</option>
 							</select>                			
 						</div>
-					</div>  
+					</div> 
 					<div class="col-md-6">
 						<div class="form-group">
-							<label>Tipo</label>
-							<select name="package_type" id="package_type" class="form-control form-control-sm selectpicker validate" title="Tipo de paquete" placeholder="Tipo de paquete">
-								<option value="listing">Inmuebles</option>
-								<!--<option value="project">Proyectos</option>-->
-							</select>                			
+							<label>Usuario</label>
+							@component("components.search-user", ['id'=>'package_owner_id', 'placeholder' => 'Buscar por nombre, email o empresa', 'class' => 'validate'])
+							@endcomponent            			
 						</div>
-					</div> 
+					</div>  
 					<div class="col-md-6">
 						<div class="form-group">
 							<label>Agente</label>
@@ -392,8 +392,8 @@ Paquetes
 					</div>
 					<div class="col-md-6">
 						<div class="form-group">
-							<label>Duración del paquete</label>
-                  			<input disabled type="date" class="form-control form-control-sm disable" id="days" placeholder="Duración del paquete" min="{{date('Y-m-d', strtotime('+1 day'))}}">     		
+							<label>Expiración del paquete</label>
+                  			<input disabled type="date" class="form-control form-control-sm disable" id="days" placeholder="Expiración del paquete" min="{{date('Y-m-d', strtotime('+1 day'))}}">     		
 						</div>
 					</div>
 					<div class="col-md-6">
@@ -406,22 +406,117 @@ Paquetes
 		</div>
 	</div>
 </div>
+
+
+<!-- Modal editar paquete -->
+<div class="modal fade p-0" id="editPackage" tabindex="-1" role="dialog" aria-labelledby="editPackageLabel" aria-hidden="true">
+	<div class="modal-dialog modal-lg" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+        		<h5 class="modal-title" id="package_id">Editar paquete</h5>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+				<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="modal-body">
+				<div class="row align-items-end">
+					
+					<div class="col-md-6">
+						<div class="form-group">
+							<label>Usuario</label>
+							<input disabled type="text" id="update_package_owner_id" class="form-control form-control-sm inputmask disable" placeholder="Usuario">            			
+						</div>
+					</div>   
+					<div class="col-md-6">
+						<div class="form-group">
+							<label>Método de pago</label>
+							<input disabled type="text" id="update_payment_method" class="form-control form-control-sm inputmask disable" placeholder="Método de pago">        			
+						</div>
+					</div>  
+					<div class="col-md-6">
+						<div class="form-group">
+							<label>Tipo</label>
+							<input disabled type="text" id="update_package_type" class="form-control form-control-sm inputmask disable" placeholder="Tipo">             			
+						</div>
+					</div> 
+					<div class="col-md-6">
+						<div class="form-group">
+							<label>Agente</label>
+							<input disabled type="text" id="update_agent_name" class="form-control form-control-sm inputmask disable" placeholder="Agente">           			
+						</div>
+					</div>
+					<div class="col-md-6">
+						<div class="form-group">
+							<label>Número base de avisos</label>
+							<input disabled type="text" id="update_ads_count" class="form-control form-control-sm inputmask disable" placeholder="Número base de avisos">
+						</div>
+					</div>
+					<div class="col-md-6">
+						<div class="form-group">
+							<label>Categoría</label>
+							<input disabled type="text" id="update_category" class="form-control form-control-sm inputmask disable" placeholder="Categoría">
+						</div>
+					</div>
+					<div class="col-md-6">
+						<div class="form-group">
+							<label>Número de avisos estandard</label>
+                  			<input disabled type="text" class="form-control form-control-sm inputmask disable validate" id="update_standard_ads_count" placeholder="Avisos estandard">            			
+						</div>
+					</div>
+					<div class="col-md-6">
+						<div class="form-group">
+							<label>Número de avisos plus</label>
+                  			<input disabled type="text" class="form-control form-control-sm inputmask disable validate" id="update_plus_ads_count" placeholder="Avisos plus">     	
+						</div>
+					</div>
+					<div class="col-md-6">
+						<div class="form-group">
+							<label>Número de avisos premium</label>
+                  			<input disabled type="text" class="form-control form-control-sm inputmask disable validate" id="update_premium_ads_count" placeholder="Avisos premium">     		
+						</div>
+					</div>
+					<div class="col-md-6">
+						<div class="form-group">
+							<label>Duración base del paquete</label>
+                  			<input disabled type="text" class="form-control form-control-sm inputmask disable validate" id="update_duration" placeholder="Duración base del paquete">     			
+						</div>
+					</div>
+					<div class="col-md-6">
+						<div class="form-group">
+							<label>Expiración del paquete</label>
+                  			<input disabled type="text" class="form-control form-control-sm disable" id="update_expires_at" placeholder="Expiración del paquete" min="{{date('Y-m-d', strtotime('+1 day'))}}">     		
+						</div>
+					</div>
+					<div class="col-md-6">
+						<div class="form-group">
+							<button id="btnEditPackage" type="button" class="btn btn-primary btn-block btn-sm">
+								<span class="babilonia-pencil"></span>
+								Editar paquete
+							</button>
+						</div>
+					</div>   
+				</div>        
+			</div>
+		</div>
+	</div>
+</div>
 @endsection
 
 @section('scripts')
-<script src="public/plugins/LibDataTables/datatables.min.js"></script>
-<script src="public/plugins/LibDataTables/DataTables-1.13.6/js/dataTables.bootstrap4.min.js"></script>
-<script src="public/plugins/LibDataTables/Responsive-2.5.0/js/responsive.bootstrap4.min.js"></script>
-<script src="public/plugins/LibDataTables/Buttons-2.4.2/js/buttons.bootstrap4.min.js"></script>
-<script src="public/plugins/LibDataTables/JSZip-3.10.1/jszip.min.js"></script>
-<script src="public/plugins/LibDataTables/Buttons-2.4.2/js/buttons.html5.min.js"></script>
-<script src="public/plugins/LibDataTables/Buttons-2.4.2/js/buttons.colVis.min.js"></script>
-<script src="public/plugins/LibDataTables/ColReorder-1.7.0/js/dataTables.colReorder.min.js"></script>
-<script src="@asset("public/assets/js/components/datatable.js")?v={{ APP_VERSION }}"></script>
-<!-- -->
-<script src="public/plugins/select2/js/select2.full.min.js"></script>
-<script src="public/plugins/datetimepicker/date-time-picker.min.js"></script>
+<script src="@asset('public/plugins/LibDataTables/datatables.min.js')?{{env('APP_JS_VERSION')}}"></script>
+<script src="@asset('public/plugins/LibDataTables/DataTables-1.13.6/js/dataTables.bootstrap4.min.js')?{{env('APP_JS_VERSION')}}"></script>
+<script src="@asset('public/plugins/LibDataTables/Responsive-2.5.0/js/responsive.bootstrap4.min.js')?{{env('APP_JS_VERSION')}}"></script>
+<script src="@asset('public/plugins/LibDataTables/Buttons-2.4.2/js/buttons.bootstrap4.min.js')?{{env('APP_JS_VERSION')}}"></script>
+<script src="@asset('public/plugins/LibDataTables/JSZip-3.10.1/jszip.min.js')?{{env('APP_JS_VERSION')}}"></script>
+<script src="@asset('public/plugins/LibDataTables/Buttons-2.4.2/js/buttons.html5.min.js')?{{env('APP_JS_VERSION')}}"></script>
+<script src="@asset('public/plugins/LibDataTables/Buttons-2.4.2/js/buttons.colVis.min.js')?{{env('APP_JS_VERSION')}}"></script>
+<script src="@asset('public/plugins/LibDataTables/ColReorder-1.7.0/js/dataTables.colReorder.min.js')?{{env('APP_JS_VERSION')}}"></script>
+<script src="@asset('public/assets/js/components/datatable.js')?{{env('APP_JS_VERSION')}}"></script>
+<!-- Select2 -->
+<script src="@asset('public/plugins/select2/js/select2.full.min.js')?{{env('APP_JS_VERSION')}}"></script>
+<script src="@asset('public/plugins/datetimepicker/date-time-picker.min.js')?{{env('APP_JS_VERSION')}}"></script>
 <script>
+	window.realtor = false;
 	//ESTBALECER MASCARAS
 	setMask('#purchased_start', { mask: "99/99/9999", showMaskOnHover: false, placeholder: "dd/mm/yyyy", rightAlign:false });
 	setMask('#purchased_end', { mask: "99/99/9999", showMaskOnHover: false, placeholder: "dd/mm/yyyy", rightAlign:false });
@@ -581,7 +676,7 @@ Paquetes
 			}
 		}
 	}
-	const columnsHidden = [3,6,7,8,9,10,11,12,13,14,15,16,17,18,21,22,23,24];
+	const columnsHidden = [3,6,7,8,9,10,11,12,13,14,15,16,17,18,21,22,23];
 	const columnsDates = [21,22];
 	const returnTable = {
 		buttons: [
@@ -596,8 +691,64 @@ Paquetes
 			},
 			{
 				text: 'Descargar',
-				action: function ( e, dt, node, config ) {
+				action: async function ( e, dt, node, config ) {
+					if( !download.active ){
+						console.log("descarga no activa");
+						return;
+					}
+					$(node).attr('disabled', true);
+					$(node).html('<span class="spinner-border spinner-border-sm"></span> Descargando');
+
+					const $preloader = $(".preloader");
+					if ($preloader) {
+						$preloader.removeAttr('style');
+						setTimeout(function () {
+							$preloader.children().show();
+						}, 200);
+					}
+					let params = {};
+					for(let i in filtersFields){
+						let {
+							name='',
+							type='',
+							value=''
+						} = filtersFields[i] ?? {};
+
+						if( type == 'static' ){
+							params[name] = value;
+						}else{
+							let element = document.getElementById(name);
+							if( element == null || element.value == '' || ( element.type == 'checkbox' && !element.checked ) ) continue;
+			
+							let fieldValue = document.getElementById(name).value;
+							params[name] = fieldValue;
+						}
+					}
+					const response = await fetchData('app/downloads', params, 'GET', true);				
+					if (window.navigator && window.navigator.msSaveOrOpenBlob) { // IE variant
+						window.navigator.msSaveOrOpenBlob(new Blob([response.data],
+								{ type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' }
+							),
+							download.filename
+						);
+					} else {
+						const url = window.URL.createObjectURL(new Blob([response.data],
+							{ type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' }));
+						const link = document.createElement('a');
+						link.href = url;
+						link.setAttribute('download', download.filename);
+						document.body.appendChild(link);
+						link.click();
+					}
 					
+					$(node).attr('disabled', false);
+					$(node).html('Descargar');
+					if ($preloader) {
+						$preloader.css('height', 0);
+						setTimeout(function () {
+							$preloader.children().hide();
+						}, 200);
+					}
 				}
 			},
 			{
@@ -630,6 +781,14 @@ Paquetes
 							child: 'list',
 							type: $(this).val()
 						};
+						if( $(this).val() == 'project' ){
+							window.realtor = true;
+							const selectUser = document.getElementById('package_owner_id');
+							selectUser.innerHTML="";
+							$(selectUser).selectpicker('refresh');
+						}else{
+							window.realtor = false;
+						}
 						const details = await fetchData('app/gateway', params, 'GET');
 						const data = details?.data?.records??null;
 						const users = details?.data?.users??null;
@@ -802,7 +961,14 @@ Paquetes
 			}
 		]
 	};
+	const crud = {
+		view: true,
+		edit: true
+	}
+	const download = { active: true, filename: 'Paquetes.xlsx' };
 	const options = {
+		download,
+		crud,
 		processParams,
 		headers,
 		filtersFields,
@@ -816,7 +982,96 @@ Paquetes
 		initParamsModal,
 		url: 'app/gateway'
 	};
-	
+	$(document).on("click", "a[data-action=\"update\"]", async function(e) {
+		e.preventDefault();
+		const key = $(this).attr("data-id");
+		const detail = globalRecords.find(item => item.id === Number(key));
+		$("#package_id").text('Editar paquete ' + detail.id??'');
+		$("#update_package_owner_id").val(detail.full_name??'');
+		$("#update_payment_method").val(detail.buy_type??'');
+		$("#update_package_type").val(detail.type??'');
+		$("#update_agent_name").val(detail.agent_name??'');
+		$("#update_ads_count").val(detail.ads_count??'');
+		$("#update_category").val(detail.category??'');
+		if( !(detail.is_unlimited_standard??false) ){
+			$("#update_standard_ads_count").val(detail.initial_standard_ads_count??'');
+			$("#update_standard_ads_count").attr('disabled', false);
+		}else{
+			$("#update_standard_ads_count").val('Ilimitado');
+			$("#update_standard_ads_count").attr('disabled', true);
+		}
+		if( !(detail.is_unlimited_plus??false) ){
+			$("#update_plus_ads_count").val(detail.initial_plus_ads_count??'');
+			$("#update_plus_ads_count").attr('disabled', false);
+		}else{
+			$("#update_plus_ads_count").val('Ilimitado');
+			$("#update_plus_ads_count").attr('disabled', true);
+		}
+		if( !(detail.is_unlimited_premium??false) ){
+			$("#update_premium_ads_count").val(detail.initial_premium_ads_count??'');
+			$("#update_premium_ads_count").attr('disabled', false);
+		}else{
+			$("#update_premium_ads_count").val('Ilimitado');
+			$("#update_premium_ads_count").attr('disabled', true);
+		}
+		$("#update_duration").val(detail.duration??'');
+		$("#update_expires_at").val(detail.expires_at??'');
+		$("#update_expires_at").attr('disabled', false);
+		setMask('#update_expires_at', { mask: "99/99/9999", showMaskOnHover: false, placeholder: "dd/mm/yyyy", rightAlign:false });
+		$('#update_expires_at').dateTimePicker({format: 'dd/MM/yyyy'});
+
+		$(document).off("click", "#btnEditPackage");
+		$(document).on('click', '#btnEditPackage', async function () {
+
+			setMessageInput("#standard_ads_count");
+			setMessageInput("#plus_ads_count");
+			setMessageInput("#premium_ads_count");
+			setMessageInput("#days");
+
+			$("#btnEditPackage").attr('disabled', true);
+			$("#btnEditPackage span").removeClass();
+			$("#btnEditPackage span").addClass('spinner-border spinner-border-sm');
+						
+			const id = key;
+			const expires_at = $("#update_expires_at").val();
+			const standard_ads_count = $("#update_standard_ads_count").val();
+			const plus_ads_count = $("#update_plus_ads_count").val();
+			const premium_ads_count = $("#update_premium_ads_count").val();	
+			const params = {
+				parent: 'package',
+				child: 'packages',
+				id: id,
+				expires_at: expires_at,
+				standard_ads_count: standard_ads_count,
+				plus_ads_count: plus_ads_count,
+				premium_ads_count: premium_ads_count,
+			}
+			try {
+				const response = await fetchData('app/gateway', params, 'PUT');
+				if (response.hasOwnProperty('code')){ 
+					AppValidateHttpCode(response);
+					$("#btnEditPackage").attr('disabled', false);
+					$("#btnEditPackage span").removeClass();
+					$("#btnEditPackage span").addClass('babilonia-pencil');
+					return false;
+				}
+				$("#btnEditPackage").attr('disabled', false);
+				$("#btnEditPackage span").removeClass();
+				$("#btnEditPackage span").addClass('babilonia-pencil');
+				$("#editPackage").modal('hide');
+				localStorage.setItem('message', response?.data?.data?.message??'');
+				window.location.reload();
+			} catch (error) {
+				console.log(error);
+				$("#btnEditPackage").attr('disabled', false);
+				$("#btnEditPackage span").removeClass();
+				$("#btnEditPackage span").addClass('babilonia-pencil');
+			}
+		});
+
+
+		$("#editPackage").modal('show');
+	})
 	datatable(options);
 	copyToClipboard();
 	showMessage();

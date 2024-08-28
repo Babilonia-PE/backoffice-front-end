@@ -74,6 +74,17 @@ class Permissions extends Authentication{
             return false;
         }
     }
+    public function getUserPermissions(){
+        $userSession = SesionService::leer("correoUsuario");
+        $dni = $userSession["dni"] ?? '';
+        $role = $userSession["role"] ?? '';
+        if($role == USER_ADMIN) return array("role" => 'admin');
+        $user = $this->getUserByDNI($dni);
+        $permission = $user["permissions"]??'';
+        $store = Store::readDb("permissionsstore");
+        $userPermissionByStore = $store[$permission] ?? [];
+        return $userPermissionByStore;
+    }
 }
 
 ?>

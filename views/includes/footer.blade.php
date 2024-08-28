@@ -16,18 +16,18 @@
 <!-- ./wrapper -->
 
 <!-- jQuery -->
-{{-- <script src="@asset("public/plugins/jquery/jquery.min.js")"></script> --}}
-<script src="@asset("public/plugins/jquery/jquery.3.4.1.min.js")"></script>
+{{-- <script src="@asset('public/plugins/jquery/jquery.min.js')?{{env('APP_JS_VERSION')}}"></script> --}}
+<script src="@asset('public/plugins/jquery/jquery.3.4.1.min.js')?{{env('APP_JS_VERSION')}}"></script>
 <!-- jQuery UI 1.11.4 -->
-<script src="@asset("public/plugins/jquery-ui/jquery-ui.min.js")"></script>
+<script src="@asset('public/plugins/jquery-ui/jquery-ui.min.js')?{{env('APP_JS_VERSION')}}"></script>
 <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
 <script>
   $.widget.bridge('uibutton', $.ui.button)
 </script>
 <!-- Bootstrap 4 -->
-<script src="@asset("public/plugins/bootstrap/js/bootstrap.bundle.min.js")"></script>
+<script src="@asset('public/plugins/bootstrap/js/bootstrap.bundle.min.js')?{{env('APP_JS_VERSION')}}"></script>
 <!-- ChartJS -->
-<script src="@asset("public/plugins/chart.js/Chart.min.js")"></script>
+<script src="@asset('public/plugins/chart.js/Chart.min.js')?{{env('APP_JS_VERSION')}}"></script>
 
 <!-- Sparkline -->
 <script>
@@ -36,41 +36,41 @@
 </script>
 @if($currentPage == "home")
 
-<script src="@asset("public/plugins/sparklines/sparkline.js")"></script>
+<script src="@asset('public/plugins/sparklines/sparkline.js')?{{env('APP_JS_VERSION')}}"></script>
 
 <!-- JQVMap -->
-{{-- <script src="@asset("public/plugins/jqvmap/jquery.vmap.min.js")"></script> --}}
-{{-- <script src="@asset("public/plugins/jqvmap/maps/jquery.vmap.usa.js")"></script> --}}
-<script src="@asset("public/plugins/jqvmap/jquery-jvectormap-2.0.5.min.js")"></script>
-<script src="@asset("public/plugins/jqvmap/jquery-vectormap.peru.js")"></script>
+{{-- <script src="@asset('public/plugins/jqvmap/jquery.vmap.min.js')?{{env('APP_JS_VERSION')}}"></script> --}}
+{{-- <script src="@asset('public/plugins/jqvmap/maps/jquery.vmap.usa.js')?{{env('APP_JS_VERSION')}}"></script> --}}
+<script src="@asset('public/plugins/jqvmap/jquery-jvectormap-2.0.5.min.js')?{{env('APP_JS_VERSION')}}"></script>
+<script src="@asset('public/plugins/jqvmap/jquery-vectormap.peru.js')?{{env('APP_JS_VERSION')}}"></script>
 
 @endif
 <!-- Bootstrap select -->
-<script src="@asset("public/plugins/bootstrap-select/js/bootstrap-select.min.js")"></script>
+<script src="@asset('public/plugins/bootstrap-select/js/bootstrap-select.min.js')?{{env('APP_JS_VERSION')}}"></script>
 <!-- jQuery Knob Chart -->
-<script src="@asset("public/plugins/jquery-knob/jquery.knob.min.js")"></script>
+<script src="@asset('public/plugins/jquery-knob/jquery.knob.min.js')?{{env('APP_JS_VERSION')}}"></script>
 <!-- daterangepicker -->
-<script src="@asset("public/plugins/moment/moment.min.js")"></script>
-<script src="@asset("public/plugins/daterangepicker/daterangepicker.js")"></script>
+<script src="@asset('public/plugins/moment/moment.min.js')?{{env('APP_JS_VERSION')}}"></script>
+<script src="@asset('public/plugins/daterangepicker/daterangepicker.js')?{{env('APP_JS_VERSION')}}"></script>
 <!-- Tempusdominus Bootstrap 4 -->
-<script src="@asset("public/plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js")"></script>
+<script src="@asset('public/plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js')?{{env('APP_JS_VERSION')}}"></script>
 <!-- Summernote -->
-<script src="@asset("public/plugins/summernote/summernote-bs4.min.js")"></script>
+<script src="@asset('public/plugins/summernote/summernote-bs4.min.js')?{{env('APP_JS_VERSION')}}"></script>
 <!-- overlayScrollbars -->
-<script src="@asset("public/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js")"></script>
+<script src="@asset('public/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js')?{{env('APP_JS_VERSION')}}"></script>
 <!-- AdminLTE App -->
-<script src="@asset("public/assets/js/adminlte.js")"></script>
+<script src="@asset('public/assets/js/adminlte.js')?{{env('APP_JS_VERSION')}}"></script>
 <!-- AdminLTE for demo purposes -->
-<script src="@asset("public/assets/js/demo.js")"></script>
+<script src="@asset('public/assets/js/demo.js')?{{env('APP_JS_VERSION')}}"></script>
 @if($currentPage == "home")
 <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
 <!--<script src="@asset("public/assets/js/pages/dashboard.js")"></script>-->
 @endif
-<script src="@asset("public/plugins/sweetalert2/sweetalert2.min.js")"></script>
+<script src="@asset('public/plugins/sweetalert2/sweetalert2.min.js')?{{env('APP_JS_VERSION')}}"></script>
 
-<script src="@asset("public/assets/js/inputmask.min.js")"></script>
-<script src="@asset("public/assets/js/axios.min.js")"></script>
-<script src="@asset("public/assets/js/app.js")?v={{ APP_VERSION }}"></script>
+<script src="@asset('public/assets/js/inputmask.min.js')?{{env('APP_JS_VERSION')}}"></script>
+<script src="@asset('public/assets/js/axios.min.js')?{{env('APP_JS_VERSION')}}"></script>
+<script src="@asset('public/assets/js/app.js')?{{env('APP_JS_VERSION')}}"></script>
 <script>
   window.APP_BASE_EP = "{{ APP_BASE_EP }}";
   window.APP_LANG = "{{ APP_LANG }}";
@@ -85,6 +85,7 @@
   window.APP_LANG_CLIENTS_STATE = {!! json_encode(APP_LANG_CLIENTS_STATE) !!};
   window.APP_LANG_CLAIMS_STATE = {!! json_encode(APP_LANG_CLAIMS_STATE) !!};
   window.filtersParamsTypes = {!! json_encode(FILTERSPARAMSTYPES) !!};
+  window.permissions = {!! json_encode($permissions??[]) !!};
 </script>
 @yield("scripts")
 @stack('child-scripts')

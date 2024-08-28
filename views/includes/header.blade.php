@@ -6,35 +6,21 @@
   @base
   <title>@hasSection('page') @yield('page') | BackOffice @else BackOffice @endif</title>
 
-  <!-- Google Font: Source Sans Pro -->
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
   <!-- Font Awesome -->
-  <link rel="stylesheet" href="@asset("public/plugins/fontawesome-free/css/all.min.css")">
-  <!-- Ionicons -->
-  <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
-  <!-- Tempusdominus Bootstrap 4 -->
-  <link rel="stylesheet" href="@asset("public/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css")">
-  <!-- iCheck -->
-  <link rel="stylesheet" href="@asset("public/plugins/icheck-bootstrap/icheck-bootstrap.min.css")">
-  <!-- JQVMap -->
-  {{-- <link rel="stylesheet" href="@asset("public/plugins/jqvmap/jqvmap.min.css")"> --}}
-  <link rel="stylesheet" href="@asset("public/plugins/jqvmap/jquery-jvectormap-2.0.5.css")">
+  <link rel="stylesheet" href="@asset('public/plugins/fontawesome-free/css/all.min.css')?{{env('APP_CSS_VERSION')}}">
+  <!-- Babilonia Icons -->
+  <link rel="stylesheet" href="@asset('public/assets/css/icons.css')?{{env('APP_CSS_VERSION')}}">
   <!-- Theme style -->
-  <link rel="stylesheet" href="@asset("public/assets/css/adminlte.min.css")">
+  <link rel="stylesheet" href="@asset('public/assets/css/adminlte.min.css')?{{env('APP_CSS_VERSION')}}">
   <!-- overlayScrollbars -->
-  <link rel="stylesheet" href="@asset("public/plugins/overlayScrollbars/css/OverlayScrollbars.min.css")">
-  <!-- Daterange picker -->
-  <link rel="stylesheet" href="@asset("public/plugins/daterangepicker/daterangepicker.css")">
-  <!-- summernote -->
-  <link rel="stylesheet" href="@asset("public/plugins/summernote/summernote-bs4.min.css")">
-  <!-- Bootstrap dropdown -->
-  <link rel="stylesheet" href="@asset("public/plugins/bootstrap-select/css/bootstrap-select.min.css")">
-
-  <link rel="stylesheet" href="@asset("public/plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css")">
+  <link rel="stylesheet" href="@asset('public/plugins/overlayScrollbars/css/OverlayScrollbars.min.css')?{{env('APP_CSS_VERSION')}}">
+  <link rel="stylesheet" href="@asset('public/plugins/bootstrap-select/css/bootstrap-select.min.css')?{{env('APP_CSS_VERSION')}}">
+  <!-- sweetalert2 -->
+  <link rel="stylesheet" href="@asset('public/plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css')?{{env('APP_CSS_VERSION')}}">
   <!-- Bootstrap country select -->
-  <link rel="stylesheet" href="@asset("public/assets/css/bootstrap-select-country.min.css")">
+  <link rel="stylesheet" href="@asset('public/assets/css/bootstrap-select-country.min.css')?{{env('APP_CSS_VERSION')}}">
   <!-- Main styles -->
-  <link rel="stylesheet" href="@asset("public/assets/css/main.css")">
+  <link rel="stylesheet" href="@asset('public/assets/css/main.css')?{{env('APP_CSS_VERSION')}}">
 
   @yield("styles")
 

@@ -29,7 +29,13 @@ window.setMask = (selector, mask) => {
     item.inputmask(mask);
 }
 
-const fetchData = async (url = "", data = null, method = 'POST') => {   
+const fetchData = async (url = "", data = null, method = 'POST', blob = false) => {   
+    
+	const contoller = (permissions?.permissions??[]).find(item => item.controller === currentPage);
+    if((permissions.role??null) !== 'admin' && !(contoller??null) && ( method == 'POST' || method == 'PUT' || method == 'DELETE' )) { 
+        alertShort('warning', 'Acción denegada', 'No se cargaron correctamente los permisos');
+        return;
+    }
     const serviceHttp = await axios.create({
                             baseURL: APP_BASE_EP,
                             headers: {
@@ -39,12 +45,42 @@ const fetchData = async (url = "", data = null, method = 'POST') => {
                         });
 
     if(method == "POST"){
-        return serviceHttp.post(url, data).catch(function (error) {
-            return error
-        })
+        if((permissions.role??null) == 'admin' || ( (permissions.role??null) !== 'admin' && (contoller.create??null) )){
+            return serviceHttp.post(url, data).catch(function (error) {
+                return error
+            })
+        }else{
+            alertShort('warning', 'Acción denegada', 'No tienes permisos necesarios para realizar esta acción');
+            return;
+        }
     }
 
-    return serviceHttp.get(url, { params: data }).catch(function (error) {
+    if(method == "PUT"){
+        if((permissions.role??null) == 'admin' || ( (permissions.role??null) !== 'admin' && (contoller.update??null) )){
+            return serviceHttp.put(url, data).catch(function (error) {
+                return error
+            })
+        }else{
+            alertShort('warning', 'Acción denegada', 'No tienes permisos necesarios para realizar esta acción');
+            return;
+        }
+    }
+    
+    if(method == "DELETE"){
+        if((permissions.role??null) == 'admin' || ( (permissions.role??null) !== 'admin' && (contoller.delete??null) )){
+            return serviceHttp.delete(url, data).catch(function (error) {
+                return error
+            })
+        }else{
+            alertShort('warning', 'Acción denegada', 'No tienes permisos necesarios para realizar esta acción');
+            return;
+        }
+    }
+    let params = { params: { ...data, timestamp : new Date().getTime() } }
+    if( blob ){
+        params = { ...params, responseType: 'blob' }
+    }
+    return serviceHttp.get(url, params).catch(function (error) {
         return error
     })
 }
@@ -101,6 +137,9 @@ const userSearch = (options = {}) => {
             parent: 'user',
             child: 'search'
         };
+        if(window.realtor == true){
+            params.realtor = true;
+        }
                 
         const data = await fetchData('/app/gateway', params, 'GET');
         const records = data.data?.data?.records ?? [];
@@ -286,13 +325,13 @@ window.AppHttpServiceBadRequest = function (jsResponse)  {
         try {
             let jsData = jsResponse.response;
             if ((jsData.data.data).hasOwnProperty('errors')){
-                if (jsData.data.data.errors[0].key === 'authorization'){
+                if (jsData.data.data.errors.key === 'authorization'){
                     localStorage.clear();
                     window.location.replace(URL_SIGN_IN);
                 }
-                if ( (jsData.data.data.errors[0]).hasOwnProperty('message')   )
+                if ( (jsData.data.data.errors).hasOwnProperty('message')   )
                 {
-                    let msg = jsData.data.data.errors[0].message === null?'':jsData.data.data.errors[0].message;
+                    let msg = jsData.data.data.errors.message === null?'':jsData.data.data.errors.message;
                     alertShort('error','Datos Invalidos', msg );
                 }
             }
