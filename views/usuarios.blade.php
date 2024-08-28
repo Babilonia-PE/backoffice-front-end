@@ -184,7 +184,7 @@ Usuarios
 	</div>
     <div class="col-12">
         <div class="card">
-            <div class="card-body table-responsive">
+            <div class="card-body table-responsive table-usuarios">
 				<p class="text-center" name="loading"><img src="public/assets/img/loading.gif" width="50" /></p>
                 <table class="display table table-bordered table-hover nowrap compact responsive d-none" cellspacing="0" width="100%">
                     

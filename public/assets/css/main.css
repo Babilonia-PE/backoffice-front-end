@@ -186,3 +186,10 @@ body.colvis-btn div.content-wrapper{
 .select2-container--bootstrap4 .select2-selection--single .select2-selection__rendered{
   line-height: 1.5 !important;
 }
+
+@media(min-width:1408px){
+  .table-usuarios .dropdown-menu.show{
+    right: 0px !important;
+    left: auto !important;
+  }
+}
