@@ -12,6 +12,9 @@ const datatable = async (options = {})=>{
 			modal: false,
 			filename: null
 		},
+		recovery_password = {
+			active: false,
+		},
         headers,
         filtersFields = [],
         columnsHidden = [],
@@ -660,16 +663,18 @@ const datatable = async (options = {})=>{
 
                         const resultParams = processParams(element)??[];
 						const id = ( element.id??null ) ? element.id : element.owner_id;
+						const record = globalRecords.find((item)=> item.id == id) ?? null;
 						object.data.push([
                             ...resultParams,
-                            `<div class="dropdown">
+                            `<div class="dropdown btn-group ">
 								<button class="btn btn-secondary btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="false">
 									Acciones
 								</button>
-								<div class="dropdown-menu">
+								<ul class="dropdown-menu dropdown-menu-end" x-placement="right">
 									<a class="dropdown-item details" data-id="${id??''}" data-index="${index}" role="button"><i class="fas fa-eye"></i>&nbsp;&nbsp;Ver</a>` + ( ( crud.edit ) ? `<a class="dropdown-item" data-action="update" data-id="${element.id??''}" data-index="${index}" role="button"><i class="fas fa-edit"></i>&nbsp;&nbsp;Editar</a>`: ``) + `
+									${recovery_password.active && record.sign_method.toLowerCase() == 'email' && record.email ? `<a class="dropdown-item recovery-passwords" data-id="${id??''}" data-index="${index}" role="button"><i class="fas fa-paper-plane"></i>&nbsp;&nbsp;Recuperar contraseña</a>` : ''}
 									<!--- <a class="dropdown-item" href="#"><i class="fas fa-trash-alt"></i>&nbsp;&nbsp;Eliminar</a> --->
-								</div>
+								</ul>
 							</div>
 							`
 						]);
@@ -933,6 +938,23 @@ const datatable = async (options = {})=>{
 			$('.select2').val(null).trigger('change');
 	
 			tableSaved.ajax.reload();
+		});
+		tableSaved.on('click', '.recovery-passwords', async function (e) {
+			e.preventDefault();
+			const id = $(this).attr('data-id');
+			const record = globalRecords.find((item)=> item.id == id) ?? null;
+			if(!record && !record.email) return;
+			const params = {
+				email: record.email
+			}
+			try {
+				const response = await fetchData('auth/recover', params, 'POST', true);
+				const message = response.data.data.message ?? 'Revisa tu bandeja de entrada y sigue las instrucciones para restablecer tu contraseña';
+				alertShort('success', message);
+			} catch (error) {
+				alertShort('error', 'Error Network', error);
+			}
+			
 		});
 	}
 	

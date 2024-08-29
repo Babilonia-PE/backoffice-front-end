@@ -184,7 +184,7 @@ Usuarios
 	</div>
     <div class="col-12">
         <div class="card">
-            <div class="card-body table-responsive">
+            <div class="card-body table-responsive table-usuarios">
 				<p class="text-center" name="loading"><img src="public/assets/img/loading.gif" width="50" /></p>
                 <table class="display table table-bordered table-hover nowrap compact responsive d-none" cellspacing="0" width="100%">
                     
@@ -336,7 +336,9 @@ Usuarios
 	const columnsHidden = [2, 4, 8, 10, 11, 12, 13, 14, 15, 16, 17, 18,19,20, 21];
 	const columnsDates = [7, 20];
 	const download = { active: true, filename: 'Usuarios.xlsx' };
+	const recovery_password = { active: true };
 	const options = {
+		recovery_password,
 		download,
 		processParams,
 		headers,
