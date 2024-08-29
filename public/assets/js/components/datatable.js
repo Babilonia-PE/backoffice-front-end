@@ -1,4 +1,5 @@
-const datatable = (options = {})=>{
+const datatable = async (options = {})=>{
+	const { Modal, ModalStepper, Loader, Croppie, OneTap } = await import (`./modal.js`);
     window.globalRecords = [];
     const {
 		crud = {
@@ -8,6 +9,7 @@ const datatable = (options = {})=>{
 		},
 		download = {
 			active: false, 
+			modal: false,
 			filename: null
 		},
         headers,
@@ -296,6 +298,75 @@ const datatable = (options = {})=>{
             action: async function ( e, dt, node, config ) {
 				if( !download.active ){
 					console.log("descarga no activa");
+					return;
+				}
+				if(  download.modal ){
+					const structure = {
+						title:'Atencion', 
+						content:'Te recordamos que el <b>ÚNICO</b> filtro funcional es [Fecha de creación].<br /> Favor considera ajustarlo para reducir el tiempo de espera.', 
+						buttons: true, 
+						btnsuccess:'Procesar', 
+						btnCancel:'Cerrar'}
+					const funtions = {
+						success:{
+							function: async () => {
+								$(node).attr('disabled', true);
+								$(node).html('<span class="spinner-border spinner-border-sm"></span> Descargando');
+
+								const $preloader = $(".preloader");
+								if ($preloader) {
+									$preloader.removeAttr('style');
+									setTimeout(function () {
+										$preloader.children().show();
+									}, 200);
+								}
+								let params = {};
+								for(let i in filtersFields){
+									let {
+										name='',
+										type='',
+										value=''
+									} = filtersFields[i] ?? {};
+
+									if( type == 'static' ){
+										params[name] = value;
+									}else{
+										let element = document.getElementById(name);
+										if( element == null || element.value == '' || ( element.type == 'checkbox' && !element.checked ) ) continue;
+						
+										let fieldValue = document.getElementById(name).value;
+										params[name] = fieldValue;
+									}
+								}
+								const response = await fetchData('app/downloads', params, 'GET', true);				
+								if (window.navigator && window.navigator.msSaveOrOpenBlob) { // IE variant
+									window.navigator.msSaveOrOpenBlob(new Blob([response.data],
+											{ type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' }
+										),
+										download.filename
+									);
+								} else {
+									const url = window.URL.createObjectURL(new Blob([response.data],
+										{ type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' }));
+									const link = document.createElement('a');
+									link.href = url;
+									link.setAttribute('download', download.filename);
+									document.body.appendChild(link);
+									link.click();
+								}
+								
+								$(node).attr('disabled', false);
+								$(node).html('Descargar');
+								if ($preloader) {
+									$preloader.css('height', 0);
+									setTimeout(function () {
+										$preloader.children().hide();
+									}, 200);
+								}
+							}
+						}
+					};
+					new Modal(structure, funtions);
 					return;
 				}
 				$(node).attr('disabled', true);
