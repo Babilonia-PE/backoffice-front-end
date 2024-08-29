@@ -68,6 +68,7 @@
 @endif
 <script src="@asset('public/plugins/sweetalert2/sweetalert2.min.js')?{{env('APP_JS_VERSION')}}"></script>
 
+<script src="@asset('public/assets/js/handlebars.min.js')?{{env('APP_JS_VERSION')}}"></script>
 <script src="@asset('public/assets/js/inputmask.min.js')?{{env('APP_JS_VERSION')}}"></script>
 <script src="@asset('public/assets/js/axios.min.js')?{{env('APP_JS_VERSION')}}"></script>
 <script src="@asset('public/assets/js/app.js')?{{env('APP_JS_VERSION')}}"></script>
