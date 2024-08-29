@@ -326,7 +326,7 @@ Leads Proyectos
 	}
 	const columnsHidden = [0,1,2,5,7,8,10,11,14,15];
 	const columnsDates = [13,14];
-	const download = { active: true, filename: 'Project-leads.xlsx' };
+	const download = { active: true, modal: true, filename: 'Project-leads.xlsx' };
 	const options = {
 		download,
 		processParams,
