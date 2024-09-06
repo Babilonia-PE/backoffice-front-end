@@ -596,6 +596,9 @@ const datatable = async (options = {})=>{
 			ajax: {
 				"url": APP_BASE_EP + url,
 				"type": 'GET',
+				"headers": {
+					"accept-language" : "en-US",					
+				},
 				"data": function ( data ) {
 					let start = parseInt(data.start);
 					let length = parseInt(data.length);
