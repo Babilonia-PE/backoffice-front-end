@@ -260,6 +260,9 @@ Chat
 <script>
 	const headers = [
 			{ "title": "Id", "code": "id", "sortable": true },
+			{ "title": "Nombres y apellidos" },
+			{ "title": "Correo" },
+			{ "title": "Teléfono" },
 			{ "title": "Fecha de creación", "created_at": "id", "sortable": true },
 			{ "title": "Acciones" }
 	];
@@ -287,9 +290,13 @@ Chat
 		}
 	];
 	const processParams = (element) =>{
+		const user = element?.user??null;
 		return [
 			element.id??'',		
-			element.created_at??'',
+			user?.full_name??'',
+			user?.email??'',
+			user?.phone_number??'',
+			element.created_at??''
 		];
 	}
 	const modalOrder =  [];
