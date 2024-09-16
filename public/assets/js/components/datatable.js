@@ -1003,6 +1003,10 @@ const datatable = async (options = {})=>{
 	$(document).on("click", "a[data-action=\"delete\"]", async function(e) {
 		e.preventDefault();
 		const key = $(this).attr("data-id");
+		const index_parent = filtersFields.findIndex(x => x.name === 'parent');
+		const index_child = filtersFields.findIndex(x => x.name === 'child');
+		const parent = filtersFields[index_parent];
+		const child = filtersFields[index_child];
 		const structure = {
 			title:'Atencion', 
 			content:'¿Estás seguro que deseas eliminar el registro ' + key + '?', 
@@ -1013,8 +1017,12 @@ const datatable = async (options = {})=>{
 		const funtions = {
 			success:{
 				function: async () => {
-					
-					const response = await fetchData('app/downloads', params, 'GET', true);		
+					const params = {
+						parent: parent?.value??'',
+						child: child?.value??'',
+						id: key??''
+					}
+					const response = await fetchData('app/gateway', params, 'DELETE', true);		
 				}
 			}
 		}

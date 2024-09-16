@@ -24,6 +24,65 @@
         max-height: 850px; 
       }
   }
+  .multi-chart{
+    display: flex;
+    align-items: center;
+  }
+  .chart.grid-3{
+    width: 100%;
+    max-width:100%;
+    display: grid;
+    grid-template-columns: repeat(3 , 33.3%);
+    gap: 1rem;
+  }
+  .chart.grid-3 .charjs-pie{
+    min-height: 300px; 
+    height: 300px; 
+  }
+  .legend li{
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    cursor: pointer;
+    text-wrap: nowrap;
+  }
+  .legend-block {
+    width: 35px;
+    height: 15px;
+  }
+  .legend li.crossed-line {
+    text-decoration: line-through;
+  }
+  @media screen and (max-width: 1500px) { 
+    .chart.grid-3{
+      grid-template-columns: repeat(2 , 50%);
+    }
+    .multi-chart{
+      flex-wrap: wrap;
+    }
+    .legend{
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+      padding: 0;
+    }
+    .chart.grid-3 .charjs-pie{
+      min-height: 350px; 
+      height: 350px; 
+    }
+  }
+  @media screen and (max-width: 768px) { 
+    .chart.grid-3{
+      grid-template-columns: repeat(1 , 100%);
+    }
+    .chart.grid-3 .charjs-pie{
+      min-height: 400px; 
+      height: 400px; 
+    }
+  }
 </style>
 @endsection
 
@@ -139,6 +198,36 @@ Dashboard
   <div class="col-12">
     <div class="card">
       <div class="card-header" role="button" data-card-widget="collapse">
+          <h5 class="card-title">Probando triple gráfico</h5>
+          <div class="card-tools">
+              <button type="button" class="btn btn-tool">
+                <i id="icon_filter_box" class="fas fa-plus"></i>
+              </button>
+          </div>
+      </div>
+      <div class="card-body">
+        <div class="multi-chart">
+          <ul class="legend">
+          </ul>
+          <div class="chart grid-3">
+            <div>
+              <canvas id="testChart1" class="charjs-pie grid-chart"></canvas>
+            </div>
+            <div>
+              <canvas id="testChart2" class="charjs-pie grid-chart"></canvas>
+            </div>
+            <div>
+              <canvas id="testChart3" class="charjs-pie grid-chart"></canvas>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-12">
+    <div class="card">
+      <div class="card-header" role="button" data-card-widget="collapse">
           <h5 class="card-title">Top 10 distritos más visitados</h5>
           <div class="card-tools">
               <button type="button" class="btn btn-tool">
@@ -169,6 +258,7 @@ Dashboard
   let projectChart1 = null;
   let projectChart2 = null;
   let viewsChart = null;
+  let testChart = [];
 
 
   let initial = true;
@@ -262,7 +352,7 @@ Dashboard
     array_month["Dicember"] = "Diciembre";
     return (array_month[month]??'');
   }
-  const getChartPie = (labels, dataset, colors, {title = '', subtitle = ''}) => {
+  const getChartPie = (labels, dataset, colors, {title = '', subtitle = ''}, legend = true) => {
     return {
       data: {
         labels: labels,
@@ -275,10 +365,14 @@ Dashboard
         ],
       },
       options: {
+        layout: {
+            padding: 0
+        },
+        maintainAspectRatio: false,
         responsive: true,
         maintainAspectRatio: false,
         legend: {
-          display: true,
+          display: legend,
           position: 'left',
           labels: {
             //fontColor: 'red',
@@ -701,6 +795,95 @@ Dashboard
       options: (windowWidth > 768) ? barChartOptionsRealtor2.vertical : barChartOptionsRealtor2.horizontal
     })
   }
+
+
+  const loadTest = async (month = null) => {
+    const current_mont = getMonth();
+    const params = {
+			parent: 'homepage',
+			child: 'views',
+			month: ( month ) ? month : current_mont
+		};
+    const details = await fetchData('app/gateway', params, 'GET');
+		const data = details?.data?.data?.records?.views??[];
+    let updated_at = details?.data?.data?.updated_at??null;
+    if( updated_at ){
+      updated_at = 'Ultima actualizacion: ' + updated_at;
+    }
+    let labels = [];
+    let data_percent = [];
+    let colors = [];
+    data.forEach(element => {
+      const department = element.department??'';
+      const district = element.district??'';
+      const province = element.province??'';
+      const qty_impressions = element.qty_impressions??0;
+      const percentage_impressions = element.percentage_impressions??0;
+      const color = element.color??'';
+      const label = [department + ' - ' + district + ' - ' + province];
+      labels.push(label);
+      colors.push(color);
+      data_percent.push(percentage_impressions);
+    });
+    //OBTENER DATA
+    const areaChartData1 = getChartPie(labels, data_percent, colors, {title: updated_at}, false);
+    const areaChartData2 = getChartPie(labels, data_percent, colors, {title: updated_at}, false);
+    const areaChartData3 = getChartPie(labels, data_percent, colors, {title: updated_at}, false);
+    //CARGAR GRÁFICO
+    const barChartCanvas1 = $('#testChart1').get(0).getContext('2d')
+    const barChartCanvas2 = $('#testChart2').get(0).getContext('2d')
+    const barChartCanvas3 = $('#testChart3').get(0).getContext('2d')
+    const test1 = new Chart(barChartCanvas1, {
+      type: 'doughnut',
+      ...areaChartData1
+    })
+    testChart.push(test1);
+    const test2 = new Chart(barChartCanvas2, {
+      type: 'doughnut',
+      ...areaChartData2
+    })
+    testChart.push(test2);
+    const test3 = new Chart(barChartCanvas3, {
+      type: 'doughnut',
+      ...areaChartData3
+    })
+    testChart.push(test3);
+    
+    const labels2 = test1.data.labels;
+    const bg = test1.data.datasets[0].backgroundColor;
+    const border = test1.data.datasets[0].borderWidth;
+
+    labels2.forEach((element, key) => {
+      const item = jQuery('<li>', {
+        "data-key": key
+      }).appendTo(".legend");
+      const div = jQuery('<div>', {
+          "class": "legend-block",
+          "style": `background-color: ${bg[key]}`
+      }).appendTo(item);
+      const label = jQuery('<div>', {
+          "class": "legend-label",
+          "text": element[0]
+      }).appendTo(item);
+      item.appendTo(".legend");
+    });
+    $(".legend li").each(function(){
+      $(this).on("click", function(){
+        const key = $(this).attr("data-key");
+        testChart.forEach(element => {
+          const dataItem = element.getDatasetMeta(0).data[key];
+          if(dataItem.hidden == true || dataItem.hidden == null){
+            dataItem.hidden = false;
+          } else {
+            dataItem.hidden = true;
+          }
+          $(this).toggleClass('crossed-line');
+          element.update();
+        });
+      });
+      
+    });
+  }
   const init = () => {
     return new Promise(async (resolve, reject) => {
         try {
@@ -708,6 +891,7 @@ Dashboard
           await loadStadisticsListings();
           await loadStadisticsProjects();
           await loadStadisticsDistricts();
+          await loadTest();
           resolve(true);
         } catch (error) {
             reject(error);

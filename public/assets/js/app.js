@@ -30,8 +30,7 @@ window.setMask = (selector, mask) => {
 }
 
 const fetchData = async (url = "", data = null, method = 'POST', blob = false) => {   
-    
-	const contoller = (permissions?.permissions??[]).find(item => item.controller === currentPage);
+	const contoller = (window.permissions?.permissions??[]).find(item => item.controller === currentPage);
     if((permissions.role??null) !== 'admin' && !(contoller??null) && ( method == 'POST' || method == 'PUT' || method == 'DELETE' )) { 
         alertShort('warning', 'Acción denegada', 'No se cargaron correctamente los permisos');
         return;
@@ -68,7 +67,11 @@ const fetchData = async (url = "", data = null, method = 'POST', blob = false) =
     
     if(method == "DELETE"){
         if((permissions.role??null) == 'admin' || ( (permissions.role??null) !== 'admin' && (contoller.delete??null) )){
-            return serviceHttp.delete(url, data).catch(function (error) {
+            return serviceHttp.delete(url, {
+                data: {
+                    ...data
+                }
+            }).catch(function (error) {
                 return error
             })
         }else{
