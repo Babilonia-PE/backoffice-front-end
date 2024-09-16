@@ -337,8 +337,22 @@ Usuarios
 	const columnsDates = [7, 20];
 	const download = { active: true, filename: 'Usuarios.xlsx' };
 	const recovery_password = { active: true };
+	const crud = {
+		view: true,
+		delete: {
+			active: true,
+			conditions: [
+				{
+					key: 'state',
+					operator: "!=",
+					value: 'Eliminado'
+				}
+			]
+		}
+	}
 	const options = {
 		recovery_password,
+		crud,
 		download,
 		processParams,
 		headers,
@@ -356,5 +370,6 @@ Usuarios
 	datatable(options);
 
 	copyToClipboard();
+
 </script>
 @endsection
