@@ -234,6 +234,7 @@ Usuarios
 	//DEFINIR DATEPICKER
 	$('#created_start').dateTimePicker({format: 'dd/MM/yyyy'});
 	$('#created_end').dateTimePicker({format: 'dd/MM/yyyy'});
+	showMessage();
 </script>
 <script>
 		
@@ -347,7 +348,8 @@ Usuarios
 					operator: "!=",
 					value: 'Eliminado'
 				}
-			]
+			],
+			key: 'user_id'
 		}
 	}
 	const options = {

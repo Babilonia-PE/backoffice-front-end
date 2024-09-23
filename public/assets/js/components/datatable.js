@@ -1002,11 +1002,11 @@ const datatable = async (options = {})=>{
 	
 	$(document).on("click", "a[data-action=\"delete\"]", async function(e) {
 		e.preventDefault();
+		const c_del = crud?.delete??null;
+		const param = ( c_del.key ) ? c_del.key : 'id';
 		const key = $(this).attr("data-id");
 		const index_parent = filtersFields.findIndex(x => x.name === 'parent');
-		const index_child = filtersFields.findIndex(x => x.name === 'child');
-		const parent = filtersFields[index_parent];
-		const child = filtersFields[index_child];
+		const parent = filtersFields[index_parent]??null;
 		const structure = {
 			title:'Atencion', 
 			content:'¿Estás seguro que deseas eliminar el registro ' + key + '?', 
@@ -1017,12 +1017,15 @@ const datatable = async (options = {})=>{
 		const funtions = {
 			success:{
 				function: async () => {
-					const params = {
-						parent: parent?.value??'',
-						child: child?.value??'',
-						id: key??''
-					}
-					const response = await fetchData('app/gateway', params, 'DELETE', true);		
+					const params = { parent: parent?.value };
+					params[param] = key;
+					const response = await fetchData('app/gateway', params, 'DELETE');	
+					if (response.hasOwnProperty('code')){ 
+						AppValidateHttpCode(response);
+						return false;
+					}	
+					localStorage.setItem('message', response?.data?.data?.message??'');
+					//window.location.reload();
 				}
 			}
 		}
