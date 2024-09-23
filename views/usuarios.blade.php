@@ -234,6 +234,7 @@ Usuarios
 	//DEFINIR DATEPICKER
 	$('#created_start').dateTimePicker({format: 'dd/MM/yyyy'});
 	$('#created_end').dateTimePicker({format: 'dd/MM/yyyy'});
+	showMessage();
 </script>
 <script>
 		
@@ -337,8 +338,23 @@ Usuarios
 	const columnsDates = [7, 20];
 	const download = { active: true, filename: 'Usuarios.xlsx' };
 	const recovery_password = { active: true };
+	const crud = {
+		view: true,
+		delete: {
+			active: true,
+			conditions: [
+				{
+					key: 'state',
+					operator: "!=",
+					value: 'Eliminado'
+				}
+			],
+			key: 'user_id'
+		}
+	}
 	const options = {
 		recovery_password,
+		crud,
 		download,
 		processParams,
 		headers,
@@ -356,5 +372,6 @@ Usuarios
 	datatable(options);
 
 	copyToClipboard();
+
 </script>
 @endsection
