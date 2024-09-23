@@ -435,6 +435,31 @@ const datatable = async (options = {})=>{
             }
 		}
 	];
+	//FUNCIONES
+	jQuery.fn.checkConditions=function(conditions, element){
+		let retorno = true;
+		(conditions??[]).forEach(condition => {
+			if( !$(this).checkCondition(condition, element) ){
+				retorno = false;
+				return false;
+			}
+		});
+		return retorno;
+	}
+	jQuery.fn.checkCondition=function(condition, element){
+		let retorno = true;
+		switch (condition.operator??null) {
+			case "=":
+				retorno = ( element[condition.key] == condition.value ) ? true : false;
+				break;
+			case "!=":
+				retorno = ( element[condition.key] != condition.value ) ? true : false;
+				break;
+			default:
+				break;
+		}
+		return retorno;
+	}
 	//POBLAR FILTROS
 	jQuery.fn.populatefilters=function(){
 
@@ -596,9 +621,6 @@ const datatable = async (options = {})=>{
 			ajax: {
 				"url": APP_BASE_EP + url,
 				"type": 'GET',
-				"headers": {
-					"accept-language" : "en-US",					
-				},
 				"data": function ( data ) {
 					let start = parseInt(data.start);
 					let length = parseInt(data.length);
@@ -667,6 +689,10 @@ const datatable = async (options = {})=>{
                         const resultParams = processParams(element)??[];
 						const id = ( element.id??null ) ? element.id : element.owner_id;
 						const record = globalRecords.find((item)=> item.id == id) ?? null;
+
+						const c_delete = ( typeof crud.delete === "object" ) ? (
+							( $(this).checkConditions(crud.delete.conditions, element) ) ?  true : false
+						) : crud.delete;
 						object.data.push([
                             ...resultParams,
                             `<div class="dropdown btn-group ">
@@ -674,8 +700,10 @@ const datatable = async (options = {})=>{
 									Acciones
 								</button>
 								<ul class="dropdown-menu dropdown-menu-end" x-placement="right">
-									<a class="dropdown-item details" data-id="${id??''}" data-index="${index}" role="button"><i class="fas fa-eye"></i>&nbsp;&nbsp;Ver</a>` + ( ( crud.edit ) ? `<a class="dropdown-item" data-action="update" data-id="${element.id??''}" data-index="${index}" role="button"><i class="fas fa-edit"></i>&nbsp;&nbsp;Editar</a>`: ``) + `
-									${recovery_password.active && (record.sign_method.toLowerCase() == 'email' || record.sign_method.toLowerCase() == 'correo') && record.email ? `<a class="dropdown-item recovery-passwords" data-id="${id??''}" data-index="${index}" role="button"><i class="fas fa-paper-plane"></i>&nbsp;&nbsp;Recuperar contraseña</a>` : ''}
+									<a class="dropdown-item details" data-id="${id??''}" data-index="${index}" role="button"><i class="fas fa-eye"></i>&nbsp;&nbsp;Ver</a>` 
+									+ ( ( crud.edit ) ? `<a class="dropdown-item" data-action="update" data-id="${element.id??''}" data-index="${index}" role="button"><i class="fas fa-edit"></i>&nbsp;&nbsp;Editar</a>`: ``)
+									+ ( ( c_delete ) ? `<a class="dropdown-item" data-action="delete" data-id="${element.id??''}" data-index="${index}" role="button"><i class="fas fa-trash"></i>&nbsp;&nbsp;Eliminar</a>`: ``)
+									+ `${recovery_password.active && record.sign_method.toLowerCase() == 'email' && record.email ? `<a class="dropdown-item recovery-passwords" data-id="${id??''}" data-index="${index}" role="button"><i class="fas fa-paper-plane"></i>&nbsp;&nbsp;Recuperar contraseña</a>` : ''}
 									<!--- <a class="dropdown-item" href="#"><i class="fas fa-trash-alt"></i>&nbsp;&nbsp;Eliminar</a> --->
 								</ul>
 							</div>
@@ -970,5 +998,38 @@ const datatable = async (options = {})=>{
 
 		})
 	}, 2000);
+
+	
+	$(document).on("click", "a[data-action=\"delete\"]", async function(e) {
+		e.preventDefault();
+		const c_del = crud?.delete??null;
+		const param = ( c_del.key ) ? c_del.key : 'id';
+		const key = $(this).attr("data-id");
+		const index_parent = filtersFields.findIndex(x => x.name === 'parent');
+		const parent = filtersFields[index_parent]??null;
+		const structure = {
+			title:'Atencion', 
+			content:'¿Estás seguro que deseas eliminar el registro ' + key + '?', 
+			buttons: true, 
+			btnsuccess:'Procesar', 
+			btnCancel:'Cancelar'
+		}
+		const funtions = {
+			success:{
+				function: async () => {
+					const params = { parent: parent?.value };
+					params[param] = key;
+					const response = await fetchData('app/gateway', params, 'DELETE');	
+					if (response.hasOwnProperty('code')){ 
+						AppValidateHttpCode(response);
+						return false;
+					}	
+					localStorage.setItem('message', response?.data?.data?.message??'');
+					//window.location.reload();
+				}
+			}
+		}
+		new Modal(structure, funtions);
+	})
     
 }
