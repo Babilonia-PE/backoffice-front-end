@@ -1025,7 +1025,7 @@ const datatable = async (options = {})=>{
 						return false;
 					}	
 					localStorage.setItem('message', response?.data?.data?.message??'');
-					//window.location.reload();
+					window.location.reload();
 				}
 			}
 		}
