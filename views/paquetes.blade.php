@@ -930,6 +930,8 @@ Paquetes
 						const now = new Date()
 						const duration = moment(expires_at).diff(moment(), 'days') + 1;		
 						const params = {
+							parent: 'package',
+							child: 'packages',
 							type: type,
 							agent_id: agent_id,
 							user_id: user_id,
@@ -942,7 +944,7 @@ Paquetes
 							premium_ads_count: premium_ads_count,
 						}
 						try {
-							const response = await fetchData('app/package/packages', params, 'POST');
+							const response = await fetchData('app/gateway', params, 'POST');
 							if (response.hasOwnProperty('code')){ 
 								AppValidateHttpCode(response);
 								return false;
