@@ -928,7 +928,8 @@ Paquetes
 						const plus_ads_count = $("#plus_ads_count").val();
 						const premium_ads_count = $("#premium_ads_count").val();
 						const now = new Date()
-						const duration = moment(expires_at).diff(moment(), 'days') + 1;		
+						//const duration = moment(expires_at).diff(moment(), 'days') + 1;		
+						const duration = $( "#duracion option:selected" ).text();	
 						const params = {
 							parent: 'package',
 							child: 'packages',
