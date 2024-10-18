@@ -229,6 +229,7 @@ Paquetes
 								<option value="76338334">Boris Osterling Grimberg</option>
 								<option value="45531275">Rodrigo Morales Correa</option>
 								<option value="44893949">Roxana Moratones Gallo</option>
+								<option value="72674869">Luisa Quintana Soto</option>
 							</select>
                 		</div>
                 	</div>
