@@ -941,9 +941,9 @@ Paquetes
 							duration: duration,
 							expires_at: expires_at,
 							payment_method: payment_method,
-							standard_ads_count: standard_ads_count,
-							plus_ads_count: plus_ads_count,
-							premium_ads_count: premium_ads_count,
+							standard_ads_count: ( standard_ads_count == 'Ilimitado') ? 999999 : standard_ads_count,
+							plus_ads_count: ( plus_ads_count == 'Ilimitado') ? 999999 : plus_ads_count,
+							premium_ads_count: ( premium_ads_count == 'Ilimitado') ? 999999 : premium_ads_count
 						}
 						try {
 							const response = await fetchData('app/gateway', params, 'POST');
@@ -1046,9 +1046,9 @@ Paquetes
 				child: 'packages',
 				id: id,
 				expires_at: expires_at,
-				standard_ads_count: standard_ads_count,
-				plus_ads_count: plus_ads_count,
-				premium_ads_count: premium_ads_count,
+				standard_ads_count: ( standard_ads_count == 'Ilimitado') ? 999999 : standard_ads_count,
+				plus_ads_count: ( plus_ads_count == 'Ilimitado') ? 999999 : plus_ads_count,
+				premium_ads_count: ( premium_ads_count == 'Ilimitado') ? 999999 : premium_ads_count,
 			}
 			try {
 				const response = await fetchData('app/gateway', params, 'PUT');
