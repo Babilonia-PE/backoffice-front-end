@@ -229,6 +229,7 @@ Paquetes
 								<option value="76338334">Boris Osterling Grimberg</option>
 								<option value="45531275">Rodrigo Morales Correa</option>
 								<option value="44893949">Roxana Moratones Gallo</option>
+								<option value="72674869">Luisa Quintana Soto</option>
 							</select>
                 		</div>
                 	</div>
@@ -331,7 +332,7 @@ Paquetes
 						<div class="form-group">
 							<label>Método de pago</label>
 							<select name="payment_method" id="payment_method" class="form-control form-control-sm selectpicker validate" title="Método de pago" placeholder="Método de pago">
-								<option value="tranfer">Compra</option>
+								<option value="transfer">Compra</option>
 								<option value="free">Regalo</option>
 								<option value="lottery">Sorteo</option>
 							</select>                			
@@ -928,8 +929,11 @@ Paquetes
 						const plus_ads_count = $("#plus_ads_count").val();
 						const premium_ads_count = $("#premium_ads_count").val();
 						const now = new Date()
-						const duration = moment(expires_at).diff(moment(), 'days') + 1;		
+						//const duration = moment(expires_at).diff(moment(), 'days') + 1;		
+						const duration = $( "#duracion option:selected" ).text();	
 						const params = {
+							parent: 'package',
+							child: 'packages',
 							type: type,
 							agent_id: agent_id,
 							user_id: user_id,
@@ -942,7 +946,7 @@ Paquetes
 							premium_ads_count: premium_ads_count,
 						}
 						try {
-							const response = await fetchData('app/package/packages', params, 'POST');
+							const response = await fetchData('app/gateway', params, 'POST');
 							if (response.hasOwnProperty('code')){ 
 								AppValidateHttpCode(response);
 								return false;
