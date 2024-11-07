@@ -170,26 +170,14 @@ Equipos
             </div>
             <div class="card-body">
 				<div class="row align-items-end">
-					<div class="col-md-4">
+					<div class="col-md-6">
                 		<div class="form-group">
-                  			<label>ID del propietario</label>
-                  			<input type="text" class="form-control" id="owner_id" placeholder="ID del propietario">
+                  			<label>Propietario del equipo</label>
+							@component("components.search-user", ['id'=>'owner_id', 'storage'=>'filter_team_owners'])
+							@endcomponent
                 		</div>
                 	</div>
-					<div class="col-md-4">
-						<div class="form-group">
-							<label for="exampleInputEmail1">Fecha de creación (Desde - Hasta)</label>
-							<div class="form-row">
-								<div class="col-6">
-									<input type="text" class="form-control" id="created_start" placeholder="dd/mm/yyyy">
-								</div>
-								<div class="col-6">
-									<input type="text" class="form-control" id="created_end" placeholder="dd/mm/yyyy">
-								</div>
-							</div>
-						</div>
-					</div>
-					<div class="col-md-4">
+					<div class="col-md-6">
 						<div class="form-group">
 							<div class="form-row">
 								<div class="col-sm-6 pb-2 pb-sm-0">
@@ -262,8 +250,6 @@ Equipos
 			{ "title": "Nombre", "code": "full_name" },
 			{ "title": "Correo", "code": "email" },
 			{ "title": "Teléfono", "code": "phone_number" },
-			{ "title": "Fecha de creación", "code": "created_at", "sortable": true },
-			{ "title": "Fecha de actualización", "updated_at": "id" },
 			{ "title": "Acciones" }
 	];
 	const filtersFields = [
@@ -278,19 +264,10 @@ Equipos
 			value: 'header'
 		},
 		{
-			name: 'owner_id'
-		},
-		{
-			name: 'created_start',
-			type: filtersParamsTypes.DATE
-		},
-		{
-			name: 'created_end',
-			type: filtersParamsTypes.DATE
-		},
-		{
-			name: 'update_start',
-			type: filtersParamsTypes.DATE
+			name: 'owner_id',
+			type: filtersParamsTypes.USER,
+			search: true,
+			storage: 'filter_team_owners'
 		}
 	];
 	const processParams = (element) =>{
@@ -298,9 +275,7 @@ Equipos
 			element.owner_id??'',		
 			element.full_name??'',
 			element.email??'',
-			getFullNumber(element.prefix, element.phone_number),
-			element.created_at??'',
-			element.updated_at??'',
+			getFullNumber(element.prefix, element.phone_number)
 		];
 	}
 	const modalOrder =  [];
