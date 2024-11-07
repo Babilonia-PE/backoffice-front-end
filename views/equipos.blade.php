@@ -262,7 +262,7 @@ Equipos
 			{ "title": "Nombre", "code": "full_name" },
 			{ "title": "Correo", "code": "email" },
 			{ "title": "Teléfono", "code": "phone_number" },
-			{ "title": "Fecha de creación", "created_at": "id", "sortable": true },
+			{ "title": "Fecha de creación", "code": "created_at", "sortable": true },
 			{ "title": "Fecha de actualización", "updated_at": "id" },
 			{ "title": "Acciones" }
 	];
