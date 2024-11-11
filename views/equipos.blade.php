@@ -308,6 +308,7 @@ Equipos
 					<thead>
 						<th>Id</th>
 						<th>Nombres</th>
+						<th>ultima actividad</th>
 						<th>Correo</th>
 						<th>Teléfono</th>
 						<th>Estado</th>
@@ -323,6 +324,7 @@ Equipos
 			data.forEach(element => {
 				const user_id = jQuery( '<td>', { text: element.user_id??'' } );
 				const full_name = jQuery( '<td>', { text: element.full_name??'' } );
+				const last_activity = jQuery( '<td>', { text: element.last_activity??'' } );
 				const email = jQuery( '<td>', { text: element.email??'' } );
 				const phone = jQuery( '<td>', { html: getFullNumber(element.prefix, element.phone_number) } );
 				const state = jQuery( '<td>', { text: element.state??'' } );
@@ -333,6 +335,7 @@ Equipos
 				const row = jQuery('<tr>');
 				user_id.appendTo(row);
 				full_name.appendTo(row);
+				last_activity.appendTo(row);
 				email.appendTo(row);
 				phone.appendTo(row);
 				state.appendTo(row);
