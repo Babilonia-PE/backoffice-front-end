@@ -845,6 +845,10 @@ const datatable = async (options = {})=>{
 			e.preventDefault();
 			if ( modalFunction ){
 				const id = $(this).attr('data-id');
+				$('#rowDetails').off('show.bs.modal');
+				$('#rowDetails').off('shown.bs.modal');
+				$('#rowDetails').off('hide.bs.modal');
+				$('#rowDetails').off('hidden.bs.modal');
 				$('#rowDetails').on('show.bs.modal', async function (e) {
 					if (modalFunction.hasOwnProperty('show')){
 						if ( typeof modalFunction.show == 'function' ) { 
