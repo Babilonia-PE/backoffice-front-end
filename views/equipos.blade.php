@@ -358,7 +358,9 @@ Equipos
 			$("#rowDetails .modal-body .table-responsive").html("");
 		}
 	}
+	const download = { active: true, filename: 'Equipos.xlsx' };
 	const options = {
+		download,
 		processParams,
 		headers,
 		filtersFields,
