@@ -308,7 +308,7 @@ Equipos
 					<thead>
 						<th>Id</th>
 						<th>Nombres</th>
-						<th>ultima actividad</th>
+						<th>Última actividad</th>
 						<th>Correo</th>
 						<th>Teléfono</th>
 						<th>Estado</th>
