@@ -399,6 +399,15 @@ Paquetes
 					</div>
 					<div class="col-md-6">
 						<div class="form-group">
+							<label>Estado del paquete</label>
+							<select name="state" id="state" class="form-control form-control-sm selectpicker validate" title="Estado" placeholder="Estado">
+								<option value="1">Activo</option>
+								<option value="0">inactivo</option>
+							</select>   		
+						</div>
+					</div>
+					<div class="col-md-6">
+						<div class="form-group">
 							<button disabled id="addPackage" type="button" class="btn btn-primary btn-block btn-sm"><i class="fas fa-plus"></i> Crear paquete</button>
 						</div>
 					</div>   
@@ -490,6 +499,15 @@ Paquetes
 					</div>
 					<div class="col-md-6">
 						<div class="form-group">
+							<label>Estado del paquete</label>
+							<select name="update_state" id="update_state" class="form-control form-control-sm selectpicker validate" title="Estado" placeholder="Estado">
+								<option value="1">Activo</option>
+								<option value="0">inactivo</option>
+							</select>   		
+						</div>
+					</div>
+					<div class="col-md-6">
+						<div class="form-group">
 							<button id="btnEditPackage" type="button" class="btn btn-primary btn-block btn-sm">
 								<span class="babilonia-pencil"></span>
 								Editar paquete
@@ -542,6 +560,10 @@ Paquetes
 		"buyed" : "success",
 		"expired" : "danger"
 	};
+	const BUY_TYPE_STATE = {
+		"1" : "success",
+		"0" : "danger"
+	};
 		
 	const headers = [
 		{ "title": "ID", "code": "id", "sortable": true },
@@ -565,6 +587,7 @@ Paquetes
 		{ "title": "ID orden" },
 		{ "title": "Tipo", "code": "type", "sortable": true },
 		{ "title": "Tipo Compra", "code": "type"},
+		{ "title": "Estado"},
 		{ "title": "Fecha de compra", "code": "purchased_at", "sortable": true },
 		{ "title": "Fecha de expiración", "code": "expires_at", "sortable": true },
 		{ "title": "Teléfono", "code": "type"},
@@ -654,6 +677,7 @@ Paquetes
             element.order_id,
             element.type??'',
             `<span class="badge text-bg-secondary bg-${BUY_TYPE_COLORS[element.buy_type_id??'']}">${toCamelCase(element.buy_type??'')}</span>`,
+			`<span class="badge text-bg-secondary bg-${BUY_TYPE_STATE[element.state_id??'']}">${element.state??''}</span>`,
 			element.purchased_at??'',
             `<span class="badge text-bg-secondary bg-${bagde}">${element.expires_at??''}</span>`,
 			getFullNumber(element.prefix, element.phone_number)
@@ -677,8 +701,8 @@ Paquetes
 			}
 		}
 	}
-	const columnsHidden = [3,6,7,8,9,10,11,12,13,14,15,16,17,18,21,22,23];
-	const columnsDates = [21,22];
+	const columnsHidden = [3,6,7,8,9,10,11,12,13,14,15,16,17,18,22,23,24];
+	const columnsDates = [22,23];
 	const returnTable = {
 		buttons: [
 			{
@@ -918,6 +942,7 @@ Paquetes
 						setMessageInput("#premium_ads_count");
 						setMessageInput("#duracion");
 						setMessageInput("#days");
+						setMessageInput("#state");
 									
 						const type = $("#package_type").val();
 						const agent_id = $("#realtor").val();
@@ -928,6 +953,7 @@ Paquetes
 						const standard_ads_count = $("#standard_ads_count").val();
 						const plus_ads_count = $("#plus_ads_count").val();
 						const premium_ads_count = $("#premium_ads_count").val();
+						const state = $("#state").val();
 						const now = new Date()
 						//const duration = moment(expires_at).diff(moment(), 'days') + 1;		
 						const duration = $( "#duracion option:selected" ).text();	
@@ -943,7 +969,8 @@ Paquetes
 							payment_method: payment_method,
 							standard_ads_count: ( standard_ads_count == 'Ilimitado') ? 999999 : standard_ads_count,
 							plus_ads_count: ( plus_ads_count == 'Ilimitado') ? 999999 : plus_ads_count,
-							premium_ads_count: ( premium_ads_count == 'Ilimitado') ? 999999 : premium_ads_count
+							premium_ads_count: ( premium_ads_count == 'Ilimitado') ? 999999 : premium_ads_count,
+							state: state
 						}
 						try {
 							const response = await fetchData('app/gateway', params, 'POST');
@@ -990,6 +1017,7 @@ Paquetes
 		e.preventDefault();
 		const key = $(this).attr("data-id");
 		const detail = globalRecords.find(item => item.id === Number(key));
+		console.log(detail);
 		$("#package_id").text('Editar paquete ' + detail.id??'');
 		$("#update_package_owner_id").val(detail.full_name??'');
 		$("#update_payment_method").val(detail.buy_type??'');
@@ -997,6 +1025,8 @@ Paquetes
 		$("#update_agent_name").val(detail.agent_name??'');
 		$("#update_ads_count").val(detail.ads_count??'');
 		$("#update_category").val(detail.category??'');
+		$("#update_state").val(detail.state_id??'');
+		$("#update_state").selectpicker('refresh');
 		if( !(detail.is_unlimited_standard??false) ){
 			$("#update_standard_ads_count").val(detail.initial_standard_ads_count??'');
 			$("#update_standard_ads_count").attr('disabled', false);
@@ -1041,6 +1071,7 @@ Paquetes
 			const standard_ads_count = $("#update_standard_ads_count").val();
 			const plus_ads_count = $("#update_plus_ads_count").val();
 			const premium_ads_count = $("#update_premium_ads_count").val();	
+			const state = $("#update_state").val();	
 			const params = {
 				parent: 'package',
 				child: 'packages',
@@ -1049,6 +1080,7 @@ Paquetes
 				standard_ads_count: ( standard_ads_count == 'Ilimitado') ? 999999 : standard_ads_count,
 				plus_ads_count: ( plus_ads_count == 'Ilimitado') ? 999999 : plus_ads_count,
 				premium_ads_count: ( premium_ads_count == 'Ilimitado') ? 999999 : premium_ads_count,
+				state: state
 			}
 			try {
 				const response = await fetchData('app/gateway', params, 'PUT');
