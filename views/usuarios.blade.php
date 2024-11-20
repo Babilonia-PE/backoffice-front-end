@@ -104,6 +104,9 @@
 			align-items: start;
         }
     }
+	.open-modal{
+		cursor: pointer;
+	}
 </style>
 @endsection
 
@@ -236,8 +239,8 @@ Usuarios
 	$('#created_end').dateTimePicker({format: 'dd/MM/yyyy'});
 	showMessage();
 </script>
-<script>
-		
+<script type="module">
+	const { Modal } = await import (`/public/assets/js/components/modal.js`);		
 	const headers = [
 		{ "title": "ID", "code": "id", "sortable": true },
 		{ "title": "Nombre", "code": "full_name", "sortable": true },
@@ -245,6 +248,7 @@ Usuarios
 		{ "title": "Email", "code": "email", "sortable": true },
 		{ "title": "Verif. Telefono" },
 		{ "title": "Teléfono", "code": "phone_number", "sortable": true },
+		{ "title": "Tarjeta asociada" },
 		{ "title": "Nombre comercial" },
 		{ "title": "Fecha de creación", "code": "created_at", "sortable": true },
 		{ "title": "Fecha de último acceso", "code": "last_login", "sortable": true },
@@ -299,7 +303,9 @@ Usuarios
 	const processParams = (element) =>{
 
 		let urlClient = URL_WEB_FRONT + ((element.url && element.url!=null)?element.url:'');
-
+		let card_action = ( element?.card??false ) ? true : false;
+		let card_data = ( card_action ) ? 'data-id="' + ( element.id??'' ) + '"' : '';
+		let card_class = ( card_action ) ? 'open-modal"' : '';
 		return [
 			element.id??'',
 			element.full_name??'',
@@ -307,6 +313,7 @@ Usuarios
 			(element.email) ? `${element.email} <button class="badge text-bg-primary btn-primary text-danger-emphasis text-dark" type="button" data-copy="inner" data-value="${element.email}"><i class="far fa-copy text-white"></i></button>`:'',
 			(element.verify?.phone_number??false ? `<span class="badge text-bg-secondary badge-4">Verificado</span>` : `<span class="badge text-bg-secondary badge-2">No verificado</span>`),
 			getFullNumber(element.prefix, element.phone_number),
+			(`<span ${card_data} class="badge text-bg-secondary badge-${(element?.card??false) ? 1 : 2} ${card_class}">${(element?.card??false) ? 'SI' : 'NO'}</span>`),
 			( ( element.company ) ? element.company.commercial_name??'':'' ),
 			element.created_at??'',
 			element.last_login??'',
@@ -334,8 +341,8 @@ Usuarios
 	const initParamsModal = ()=>{
 		copyToClipboard();
 	}
-	const columnsHidden = [2, 4, 8, 10, 11, 12, 13, 14, 15, 16, 17, 18,19,20, 21];
-	const columnsDates = [7, 20];
+	const columnsHidden = [2, 4, 9, 11, 12, 13, 14, 15, 16, 17, 18,19,20, 21, 22];
+	const columnsDates = [8, 21];
 	const download = { active: true, filename: 'Usuarios.xlsx' };
 	const recovery_password = { active: true };
 	const crud = {
@@ -372,6 +379,77 @@ Usuarios
 	datatable(options);
 
 	copyToClipboard();
-
+	$(document).on('click', 'span.open-modal', async function () {
+		/*
+		const id = $(this).attr('data-id');
+		const params = {
+			parent: 'card',
+			owner_id: id,
+			page: 1,
+			per_page: 25
+		}
+		const response = await fetchData('app/gateway', params, 'GET');	
+		const cards = response?.data?.data?.records??null;
+		console.log(cards);
+		*/
+		const id = $(this).attr('data-id');
+		const structure = {
+			type:'cards'
+		}
+		const funtions = {
+			shown:{
+				function: async () => {
+					const headers = [
+						{ "title": "Primaria" },
+						{ "title": "Proveedor" },
+						{ "title": "Tipo" },
+						{ "title": "Nombre" },
+						{ "title": "Número" },
+						{ "title": "Fecha de expiración" },
+						{ "title": "Estado" },
+					];
+					const processParams = (element) =>{
+						return [
+							( element.primary??false) ? 'SI' : 'NO',
+							element.provider??'',
+							element.type??'',
+							element.name??'',
+							element.number??'',
+							element.expiration??'',
+							element.state??''
+						];
+					}
+					const filtersFields = [
+						{
+							name: 'parent',
+							type: 'static',
+							value: 'card'
+						},
+						{
+							name: 'owner_id',
+							type: 'static',
+							value: id
+						}
+					];
+					const returnTable = {
+						attr: 'id',
+						value: 'cards-table',
+						dom: 'rtip'
+					}
+					const options = {
+						headers,
+						processParams,
+						filtersFields,
+						returnTable,
+						url: 'app/gateway'
+					};
+					
+					datatable(options);
+				}
+			}
+		}
+		new Modal(structure, funtions);
+		return;
+	});
 </script>
 @endsection

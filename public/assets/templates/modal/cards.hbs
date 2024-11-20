@@ -1,0 +1,31 @@
+
+<div class="modal base fade cards" id="{{identity}}" tabindex="-1" aria-labelledby="{{identity}}Label" aria-hidden="true">
+    <div class="modal-dialog modal-xl modal-dialog-centered">
+        <style>
+            .cards .modal-body{
+                min-height: 300px;
+            }
+            .cards .modal-body div.dataTables_wrapper div.dataTables_processing {
+                position: absolute;
+                top: 50px;
+                left: calc(50% - 100px);
+            }
+        </style>
+        <div class="modal-content">
+            <div class="modal-header">
+        		<h5 class="modal-title">Detalles de tarjetas</h5>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+				<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+            <div class="modal-body">
+				<div class="table-responsive">
+                    <p class="text-center" name="loading"><img src="public/assets/img/loading.gif" width="50" /></p>
+                    <table id="cards-table" class="display table table-bordered table-hover nowrap compact responsive d-none" cellspacing="0" width="100%">
+                        
+                    </table>
+                </div>
+			</div>
+        </div>
+    </div>
+</div>
