@@ -597,7 +597,7 @@ const datatable = async (options = {})=>{
     jQuery.fn.createDataTable=function(searchBuilder = null, columnDefs = null, returnTable = {}, lengthMenu = 25, dom = true, columns = null, data = null){
 		var attr = ( !jQuery.isEmptyObject(returnTable) && returnTable.hasOwnProperty('attr') ) ? returnTable.attr:'class';
 		var value = ( !jQuery.isEmptyObject(returnTable) && returnTable.hasOwnProperty('value') ) ? returnTable.value:'display';
-		var dom = ( dom ) ? 'Bilrtip':'lfrtip'; //f: buscador
+		var dom = ( !jQuery.isEmptyObject(returnTable) && returnTable.hasOwnProperty('dom') ) ? returnTable.dom : 'Bilrtip'; //f: buscador
 		var element =  ( attr == 'class' ) ? $('table.'+ value):$('table['+ attr +'="'+ value +'"]');
 		var buttons = ( !jQuery.isEmptyObject(returnTable) && returnTable.hasOwnProperty('buttons') ) ? returnTable.buttons:Buttons;
 		var table = element
