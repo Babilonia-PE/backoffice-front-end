@@ -243,7 +243,6 @@ Leads Proyectos
 		{ "title": "Etapa", "code": "stage", "sortable": true },
 		{ "title": "Nombre del proyecto" },
 		{ "title": "Distrito", "code": "district", "sortable": true },
-		{ "title": "Id del usuario" },
 		{ "title": "Nombres" },
 		{ "title": "Documento" },
 		{ "title": "Email", "code": "email" },
@@ -310,7 +309,6 @@ Leads Proyectos
 			element.stage??'',
 			element.project_name??'',
 			element.district,
-			element.user_id,
 			element.full_name,
 			element.document??'',
 			element.email,
@@ -324,8 +322,8 @@ Leads Proyectos
 	const modalTitle = () =>{
 		
 	}
-	const columnsHidden = [0,1,2,5,7,8,10,11,14,15];
-	const columnsDates = [13,14];
+	const columnsHidden = [0,1,2,5,7,9,10,13,14];
+	const columnsDates = [12,13];
 	const download = { active: true, modal: true, filename: 'Project-leads.xlsx' };
 	const options = {
 		download,
