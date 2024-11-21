@@ -244,7 +244,6 @@ Leads Avisos
 		{ "title": "Distrito", "code": "district", "sortable": true },
 		{ "title": "Propietario" },
 		{ "title": "Key", "code": "key", "sortable": true },
-		{ "title": "Id del usuario" },
 		{ "title": "Nombres" },
 		{ "title": "Email", "code": "email" },
 		{ "title": "Teléfono" },
@@ -311,7 +310,6 @@ Leads Avisos
 			element.district,
 			element.owner_name??'',
 			element.key ? element.key : '',
-			element.user_id,
 			element.full_name,
 			element.email,
 			getFullNumber(prefix, phone),
@@ -324,8 +322,8 @@ Leads Avisos
 	const modalTitle = () =>{
 		
 	}
-	const columnsHidden = [0,1,7,8,9,10,11,14,15];
-	const columnsDates = [13,14];
+	const columnsHidden = [0,1,7,8,9,10,13,14];
+	const columnsDates = [12,13];
 	const download = { active: true, modal: true, filename: 'Leads.xlsx' };
 	const options = {
 		download,
