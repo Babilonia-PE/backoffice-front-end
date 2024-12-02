@@ -349,7 +349,7 @@ Dashboard
     array_month["September"] = "Setiembre";
     array_month["October"] = "Octubre";
     array_month["November"] = "Noviembre";
-    array_month["Dicember"] = "Diciembre";
+    array_month["December"] = "Diciembre";
     return (array_month[month]??'');
   }
   const getChartPie = (labels, dataset, colors, {title = '', subtitle = ''}, legend = true) => {
