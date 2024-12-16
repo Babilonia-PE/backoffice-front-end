@@ -220,6 +220,7 @@ Contactos
 		{ "title": "Nombre", "code": "full_name", "sortable": true },
 		{ "title": "Email", "code": "email", "sortable": true },
 		{ "title": "Teléfono", "code": "phone_number", "sortable": true },
+		{ "title": "Razón", "code": "reason" },
 		{ "title": "Descripción", "code": "created_at", "sortable": true },
 		{ "title": "Fecha de creación", "code": "created_at", "sortable": true },
 		{ "title": "Acciones" }
@@ -255,6 +256,7 @@ Contactos
 			element.full_name??'',
 			element.email??'',
 			getFullNumber(element.prefix??'', element.phone_number??''),
+			element.reason??'',
 			element.description??'',
 			element.created_at??'',
 		];
@@ -266,8 +268,8 @@ Contactos
 	}
 	const initParamsModal = ()=>{
 	}
-	const columnsHidden = [4, 5];
-	const columnsDates = [5];
+	const columnsHidden = [4, 5, 6];
+	const columnsDates = [6];
 	const options = {
 		processParams,
 		headers,
