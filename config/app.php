@@ -106,6 +106,11 @@ $app_lang_user_state = [
     "banned" => "Baneado",
     "deleted" => "Eliminado"
 ];
+$app_document_type = [
+    "1" => "DNI",
+    "4" => "Pasaporte",
+    "3" => "RUC"
+];
 $app_lang_leads_keys = [
     "phone_view" => 'Telefono',
     "email_view" => 'Email',
@@ -154,6 +159,7 @@ define("APP_LANG_ALERT_TYPE", $app_lang_alert_type);
 define("APP_LANG_ALERT_STATE", $app_lang_alert_state);
 define("APP_LANG_STATE", $app_lang_state);
 define("APP_LANG_USER_STATE", $app_lang_user_state);
+define("APP_DOCUMENT_TYPE", $app_document_type);
 define("APP_LANG_LEADS_KEYS", $app_lang_leads_keys);
 define("APP_LANG_ADS_TYPE", $app_lang_ads_type);
 define("APP_LANG_PACKAGE_CATEGORY", $app_lang_package_category);

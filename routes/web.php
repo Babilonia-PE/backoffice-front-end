@@ -18,6 +18,7 @@ use App\Controllers\AccountController;
 use App\Controllers\AlertasController;
 use App\Controllers\AlertasProjectsController;
 use App\Controllers\UsuariosController;
+use App\Controllers\DocumentosController;
 use App\Controllers\EquiposController;
 use App\Controllers\ContactsController;
 use App\Controllers\PaquetesController;
@@ -73,6 +74,7 @@ $router
                 ->get("/avisos", [AvisosController::class, "index"])
                 ->get("/proyectos", [ProyectosController::class, "index"])
                 ->get("/usuarios", [UsuariosController::class, "index"])
+                ->get("/documentos", [DocumentosController::class, "index"])
                 ->get("/equipos", [EquiposController::class, "index"])
                 ->get("/leads-avisos", [LeadsController::class, "index"])
                 ->get("/leads-proyectos", [LeadsProjectsController::class, "index"])
