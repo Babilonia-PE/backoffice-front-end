@@ -690,8 +690,8 @@ const datatable = async (options = {})=>{
 						const id = ( element.id??null ) ? element.id : element.owner_id;
 						const record = globalRecords.find((item)=> item.id == id) ?? null;
 						
-						const edit = crud.edit??null;
-						const e_key = edit.key??'id';
+						const edit = crud?.edit??null;
+						const e_key = edit?.key??'id';
 
 						const c_delete = ( typeof crud.delete === "object" ) ? (
 							( $(this).checkConditions(crud.delete.conditions, element) ) ?  true : false
