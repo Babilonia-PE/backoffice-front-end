@@ -689,6 +689,9 @@ const datatable = async (options = {})=>{
                         const resultParams = processParams(element)??[];
 						const id = ( element.id??null ) ? element.id : element.owner_id;
 						const record = globalRecords.find((item)=> item.id == id) ?? null;
+						
+						const edit = crud?.edit??null;
+						const e_key = edit?.key??'id';
 
 						const c_delete = ( typeof crud.delete === "object" ) ? (
 							( $(this).checkConditions(crud.delete.conditions, element) ) ?  true : false
@@ -701,7 +704,7 @@ const datatable = async (options = {})=>{
 								</button>
 								<ul class="dropdown-menu dropdown-menu-end" x-placement="right">
 									<a class="dropdown-item details" data-id="${id??''}" data-index="${index}" role="button"><i class="fas fa-eye"></i>&nbsp;&nbsp;Ver</a>` 
-									+ ( ( crud.edit ) ? `<a class="dropdown-item" data-action="update" data-id="${element.id??''}" data-index="${index}" role="button"><i class="fas fa-edit"></i>&nbsp;&nbsp;Editar</a>`: ``)
+									+ ( ( edit ) ? `<a class="dropdown-item" data-action="update" data-id="${element[e_key]??''}" data-index="${index}" role="button"><i class="fas fa-edit"></i>&nbsp;&nbsp;Editar</a>`: ``)
 									+ ( ( c_delete ) ? `<a class="dropdown-item" data-action="delete" data-id="${element.id??''}" data-index="${index}" role="button"><i class="fas fa-trash"></i>&nbsp;&nbsp;Eliminar</a>`: ``)
 									+ `${recovery_password.active && record.sign_method.toLowerCase() == 'email' && record.email ? `<a class="dropdown-item recovery-passwords" data-id="${id??''}" data-index="${index}" role="button"><i class="fas fa-paper-plane"></i>&nbsp;&nbsp;Recuperar contraseña</a>` : ''}
 									<!--- <a class="dropdown-item" href="#"><i class="fas fa-trash-alt"></i>&nbsp;&nbsp;Eliminar</a> --->
