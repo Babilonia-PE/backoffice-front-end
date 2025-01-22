@@ -215,7 +215,25 @@ Equipos
 				</button>
 			</div>
 			<div class="modal-body">
-				<div class="table-responsive"></div>
+				<div class="table-responsive">
+					<p class="text-center" name="members-loader"><img src="public/assets/img/loading.gif" width="50" /></p>
+					<table id="members-table" class="table table-bordered table-hover nowrap compact responsive d-none" cellspacing="0" width="100%">
+						<thead>
+							<tr>
+								<th>Id</th>
+								<th>Nombres</th>
+								<th>Última actividad</th>
+								<th>Correo</th>
+								<th>Teléfono</th>
+								<th>Estado</th>
+								<th>Permisos</th>
+								<th>Fecha de creación</th>
+								<th>Fecha de actualización</th>
+							</tr>
+						</thead>
+						<tbody id="team_members"></tbody>
+					</table>
+				</div>
 			</div>
 		</div>
 	</div>
@@ -283,7 +301,8 @@ Equipos
 	const columnsHidden = [];
 	const columnsDates = [1];
 	const modalFunction = {
-		show : async (id = '') => {
+		shown : async (id = '') => {
+			$("#rowDetails .modal-title").html("Miembros del equipo");
 			const params = {
 				parent: 'team',
 				child: 'detail',
@@ -293,34 +312,6 @@ Equipos
 			};
 			const details = await fetchData('app/gateway', params, 'GET');
 			const data = details?.data?.data?.records??null;
-			$("#rowDetails .modal-title").html("Miembros del equipo");
-			$("#rowDetails .modal-body .table-responsive").html("");
-			const loader = jQuery('<p>', {
-				'class': 'text-center',
-				'name': 'members-loader',
-				'html' : '<img src="public/assets/img/loading.gif" width="50" />'
-			});
-			const table = jQuery('<table>', {
-				'id': 'members-table',
-				'class': 'display table table-bordered table-hover nowrap compact responsive d-none',
-				'width': '100%',
-				'html' : `
-					<thead>
-						<th>Id</th>
-						<th>Nombres</th>
-						<th>Última actividad</th>
-						<th>Correo</th>
-						<th>Teléfono</th>
-						<th>Estado</th>
-						<th>Permisos</th>
-						<th>Fecha de creación</th>
-						<th>Fecha de actualización</th>
-					</thead>
-					<tbody id="team_members"></tbody>
-				`
-			});
-			loader.appendTo("#rowDetails .modal-body .table-responsive");
-			table.appendTo("#rowDetails .modal-body .table-responsive");
 			data.forEach(element => {
 				const user_id = jQuery( '<td>', { text: element.user_id??'' } );
 				const full_name = jQuery( '<td>', { text: element.full_name??'' } );
@@ -344,18 +335,20 @@ Equipos
 				updated_at.appendTo(row);
 				row.appendTo('#team_members');
 			});
-		},
-		shown : async (id = '') => {
 			$("#members-table").DataTable({
 				"bDestroy": true,
 				"initComplete": function(settings, json) {
-					$( 'p[name=\'members-loader\']' ).remove();
+					$( 'p[name=\'members-loader\']' ).hide();
 					$(this).removeClass( 'd-none' );
 				},
 			});
+			
 		},
 		hidden : () => {
-			$("#rowDetails .modal-body .table-responsive").html("");
+			$("#members-table").addClass( 'd-none' );
+			$('#members-table').DataTable().destroy();
+			$("#team_members").html("");
+			$( 'p[name=\'members-loader\']' ).show();
 		}
 	}
 	const download = { active: true, filename: 'Equipos.xlsx' };
