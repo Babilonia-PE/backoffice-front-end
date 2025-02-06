@@ -265,6 +265,7 @@ Usuarios
 		{ "title": "URL" },			
 		{ "title": "Auth", "code": "sign_method", "sortable": true },
 		{ "title": "Fecha de actualización" },
+		{ "title": "Tipo de persona", "code": "person_type", "sortable": true },
 		{ "title": "Acciones" }
 	];
 	const filtersFields = [
@@ -301,7 +302,6 @@ Usuarios
 		}
 	];
 	const processParams = (element) =>{
-
 		let urlClient = URL_WEB_FRONT + ((element.url && element.url!=null)?element.url:'');
 		let card_action = ( element?.card??false ) ? true : false;
 		let card_data = ( card_action ) ? 'data-id="' + ( element.id??'' ) + '"' : '';
@@ -329,7 +329,8 @@ Usuarios
 			( element.permissions??{} ).stadistics? 'SI':'NO',
 			( element.url && element.url!=null) ? `<a href="${urlClient}" target="_blank">${urlClient} <i class="fas fa-external-link-alt"></i></a>` : '',							
 			( element.sign_method??"" ),
-			element.update_at??''
+			element.update_at??'',
+			element.person_type??'',
 		];
 	}
 	const modalOrder =  [];
