@@ -107,6 +107,20 @@
 	.open-modal{
 		cursor: pointer;
 	}
+
+	.table .table-front-display{
+		display: block;
+	}
+	.table .table-modal-display{
+		display: none;
+	}
+
+	.modal .table-front-display{
+		display: none;
+	}
+	.modal .table-modal-display{
+		display: flex;
+	}
 </style>
 @endsection
 
@@ -168,6 +182,13 @@ Usuarios
 							<input type="checkbox" class="custom-control-input" id="only_agents" value="true">
 							<label class="custom-control-label" for="only_agents">Ver solo agentes</label>
 						</div>
+					</div>
+					<div class="col-md-4">
+						<div class="form-group">
+							<label>Convenio</label>
+							<select name="convenio" id="convenio" class="form-control select2" title="Convenio" placeholder="Convenio" style="width: 100%;">
+							</select>
+					  	</div>
 					</div>
 					<div class="col-md-4">
 						<div class="form-group">
@@ -240,6 +261,60 @@ Usuarios
 	showMessage();
 </script>
 <script type="module">
+	window.convenios = [];
+	const params = {
+		parent: 'user',
+		child: 'agreements'
+	}
+	const responseConvenio = await fetchData('app/gateway', params, 'GET');
+	if(responseConvenio?.status && responseConvenio.status == 200){
+		window.convenios = responseConvenio.data.records;
+		(window.convenios).forEach(convenio => {
+			let option = document.createElement("option");
+			option.text = convenio.full_name ?? '';
+			option.id = convenio.id ?? '';
+			document.getElementById('convenio').add(option);
+		});
+	}
+	const sendAgreement = () =>  {		
+		$(".modal  #submitAgreement").off("click");
+		console.log($(".modal  #submitAgreement"));
+		$(".modal  #submitAgreement").on("click", async function(){
+			// endpoint : /app/user/users
+			/*
+				params : {
+				user_id:0
+				agreement_id: 0
+				}
+			*/
+
+			let parent = $(this).parent();
+			let userId = parent.find("#user_id").val();
+			let agreementId = parent.find("#convenio_user").val();
+			console.log(parent);
+			if(agreementId == ''){
+				parent.find("#convenio_user").addClass("is-invalid");
+			}else{
+				parent.find("#convenio_user").removeClass("is-invalid");
+				const params = {
+					user_id: userId,
+					agreement_id: agreementId
+				}
+				const response = await fetchData('app/user/users', params, 'PUT');
+				if(response?.status && response.status == 200){
+					showMessage('success', 'Convenio asignado correctamente');
+					$('#rowDetails').modal('hide');
+					$('.table-usuarios').find('table').DataTable().ajax.reload();
+				}else{
+					showMessage('error', 'Error al asignar convenio');
+				}
+			}
+
+			const user_id = $("#user_id").val();
+		});
+	}
+	
+	$('#convenio').select2();
 	const { Modal } = await import (`/public/assets/js/components/modal.js`);		
 	const headers = [
 		{ "title": "ID", "code": "id", "sortable": true },
@@ -248,6 +323,7 @@ Usuarios
 		{ "title": "Email", "code": "email", "sortable": true },
 		{ "title": "Verif. Telefono" },
 		{ "title": "Teléfono", "code": "phone_number", "sortable": true },
+		{ "title": "Convenio", "code": "convenio", "sortable": true },
 		{ "title": "Tarjeta asociada" },
 		{ "title": "Nombre comercial" },
 		{ "title": "Fecha de creación", "code": "created_at", "sortable": true },
@@ -306,6 +382,19 @@ Usuarios
 		let card_action = ( element?.card??false ) ? true : false;
 		let card_data = ( card_action ) ? 'data-id="' + ( element.id??'' ) + '"' : '';
 		let card_class = ( card_action ) ? 'open-modal"' : '';
+		let convenio_id = (element.agreement_id??'');
+		let convenio = (element.agreement??'');
+
+		let convenioSelect= `
+							<div class="table-front-display">${convenio}</div>
+							<div class="table-modal-display input-group">
+								<input type="hidden" id="user_id" value="${element.id}">
+								<select id="convenio_user" class="form-control form-control-sm">
+									<option value="">Seleccionar</option>
+									${(window.convenios).map(convenio => `<option value="${convenio.id}" ${convenio.id == convenio_id ? 'selected' : ''}>${convenio.full_name}</option>`).join('')}
+								</select>
+								<button class="btn btn-primary btn-sm" type="button" id="submitAgreement">Guardar</button>
+							</div>`;
 		return [
 			element.id??'',
 			element.full_name??'',
@@ -313,6 +402,7 @@ Usuarios
 			(element.email) ? `${element.email} <button class="badge text-bg-primary btn-primary text-danger-emphasis text-dark" type="button" data-copy="inner" data-value="${element.email}"><i class="far fa-copy text-white"></i></button>`:'',
 			(element.verify?.phone_number??false ? `<span class="badge text-bg-secondary badge-4">Verificado</span>` : `<span class="badge text-bg-secondary badge-2">No verificado</span>`),
 			getFullNumber(element.prefix, element.phone_number),
+			convenioSelect,
 			(`<span ${card_data} class="badge text-bg-secondary badge-${(element?.card??false) ? 1 : 2} ${card_class}">${(element?.card??false) ? 'SI' : 'NO'}</span>`),
 			( ( element.company ) ? element.company.commercial_name??'':'' ),
 			element.created_at??'',
@@ -338,11 +428,13 @@ Usuarios
 	}
 	const initParams = ()=>{
 		copyToClipboard();
+		sendAgreement();
 	}
 	const initParamsModal = ()=>{
 		copyToClipboard();
+		sendAgreement();
 	}
-	const columnsHidden = [2, 4, 9, 11, 12, 13, 14, 15, 16, 17, 18,19,20, 21, 22];
+	const columnsHidden = [2, 4, 10, 12, 13, 14, 15, 16, 17, 18,19,20, 21, 22, 23];
 	const columnsDates = [8, 21];
 	const download = { active: true, filename: 'Usuarios.xlsx' };
 	const recovery_password = { active: true };
@@ -360,6 +452,7 @@ Usuarios
 			key: 'user_id'
 		}
 	}
+	
 	const options = {
 		recovery_password,
 		crud,
@@ -380,6 +473,7 @@ Usuarios
 	datatable(options);
 
 	copyToClipboard();
+	sendAgreement();
 	$(document).on('click', 'span.open-modal', async function () {
 		/*
 		const id = $(this).attr('data-id');
@@ -450,6 +544,7 @@ Usuarios
 			}
 		}
 		new Modal(structure, funtions);
+		sendAgreement();
 		return;
 	});
 </script>
