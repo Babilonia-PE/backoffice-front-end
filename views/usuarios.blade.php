@@ -186,7 +186,8 @@ Usuarios
 					<div class="col-md-4">
 						<div class="form-group">
 							<label>Convenio</label>
-							<select name="convenio" id="convenio" class="form-control select2" title="Convenio" placeholder="Convenio" style="width: 100%;">
+							<select name="agreement_id" id="agreement_id" class="form-control select2" title="Convenio" placeholder="Convenio" style="width: 100%;">
+								<option selected disabled value="">Elige una opción</option>
 							</select>
 					  	</div>
 					</div>
@@ -270,15 +271,19 @@ Usuarios
 	if(responseConvenio?.status && responseConvenio.status == 200){
 		window.convenios = responseConvenio.data.records;
 		(window.convenios).forEach(convenio => {
+			console.log(convenio);
 			let option = document.createElement("option");
 			option.text = convenio.full_name ?? '';
-			option.id = convenio.id ?? '';
-			document.getElementById('convenio').add(option);
+			option.value = convenio.id ?? '';
+			$("#agreement_id").append(option)
+		});
+
+		$(document).ready(function() {
+			$("#agreement_id").select2("");
 		});
 	}
 	const sendAgreement = () =>  {		
-		$(".modal  #submitAgreement").off("click");
-		console.log($(".modal  #submitAgreement"));
+		$(".modal  #submitAgreement").off("click");		
 		$(".modal  #submitAgreement").on("click", async function(){
 			// endpoint : /app/user/users
 			/*
@@ -290,12 +295,12 @@ Usuarios
 
 			let parent = $(this).parent();
 			let userId = parent.find("#user_id").val();
-			let agreementId = parent.find("#convenio_user").val();
+			let agreementId = parent.find("#convenio_id").val();
 			console.log(parent);
 			if(agreementId == ''){
-				parent.find("#convenio_user").addClass("is-invalid");
+				parent.find("#convenio_id").addClass("is-invalid");
 			}else{
-				parent.find("#convenio_user").removeClass("is-invalid");
+				parent.find("#convenio_id").removeClass("is-invalid");
 				const params = {
 					user_id: userId,
 					agreement_id: agreementId
@@ -365,6 +370,9 @@ Usuarios
 			name: 'state'
 		},
 		{
+			name: 'agreement_id'
+		},
+		{
 			name: 'created_start',
 			type: filtersParamsTypes.DATE
 		},
@@ -389,7 +397,7 @@ Usuarios
 							<div class="table-front-display">${convenio}</div>
 							<div class="table-modal-display input-group">
 								<input type="hidden" id="user_id" value="${element.id}">
-								<select id="convenio_user" class="form-control form-control-sm">
+								<select id="convenio_id" class="form-control form-control-sm">
 									<option value="">Seleccionar</option>
 									${(window.convenios).map(convenio => `<option value="${convenio.id}" ${convenio.id == convenio_id ? 'selected' : ''}>${convenio.full_name}</option>`).join('')}
 								</select>
