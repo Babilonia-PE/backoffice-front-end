@@ -500,7 +500,9 @@ const datatable = async (options = {})=>{
 			} 
 			$(`#${name}`).val(fieldValue);
         }
-
+		
+		$("#table-box").removeClass("d-none");
+		$(this).createDataTable(searchBuilder, columnDefs, returnTable, 25, true, headers);
         $("#filter_box").removeClass("collapsed-card");
         $("#icon_filter_box").addClass("fa-minus").removeClass("fa-plus");
 		
@@ -841,10 +843,9 @@ const datatable = async (options = {})=>{
 		},
 	};
 	$(this).populatefilters();
-	$(this).createDataTable(searchBuilder, columnDefs, returnTable, 25, true, headers);
-
-	if( ( jQuery.isEmptyObject(returnTable) || ( returnTable.actions??true ) == true ) ){
-		tableSaved.on('click', '.details', async function (e) {
+	
+	if( ( jQuery.isEmptyObject(returnTable) || ( returnTable?.actions??true ) == true ) ){
+		tableSaved?.on('click', '.details', async function (e) {
 			e.preventDefault();
 			if ( modalFunction ){
 				const id = $(this).attr('data-id');
@@ -946,7 +947,12 @@ const datatable = async (options = {})=>{
 			if(!$.isEmptyObject(filters)){
 				localStorage.setItem(storageView, JSON.stringify(filters));
 			}
-			tableSaved.ajax.reload();
+			if( tableSaved ){
+				tableSaved.ajax.reload();
+			}else{
+				$("#table-box").removeClass("d-none");
+				$(this).createDataTable(searchBuilder, columnDefs, returnTable, 25, true, headers);
+			}
 		});
 		$("#removefiltters").on('click', function (e) {
 	
@@ -977,7 +983,7 @@ const datatable = async (options = {})=>{
 	
 			tableSaved.ajax.reload();
 		});
-		tableSaved.on('click', '.recovery-passwords', async function (e) {
+		tableSaved?.on('click', '.recovery-passwords', async function (e) {
 			e.preventDefault();
 			const id = $(this).attr('data-id');
 			const record = globalRecords.find((item)=> item.id == id) ?? null;
