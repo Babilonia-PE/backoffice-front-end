@@ -11,9 +11,12 @@
     <div class="content-header">
       <div class="container-fluid">
         <div class="row mb-2">
-          <div class="col-sm-6">
+          <div class="col">
             <h1 class="m-0">@yield('page')</h1>
           </div><!-- /.col -->          
+          <div class="col-auto">
+            @yield('button')
+          </div><!-- /.col -->       
         </div><!-- /.row -->
       </div><!-- /.container-fluid -->
     </div>
