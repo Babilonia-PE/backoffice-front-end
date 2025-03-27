@@ -133,6 +133,10 @@ Paquetes
 
 @endsection
 
+@section('button')
+<button id="btnNewPackage" type="button" class="btn btn-primary btn-block text-truncate btn-sm"><i class="fas fa-save"></i> Nuevo paquete</button>
+@endsection
+
 @section('content')
 
 <div class="row">
@@ -703,295 +707,6 @@ Paquetes
 	}
 	const columnsHidden = [3,6,7,8,9,10,11,12,13,14,15,16,17,18,22,23,24];
 	const columnsDates = [22,23];
-	const returnTable = {
-		buttons: [
-			{
-				extend: 'colvis',
-				columns: ':not(.noVis)',
-				text: "Ocultar columnas",
-				columnText: function(dt, idx, title ){
-					let title_clean =(typeof headers[idx] === "object" && headers[idx].hasOwnProperty("title_clean"))?headers[idx]["title_clean"]:title;
-					return title_clean;
-				}
-			},
-			{
-				text: 'Descargar',
-				action: async function ( e, dt, node, config ) {
-					if( !download.active ){
-						console.log("descarga no activa");
-						return;
-					}
-					$(node).attr('disabled', true);
-					$(node).html('<span class="spinner-border spinner-border-sm"></span> Descargando');
-
-					const $preloader = $(".preloader");
-					if ($preloader) {
-						$preloader.removeAttr('style');
-						setTimeout(function () {
-							$preloader.children().show();
-						}, 200);
-					}
-					let params = {};
-					for(let i in filtersFields){
-						let {
-							name='',
-							type='',
-							value=''
-						} = filtersFields[i] ?? {};
-
-						if( type == 'static' ){
-							params[name] = value;
-						}else{
-							let element = document.getElementById(name);
-							if( element == null || element.value == '' || ( element.type == 'checkbox' && !element.checked ) ) continue;
-			
-							let fieldValue = document.getElementById(name).value;
-							params[name] = fieldValue;
-						}
-					}
-					const response = await fetchData('app/downloads', params, 'GET', true);				
-					if (window.navigator && window.navigator.msSaveOrOpenBlob) { // IE variant
-						window.navigator.msSaveOrOpenBlob(new Blob([response.data],
-								{ type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' }
-							),
-							download.filename
-						);
-					} else {
-						const url = window.URL.createObjectURL(new Blob([response.data],
-							{ type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' }));
-						const link = document.createElement('a');
-						link.href = url;
-						link.setAttribute('download', download.filename);
-						document.body.appendChild(link);
-						link.click();
-					}
-					
-					$(node).attr('disabled', false);
-					$(node).html('Descargar');
-					if ($preloader) {
-						$preloader.css('height', 0);
-						setTimeout(function () {
-							$preloader.children().hide();
-						}, 200);
-					}
-				}
-			},
-			{
-				text: 'Reiniciar',
-				action: function ( e, dt, node, config ) {
-					dt.state.clear();
-					window.location.reload();
-				}
-			},
-			{
-				text: 'Nuevo paquete',
-				action: async function ( e, dt, node, config ) {
-					let categories = [];
-					const mask = {
-						alias: "numeric", 
-						allowMinus: false, 
-						digits: '0', 
-						showMaskOnHover: false, 
-						rightAlign:false
-					};
-					$('.inputmask').inputmask("remove");
-					$('#newPackage .form-control').val("");
-					$('#addPackage').attr("disabled", true);
-					$('#newPackage .disable').attr("disabled", true);
-					$('#newPackage .selectpicker').selectpicker('refresh');
-					$(document).off("change", "#package_type");
-					$(document).on('change', '#package_type', async function () {
-						const params = {
-							parent: 'package',
-							child: 'list',
-							type: $(this).val()
-						};
-						if( $(this).val() == 'project' ){
-							window.realtor = true;
-							const selectUser = document.getElementById('package_owner_id');
-							selectUser.innerHTML="";
-							$(selectUser).selectpicker('refresh');
-						}else{
-							window.realtor = false;
-						}
-						const details = await fetchData('app/gateway', params, 'GET');
-						const data = details?.data?.records??null;
-						const users = details?.data?.users??null;
-						$('#realtor').find('option').remove();
-						$('#count').find('option').remove();
-						$('#plan').find('option').remove();
-						$('#duracion').find('option').remove();
-
-						$("#standard_ads_count").val("").attr("disabled", true);
-						$("#plus_ads_count").val("").attr("disabled", true);
-						$("#premium_ads_count").val("").attr("disabled", true);
-						$("#plan").val("").attr("disabled", true);
-						$("#days").val("").attr("disabled", true);
-						$("#duracion").val("").attr("disabled", true);
-
-						data.forEach(element => {
-							categories[element.id] = element.packages;
-							jQuery('<option>', {
-							'value': element.id,
-							'text' : ( element.is_unlimited == true ) ? 'Ilimitado' : element.ads_count
-							}).appendTo("#count");
-						});
-						users.forEach(element => {
-							if( element.state == 0 ){ return; }
-							jQuery('<option>', {
-							'value': element.id,
-							'text' : element.full_name
-							}).appendTo("#realtor");
-						});
-						$('#realtor').attr('disabled', false);
-						$('#count').attr('disabled', false);
-						$('#realtor').selectpicker('refresh');
-						$('#count').selectpicker('refresh');
-						$('#plan').selectpicker('refresh');
-						$('#duracion').selectpicker('refresh');
-					});
-					$(document).off("change", "#count");
-					$(document).on('change', '#count', async function () {
-						const id = $(this).val();
-						$('#plan').find('option').remove();
-						$('#duracion').find('option').remove();
-						$('#plan').attr('data-key', id);
-						$('#plan').attr('disabled', false);
-						$('#duracion').attr('disabled', true);
-						
-						$('.inputmask').inputmask("remove");
-						$("#standard_ads_count").removeClass('element-required');
-						$("#plus_ads_count").removeClass('element-required');
-						$("#premium_ads_count").removeClass('element-required');
-						$("#standard_ads_count").val("").attr("disabled", true);
-						$("#plus_ads_count").val("").attr("disabled", true);
-						$("#premium_ads_count").val("").attr("disabled", true);
-						$("#days").val("").attr("disabled", true);
-
-						(categories[id]??[]).forEach( (element, index) => {
-							jQuery('<option>', {
-								'value': index,
-								'text' : element.category
-							}).appendTo("#plan");
-							$('#plan').selectpicker('refresh');
-							$('#duracion').selectpicker('refresh');
-						});
-					});
-					$(document).off("change", "#plan");
-					$(document).on('change', '#plan', async function () {
-						const count_id = $(this).attr('data-key');
-						const plan_id = $(this).val();
-						const count = categories[count_id][plan_id];
-						const standard_unlimited = count.standard?.is_unlimited??false;
-						const plus_unlimited = count.plus?.is_unlimited??false;
-						const premium_unlimited = count.premium?.is_unlimited??false;
-						const standard_count = ( standard_unlimited == true ) ? 'Ilimitado' : ( count.standard?.ads_count??0 );
-						const plus_count = ( plus_unlimited == true ) ? 'Ilimitado' : ( count.plus?.ads_count??0 );
-						const premium_count = ( premium_unlimited == true ) ? 'Ilimitado' : ( count.premium?.ads_count??0 );
-						if( !standard_unlimited ){
-							$("#standard_ads_count").attr("disabled", false);
-							setMask('#standard_ads_count', mask);
-						}
-						if( !plus_unlimited ){
-							$("#plus_ads_count").attr("disabled", false);
-							setMask('#plus_ads_count', mask);
-						}
-						if( !premium_unlimited ){
-							$("#premium_ads_count").attr("disabled", false);
-							setMask('#premium_ads_count', mask);
-						}
-						$("#standard_ads_count").val(standard_count);
-						$("#plus_ads_count").val(plus_count);
-						$("#premium_ads_count").val(premium_count);
-						$("#standard_ads_count").removeClass('element-required');
-						$("#plus_ads_count").removeClass('element-required');
-						$("#premium_ads_count").removeClass('element-required');
-						$("#days").val("").attr("disabled", true);
-						$('#duracion').find('option').remove();
-						$('#duracion').attr('disabled', false);
-						(count.products??[]).forEach( (element, index) => {
-							jQuery('<option>', {
-								'value': element.key,
-								'text' : element.duration
-							}).appendTo("#duracion");
-							$('#duracion').selectpicker('refresh');
-						});
-					});
-					$(document).off("change", "#duracion");
-					$(document).on('change', '#duracion', async function () {
-						const option = $(this).find(":selected").text();
-						const dt = new Date(); // June 1, 2022 UTC time
-						dt.setDate(dt.getDate() + parseInt(option)); // Add 30 days
-						
-						const date = [
-							dt.getFullYear(),
-							('0' + (dt.getMonth() + 1)).slice(-2),
-							('0' + dt.getDate()).slice(-2)
-						].join('-');
-					
-						$("#days").val(date);
-						$("#days").attr("disabled", false);
-					});
-					$(document).off("click", "#addPackage");
-					$(document).on('click', '#addPackage', async function () {
-						setMessageInput("#package_owner_id");
-						setMessageInput("#count");
-						setMessageInput("#plan");
-						setMessageInput("#standard_ads_count");
-						setMessageInput("#plus_ads_count");
-						setMessageInput("#premium_ads_count");
-						setMessageInput("#duracion");
-						setMessageInput("#days");
-						setMessageInput("#state");
-									
-						const type = $("#package_type").val();
-						const agent_id = $("#realtor").val();
-						const user_id = $("#package_owner_id").val();
-						const product_key = $("#duracion").val();
-						const expires_at = $("#days").val();
-						const payment_method = $("#payment_method").val();
-						const standard_ads_count = $("#standard_ads_count").val();
-						const plus_ads_count = $("#plus_ads_count").val();
-						const premium_ads_count = $("#premium_ads_count").val();
-						const state = $("#state").val();
-						const now = new Date()
-						//const duration = moment(expires_at).diff(moment(), 'days') + 1;		
-						const duration = $( "#duracion option:selected" ).text();	
-						const params = {
-							parent: 'package',
-							child: 'packages',
-							type: type,
-							agent_id: agent_id,
-							user_id: user_id,
-							product_key: product_key,
-							duration: duration,
-							expires_at: expires_at,
-							payment_method: payment_method,
-							standard_ads_count: ( standard_ads_count == 'Ilimitado') ? 999999 : standard_ads_count,
-							plus_ads_count: ( plus_ads_count == 'Ilimitado') ? 999999 : plus_ads_count,
-							premium_ads_count: ( premium_ads_count == 'Ilimitado') ? 999999 : premium_ads_count,
-							state: state
-						}
-						try {
-							const response = await fetchData('app/gateway', params, 'POST');
-							if (response.hasOwnProperty('code')){ 
-								AppValidateHttpCode(response);
-								return false;
-							}
-							restartForm();
-							$("#newPackage").modal('hide');
-							localStorage.setItem('message', response?.data?.data?.message??'');
-							window.location.reload();
-						} catch (error) {
-							console.log(error);
-						}
-					});
-
-					$("#newPackage").modal('show');
-				}
-			}
-		]
-	};
 	const crud = {
 		view: true,
 		edit: true
@@ -1006,13 +721,216 @@ Paquetes
 		storageView : 'filter_packages',
 		columnsHidden,
 		columnsDates,
-		returnTable,
 		modalOrder,
 		modalTitle,
 		initParams,
 		initParamsModal,
 		url: 'app/gateway'
 	};
+	$(document).on("click", "#btnNewPackage", async function(e) {
+		let categories = [];
+		const mask = {
+			alias: "numeric", 
+			allowMinus: false, 
+			digits: '0', 
+			showMaskOnHover: false, 
+			rightAlign:false
+		};
+		$('.inputmask').inputmask("remove");
+		$('#newPackage .form-control').val("");
+		$('#addPackage').attr("disabled", true);
+		$('#newPackage .disable').attr("disabled", true);
+		$('#newPackage .selectpicker').selectpicker('refresh');
+		$(document).off("change", "#package_type");
+		$(document).on('change', '#package_type', async function () {
+			const params = {
+				parent: 'package',
+				child: 'list',
+				type: $(this).val()
+			};
+			if( $(this).val() == 'project' ){
+				window.realtor = true;
+				const selectUser = document.getElementById('package_owner_id');
+				selectUser.innerHTML="";
+				$(selectUser).selectpicker('refresh');
+			}else{
+				window.realtor = false;
+			}
+			const details = await fetchData('app/gateway', params, 'GET');
+			const data = details?.data?.records??null;
+			const users = details?.data?.users??null;
+			$('#realtor').find('option').remove();
+			$('#count').find('option').remove();
+			$('#plan').find('option').remove();
+			$('#duracion').find('option').remove();
+
+			$("#standard_ads_count").val("").attr("disabled", true);
+			$("#plus_ads_count").val("").attr("disabled", true);
+			$("#premium_ads_count").val("").attr("disabled", true);
+			$("#plan").val("").attr("disabled", true);
+			$("#days").val("").attr("disabled", true);
+			$("#duracion").val("").attr("disabled", true);
+
+			data.forEach(element => {
+				categories[element.id] = element.packages;
+				jQuery('<option>', {
+				'value': element.id,
+				'text' : ( element.is_unlimited == true ) ? 'Ilimitado' : element.ads_count
+				}).appendTo("#count");
+			});
+			users.forEach(element => {
+				if( element.state == 0 ){ return; }
+				jQuery('<option>', {
+				'value': element.id,
+				'text' : element.full_name
+				}).appendTo("#realtor");
+			});
+			$('#realtor').attr('disabled', false);
+			$('#count').attr('disabled', false);
+			$('#realtor').selectpicker('refresh');
+			$('#count').selectpicker('refresh');
+			$('#plan').selectpicker('refresh');
+			$('#duracion').selectpicker('refresh');
+		});
+		$(document).off("change", "#count");
+		$(document).on('change', '#count', async function () {
+			const id = $(this).val();
+			$('#plan').find('option').remove();
+			$('#duracion').find('option').remove();
+			$('#plan').attr('data-key', id);
+			$('#plan').attr('disabled', false);
+			$('#duracion').attr('disabled', true);
+			
+			$('.inputmask').inputmask("remove");
+			$("#standard_ads_count").removeClass('element-required');
+			$("#plus_ads_count").removeClass('element-required');
+			$("#premium_ads_count").removeClass('element-required');
+			$("#standard_ads_count").val("").attr("disabled", true);
+			$("#plus_ads_count").val("").attr("disabled", true);
+			$("#premium_ads_count").val("").attr("disabled", true);
+			$("#days").val("").attr("disabled", true);
+
+			(categories[id]??[]).forEach( (element, index) => {
+				jQuery('<option>', {
+					'value': index,
+					'text' : element.category
+				}).appendTo("#plan");
+				$('#plan').selectpicker('refresh');
+				$('#duracion').selectpicker('refresh');
+			});
+		});
+		$(document).off("change", "#plan");
+		$(document).on('change', '#plan', async function () {
+			const count_id = $(this).attr('data-key');
+			const plan_id = $(this).val();
+			const count = categories[count_id][plan_id];
+			const standard_unlimited = count.standard?.is_unlimited??false;
+			const plus_unlimited = count.plus?.is_unlimited??false;
+			const premium_unlimited = count.premium?.is_unlimited??false;
+			const standard_count = ( standard_unlimited == true ) ? 'Ilimitado' : ( count.standard?.ads_count??0 );
+			const plus_count = ( plus_unlimited == true ) ? 'Ilimitado' : ( count.plus?.ads_count??0 );
+			const premium_count = ( premium_unlimited == true ) ? 'Ilimitado' : ( count.premium?.ads_count??0 );
+			if( !standard_unlimited ){
+				$("#standard_ads_count").attr("disabled", false);
+				setMask('#standard_ads_count', mask);
+			}
+			if( !plus_unlimited ){
+				$("#plus_ads_count").attr("disabled", false);
+				setMask('#plus_ads_count', mask);
+			}
+			if( !premium_unlimited ){
+				$("#premium_ads_count").attr("disabled", false);
+				setMask('#premium_ads_count', mask);
+			}
+			$("#standard_ads_count").val(standard_count);
+			$("#plus_ads_count").val(plus_count);
+			$("#premium_ads_count").val(premium_count);
+			$("#standard_ads_count").removeClass('element-required');
+			$("#plus_ads_count").removeClass('element-required');
+			$("#premium_ads_count").removeClass('element-required');
+			$("#days").val("").attr("disabled", true);
+			$('#duracion').find('option').remove();
+			$('#duracion').attr('disabled', false);
+			(count.products??[]).forEach( (element, index) => {
+				jQuery('<option>', {
+					'value': element.key,
+					'text' : element.duration
+				}).appendTo("#duracion");
+				$('#duracion').selectpicker('refresh');
+			});
+		});
+		$(document).off("change", "#duracion");
+		$(document).on('change', '#duracion', async function () {
+			const option = $(this).find(":selected").text();
+			const dt = new Date(); // June 1, 2022 UTC time
+			dt.setDate(dt.getDate() + parseInt(option)); // Add 30 days
+			
+			const date = [
+				dt.getFullYear(),
+				('0' + (dt.getMonth() + 1)).slice(-2),
+				('0' + dt.getDate()).slice(-2)
+			].join('-');
+		
+			$("#days").val(date);
+			$("#days").attr("disabled", false);
+		});
+		$(document).off("click", "#addPackage");
+		$(document).on('click', '#addPackage', async function () {
+			setMessageInput("#package_owner_id");
+			setMessageInput("#count");
+			setMessageInput("#plan");
+			setMessageInput("#standard_ads_count");
+			setMessageInput("#plus_ads_count");
+			setMessageInput("#premium_ads_count");
+			setMessageInput("#duracion");
+			setMessageInput("#days");
+			setMessageInput("#state");
+						
+			const type = $("#package_type").val();
+			const agent_id = $("#realtor").val();
+			const user_id = $("#package_owner_id").val();
+			const product_key = $("#duracion").val();
+			const expires_at = $("#days").val();
+			const payment_method = $("#payment_method").val();
+			const standard_ads_count = $("#standard_ads_count").val();
+			const plus_ads_count = $("#plus_ads_count").val();
+			const premium_ads_count = $("#premium_ads_count").val();
+			const state = $("#state").val();
+			const now = new Date()
+			//const duration = moment(expires_at).diff(moment(), 'days') + 1;		
+			const duration = $( "#duracion option:selected" ).text();	
+			const params = {
+				parent: 'package',
+				child: 'packages',
+				type: type,
+				agent_id: agent_id,
+				user_id: user_id,
+				product_key: product_key,
+				duration: duration,
+				expires_at: expires_at,
+				payment_method: payment_method,
+				standard_ads_count: ( standard_ads_count == 'Ilimitado') ? 999999 : standard_ads_count,
+				plus_ads_count: ( plus_ads_count == 'Ilimitado') ? 999999 : plus_ads_count,
+				premium_ads_count: ( premium_ads_count == 'Ilimitado') ? 999999 : premium_ads_count,
+				state: state
+			}
+			try {
+				const response = await fetchData('app/gateway', params, 'POST');
+				if (response.hasOwnProperty('code')){ 
+					AppValidateHttpCode(response);
+					return false;
+				}
+				restartForm();
+				$("#newPackage").modal('hide');
+				localStorage.setItem('message', response?.data?.data?.message??'');
+				window.location.reload();
+			} catch (error) {
+				console.log(error);
+			}
+		});
+
+		$("#newPackage").modal('show');
+	})
 	$(document).on("click", "a[data-action=\"update\"]", async function(e) {
 		e.preventDefault();
 		const key = $(this).attr("data-id");
