@@ -981,7 +981,7 @@ const datatable = async (options = {})=>{
 	
 			$('.select2').val(null).trigger('change');
 	
-			tableSaved.ajax.reload();
+			//tableSaved.ajax.reload();
 		});
 		tableSaved?.on('click', '.recovery-passwords', async function (e) {
 			e.preventDefault();
