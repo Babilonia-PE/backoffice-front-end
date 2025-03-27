@@ -845,89 +845,6 @@ const datatable = async (options = {})=>{
 	$(this).populatefilters();
 	
 	if( ( jQuery.isEmptyObject(returnTable) || ( returnTable?.actions??true ) == true ) ){
-		tableSaved?.on('click', '.details', async function (e) {
-			e.preventDefault();
-			if ( modalFunction ){
-				const id = $(this).attr('data-id');
-				$('#rowDetails').off('show.bs.modal');
-				$('#rowDetails').off('shown.bs.modal');
-				$('#rowDetails').off('hide.bs.modal');
-				$('#rowDetails').off('hidden.bs.modal');
-				$('#rowDetails').on('show.bs.modal', async function (e) {
-					if (modalFunction.hasOwnProperty('show')){
-						if ( typeof modalFunction.show == 'function' ) { 
-							try {
-								await modalFunction.show(id); 
-							} catch (error) {
-								console.log(error);
-							}
-						}
-					}  
-				})
-				$('#rowDetails').on('shown.bs.modal', async function (e) {
-					if (modalFunction.hasOwnProperty('shown')){
-						if ( typeof modalFunction.shown == 'function' ) { 
-							try {
-								await modalFunction.shown(id); 
-							} catch (error) {
-								console.log(error);
-							}
-						}
-					}  
-				})
-				$('#rowDetails').on('hide.bs.modal', async function (e) {
-					if (modalFunction.hasOwnProperty('hide')){
-						if ( typeof modalFunction.hide == 'function' ) { 
-							try {
-								await modalFunction.hide(id); 
-							} catch (error) {
-								console.log(error);
-							}
-						}
-					}  
-				})
-				$('#rowDetails').on('hidden.bs.modal', async function (e) {
-					if (modalFunction.hasOwnProperty('hidden')){
-						if ( typeof modalFunction.hidden == 'function' ) { 
-							try {
-								await modalFunction.hidden(id); 
-							} catch (error) {
-								console.log(error);
-							}
-						}
-					}  
-				})
-				$("#rowDetails").modal('show');
-				return;
-			}
-			const target = $(this).attr('data-index');
-			let data = tableSaved.rows( target ).data()[0];
-			$("#rowDetails .modal-body").html("");
-	
-			let newHeader = headers;
-			if(modalOrder.length > 0){
-				data = modalOrder.map(i => data[i]);
-				newHeader = modalOrder.map(i => headers[i]);
-			}
-	
-			data.forEach((element, 
-			index, array) => {
-				if (index + 1 === array.length){ return; }
-				if (index === 0){
-					let customHeader = modalTitle(element, globalRecords)??`Detalles para ${element}`;
-					$("#rowDetails .modal-title").html(customHeader);
-				}
-				$("#rowDetails .modal-body").append(`
-					<div class="box-details">
-						<div>${newHeader[index]?.title??''}</div>
-						<div>${element}</div>
-					</div>
-				`);
-			});
-			
-			$("#rowDetails").modal('show');
-			initParamsModal();
-		});
 		$("#applyfiltters").on('click', function (e) {
 			let filters = {};
 	
@@ -983,23 +900,6 @@ const datatable = async (options = {})=>{
 	
 			//tableSaved.ajax.reload();
 		});
-		tableSaved?.on('click', '.recovery-passwords', async function (e) {
-			e.preventDefault();
-			const id = $(this).attr('data-id');
-			const record = globalRecords.find((item)=> item.id == id) ?? null;
-			if(!record && !record.email) return;
-			const params = {
-				email: record.email
-			}
-			try {
-				const response = await fetchData('auth/recover', params, 'POST', true);
-				const message = response.data.data.message ?? 'Revisa tu bandeja de entrada y sigue las instrucciones para restablecer tu contraseña';
-				alertShort('success', message);
-			} catch (error) {
-				alertShort('error', 'Error Network', error);
-			}
-			
-		});
 	}
 	
 	$('.select2').select2({
@@ -1012,7 +912,105 @@ const datatable = async (options = {})=>{
 		})
 	}, 2000);
 
-	
+	$(document).on("click", "a.details", async function(e) {
+		e.preventDefault();
+		if ( modalFunction ){
+			const id = $(this).attr('data-id');
+			$('#rowDetails').off('show.bs.modal');
+			$('#rowDetails').off('shown.bs.modal');
+			$('#rowDetails').off('hide.bs.modal');
+			$('#rowDetails').off('hidden.bs.modal');
+			$('#rowDetails').on('show.bs.modal', async function (e) {
+				if (modalFunction.hasOwnProperty('show')){
+					if ( typeof modalFunction.show == 'function' ) { 
+						try {
+							await modalFunction.show(id); 
+						} catch (error) {
+							console.log(error);
+						}
+					}
+				}  
+			})
+			$('#rowDetails').on('shown.bs.modal', async function (e) {
+				if (modalFunction.hasOwnProperty('shown')){
+					if ( typeof modalFunction.shown == 'function' ) { 
+						try {
+							await modalFunction.shown(id); 
+						} catch (error) {
+							console.log(error);
+						}
+					}
+				}  
+			})
+			$('#rowDetails').on('hide.bs.modal', async function (e) {
+				if (modalFunction.hasOwnProperty('hide')){
+					if ( typeof modalFunction.hide == 'function' ) { 
+						try {
+							await modalFunction.hide(id); 
+						} catch (error) {
+							console.log(error);
+						}
+					}
+				}  
+			})
+			$('#rowDetails').on('hidden.bs.modal', async function (e) {
+				if (modalFunction.hasOwnProperty('hidden')){
+					if ( typeof modalFunction.hidden == 'function' ) { 
+						try {
+							await modalFunction.hidden(id); 
+						} catch (error) {
+							console.log(error);
+						}
+					}
+				}  
+			})
+			$("#rowDetails").modal('show');
+			return;
+		}
+		const target = $(this).attr('data-index');
+		let data = tableSaved.rows( target ).data()[0];
+		$("#rowDetails .modal-body").html("");
+
+		let newHeader = headers;
+		if(modalOrder.length > 0){
+			data = modalOrder.map(i => data[i]);
+			newHeader = modalOrder.map(i => headers[i]);
+		}
+
+		data.forEach((element, 
+		index, array) => {
+			if (index + 1 === array.length){ return; }
+			if (index === 0){
+				let customHeader = modalTitle(element, globalRecords)??`Detalles para ${element}`;
+				$("#rowDetails .modal-title").html(customHeader);
+			}
+			$("#rowDetails .modal-body").append(`
+				<div class="box-details">
+					<div>${newHeader[index]?.title??''}</div>
+					<div>${element}</div>
+				</div>
+			`);
+		});
+		
+		$("#rowDetails").modal('show');
+		initParamsModal();
+	})
+	$(document).on("click", ".recovery-passwords", async function(e) {
+		e.preventDefault();
+		const id = $(this).attr('data-id');
+		const record = globalRecords.find((item)=> item.id == id) ?? null;
+		if(!record && !record.email) return;
+		const params = {
+			email: record.email
+		}
+		try {
+			const response = await fetchData('auth/recover', params, 'POST', true);
+			const message = response.data.data.message ?? 'Revisa tu bandeja de entrada y sigue las instrucciones para restablecer tu contraseña';
+			alertShort('success', message);
+		} catch (error) {
+			alertShort('error', 'Error Network', error);
+		}
+	})
 	$(document).on("click", "a[data-action=\"delete\"]", async function(e) {
 		e.preventDefault();
 		const c_del = crud?.delete??null;
