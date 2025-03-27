@@ -137,7 +137,7 @@ Paquetes
 
 <div class="row">
 	<div class="col-12">
-        <div id="filter_box" class="card collapsed-card">
+        <div id="filter_box" class="card">
 			<div class="card-header" role="button" data-card-widget="collapse">
                 <h5 class="card-title">Filtros de búsqueda</h5>
                 <div class="card-tools">
@@ -275,7 +275,7 @@ Paquetes
 			</div>
         </div>
 	</div>
-    <div class="col-12">
+    <div id="table-box" class="col-12 d-none">
         <div class="card">
             <div class="card-body table-responsive">
 				<p class="text-center" name="loading"><img src="public/assets/img/loading.gif" width="50" /></p>
@@ -1017,6 +1017,7 @@ Paquetes
 		e.preventDefault();
 		const key = $(this).attr("data-id");
 		const detail = globalRecords.find(item => item.id === Number(key));
+		console.log(detail);
 		$("#package_id").text('Editar paquete ' + detail.id??'');
 		$("#update_package_owner_id").val(detail.full_name??'');
 		$("#update_payment_method").val(detail.buy_type??'');

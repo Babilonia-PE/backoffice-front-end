@@ -120,7 +120,7 @@ Central de riesgo
 
 <div class="row">
 	<div class="col-12">
-        <div id="filter_box" class="card collapsed-card">
+        <div id="filter_box" class="card">
 			<div class="card-header" role="button" data-card-widget="collapse">
                 <h5 class="card-title">Filtros de búsqueda</h5>
                 <div class="card-tools">
@@ -154,7 +154,7 @@ Central de riesgo
 			</div>
         </div>
 	</div>
-    <div class="col-12">
+    <div id="table-box" class="col-12 d-none">
         <div class="card">
             <div class="card-body table-responsive table-usuarios">
 				<p class="text-center" name="loading"><img src="public/assets/img/loading.gif" width="50" /></p>
