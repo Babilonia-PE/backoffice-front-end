@@ -121,7 +121,8 @@ const userSearch = (options = {}) => {
 
     const { id='user_id', storage = 'filter_leads_users' } = options;
     $(`#${id}`).selectpicker({
-        liveSearch: true
+        liveSearch: true,
+        noneResultsText: 'Buscando a {0}<div class="loader-select"></div>'
     });
     $(`.${id}.user-search.bootstrap-select .bs-searchbox input`).unbind("keyup");
     $(`.${id}.user-search.bootstrap-select .bs-searchbox input`).on('keyup', async function (e) {
