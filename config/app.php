@@ -100,6 +100,7 @@ $app_lang_state = [
     "deleted" => "Eliminado"
 ];
 $app_lang_user_state = [
+    "standby" => "Suspendido",
     "incomplete" => "Incompleto",
     "active" => "Activo",
     "locked" => "Bloqueado",
