@@ -28,6 +28,7 @@ const datatable = async (options = {})=>{
 		initParamsModal = function(){},
         storageView = '',
         url = '',
+		show = false,
     } = options ?? {};
 
     let tableSaved = null;
@@ -462,10 +463,11 @@ const datatable = async (options = {})=>{
 	}
 	//POBLAR FILTROS
 	jQuery.fn.populatefilters=function(){
+		
+		if(show == false){
+			const filter_storage = JSON.parse(localStorage.getItem(storageView));
+			if(storageView =='' || filter_storage == null) return false;
 
-        const filter_storage = JSON.parse(localStorage.getItem(storageView));
-        
-        if(storageView || filter_storage){
 			for(let i in filtersFields){
 				let {
 					name='',
@@ -473,11 +475,11 @@ const datatable = async (options = {})=>{
 					search=false,
 					storage=''
 				} = filtersFields[i] ?? {};
-	
+
 				let fieldValue = filter_storage[name]??'';
-	
+
 				if(document.getElementById(name) == null) continue;
-	
+
 				if(type == filtersParamsTypes.USER && search){		
 					let filter_user_field = JSON.parse(localStorage.getItem(storage)) ?? [];
 					if(filter_user_field.length > 0){
@@ -498,13 +500,18 @@ const datatable = async (options = {})=>{
 					}			
 				} 
 				$(`#${name}`).val(fieldValue);
-			}			
+			}
+			
+			$("#table-box").removeClass("d-none");
+			$(this).createDataTable(searchBuilder, columnDefs, returnTable, 25, true, headers);
+			$("#filter_box").removeClass("collapsed-card");
+			$("#icon_filter_box").addClass("fa-minus").removeClass("fa-plus");
+		}else{
+			$("#table-box").removeClass("d-none");
+			$(this).createDataTable(searchBuilder, columnDefs, returnTable, 25, true, headers);
+			$("#filter_box").removeClass("collapsed-card");
+			$("#icon_filter_box").addClass("fa-minus").removeClass("fa-plus");
 		}
-		
-		$("#table-box").removeClass("d-none");
-		$(this).createDataTable(searchBuilder, columnDefs, returnTable, 25, true, headers);
-        $("#filter_box").removeClass("collapsed-card");
-        $("#icon_filter_box").addClass("fa-minus").removeClass("fa-plus");
 		
     };
     //REDIMENSIONAR DATATABLE
