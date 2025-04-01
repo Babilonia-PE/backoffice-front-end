@@ -28,6 +28,7 @@ const datatable = async (options = {})=>{
 		initParamsModal = function(){},
         storageView = '',
         url = '',
+		show = false,
     } = options ?? {};
 
     let tableSaved = null;
@@ -462,49 +463,55 @@ const datatable = async (options = {})=>{
 	}
 	//POBLAR FILTROS
 	jQuery.fn.populatefilters=function(){
-
-        const filter_storage = JSON.parse(localStorage.getItem(storageView));
-        
-        if(storageView =='' || filter_storage == null) return false;
-
-        for(let i in filtersFields){
-            let {
-                name='',
-                type='',
-                search=false,
-                storage=''
-            } = filtersFields[i] ?? {};
-
-			let fieldValue = filter_storage[name]??'';
-
-			if(document.getElementById(name) == null) continue;
-
-			if(type == filtersParamsTypes.USER && search){		
-				let filter_user_field = JSON.parse(localStorage.getItem(storage)) ?? [];
-				if(filter_user_field.length > 0){
-					let selectUser = document.getElementById(name);
-					filter_user_field.forEach((item) => {	
-						let option = document.createElement("option");
-						option.value = item.id;
-						option.innerHTML = `${item.data??''}`;
-						selectUser.append(option);
-					});
-				}
-										
-			}else if(type == filtersParamsTypes.DATE){				
-				fieldValue = fieldValue??'';
-			}else if(type == filtersParamsTypes.CHECKBOX){	
-				if( fieldValue && fieldValue != '' ){
-					$(`#${name}`).prop("checked", true);
-				}			
-			} 
-			$(`#${name}`).val(fieldValue);
-        }
 		
-		$("#table-box").removeClass("d-none");
-		$(this).createDataTable(searchBuilder, columnDefs, returnTable, 25, true, headers);
-        $("#filter_box").removeClass("collapsed-card");
-        $("#icon_filter_box").addClass("fa-minus").removeClass("fa-plus");
+		if(show == false){
+			const filter_storage = JSON.parse(localStorage.getItem(storageView));
+			if(storageView =='' || filter_storage == null) return false;
+
+			for(let i in filtersFields){
+				let {
+					name='',
+					type='',
+					search=false,
+					storage=''
+				} = filtersFields[i] ?? {};
+
+				let fieldValue = filter_storage[name]??'';
+
+				if(document.getElementById(name) == null) continue;
+
+				if(type == filtersParamsTypes.USER && search){		
+					let filter_user_field = JSON.parse(localStorage.getItem(storage)) ?? [];
+					if(filter_user_field.length > 0){
+						let selectUser = document.getElementById(name);
+						filter_user_field.forEach((item) => {	
+							let option = document.createElement("option");
+							option.value = item.id;
+							option.innerHTML = `${item.data??''}`;
+							selectUser.append(option);
+						});
+					}
+											
+				}else if(type == filtersParamsTypes.DATE){				
+					fieldValue = fieldValue??'';
+				}else if(type == filtersParamsTypes.CHECKBOX){	
+					if( fieldValue && fieldValue != '' ){
+						$(`#${name}`).prop("checked", true);
+					}			
+				} 
+				$(`#${name}`).val(fieldValue);
+			}
+			
+			$("#table-box").removeClass("d-none");
+			$(this).createDataTable(searchBuilder, columnDefs, returnTable, 25, true, headers);
+			$("#filter_box").removeClass("collapsed-card");
+			$("#icon_filter_box").addClass("fa-minus").removeClass("fa-plus");
+		}else{
+			$("#table-box").removeClass("d-none");
+			$(this).createDataTable(searchBuilder, columnDefs, returnTable, 25, true, headers);
+			$("#filter_box").removeClass("collapsed-card");
+			$("#icon_filter_box").addClass("fa-minus").removeClass("fa-plus");
+		}
 		
     };
     //REDIMENSIONAR DATATABLE

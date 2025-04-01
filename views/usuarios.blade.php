@@ -544,7 +544,8 @@ Usuarios
 						processParams,
 						filtersFields,
 						returnTable,
-						url: 'app/gateway'
+						url: 'app/gateway',
+						show: true
 					};
 					
 					datatable(options);
