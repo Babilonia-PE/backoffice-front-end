@@ -234,7 +234,6 @@ Views Proyectos
 
 <script>
 	const headers = [
-            { "title": "Id", "code": "id", "sortable": true },
             { "title": "Id proyecto", "code": "project_id", "sortable": true },
 			{ "title": "Tipo", "code": "project_type" },
 			{ "title": "Etapa", "code": "stage" },
@@ -247,7 +246,6 @@ Views Proyectos
 			{ "title": "Teléfono", "code": "phone_number" },
 			{ "title": "Origen", "code": "source", "sortable": true },
 			{ "title": "Fecha de creación", "code": "created_at", "sortable": true },
-            { "title": "Fecha de actualización", "code": "updated_date", "sortable": true },
 			{ "title": "Acciones" }
 	];
 	const filtersFields = [
@@ -260,9 +258,6 @@ Views Proyectos
 			name: 'child',
 			type: 'static',
 			value: 'projects'
-		},
-		{
-			name: 'id'
 		},
 		{
 			name: 'project_id'
@@ -292,7 +287,6 @@ Views Proyectos
         let prefix = element.prefix ?? '';
 		let phone = element.phone_number ?? '';
 		return [
-			element.id,				
 			element.project_id??'',				
 			element.project_type??'',
 			element.stage??'',
@@ -304,16 +298,15 @@ Views Proyectos
 			element.email??'',
 			getFullNumber(prefix, phone),
 			element.source??'',
-			element.created_at??'',
-			element.updated_at??''
+			element.created_at??''
 		];
 	}
 	const modalOrder =  [];
 	const modalTitle = () =>{
 		
 	}
-	const columnsHidden = [0, 6, 14];
-	const columnsDates = [12, 13];
+	const columnsHidden = [6, 12];
+	const columnsDates = [11];
 	const options = {
 		processParams,
 		headers,
