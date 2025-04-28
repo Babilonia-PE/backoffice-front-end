@@ -234,7 +234,6 @@ Views Avisos
 
 <script>
 	const headers = [
-            { "title": "Id", "code": "id", "sortable": true },
             { "title": "Id aviso", "code": "listing_id", "sortable": true },
 			{ "title": "Operación", "code": "listing_type" },
 			{ "title": "Inmueble", "code": "property_type" },
@@ -247,7 +246,6 @@ Views Avisos
 			{ "title": "Teléfono", "code": "phone_number" },
 			{ "title": "Origen", "code": "source", "sortable": true },
 			{ "title": "Fecha de creación", "code": "created_at", "sortable": true },
-            { "title": "Fecha de actualización", "code": "updated_at", "sortable": true },
 			{ "title": "Acciones" }
 	];
 	const filtersFields = [
@@ -260,9 +258,6 @@ Views Avisos
 			name: 'child',
 			type: 'static',
 			value: 'listings'
-		},
-		{
-			name: 'id'
 		},
 		{
 			name: 'listing_id'
@@ -292,7 +287,6 @@ Views Avisos
         let prefix = element.prefix ?? '';
 		let phone = element.phone_number ?? '';
 		return [
-			element.id,				
 			element.listing_id??'',				
 			element.listing_type??'',
 			element.property_type??'',
@@ -304,16 +298,15 @@ Views Avisos
 			element.email??'',
 			getFullNumber(prefix, phone),
 			element.source??'',
-			element.created_at??'',
-			element.updated_at??''
+			element.created_at??''
 		];
 	}
 	const modalOrder =  [];
 	const modalTitle = () =>{
 		
 	}
-	const columnsHidden = [0, 7, 14];
-	const columnsDates = [12, 13];
+	const columnsHidden = [7, 12];
+	const columnsDates = [11];
 	const options = {
 		processParams,
 		headers,
