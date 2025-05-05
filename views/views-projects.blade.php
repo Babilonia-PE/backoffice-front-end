@@ -155,10 +155,10 @@ Views Proyectos
 							<label for="exampleInputEmail1">Fecha de creación (Desde - Hasta)</label>
 							<div class="form-row">
 								<div class="col-6">
-									<input type="text" class="form-control form-control-sm" id="created_start" placeholder="dd/mm/yyyy" value="{{date('d-m-Y', strtotime('-3 month'))}}">
+									<input type="text" class="form-control form-control-sm" id="created_start" placeholder="dd/mm/yyyy" >
 								</div>
 								<div class="col-6">
-									<input type="text" class="form-control form-control-sm" id="created_end" placeholder="dd/mm/yyyy" value="{{date('d-m-Y')}}">
+									<input type="text" class="form-control form-control-sm" id="created_end" placeholder="dd/mm/yyyy" >
 								</div>
 							</div>
 						</div>
