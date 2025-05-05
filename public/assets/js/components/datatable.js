@@ -24,6 +24,7 @@ const datatable = async (options = {})=>{
         modalOrder = [],
 		modalTitle = function(){},
         processParams = function(){},
+        initFunctions = function(){},
         initParams = function(){},
 		initParamsModal = function(){},
         storageView = '',
@@ -849,6 +850,7 @@ const datatable = async (options = {})=>{
 			}
 		},
 	};
+	await initFunctions();
 	$(this).populatefilters();
 	
 	if( ( jQuery.isEmptyObject(returnTable) || ( returnTable?.actions??true ) == true ) ){

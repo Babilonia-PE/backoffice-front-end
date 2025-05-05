@@ -230,10 +230,6 @@ Paquetes
                   			<label>Comerciales</label>
                   			<select class="form-control select2 form-control-sm" style="width: 100%;" id="agent_id" name="agent_id">
                                 <option selected disabled value="">Elige una opción</option>
-								<option value="76338334">Boris Osterling Grimberg</option>
-								<option value="45531275">Rodrigo Morales Correa</option>
-								<option value="44893949">Roxana Moratones Gallo</option>
-								<option value="72674869">Luisa Quintana Soto</option>
 							</select>
                 		</div>
                 	</div>
@@ -694,6 +690,21 @@ Paquetes
 	}
 	const initParamsModal = ()=>{
 	}
+	const initFunctions = async () => {
+		const params = {
+			parent: 'package',
+			child: 'list',
+			type: 'listing'
+		};
+		const details = await fetchData('app/gateway', params, 'GET');
+		const users = details?.data?.users??null;
+		users.forEach(user => {
+			$('#agent_id').append($('<option>', {
+				value: user.id,
+				text: user.full_name
+			}));
+		});
+	}
 	const setMessageInput = (selector)=>{
 		const element = $(selector);
 		const disabled = element.attr("disabled");
@@ -723,6 +734,7 @@ Paquetes
 		columnsDates,
 		modalOrder,
 		modalTitle,
+		initFunctions,
 		initParams,
 		initParamsModal,
 		url: 'app/gateway'
@@ -1026,6 +1038,9 @@ Paquetes
 
 		$("#editPackage").modal('show');
 	})
+	
+
+
 	datatable(options);
 	copyToClipboard();
 	showMessage();
