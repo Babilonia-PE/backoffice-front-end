@@ -245,7 +245,15 @@ Documentos
 	}
 	const columnsHidden = [];
 	const columnsDates = [];
+	const crud = {
+		view: true,
+		delete: {
+			active: true,
+			key: 'id'
+		}
+	}
 	const options = {
+		crud,
 		processParams,
 		headers,
 		filtersFields,

@@ -148,6 +148,9 @@ const userSearch = (options = {}) => {
         const data = await fetchData('/app/gateway', params, 'GET');
         const records = data.data?.data?.records ?? [];
         selectUser.innerHTML="";
+        if(records.length == 0){
+            $(`.dropdown.${id} .no-results`).html(`<span class='text-red'>No se encontraron resultados</span>`);
+        }
         if(records.length > 0){
             localStorage.setItem(storage, JSON.stringify(records));
             records.forEach((item) => {
