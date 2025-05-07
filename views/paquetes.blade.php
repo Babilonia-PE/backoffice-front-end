@@ -175,6 +175,13 @@ Paquetes
                 	</div>
               		<div class="col-md-4">
                 		<div class="form-group">
+                  			<label>Origen</label>
+                  			@component("components.select", ['data'=>APP_LANG_SOURCE, 'id' => "source", 'placeholder' => 'Origen', 'first' => true])
+							@endcomponent                  			
+                		</div>
+                	</div>
+              		<div class="col-md-4">
+                		<div class="form-group">
                   			<label>Cantidad de paquetes</label>
                   			<select class="form-control select2 form-control-sm" style="width: 100%;" id="ads_count" name="ads_count">
                                 <option selected disabled value="">Elige una opción</option>
@@ -333,7 +340,7 @@ Paquetes
 							<label>Método de pago</label>
 							<select name="payment_method" id="payment_method" class="form-control form-control-sm selectpicker validate" title="Método de pago" placeholder="Método de pago">
 								<option value="transfer">Compra</option>
-								<option value="free">Regalo</option>
+								<option value="gift">Regalo</option>
 								<option value="lottery">Sorteo</option>
 							</select>                			
 						</div>
@@ -591,6 +598,7 @@ Paquetes
 		{ "title": "Fecha de compra", "code": "purchased_at", "sortable": true },
 		{ "title": "Fecha de expiración", "code": "expires_at", "sortable": true },
 		{ "title": "Teléfono", "code": "type"},
+		{ "title": "Origen", "code": "source"},
 		{ "title": "Acciones" }
 	];
 	const filtersFields = [
@@ -609,6 +617,9 @@ Paquetes
 		},
 		{
 			name: 'type'
+		},
+		{
+			name: 'source'
 		},
 		{
 			name: 'owner_id',
@@ -680,7 +691,8 @@ Paquetes
 			`<span class="badge text-bg-secondary bg-${BUY_TYPE_STATE[element.state_id??'']}">${element.state??''}</span>`,
 			element.purchased_at??'',
             `<span class="badge text-bg-secondary bg-${bagde}">${element.expires_at??''}</span>`,
-			getFullNumber(element.prefix, element.phone_number)
+			getFullNumber(element.prefix, element.phone_number),
+			element.source??''
 		];
 	}
 	const modalOrder =  [];
@@ -716,7 +728,7 @@ Paquetes
 			}
 		}
 	}
-	const columnsHidden = [3,6,7,8,9,10,11,12,13,14,15,16,17,18,22,23,24];
+	const columnsHidden = [3,6,7,8,9,10,11,12,13,14,15,16,17,18,22,23,24,25];
 	const columnsDates = [22,23];
 	const crud = {
 		view: true,
