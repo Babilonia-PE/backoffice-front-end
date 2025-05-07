@@ -128,6 +128,10 @@ $app_lang_ads_type = [
     "listing" => "Avisos",
     "project" => "Proyectos"
 ];
+$app_lang_source = [
+    "web" => "web",
+    "backoffice" => "backoffice"
+];
 $app_lang_package_category = [
     "essentials" => "Essentials",
     "pro" => "Pro",
@@ -163,6 +167,7 @@ define("APP_LANG_USER_STATE", $app_lang_user_state);
 define("APP_DOCUMENT_TYPE", $app_document_type);
 define("APP_LANG_LEADS_KEYS", $app_lang_leads_keys);
 define("APP_LANG_ADS_TYPE", $app_lang_ads_type);
+define("APP_LANG_SOURCE", $app_lang_source);
 define("APP_LANG_PACKAGE_CATEGORY", $app_lang_package_category);
 define("APP_LANG_CLIENTS_STATE", $app_lang_clients_state);
 define("APP_LANG_CLAIMS_STATE", $app_lang_claims_state);
