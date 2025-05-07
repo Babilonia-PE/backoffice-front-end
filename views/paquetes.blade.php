@@ -333,7 +333,7 @@ Paquetes
 							<label>Método de pago</label>
 							<select name="payment_method" id="payment_method" class="form-control form-control-sm selectpicker validate" title="Método de pago" placeholder="Método de pago">
 								<option value="transfer">Compra</option>
-								<option value="free">Regalo</option>
+								<option value="gift">Regalo</option>
 								<option value="lottery">Sorteo</option>
 							</select>                			
 						</div>
