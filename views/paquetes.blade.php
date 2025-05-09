@@ -413,7 +413,7 @@ Paquetes
 					<div class="col-md-3">
 						<div class="form-group">
 							<label>Adicionales</label>
-							<input disabled type="text" class="form-control form-control-sm disable" id="sentinel_aditional" placeholder="Consultas adicionales para sentinel" title="Consultas adicionales para sentinel">
+							<input disabled type="text" class="form-control form-control-sm disable" id="sentinel_additional" placeholder="Consultas adicionales para sentinel" title="Consultas adicionales para sentinel">
 						</div>
 					</div>
 					<div class="col-md-4">
@@ -836,7 +836,7 @@ Paquetes
 
 			$("#sentinel_counter")
 				.val("");
-			$("#sentinel_aditional")
+			$("#sentinel_additional")
 				.attr("disabled", true)
 				.val("");
 			$("#subtotal")
@@ -878,7 +878,7 @@ Paquetes
 			$('#duracion').attr('disabled', true);
 			$("#sentinel_counter")
 				.val("");
-			$("#sentinel_aditional")
+			$("#sentinel_additional")
 				.attr("disabled", true)
 				.val("");
 			$("#subtotal")
@@ -943,7 +943,7 @@ Paquetes
 
 			$("#sentinel_counter")
 				.val("");
-			$("#sentinel_aditional")
+			$("#sentinel_additional")
 				.attr("disabled", true)
 				.val("");
 			$("#subtotal")
@@ -977,7 +977,7 @@ Paquetes
 			const subtotal = ( total - igv ).toFixed(2);
 
 			$("#sentinel_counter").val(sentinel_counter);
-			$("#sentinel_aditional")
+			$("#sentinel_additional")
 				.val(0)
 				.removeAttr("disabled");
 
@@ -1010,7 +1010,7 @@ Paquetes
 			setMessageInput("#premium_ads_count");
 			setMessageInput("#duracion");
 			setMessageInput("#days");
-			setMessageInput("#sentinel_aditional");
+			setMessageInput("#sentinel_additional");
 						
 			const type = $("#package_type").val();
 			const agent_id = $("#realtor").val();
@@ -1022,7 +1022,7 @@ Paquetes
 			const plus_ads_count = $("#plus_ads_count").val();
 			const premium_ads_count = $("#premium_ads_count").val();
 			const sentinel_counter = $("#sentinel_counter").val() ?? 0;
-			const sentinel_aditional = $("#sentinel_aditional").val() ?? 0;
+			const sentinel_additional = $("#sentinel_additional").val() ?? 0;
 			const subtotal = $("#subtotal").val().replaceAll(/[S/.]/g, '').replaceAll(/,/g, '').replaceAll(/ /g, '');
 			const igv = $("#igv").val().replaceAll(/[S/.]/g, '').replaceAll(/,/g, '').replaceAll(/ /g, '');
 			const total = $("#total").val().replaceAll(/[S/.]/g, '').replaceAll(/,/g, '').replaceAll(/ /g, '');
@@ -1044,7 +1044,7 @@ Paquetes
 				plus_ads_count: ( plus_ads_count == 'Ilimitado') ? 999999 : plus_ads_count,
 				premium_ads_count: ( premium_ads_count == 'Ilimitado') ? 999999 : premium_ads_count,
 				sentinel_counter: sentinel_counter,
-				sentinel_aditional: sentinel_aditional,
+				sentinel_additional: sentinel_additional,
 				subtotal,
 				igv,
 				total,
