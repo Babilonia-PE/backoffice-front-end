@@ -833,6 +833,9 @@ Paquetes
 			$("#plan").val("").attr("disabled", true);
 			$("#days").val("").attr("disabled", true);
 			$("#duracion").val("").attr("disabled", true);
+
+			$("#sentinel_counter")
+				.val("");
 			$("#sentinel_aditional")
 				.attr("disabled", true)
 				.val("");
@@ -873,6 +876,8 @@ Paquetes
 			$('#plan').attr('data-key', id);
 			$('#plan').attr('disabled', false);
 			$('#duracion').attr('disabled', true);
+			$("#sentinel_counter")
+				.val("");
 			$("#sentinel_aditional")
 				.attr("disabled", true)
 				.val("");
@@ -936,6 +941,8 @@ Paquetes
 			$('#duracion').find('option').remove();
 			$('#duracion').attr('disabled', false);
 
+			$("#sentinel_counter")
+				.val("");
 			$("#sentinel_aditional")
 				.attr("disabled", true)
 				.val("");
@@ -970,6 +977,9 @@ Paquetes
 			const subtotal = ( total - igv ).toFixed(2);
 
 			$("#sentinel_counter").val(sentinel_counter);
+			$("#sentinel_aditional")
+				.val(0)
+				.removeAttr("disabled");
 
 			$("#subtotal").val(subtotal);
 			$("#igv").val(igv);
@@ -1000,7 +1010,6 @@ Paquetes
 			setMessageInput("#premium_ads_count");
 			setMessageInput("#duracion");
 			setMessageInput("#days");
-			setMessageInput("#sentinel_counter");
 			setMessageInput("#sentinel_aditional");
 						
 			const type = $("#package_type").val();
@@ -1012,8 +1021,12 @@ Paquetes
 			const standard_ads_count = $("#standard_ads_count").val();
 			const plus_ads_count = $("#plus_ads_count").val();
 			const premium_ads_count = $("#premium_ads_count").val();
-			const sentinel_counter = $("#sentinel_counter").val();
-			const sentinel_aditional = $("#sentinel_aditional").val();
+			const sentinel_counter = $("#sentinel_counter").val() ?? 0;
+			const sentinel_aditional = $("#sentinel_aditional").val() ?? 0;
+			const subtotal = $("#subtotal").val().replaceAll(/[S/.]/g, '').replaceAll(/,/g, '').replaceAll(/ /g, '');
+			const igv = $("#igv").val().replaceAll(/[S/.]/g, '').replaceAll(/,/g, '').replaceAll(/ /g, '');
+			const total = $("#total").val().replaceAll(/[S/.]/g, '').replaceAll(/,/g, '').replaceAll(/ /g, '');
+
 			const now = new Date()
 			//const duration = moment(expires_at).diff(moment(), 'days') + 1;		
 			const duration = $( "#duracion option:selected" ).text();	
@@ -1031,7 +1044,10 @@ Paquetes
 				plus_ads_count: ( plus_ads_count == 'Ilimitado') ? 999999 : plus_ads_count,
 				premium_ads_count: ( premium_ads_count == 'Ilimitado') ? 999999 : premium_ads_count,
 				sentinel_counter: sentinel_counter,
-				sentinel_aditional: sentinel_aditional
+				sentinel_aditional: sentinel_aditional,
+				subtotal,
+				igv,
+				total,
 			}
 			try {
 				const response = await fetchData('app/gateway', params, 'POST');
