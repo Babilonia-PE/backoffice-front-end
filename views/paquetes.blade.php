@@ -404,10 +404,34 @@ Paquetes
                   			<input disabled type="date" class="form-control form-control-sm disable" id="days" placeholder="Expiración del paquete" min="{{date('Y-m-d', strtotime('+1 day'))}}">     		
 						</div>
 					</div>
-					<div class="col-md-6">
+					<div class="col-md-3">
 						<div class="form-group">
-							<label>Cantidad de consultas sentinel</label>
+							<label>Consultas del paquete</label>
 							<input disabled type="text" class="form-control form-control-sm disable" id="sentinel_counter" placeholder="Cantidad de consultas sentinel" title="Cantidad de consultas sentinel">
+						</div>
+					</div>
+					<div class="col-md-3">
+						<div class="form-group">
+							<label>Adicionales</label>
+							<input disabled type="text" class="form-control form-control-sm disable" id="sentinel_aditional" placeholder="Consultas adicionales para sentinel" title="Consultas adicionales para sentinel">
+						</div>
+					</div>
+					<div class="col-md-4">
+						<div class="form-group">
+							<label>Subtotal</label>
+							<input disabled type="text" class="form-control form-control-sm disable" id="subtotal" placeholder="Subtotal" title="Subtotal">
+						</div>
+					</div>
+					<div class="col-md-4">
+						<div class="form-group">
+							<label>IGV</label>
+							<input disabled type="text" class="form-control form-control-sm disable" id="igv" placeholder="IGV" title="IGV">
+						</div>
+					</div>
+					<div class="col-md-4">
+						<div class="form-group">
+							<label>Total</label>
+							<input disabled type="text" class="form-control form-control-sm disable" id="total" placeholder="Total" title="Total">
 						</div>
 					</div>
 					<div class="col-md-6">
@@ -762,6 +786,24 @@ Paquetes
 		$('#addPackage').attr("disabled", true);
 		$('#newPackage .disable').attr("disabled", true);
 		$('#newPackage .selectpicker').selectpicker('refresh');
+		setMask('#subtotal', {
+				alias: "currency", 
+				digits: '0', 
+				prefix: 'S/ ',
+				rightAlign:false
+			});
+		setMask('#igv', {
+				alias: "currency", 
+				digits: '0', 
+				prefix: 'S/ ',
+				rightAlign:false
+			});
+		setMask('#total', {
+				alias: "currency", 
+				digits: '0', 
+				prefix: 'S/ ',
+				rightAlign:false
+			});
 		$(document).off("change", "#package_type");
 		$(document).on('change', '#package_type', async function () {
 			const params = {
@@ -791,9 +833,16 @@ Paquetes
 			$("#plan").val("").attr("disabled", true);
 			$("#days").val("").attr("disabled", true);
 			$("#duracion").val("").attr("disabled", true);
-			$("#sentinel_counter").attr("disabled", true)
-									.addClass("disabled")
-									.val("0");
+			$("#sentinel_aditional")
+				.attr("disabled", true)
+				.val("");
+			$("#subtotal")
+				.val("");
+			$("#igv")
+				.val("");
+			$("#total")
+				.attr("disabled", true)
+				.val("");
 
 			data.forEach(element => {
 				categories[element.id] = element.packages;
@@ -824,9 +873,16 @@ Paquetes
 			$('#plan').attr('data-key', id);
 			$('#plan').attr('disabled', false);
 			$('#duracion').attr('disabled', true);
-			$("#sentinel_counter").attr("disabled", true);
-			$("#sentinel_counter").addClass("disabled");
-			$("#sentinel_counter").val("0");
+			$("#sentinel_aditional")
+				.attr("disabled", true)
+				.val("");
+			$("#subtotal")
+				.val("");
+			$("#igv")
+				.val("");
+			$("#total")
+				.attr("disabled", true)
+				.val("");
 			
 			$('.inputmask').inputmask("remove");
 			$("#standard_ads_count").removeClass('element-required');
@@ -880,9 +936,17 @@ Paquetes
 			$('#duracion').find('option').remove();
 			$('#duracion').attr('disabled', false);
 
-			$("#sentinel_counter").attr("disabled", true)
-									.addClass("disabled")
-									.val("0");
+			$("#sentinel_aditional")
+				.attr("disabled", true)
+				.val("");
+			$("#subtotal")
+				.val("");
+			$("#igv")
+				.val("");
+			$("#total")
+				.attr("disabled", true)
+				.val("");
+			
 
 			(count.products??[]).forEach( (element, index) => {
 				jQuery('<option>', {
@@ -901,10 +965,17 @@ Paquetes
 			const count = categories[count_id][plan_id];
 			const productos = count.products ?? [];			
 			const sentinel_counter = productos.find(producto => producto.key == duracionValue)?.sentinel_counter ?? 0;
+			const total = productos.find(producto => producto.key == duracionValue)?.price ?? 0;
+			const igv = ( total * 0.18 ).toFixed(2);
+			const subtotal = ( total - igv ).toFixed(2);
 
-			$("#sentinel_counter").removeAttr("disabled");
-			$("#sentinel_counter").removeClass("disabled");
 			$("#sentinel_counter").val(sentinel_counter);
+
+			$("#subtotal").val(subtotal);
+			$("#igv").val(igv);
+			$("#total")
+				.removeAttr("disabled")
+				.val(total.toFixed(2));
 
 			const option = $(this).find(":selected").text();
 			const dt = new Date(); // June 1, 2022 UTC time
@@ -930,6 +1001,7 @@ Paquetes
 			setMessageInput("#duracion");
 			setMessageInput("#days");
 			setMessageInput("#sentinel_counter");
+			setMessageInput("#sentinel_aditional");
 						
 			const type = $("#package_type").val();
 			const agent_id = $("#realtor").val();
@@ -941,6 +1013,7 @@ Paquetes
 			const plus_ads_count = $("#plus_ads_count").val();
 			const premium_ads_count = $("#premium_ads_count").val();
 			const sentinel_counter = $("#sentinel_counter").val();
+			const sentinel_aditional = $("#sentinel_aditional").val();
 			const now = new Date()
 			//const duration = moment(expires_at).diff(moment(), 'days') + 1;		
 			const duration = $( "#duracion option:selected" ).text();	
@@ -957,7 +1030,8 @@ Paquetes
 				standard_ads_count: ( standard_ads_count == 'Ilimitado') ? 999999 : standard_ads_count,
 				plus_ads_count: ( plus_ads_count == 'Ilimitado') ? 999999 : plus_ads_count,
 				premium_ads_count: ( premium_ads_count == 'Ilimitado') ? 999999 : premium_ads_count,
-				sentinel_counter: sentinel_counter
+				sentinel_counter: sentinel_counter,
+				sentinel_aditional: sentinel_aditional
 			}
 			try {
 				const response = await fetchData('app/gateway', params, 'POST');
@@ -972,6 +1046,19 @@ Paquetes
 			} catch (error) {
 				console.log(error);
 			}
+		});
+		$("#total").off("input");
+		$("#total").on("input", function(){
+			let total = $(this).val();
+				total = total.replace(/[S/.]/g, '');
+				total = total.replace(/,/g, '');
+				total = total.replace(/ /g, '');
+				
+			let igv = ( total * 0.18 ).toFixed(2);				
+			let subtotal = ( total - igv ).toFixed(2);				
+			
+			$("#subtotal").val(subtotal);
+			$("#igv").val(igv);			
 		});
 
 		$("#newPackage").modal('show');
