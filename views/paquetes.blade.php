@@ -406,11 +406,8 @@ Paquetes
 					</div>
 					<div class="col-md-6">
 						<div class="form-group">
-							<label>Estado del paquete</label>
-							<select name="state" id="state" class="form-control form-control-sm selectpicker validate" title="Estado" placeholder="Estado">
-								<option value="1">Activo</option>
-								<option value="0">inactivo</option>
-							</select>   		
+							<label>Cantidad de consultas sentinel</label>
+							<input disabled type="text" class="form-control form-control-sm disable" id="sentinel_counter" placeholder="Cantidad de consultas sentinel" title="Cantidad de consultas sentinel">
 						</div>
 					</div>
 					<div class="col-md-6">
@@ -794,6 +791,9 @@ Paquetes
 			$("#plan").val("").attr("disabled", true);
 			$("#days").val("").attr("disabled", true);
 			$("#duracion").val("").attr("disabled", true);
+			$("#sentinel_counter").attr("disabled", true)
+									.addClass("disabled")
+									.val("0");
 
 			data.forEach(element => {
 				categories[element.id] = element.packages;
@@ -824,6 +824,9 @@ Paquetes
 			$('#plan').attr('data-key', id);
 			$('#plan').attr('disabled', false);
 			$('#duracion').attr('disabled', true);
+			$("#sentinel_counter").attr("disabled", true);
+			$("#sentinel_counter").addClass("disabled");
+			$("#sentinel_counter").val("0");
 			
 			$('.inputmask').inputmask("remove");
 			$("#standard_ads_count").removeClass('element-required');
@@ -854,6 +857,7 @@ Paquetes
 			const standard_count = ( standard_unlimited == true ) ? 'Ilimitado' : ( count.standard?.ads_count??0 );
 			const plus_count = ( plus_unlimited == true ) ? 'Ilimitado' : ( count.plus?.ads_count??0 );
 			const premium_count = ( premium_unlimited == true ) ? 'Ilimitado' : ( count.premium?.ads_count??0 );
+			//const 
 			if( !standard_unlimited ){
 				$("#standard_ads_count").attr("disabled", false);
 				setMask('#standard_ads_count', mask);
@@ -875,6 +879,11 @@ Paquetes
 			$("#days").val("").attr("disabled", true);
 			$('#duracion').find('option').remove();
 			$('#duracion').attr('disabled', false);
+
+			$("#sentinel_counter").attr("disabled", true)
+									.addClass("disabled")
+									.val("0");
+
 			(count.products??[]).forEach( (element, index) => {
 				jQuery('<option>', {
 					'value': element.key,
@@ -885,6 +894,18 @@ Paquetes
 		});
 		$(document).off("change", "#duracion");
 		$(document).on('change', '#duracion', async function () {
+			const duracionValue = $(this).val();
+			
+			const count_id = $('#plan').attr('data-key');
+			const plan_id = $('#plan').val();
+			const count = categories[count_id][plan_id];
+			const productos = count.products ?? [];			
+			const sentinel_counter = productos.find(producto => producto.key == duracionValue)?.sentinel_counter ?? 0;
+
+			$("#sentinel_counter").removeAttr("disabled");
+			$("#sentinel_counter").removeClass("disabled");
+			$("#sentinel_counter").val(sentinel_counter);
+
 			const option = $(this).find(":selected").text();
 			const dt = new Date(); // June 1, 2022 UTC time
 			dt.setDate(dt.getDate() + parseInt(option)); // Add 30 days
@@ -908,7 +929,7 @@ Paquetes
 			setMessageInput("#premium_ads_count");
 			setMessageInput("#duracion");
 			setMessageInput("#days");
-			setMessageInput("#state");
+			setMessageInput("#sentinel_counter");
 						
 			const type = $("#package_type").val();
 			const agent_id = $("#realtor").val();
@@ -919,7 +940,7 @@ Paquetes
 			const standard_ads_count = $("#standard_ads_count").val();
 			const plus_ads_count = $("#plus_ads_count").val();
 			const premium_ads_count = $("#premium_ads_count").val();
-			const state = $("#state").val();
+			const sentinel_counter = $("#sentinel_counter").val();
 			const now = new Date()
 			//const duration = moment(expires_at).diff(moment(), 'days') + 1;		
 			const duration = $( "#duracion option:selected" ).text();	
@@ -936,7 +957,7 @@ Paquetes
 				standard_ads_count: ( standard_ads_count == 'Ilimitado') ? 999999 : standard_ads_count,
 				plus_ads_count: ( plus_ads_count == 'Ilimitado') ? 999999 : plus_ads_count,
 				premium_ads_count: ( premium_ads_count == 'Ilimitado') ? 999999 : premium_ads_count,
-				state: state
+				sentinel_counter: sentinel_counter
 			}
 			try {
 				const response = await fetchData('app/gateway', params, 'POST');
