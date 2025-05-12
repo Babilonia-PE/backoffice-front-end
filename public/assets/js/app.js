@@ -123,15 +123,14 @@ const userSearch = (options = {}) => {
     $(`#${id}`).selectpicker({
         liveSearchButton: true,
         liveSearch: true,
-        noneResultsText: 'Buscando a {0}<div class="loader-select"></div>'
+        noneResultsText: ''
     });
     $(`.${id}.user-search.bootstrap-select .bs-searchbox #btn-live-search`).off("click");
     $(`.${id}.user-search.bootstrap-select .bs-searchbox #btn-live-search`).on('click', async function (e) {
         e.preventDefault();
         e.stopPropagation();
-        
+
         let keyword = $(this).parent().find("input").val();
-        console.log(keyword);
         const selectUser = document.getElementById(id);
 
         if(keyword == "" || keyword.length < 4){
@@ -162,6 +161,7 @@ const userSearch = (options = {}) => {
                 let option = document.createElement("option");
                 option.value = item.id;
                 option.innerHTML = `${item.data}`;
+                option.setAttribute("data-content", `<div style="${item.state == 1 ? "background-color:red" : ''}">${item.data}</div>`);
                 selectUser.append(option);
             });
         }
