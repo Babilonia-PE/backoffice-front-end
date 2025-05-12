@@ -899,6 +899,10 @@
     header: false,
     liveSearch: false,
     liveSearchPlaceholder: null,
+    liveSearchButton: false,
+    liveSearchButtonIcon: `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+                            <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0"/>
+                          </svg>`,
     liveSearchNormalize: false,
     liveSearchStyle: 'contains',
     actionsBox: false,
@@ -1065,13 +1069,26 @@
       if (this.options.liveSearch) {
         searchbox =
           '<div class="bs-searchbox">' +
-            '<input type="search" class="form-control" autocomplete="off"' +
+            `
+            <div class="input-group">
+              ${
+                `<input type="search" class="form-control ${ this.options.liveSearchButton ? 'w-auto' : '' }" autocomplete="off"` +
               (
                 this.options.liveSearchPlaceholder === null ? ''
                 :
                 ' placeholder="' + htmlEscape(this.options.liveSearchPlaceholder) + '"'
               ) +
-              ' role="combobox" aria-label="Search" aria-controls="' + this.selectId + '" aria-autocomplete="list">' +
+              ' role="combobox" aria-label="Search" aria-controls="' + this.selectId + '" aria-autocomplete="list">'
+              }
+              ${
+                this.options.liveSearchButton 
+                ? `<button class="btn btn-outline-secondary" type="button" id="btn-live-search">${this.options.liveSearchButtonIcon}</button>` 
+                : ''
+              }              
+
+            </div>
+            `
+            +
           '</div>';
       }
 
