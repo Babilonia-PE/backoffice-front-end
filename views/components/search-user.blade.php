@@ -10,7 +10,7 @@
     $class = isset($class) && !empty($class)? $class: "";
     $json = json_encode($array, true);
 @endphp
-<select name="{{ $id }}" id="{{ $id }}" class="form-control selectpicker user-search form-control-sm {{ $id }} {{ $class }}" data-live-search="true" title="{{ $placeholder }}"></select>
+<select name="{{ $id }}" id="{{ $id }}" class="form-control selectpicker user-search form-control-sm {{ $id }} {{ $class }}" data-live-search="true" data-live-search-button="true" title="{{ $placeholder }}"></select>
 @push('child-scripts')
     <script>
         window.addEventListener("load", (event) => {
