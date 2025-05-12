@@ -46,7 +46,7 @@
 
 @endif
 <!-- Bootstrap select -->
-<script src="@asset('public/plugins/bootstrap-select/js/bootstrap-select.min.js')?{{env('APP_JS_VERSION')}}"></script>
+<script src="@asset('public/plugins/bootstrap-select/js/bootstrap-select.js')?{{env('APP_JS_VERSION')}}"></script>
 <!-- jQuery Knob Chart -->
 <script src="@asset('public/plugins/jquery-knob/jquery.knob.min.js')?{{env('APP_JS_VERSION')}}"></script>
 <!-- daterangepicker -->
