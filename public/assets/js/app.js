@@ -121,12 +121,17 @@ const userSearch = (options = {}) => {
 
     const { id='user_id', storage = 'filter_leads_users' } = options;
     $(`#${id}`).selectpicker({
+        liveSearchButton: true,
         liveSearch: true,
         noneResultsText: 'Buscando a {0}<div class="loader-select"></div>'
     });
-    $(`.${id}.user-search.bootstrap-select .bs-searchbox input`).unbind("keyup");
-    $(`.${id}.user-search.bootstrap-select .bs-searchbox input`).on('keyup', async function (e) {
-        let keyword = e.target.value;
+    $(`.${id}.user-search.bootstrap-select .bs-searchbox #btn-live-search`).off("click");
+    $(`.${id}.user-search.bootstrap-select .bs-searchbox #btn-live-search`).on('click', async function (e) {
+        e.preventDefault();
+        e.stopPropagation();
+        
+        let keyword = $(this).parent().find("input").val();
+        console.log(keyword);
         const selectUser = document.getElementById(id);
 
         if(keyword == "" || keyword.length < 4){
