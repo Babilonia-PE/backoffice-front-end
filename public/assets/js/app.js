@@ -158,10 +158,44 @@ const userSearch = (options = {}) => {
         if(records.length > 0){
             localStorage.setItem(storage, JSON.stringify(records));
             records.forEach((item) => {
+                let bg='transparent';
+                let color='#000';
+                let tag = '';
+                switch (item.state) {
+                    case 1:
+                        bg='#4cd964'
+                        color='#fff'
+                    break;
+                    case 2:
+                        bg='#ff9500'
+                        color='#fff'
+                    break;
+                    case 4:
+                        bg='#007aff'
+                        color='#fff'
+                    break;
+                    case 5:
+                        bg='#5956d6'
+                        color='#fff'
+                    break;
+                    case 6:
+                        bg='#ff3b30'
+                        color='#fff'
+                    break;
+                    
+                    default:
+
+                    break;
+                }
+                
+                if(item.state){
+                    tag = `<span class="badge text-bg-light" style="background-color:${bg};color:${color}">${item.state_id}</span>`;
+                }
+
                 let option = document.createElement("option");
                 option.value = item.id;
                 option.innerHTML = `${item.data}`;
-                option.setAttribute("data-content", `<div style="${item.state == 1 ? "background-color:red" : ''}">${item.data}</div>`);
+                option.setAttribute("data-content", `${tag} ${item.data}`);
                 selectUser.append(option);
             });
         }
