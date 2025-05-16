@@ -3,7 +3,6 @@
 /build
 /docs
 /bkp
-/cache/*
 /vendor
 /composer
 /downloads
