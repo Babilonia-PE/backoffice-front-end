@@ -3,12 +3,9 @@
 /build
 /docs
 /bkp
-/cache/*
 /vendor
 /composer
 /downloads
-/logs/access/*
-/logs/errors/*
 /node_modules
 
 error.log
