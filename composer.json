@@ -23,7 +23,8 @@
     "vlucas/phpdotenv": "^5.5",
     "phroute/phroute": "^2.2",
     "pragmarx/google2fa": "^8.0",
-    "bacon/bacon-qr-code": "^2.0"
+    "bacon/bacon-qr-code": "^2.0",
+    "eftec/bladeone": "4.15.2"
   },
   "autoload": {
       "psr-4": {
