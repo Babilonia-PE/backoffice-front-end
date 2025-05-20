@@ -17,4 +17,3 @@
             userSearch({!! $json !!});
         });
     </script>
-@endpush
