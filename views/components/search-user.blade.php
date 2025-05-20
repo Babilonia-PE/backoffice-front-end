@@ -11,9 +11,10 @@
     $json = json_encode($array, true);
 @endphp
 <select name="{{ $id }}" id="{{ $id }}" class="form-control selectpicker user-search form-control-sm {{ $id }} {{ $class }}" data-live-search="true" title="{{ $placeholder }}"></select>
-
-    <script>
-        window.addEventListener("load", (event) => {
-            userSearch({!! $json !!});
-        });
-    </script>
+@push("child-scripts")
+<script>
+    window.addEventListener("load", (event) => {
+        userSearch({!! $json !!});
+    });
+</script>
+@endpush
