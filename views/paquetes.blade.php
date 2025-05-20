@@ -345,13 +345,15 @@ Paquetes
 							</select>                			
 						</div>
 					</div> 
-					<div class="col-md-6">
+					<div class="col-md-12">
 						<div class="form-group">
-							<label>Usuario</label>
-							@component("components.search-user", ['id'=>'package_owner_id', 'placeholder' => 'Buscar por nombre, email o empresa', 'class' => 'validate'])
-							@endcomponent            			
+							<label>Tipo de documento</label>
+							<select name="type_document" id="type_document" class="form-control form-control-sm selectpicker validate" title="Tipo de documento" placeholder="Tipo de documento">
+								<option value="boleta">Boleta</option>
+								<option value="factura">Factura</option>
+							</select>
 						</div>
-					</div>  
+					</div>
 					<div class="col-md-6">
 						<div class="form-group">
 							<label>Agente</label>
@@ -359,6 +361,13 @@ Paquetes
 							</select>                			
 						</div>
 					</div>
+					<div class="col-md-6">
+						<div class="form-group">
+							<label>Cliente</label>
+							@component("components.search-user", ['id'=>'package_owner_id', 'placeholder' => 'Buscar por nombre, email o empresa', 'class' => 'validate'])
+							@endcomponent            			
+						</div>
+					</div>  
 					<div class="col-md-6">
 						<div class="form-group">
 							<label>Número base de avisos</label>
@@ -404,34 +413,49 @@ Paquetes
                   			<input disabled type="date" class="form-control form-control-sm disable" id="days" placeholder="Expiración del paquete" min="{{date('Y-m-d', strtotime('+1 day'))}}">     		
 						</div>
 					</div>
-					<div class="col-md-3">
+					<div class="col-md-6">
 						<div class="form-group">
 							<label>Consultas del paquete</label>
 							<input disabled type="text" class="form-control form-control-sm disable" id="sentinel_counter" placeholder="Cantidad de consultas sentinel" title="Cantidad de consultas sentinel">
 						</div>
 					</div>
-					<div class="col-md-3">
+					<div class="col-md-6">
 						<div class="form-group">
 							<label>Adicionales</label>
 							<input disabled type="text" class="form-control form-control-sm disable" id="sentinel_additional" placeholder="Consultas adicionales para sentinel" title="Consultas adicionales para sentinel">
 						</div>
 					</div>
-					<div class="col-md-4">
+					<div class="col-md-6">
+						<div class="form-group">
+							<label>Cuotas</label>
+							<select name="cuotas" id="cuotas" class="form-control form-control-sm selectpicker validate" title="Cuotas" placeholder="Cuotas">
+								<option value="1">1 cuota</option>
+								<option value="12">12 cuotas</option>
+							</select>
+						</div>
+					</div>
+					<div class="col-md-3">
 						<div class="form-group">
 							<label>Subtotal</label>
 							<input disabled type="text" class="form-control form-control-sm disable" id="subtotal" placeholder="Subtotal" title="Subtotal">
 						</div>
 					</div>
-					<div class="col-md-4">
+					<div class="col-md-3">
+						<div class="form-group">
+							<label>Descuento</label>
+							<input disabled type="text" class="form-control form-control-sm disable" id="descuento" placeholder="Descuento" title="Descuento">
+						</div>
+					</div>
+					<div class="col-md-3">
 						<div class="form-group">
 							<label>IGV</label>
 							<input disabled type="text" class="form-control form-control-sm disable" id="igv" placeholder="IGV" title="IGV">
 						</div>
 					</div>
-					<div class="col-md-4">
+					<div class="col-md-3">
 						<div class="form-group">
 							<label>Total</label>
-							<input disabled type="text" class="form-control form-control-sm disable" id="total" placeholder="Total" title="Total">
+							<input disabled type="text" class="form-control form-control-sm disable" id="total" placeholder="Total" title="Total" data-original="">
 						</div>
 					</div>
 					<div class="col-md-6">
@@ -753,7 +777,7 @@ Paquetes
 	const columnsDates = [22,23];
 	const crud = {
 		view: true,
-		edit: true
+		edit: false
 	}
 	const download = { active: true, filename: 'Paquetes.xlsx' };
 	const options = {
@@ -790,6 +814,12 @@ Paquetes
 				alias: "currency", 
 				digits: '0', 
 				prefix: 'S/ ',
+				rightAlign:false
+			});
+		setMask('#descuento', {
+				alias: "currency", 
+				digits: '0', 
+				suffix: ' %',
 				rightAlign:false
 			});
 		setMask('#igv', {
@@ -841,10 +871,12 @@ Paquetes
 				.val("");
 			$("#subtotal")
 				.val("");
+			$("#descuento")
+				.attr("disabled", true)
+				.val("");
 			$("#igv")
 				.val("");
 			$("#total")
-				.attr("disabled", true)
 				.val("");
 
 			data.forEach(element => {
@@ -883,10 +915,12 @@ Paquetes
 				.val("");
 			$("#subtotal")
 				.val("");
+			$("#descuento")
+				.attr("disabled", true)
+				.val("");
 			$("#igv")
 				.val("");
 			$("#total")
-				.attr("disabled", true)
 				.val("");
 			
 			$('.inputmask').inputmask("remove");
@@ -948,10 +982,12 @@ Paquetes
 				.val("");
 			$("#subtotal")
 				.val("");
+			$("#descuento")
+				.attr("disabled", true)
+				.val("");
 			$("#igv")
 				.val("");
-			$("#total")
-				.attr("disabled", true)
+			$("#total")				
 				.val("");
 			
 
@@ -973,6 +1009,7 @@ Paquetes
 			const productos = count.products ?? [];			
 			const sentinel_counter = productos.find(producto => producto.key == duracionValue)?.sentinel_counter ?? 0;
 			const total = productos.find(producto => producto.key == duracionValue)?.price ?? 0;
+			const descuento = 0;
 			const igv = ( total * 0.18 ).toFixed(2);
 			const subtotal = ( total - igv ).toFixed(2);
 
@@ -981,11 +1018,13 @@ Paquetes
 				.val(0)
 				.removeAttr("disabled");
 
+			$("#descuento").val(descuento)
+				.removeAttr("disabled");
 			$("#subtotal").val(subtotal);
 			$("#igv").val(igv);
 			$("#total")
-				.removeAttr("disabled")
-				.val(total.toFixed(2));
+				.val(total.toFixed(2))
+				.attr("data-original", total);
 
 			const option = $(this).find(":selected").text();
 			const dt = new Date(); // June 1, 2022 UTC time
@@ -1011,6 +1050,8 @@ Paquetes
 			setMessageInput("#duracion");
 			setMessageInput("#days");
 			setMessageInput("#sentinel_additional");
+			setMessageInput("#type_document");
+			setMessageInput("#cuotas");
 						
 			const type = $("#package_type").val();
 			const agent_id = $("#realtor").val();
@@ -1023,7 +1064,10 @@ Paquetes
 			const premium_ads_count = $("#premium_ads_count").val();
 			const sentinel_counter = $("#sentinel_counter").val() ?? 0;
 			const sentinel_additional = $("#sentinel_additional").val() ?? 0;
+			const type_document = $("#type_document").val() ?? 0;
+			const cuotas = $("#cuotas").val() ?? 0;
 			const subtotal = $("#subtotal").val().replaceAll(/[S/.]/g, '').replaceAll(/,/g, '').replaceAll(/ /g, '');
+			const descuento = $("#descuento").val().replaceAll(/[%]/g, '').replaceAll(/,/g, '').replaceAll(/ /g, '');
 			const igv = $("#igv").val().replaceAll(/[S/.]/g, '').replaceAll(/,/g, '').replaceAll(/ /g, '');
 			const total = $("#total").val().replaceAll(/[S/.]/g, '').replaceAll(/,/g, '').replaceAll(/ /g, '');
 
@@ -1063,18 +1107,25 @@ Paquetes
 				console.log(error);
 			}
 		});
-		$("#total").off("input");
-		$("#total").on("input", function(){
-			let total = $(this).val();
+		$("#descuento").off("input");
+		$("#descuento").on("input", function(){
+			let descuento = $(this).val();
+				descuento = descuento.replace(/[%]/g,'');
+				descuento = descuento.replace(/ /g,'');
+				descuento = (parseFloat(descuento)/100);
+
+			let total = $("#total").attr("data-original");
 				total = total.replace(/[S/.]/g, '');
 				total = total.replace(/,/g, '');
 				total = total.replace(/ /g, '');
-				
-			let igv = ( total * 0.18 ).toFixed(2);				
-			let subtotal = ( total - igv ).toFixed(2);				
 			
+				
+			let igv = ( total * 0.18 ).toFixed(2);
+			let monto_igv = parseFloat(total) - parseFloat(igv);
+			let subtotal = monto_igv / (1 - descuento);
+
 			$("#subtotal").val(subtotal);
-			$("#igv").val(igv);			
+			$("#igv").val(igv);
 		});
 
 		$("#newPackage").modal('show');
