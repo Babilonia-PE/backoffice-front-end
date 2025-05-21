@@ -345,15 +345,6 @@ Paquetes
 							</select>                			
 						</div>
 					</div> 
-					<div class="col-md-12">
-						<div class="form-group">
-							<label>Tipo de documento</label>
-							<select name="type_document" id="type_document" class="form-control form-control-sm selectpicker validate" title="Tipo de documento" placeholder="Tipo de documento">
-								<option value="boleta">Boleta</option>
-								<option value="factura">Factura</option>
-							</select>
-						</div>
-					</div>
 					<div class="col-md-6">
 						<div class="form-group">
 							<label>Agente</label>
@@ -368,6 +359,21 @@ Paquetes
 							@endcomponent            			
 						</div>
 					</div>  
+					<div class="col-md-6">
+						<div class="form-group">
+							<label>Tipo de documento</label>
+							<select name="type_document" id="type_document" class="form-control form-control-sm selectpicker validate" title="Tipo de documento" placeholder="Tipo de documento">
+								<option value="boleta">Boleta</option>
+								<option value="factura">Factura</option>
+							</select>
+						</div>
+					</div>
+					<div class="col-md-6">
+						<div class="form-group">
+							<label>Número de documento</label>
+							<input disabled type="text" class="form-control form-control-sm inputmask disable validate" id="document" placeholder="Número de documento">
+						</div>
+					</div>
 					<div class="col-md-6">
 						<div class="form-group">
 							<label>Número base de avisos</label>
@@ -397,7 +403,7 @@ Paquetes
 					<div class="col-md-6">
 						<div class="form-group">
 							<label>Número de avisos premium</label>
-                  			<input disabled type="text" class="form-control form-control-sm inputmask disable validate" id="premium_ads_count" placeholder="Avisos premium">     		
+                  			<input disabled type="text" class="form-control form-control-sm inputmask disable validate" id="premium_ads_count" placeholder="Avisos premium">
 						</div>
 					</div>
 					<div class="col-md-6">
@@ -442,14 +448,14 @@ Paquetes
 					</div>
 					<div class="col-md-3">
 						<div class="form-group">
-							<label>Descuento</label>
-							<input disabled type="text" class="form-control form-control-sm disable" id="descuento" placeholder="Descuento" title="Descuento">
+							<label>IGV</label>
+							<input disabled type="text" class="form-control form-control-sm disable" id="igv" placeholder="IGV" title="IGV">
 						</div>
 					</div>
 					<div class="col-md-3">
 						<div class="form-group">
-							<label>IGV</label>
-							<input disabled type="text" class="form-control form-control-sm disable" id="igv" placeholder="IGV" title="IGV">
+							<label>Descuento</label>
+							<input disabled type="text" class="form-control form-control-sm disable" id="descuento" placeholder="Descuento" title="Descuento" maxlength="3">
 						</div>
 					</div>
 					<div class="col-md-3">
@@ -811,29 +817,70 @@ Paquetes
 		$('#newPackage .disable').attr("disabled", true);
 		$('#newPackage .selectpicker').selectpicker('refresh');
 		setMask('#subtotal', {
-				alias: "currency", 
-				digits: '0', 
+				alias: "currency",
+				digits: '0',
 				prefix: 'S/ ',
 				rightAlign:false
 			});
 		setMask('#descuento', {
-				alias: "currency", 
-				digits: '0', 
+				alias: "currency",
+				digits: '0',
 				suffix: ' %',
-				rightAlign:false
+				rightAlign:false,
+				min: 0,
+				max: 99,
+				integerDigits: 2
 			});
 		setMask('#igv', {
-				alias: "currency", 
-				digits: '0', 
+				alias: "currency",
+				digits: '0',
 				prefix: 'S/ ',
 				rightAlign:false
 			});
 		setMask('#total', {
-				alias: "currency", 
-				digits: '0', 
+				alias: "currency",
+				digits: '0',
 				prefix: 'S/ ',
 				rightAlign:false
 			});
+		const getBalancePrice = (params = {}) => {
+			const{
+				total = 0, 
+				descuento = 0, // % discount , example 15%
+				isBoleta = true
+			} = params ?? {};
+			
+			let sub = 0;			
+			let igv = 0;
+
+			let _total = total.toString();
+				_total = _total.replace(/[S/.]/g, '');
+				_total = _total.replace(/ /g,'');
+				_total = parseFloat(_total);
+
+			let _descuento = descuento.toString();
+				_descuento = _descuento.replace(/[%]/g,'');
+				_descuento = _descuento.replace(/ /g,'');
+				_descuento = parseFloat(_descuento);
+
+			if(_descuento > 0) _descuento = _descuento/100;
+
+			if(_total == 0) return {sub,igv};
+			
+			sub = _total/(1-_descuento);
+
+			if(isBoleta == false){
+				sub = _total/((1-_descuento)*(1+0.18));
+				igv = sub * 0.18;
+			}
+						
+			return {sub, igv};
+		}
+
+		$(document).off("change", "#type_document");
+		$(document).on('change', '#type_document', async function () {
+			$("#descuento").trigger("input");
+		});
 		$(document).off("change", "#package_type");
 		$(document).on('change', '#package_type', async function () {
 			const params = {
@@ -1010,9 +1057,10 @@ Paquetes
 			const sentinel_counter = productos.find(producto => producto.key == duracionValue)?.sentinel_counter ?? 0;
 			const total = productos.find(producto => producto.key == duracionValue)?.price ?? 0;
 			const descuento = 0;
-			const igv = ( total * 0.18 ).toFixed(2);
-			const subtotal = ( total - igv ).toFixed(2);
-
+			const isBoleta = $("#type_document").val() == "boleta";
+			//const igv = ( total * 0.18 ).toFixed(2);
+			//const subtotal = ( total - igv ).toFixed(2);
+			const {igv, sub} = getBalancePrice({isBoleta, descuento, total});
 			$("#sentinel_counter").val(sentinel_counter);
 			$("#sentinel_additional")
 				.val(0)
@@ -1020,7 +1068,7 @@ Paquetes
 
 			$("#descuento").val(descuento)
 				.removeAttr("disabled");
-			$("#subtotal").val(subtotal);
+			$("#subtotal").val(sub);
 			$("#igv").val(igv);
 			$("#total")
 				.val(total.toFixed(2))
@@ -1110,21 +1158,17 @@ Paquetes
 		$("#descuento").off("input");
 		$("#descuento").on("input", function(){
 			let descuento = $(this).val();
-				descuento = descuento.replace(/[%]/g,'');
-				descuento = descuento.replace(/ /g,'');
-				descuento = (parseFloat(descuento)/100);
-
-			let total = $("#total").attr("data-original");
-				total = total.replace(/[S/.]/g, '');
-				total = total.replace(/,/g, '');
-				total = total.replace(/ /g, '');
+			let total = $("#total").attr("data-original");		
+			let isBoleta = $("#type_document").val() == "boleta";
 			
-				
-			let igv = ( total * 0.18 ).toFixed(2);
-			let monto_igv = parseFloat(total) - parseFloat(igv);
-			let subtotal = monto_igv / (1 - descuento);
+			if(descuento == '' || parseFloat(descuento) >= 100 || parseFloat(descuento) < 0){				
+				descuento = 0;
+				$(this).val(descuento);
+			}
 
-			$("#subtotal").val(subtotal);
+			const {igv, sub} = getBalancePrice({isBoleta, descuento, total});
+
+			$("#subtotal").val(sub);
 			$("#igv").val(igv);
 		});
 
